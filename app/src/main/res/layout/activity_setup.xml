@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SetupActivity">
+
+
+
+    <TextView
+        android:id="@+id/setup_config_text"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_gravity="start"
+        android:paddingStart="12dp"
+        android:paddingEnd="0dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="8dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="13dp"
+        android:text="@string/setup_configuration"
+        android:textColor="@color/white"
+        android:background="@color/chiron_blue"
+        android:textSize="26sp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_gravity="center"
+        android:text="@string/chiron"
+        android:textColor="@color/chiron_blue"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.44"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/setup_config_text"
+        android:layout_marginTop="33dp"
+
+        />
+
+
+    <TextView
+        android:id="@+id/wired_up_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="60dp"
+        android:paddingStart="12dp"
+        android:paddingTop="1dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="5dp"
+        android:text="@string/let_s_get_wired_up"
+        android:textColor="@color/chiron_blue"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.231" />
+
+    <EditText
+        android:id="@+id/setup_username"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="33dp"
+        android:ems="3"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:maxLength="33"
+        android:textColor="@color/chiron_blue"
+        android:textColorHint="@color/chiron_grey"
+        android:textSize="23sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wired_up_text"
+        android:importantForAutofill="no" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="0dp"
+        android:text="@string/enter_valid_chironid_or_email"
+        android:textColor="@color/chiron_blue"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.184"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/setup_username" />
+
+    <EditText
+        android:id="@+id/setup_server_url"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="23dp"
+        android:ems="3"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="@string/api_base_url"
+        android:inputType="textUri"
+        android:maxLength="69"
+        android:textColor="@color/chiron_blue"
+        android:textColorHint="@color/chiron_grey"
+        android:textSize="23sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setup_username"
+        android:importantForAutofill="no"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="@string/enter_chiron_server_ip_address_or_url"
+        android:textColor="@color/chiron_blue"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.244"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/setup_server_url" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/setup_proceed_button"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
+        android:layout_gravity="center"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:text="@string/proceed"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setup_server_url"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setup_proceed_button"
+        android:layout_gravity="center"
+        android:text="@string/learn_more"
+        android:textColor="@color/chiron_blue"
+        android:textSize="23sp"
+        android:layout_marginTop="3dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/_2021_meka_egwim"
+        android:textColor="@color/chiron_blue"
+        android:textSize="18sp"
+        android:layout_marginBottom="13dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

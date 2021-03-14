@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Triage</string>
+    <string name="triage">TRIAGE</string>
+    <string name="chiron_data_analyst">CHIRON DATA ANALYST</string>
+    <string name="setup_configuration">Setup Configuration</string>
+    <string name="let_s_get_wired_up">Let&#8217;s get wired up!</string>
+    <string name="email">Email</string>
+    <string name="api_base_url">API Base URL</string>
+    <string name="proceed">PROCEED</string>
+    <string name="learn_more">Learn More?</string>
+    <string name="_2021_meka_egwim">©2021 MEKA EGWIM</string>
+    <string name="chiron">CHIRON</string>
+    <string name="enter_valid_chironid_or_email">Enter valid ChironID™ or email</string>
+    <string name="enter_chiron_server_ip_address_or_url">Enter Chiron Server™ IP address or URL</string>
+</resources>
