@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.transition.Explode
-import android.transition.Slide
 import android.view.View
 import android.view.Window
 import android.view.animation.Animation
@@ -26,8 +25,7 @@ class SetupActivity : AppCompatActivity() {
             requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
             enterTransition = Explode()
             enterTransition.duration = 1000
-            exitTransition = Slide()
-            exitTransition.duration = 2000
+
 
         }
         setContentView(viewSetup)

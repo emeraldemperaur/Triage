@@ -25,10 +25,8 @@ class InitActivity : AppCompatActivity() {
         fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fader)
         with(window) {
             requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
-            // set set the transition to be shown when the user enters this activity
             enterTransition = Fade()
             enterTransition.duration = 2000
-            // set the transition to be shown when the user leaves this activity
             exitTransition = Fade()
             exitTransition.duration = 2000
         }
