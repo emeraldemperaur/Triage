@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/triage"
+        android:letterSpacing="0.20"
         android:textColor="@color/white"
         android:textSize="69sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,6 +22,7 @@
 
     <TextView
         android:id="@+id/subtitle"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/chiron_data_analyst"
