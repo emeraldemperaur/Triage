@@ -1,10 +1,13 @@
 package iot.empiaurhouse.triage
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.transition.Fade
 import android.view.View
+import android.view.Window
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +23,15 @@ class InitActivity : AppCompatActivity() {
         binding = ActivityInitBinding.inflate(layoutInflater)
         val viewInit = binding.root
         fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fader)
+        with(window) {
+            requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+            // set set the transition to be shown when the user enters this activity
+            enterTransition = Fade()
+            enterTransition.duration = 2000
+            // set the transition to be shown when the user leaves this activity
+            exitTransition = Fade()
+            exitTransition.duration = 2000
+        }
         setContentView(viewInit)
         binding.title.startAnimation(fadeInAnimation)
         fadeInAnimation.setAnimationListener(object : Animation.AnimationListener {
@@ -29,7 +41,8 @@ class InitActivity : AppCompatActivity() {
             override fun onAnimationEnd(animation: Animation?) {
                 binding.subtitle.visibility = View.VISIBLE
                 Handler(Looper.getMainLooper()).postDelayed({
-                    startActivity(Intent(this@InitActivity, SetupActivity::class.java))
+                    startActivity(Intent(this@InitActivity, SetupActivity::class.java),
+                        ActivityOptions.makeSceneTransitionAnimation(this@InitActivity).toBundle())
                     finish()
                 }, 3000)
             }

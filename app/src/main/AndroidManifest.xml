@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".InitActivity"
-
+            android:theme="@style/Theme.Triage.FullScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -31,6 +31,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".LaunchActivity"
+            android:theme="@style/Theme.Triage.FullScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

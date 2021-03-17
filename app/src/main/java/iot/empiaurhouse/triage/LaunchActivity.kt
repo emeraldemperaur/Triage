@@ -1,5 +1,6 @@
 package iot.empiaurhouse.triage
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -32,7 +33,8 @@ class LaunchActivity : AppCompatActivity() {
             override fun onAnimationEnd(animation: Animation?) {
                 binding.devIntroLogo.startAnimation(rotationAnimation)
                 Handler(Looper.getMainLooper()).postDelayed({
-                    startActivity(Intent(this@LaunchActivity, InitActivity::class.java))
+                    startActivity(Intent(this@LaunchActivity, InitActivity::class.java),
+                        ActivityOptions.makeSceneTransitionAnimation(this@LaunchActivity).toBundle())
                     finish()
                 }, 2696)
             }
