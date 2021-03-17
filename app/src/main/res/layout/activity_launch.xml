@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/chiron_blue"
+    android:background="@color/white"
     tools:context=".LaunchActivity">
 
     <ImageView
+        android:id="@+id/dev_intro_logo"
         android:layout_width="223dp"
         android:layout_height="223dp"
         android:text="Hello World!"
-        android:src="@drawable/meka_yingyanglogo_inverted"
+        android:src="@drawable/meka_yingyanglogo_chironblue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

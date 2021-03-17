@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/triage_keypad">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/_1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/_2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/_3"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/_4"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/_5"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/_6"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/_7"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/_8"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/a"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/b"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/c"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/d"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_e"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/e"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_f"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/f"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_g"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/g"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_key_h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:padding="13dp"
+            android:text="@string/h"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_definition_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginEnd="13dp"
+            android:padding="13dp"
+            android:text="@string/pivot_definition_i"/>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_definition_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginEnd="13dp"
+            android:padding="13dp"
+            android:text="@string/pivot_definition_ii"/>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pivot_definition_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginEnd="13dp"
+            android:padding="13dp"
+            android:text="@string/pivot_definition_iii"/>
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

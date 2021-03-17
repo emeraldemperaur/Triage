@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/chiron_triage_background"
+    android:background="@drawable/triage_tinted_background"
     tools:context=".InitActivity">
 
     <TextView

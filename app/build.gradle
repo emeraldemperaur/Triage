@@ -6,6 +6,11 @@ plugins {
 android {
     compileSdkVersion 29
 
+
+    buildFeatures {
+        viewBinding true
+    }
+
     defaultConfig {
         applicationId "iot.empiaurhouse.triage"
         minSdkVersion 21
