@@ -9,7 +9,8 @@
         android:roundIcon="@drawable/chironlogo500"
         android:supportsRtl="true"
         android:theme="@style/Theme.Triage">
-        <activity android:name=".HubActivity">
+        <activity android:name=".HubActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

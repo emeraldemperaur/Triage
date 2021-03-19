@@ -22,6 +22,7 @@
         android:text="@string/setup_configuration"
         android:textColor="@color/white"
         android:textSize="26sp"
+        android:fontFamily="@font/montserratlight"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,13 +41,15 @@
         android:textColor="@color/chiron_blue"
         android:textSize="48sp"
         android:textStyle="bold"
+        android:fontFamily="@font/montserratbold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/setup_config_text" />
 
 
-    <TextView
+    <iot.empiaurhouse.triage.TypeWriterTextView
         android:id="@+id/wired_up_text"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
@@ -56,6 +59,7 @@
         android:paddingBottom="5dp"
         android:layout_marginTop="33dp"
         android:text="@string/let_s_get_wired_up"
+        android:fontFamily="@font/montserratregular"
         android:textColor="@color/chiron_blue"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -83,7 +87,8 @@
         android:maxLength="33"
         android:textColor="@color/chiron_blue"
         android:textColorHint="@color/chiron_grey"
-        android:textSize="23sp"
+        android:textSize="21sp"
+        android:fontFamily="@font/montserratregular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +123,8 @@
         android:maxLength="69"
         android:textColor="@color/chiron_blue"
         android:textColorHint="@color/chiron_grey"
-        android:textSize="23sp"
+        android:textSize="21sp"
+        android:fontFamily="@font/montserratregular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -147,6 +153,9 @@
         android:text="@string/proceed"
         android:textColor="@color/white"
         android:textSize="17sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/montserratbold"
+        android:onClick="proceedButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -161,6 +170,8 @@
         android:text="@string/learn_more"
         android:textColor="@color/chiron_blue"
         android:textSize="23sp"
+        android:onClick="learnMore"
+        android:fontFamily="@font/montserratlight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/setup_proceed_button" />
@@ -173,8 +184,10 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="13dp"
         android:text="@string/_2021_meka_egwim"
+        android:onClick="copyrightLink"
         android:textColor="@color/chiron_blue"
         android:textSize="16sp"
+        android:fontFamily="@font/montserratregular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

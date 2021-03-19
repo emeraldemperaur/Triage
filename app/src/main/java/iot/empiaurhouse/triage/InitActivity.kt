@@ -12,11 +12,14 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import iot.empiaurhouse.triage.databinding.ActivityInitBinding
+import java.util.*
+
 
 class InitActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityInitBinding
     private lateinit var fadeInAnimation : Animation
+    private lateinit var typeText : TypeWriterTextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +34,7 @@ class InitActivity : AppCompatActivity() {
             exitTransition.duration = 2000
         }
         setContentView(viewInit)
+        typeText = binding.subtitle
         binding.title.startAnimation(fadeInAnimation)
         fadeInAnimation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationRepeat(animation: Animation?) {
@@ -38,11 +42,12 @@ class InitActivity : AppCompatActivity() {
 
             override fun onAnimationEnd(animation: Animation?) {
                 binding.subtitle.visibility = View.VISIBLE
+                typeWriterText(getString(R.string.chiron_data_analyst),131, typeText)
                 Handler(Looper.getMainLooper()).postDelayed({
                     startActivity(Intent(this@InitActivity, SetupActivity::class.java),
-                        ActivityOptions.makeSceneTransitionAnimation(this@InitActivity).toBundle())
+                            ActivityOptions.makeSceneTransitionAnimation(this@InitActivity).toBundle())
                     finish()
-                }, 3000)
+                }, 3200)
             }
 
             override fun onAnimationStart(animation: Animation?) {
@@ -51,6 +56,12 @@ class InitActivity : AppCompatActivity() {
 
 
 
+    }
+
+
+    private fun typeWriterText(typeText: String, charDelay: Int, targetTextView: TypeWriterTextView) {
+        targetTextView.setCharacterDelay(charDelay.toLong())
+        targetTextView.displayTextWithAnimation(typeText)
     }
 
 
@@ -72,6 +83,11 @@ class InitActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+    }
+
+    override fun onBackPressed()
+    {
+        moveTaskToBack(true)
     }
 
 

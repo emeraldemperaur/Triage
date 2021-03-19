@@ -68,4 +68,9 @@ class LaunchActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     }
 
+    override fun onBackPressed()
+    {
+        moveTaskToBack(true)
+    }
+
 }

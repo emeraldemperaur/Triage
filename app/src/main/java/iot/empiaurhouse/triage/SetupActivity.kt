@@ -1,5 +1,7 @@
 package iot.empiaurhouse.triage
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -15,6 +17,8 @@ class SetupActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySetupBinding
     private lateinit var fadeInAnimation : Animation
+    private lateinit var typeText : TypeWriterTextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +33,55 @@ class SetupActivity : AppCompatActivity() {
 
         }
         setContentView(viewSetup)
+    }
+
+
+    private fun typeWriterText(typeText: String, charDelay: Int, targetTextView: TypeWriterTextView) {
+        targetTextView.setCharacterDelay(charDelay.toLong())
+        targetTextView.displayTextWithAnimation(typeText)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
         Handler(Looper.getMainLooper()).postDelayed({
             binding.setupChironTitle.startAnimation(fadeInAnimation)
             binding.setupChironTitle.visibility = View.VISIBLE
-        }, 1111)
+            typeWriterText(getString(R.string.let_s_get_wired_up), 190, binding.wiredUpText)
+            binding.wiredUpText.visibility = View.VISIBLE
+        }, 1111)    }
 
+
+    override fun onPause() {
+        super.onPause()
+        binding.wiredUpText.visibility = View.INVISIBLE
+        binding.setupChironTitle.visibility = View.INVISIBLE
+        binding.setupChironTitle.clearAnimation()
     }
+
+    fun learnMore(view: View) {
+        val url = "https://github.com/emeraldemperaur/Triage"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
+    }
+    fun copyrightLink(view: View) {
+        val url = "https://www.mekaegwim.ca/"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
+    }
+    fun proceedButton(view: View) {
+        startActivity(Intent(this@SetupActivity, HubActivity::class.java))
+    }
+
+    override fun onBackPressed()
+    {
+        moveTaskToBack(true)
+        binding.wiredUpText.visibility = View.INVISIBLE
+        binding.setupChironTitle.visibility = View.INVISIBLE
+        binding.setupChironTitle.clearAnimation()
+    }
+
+
 }
