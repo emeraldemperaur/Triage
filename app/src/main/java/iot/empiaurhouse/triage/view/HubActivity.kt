@@ -1,7 +1,8 @@
-package iot.empiaurhouse.triage
+package iot.empiaurhouse.triage.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import iot.empiaurhouse.triage.R
 
 class HubActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

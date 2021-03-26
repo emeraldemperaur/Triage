@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="155dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/registerednurse_list_view"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/registerednurse_card_view"
+        android:elevation="33dp"
+        android:layout_width="match_parent"
+        android:background="?android:selectableItemBackground"
+        android:layout_height="150dp"
+        android:layout_margin="5dp"
+        android:padding="33dp"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="5dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:contentDescription="@string/info_card"
+                android:id="@+id/registerednurse_iv"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="fitXY"
+                tools:src="@drawable/meka_yingyanglogo_chironblue"
+                />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/registerednurse_name_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserratregular"
+                    android:text="@string/rn"
+                    android:textColor="@color/chiron_blue"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/registerednurse_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="-6dp"
+                    android:layout_weight="1"
+                    android:maxLines="2"
+                    android:fontFamily="@font/montserratlight"
+                    android:text="@string/practitioner_name"
+                    android:textColor="@color/chiron_blue"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/registerednurse_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserratbold"
+                    android:text="@string/practitioner_id"
+                    android:textColor="@color/chiron_blue"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/registerednurse_contact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="-1dp"
+                    android:fontFamily="@font/montserratlight"
+                    android:paddingBottom="0dp"
+                    android:text="@string/info_contact_com"
+                    android:textColor="@color/chiron_blue"
+                    android:textSize="17sp"
+                    android:textStyle="normal" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/registerednurse_diagnoses_count"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserratbold"
+                    android:text="@string/_10"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textColor="@color/chiron_blue"
+                    android:textSize="45sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/registerednurse_diagnoses_label"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="center_horizontal"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserratregular"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:text="@string/patient_visit_logs"
+                    android:textColor="@color/chiron_blue"
+                    android:textSize="13sp"
+                    android:textAlignment="center"
+                    android:textStyle="bold" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

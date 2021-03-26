@@ -1,4 +1,4 @@
-package iot.empiaurhouse.triage
+package iot.empiaurhouse.triage.view
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -11,7 +11,9 @@ import android.view.Window
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.ActivityInitBinding
+import iot.empiaurhouse.triage.utils.TypeWriterTextView
 import java.util.*
 
 

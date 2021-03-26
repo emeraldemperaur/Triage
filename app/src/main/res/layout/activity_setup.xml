@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SetupActivity">
+    tools:context=".view.SetupActivity">
 
 
     <TextView
@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@id/setup_config_text" />
 
 
-    <iot.empiaurhouse.triage.TypeWriterTextView
+    <iot.empiaurhouse.triage.utils.TypeWriterTextView
         android:id="@+id/wired_up_text"
         android:visibility="invisible"
         android:layout_width="wrap_content"

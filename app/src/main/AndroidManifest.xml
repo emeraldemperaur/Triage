@@ -9,21 +9,21 @@
         android:roundIcon="@drawable/chironlogo500"
         android:supportsRtl="true"
         android:theme="@style/Theme.Triage">
-        <activity android:name=".HubActivity"
+        <activity android:name=".view.HubActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".SetupActivity"
+        <activity android:name=".view.SetupActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".InitActivity"
+        <activity android:name=".view.InitActivity"
             android:theme="@style/Theme.Triage.FullScreen"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -31,7 +31,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".LaunchActivity"
+        <activity android:name=".view.LaunchActivity"
             android:theme="@style/Theme.Triage.FullScreen"
             android:screenOrientation="portrait">
             <intent-filter>

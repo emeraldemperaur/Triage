@@ -1,4 +1,4 @@
-package iot.empiaurhouse.triage;
+package iot.empiaurhouse.triage.utils;
 
 import android.content.Context;
 import android.os.Handler;
