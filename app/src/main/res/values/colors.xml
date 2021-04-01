@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="chiron_blue">#0c204f</color>
     <color name="chiron_grey">#A9A9A9</color>
+    <color name="chiron_red">#800020</color>
 </resources>
