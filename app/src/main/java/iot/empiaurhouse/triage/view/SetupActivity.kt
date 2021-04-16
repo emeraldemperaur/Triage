@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.ActivitySetupBinding
+import iot.empiaurhouse.triage.utils.SetupVerify
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
 
 class SetupActivity : AppCompatActivity() {
@@ -20,6 +21,7 @@ class SetupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySetupBinding
     private lateinit var fadeInAnimation : Animation
     private lateinit var typeText : TypeWriterTextView
+    private lateinit var chironVerify : SetupVerify
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +37,7 @@ class SetupActivity : AppCompatActivity() {
 
         }
         setContentView(viewSetup)
+        chironVerify = SetupVerify()
     }
 
 
@@ -74,7 +77,14 @@ class SetupActivity : AppCompatActivity() {
         startActivity(intent)
     }
     fun proceedButton(view: View) {
-        startActivity(Intent(this@SetupActivity, HubActivity::class.java))
+        if (chironVerify.verifyID(binding.setupUsername, binding.chironIDNote)
+            && (chironVerify.verifyURL(binding.setupServerUrl, binding.chironURLNote)
+                    || chironVerify.verifyIP(binding.setupServerUrl, binding.chironURLNote))){
+                        // TODO ping Chiron URL before intent
+                        startActivity(Intent(this@SetupActivity, HubActivity::class.java))
+
+        }
+
     }
 
     override fun onBackPressed()

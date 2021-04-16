@@ -96,6 +96,7 @@
 
 
     <TextView
+        android:id="@+id/chironIDNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
@@ -131,6 +132,7 @@
         app:layout_constraintTop_toBottomOf="@+id/setup_username" />
 
     <TextView
+        android:id="@+id/chironURLNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
