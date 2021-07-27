@@ -82,10 +82,10 @@ class SetupActivity : AppCompatActivity() {
                     || chironVerify.verifyIP(binding.setupServerUrl, binding.chironURLNote))){
                         // TODO ping Chiron URL before intent
 
-            if(chironVerify.chironConnect(this)){
+            if(chironVerify.chironConnect(this, "")){
                 startActivity(Intent(this@SetupActivity, HubActivity::class.java))
             }
-            else if(!chironVerify.chironConnect(this)){
+            else if(!chironVerify.chironConnect(this, "")){
                 // show toast noting connection failure
                 onBackPressed()
             }

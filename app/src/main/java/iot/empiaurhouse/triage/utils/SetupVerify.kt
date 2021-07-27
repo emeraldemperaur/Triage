@@ -7,20 +7,27 @@ import android.widget.EditText
 import android.widget.TextView
 import com.wajahatkarim3.easyvalidation.core.Validator
 import com.wajahatkarim3.easyvalidation.core.view_ktx.nonEmpty
+import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.view.ChironBufferDialog
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
-class SetupVerify() {
+class SetupVerify {
 
     private var isValidField: Boolean = false
     private lateinit var iDValidator: Validator
     private lateinit var serverValidator: Validator
     private lateinit var inputString: String
+    private lateinit var userPUID: String
+    private lateinit var serverUrl: String
     private val fail : String = "#800020"
     private val success : String = "#0c204f"
     private var serverFound = true
     private var serverNotFound = false
     private val bufferDialog = ChironBufferDialog()
+    lateinit var userPreferences: UserPreferenceManager
+
 
 
 
@@ -31,10 +38,12 @@ class SetupVerify() {
         iDValidator = Validator(inputString)
         return if (isValidField && iDValidator.validEmail().check()){
             IDTextView.setTextColor(Color.parseColor(success))
+            userPUID = inputString
             isValidField
         }
         else if (isValidField && iDValidator.minLength(5).maxLength(11).check()){
             IDTextView.setTextColor(Color.parseColor(success))
+            userPUID = inputString
             isValidField
         }
         else{
@@ -49,6 +58,7 @@ class SetupVerify() {
         serverValidator = Validator(inputString)
         return if (isValidField && serverValidator.startWithNumber().contains(".").check()) {
             IPTextView.setTextColor(Color.parseColor(success))
+            serverUrl = inputString
             isValidField
         } else{
             IPTextView.setTextColor(Color.parseColor(fail))
@@ -62,6 +72,7 @@ class SetupVerify() {
         serverValidator = Validator(inputString)
         return if (isValidField && serverValidator.validUrl().check()) {
             IPTextView.setTextColor(Color.parseColor(success))
+            serverUrl = inputString
             isValidField
         } else{
             IPTextView.setTextColor(Color.parseColor(fail))
@@ -70,16 +81,17 @@ class SetupVerify() {
 
     }
 
-    fun chironConnect(context: Context): Boolean{
+    fun chironConnect(context: Context, chironUrl: String): Boolean{
         // connect to server then return YES or NO
         bufferDialog.show(context, "Please Wait...")
+        userPreferences = UserPreferenceManager(context)
         return if(serverFound){
             Handler().postDelayed(
                     {
+                        saveChironUser()
                         bufferDialog.setTitleSize(21)
                         bufferDialog.setErrorIcon()
-                        // bufferDialog.setTitleColor(Color.parseColor("#800020"))
-                        bufferDialog.setTitle("API Server Unavailable")
+                        bufferDialog.setTitle(context.getString(R.string.buffer_text_pass))
                         bufferDialog.initCloser()
 
                     },
@@ -90,7 +102,7 @@ class SetupVerify() {
         else{
             Handler().postDelayed(
                     {
-                        bufferDialog.setTitle("Oh Shit...Server Unavailable")
+                        bufferDialog.setTitle(context.getString(R.string.buffer_text_fail))
                         // before closing
                         bufferDialog.initCloser()
                     },
@@ -101,6 +113,20 @@ class SetupVerify() {
 
 
     }
+
+    private fun saveChironUser(){
+        // get device phone number or IMEI
+        GlobalScope.launch {
+            userPreferences.storeUser(userPUID,serverUrl,"", "$userPUID::$serverUrl")
+        }
+    }
+
+    fun clearChironUser(){
+        GlobalScope.launch {
+            userPreferences.storeUser(null.toString(), null.toString(), null.toString(), null.toString())
+        }
+    }
+
 
 
 }
