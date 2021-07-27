@@ -27,8 +27,6 @@ class InitActivity : AppCompatActivity() {
     private lateinit var fadeInAnimation : Animation
     private lateinit var typeText : TypeWriterTextView
     private lateinit var userManager: UserPreferenceManager
-    var userID = ""
-    var sUrl = ""
     private var userPUID = ""
     private var serverUrl = ""
 
