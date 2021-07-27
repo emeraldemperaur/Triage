@@ -15,6 +15,7 @@ import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.ActivitySetupBinding
 import iot.empiaurhouse.triage.utils.SetupVerify
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
+import iot.empiaurhouse.triage.utils.UserPreferenceManager
 
 class SetupActivity : AppCompatActivity() {
 
@@ -22,6 +23,10 @@ class SetupActivity : AppCompatActivity() {
     private lateinit var fadeInAnimation : Animation
     private lateinit var typeText : TypeWriterTextView
     private lateinit var chironVerify : SetupVerify
+    private lateinit var userManager: UserPreferenceManager
+    private var intentValue:String? = ""
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +42,9 @@ class SetupActivity : AppCompatActivity() {
 
         }
         setContentView(viewSetup)
+        fetchPUID()
         chironVerify = SetupVerify()
+
     }
 
 
@@ -103,6 +110,13 @@ class SetupActivity : AppCompatActivity() {
     }
 
     fun retryButton(view: View) {
+    }
+
+    private fun fetchPUID(){
+        intentValue = intent.getStringExtra("chironPUID")
+        if (!intentValue.isNullOrEmpty()){
+            binding.setupUsername.setText(intentValue.toString())
+        }
     }
 
 

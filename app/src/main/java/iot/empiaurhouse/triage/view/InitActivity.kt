@@ -10,10 +10,14 @@ import android.view.View
 import android.view.Window
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.wajahatkarim3.easyvalidation.core.view_ktx.textEqualTo
+import com.wajahatkarim3.easyvalidation.core.view_ktx.textNotEqualTo
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.ActivityInitBinding
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
+import iot.empiaurhouse.triage.utils.UserPreferenceManager
 import java.util.*
 
 
@@ -22,6 +26,12 @@ class InitActivity : AppCompatActivity() {
     private lateinit var binding: ActivityInitBinding
     private lateinit var fadeInAnimation : Animation
     private lateinit var typeText : TypeWriterTextView
+    private lateinit var userManager: UserPreferenceManager
+    var userID = ""
+    var sUrl = ""
+    private var userPUID = ""
+    private var serverUrl = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +56,30 @@ class InitActivity : AppCompatActivity() {
                 binding.subtitle.visibility = View.VISIBLE
                 typeWriterText(getString(R.string.chiron_data_analyst),131, typeText)
                 Handler(Looper.getMainLooper()).postDelayed({
-                    startActivity(Intent(this@InitActivity, SetupActivity::class.java),
+                    // perform check if user preferences found or not
+                    if (fetchUserData()){
+                        // do network test, if positive go to HUB.
+                            if (serverTest()){
+                                startActivity(Intent(this@InitActivity, HubActivity::class.java),
+                                    ActivityOptions.makeSceneTransitionAnimation(this@InitActivity).toBundle())
+                            }
+                            else if (!serverTest()){
+                                // If ping is negative; pass UserID via bundle to edittext on Setup View if URL not found
+                                pushUserData()
+                                // show toast notification to inform user of Chiron server unavailability
+                                Toast.makeText(applicationContext,"Hmm, $serverUrl wasn't " +
+                                        "reachable! Please confirm API availability " +
+                                        "and enter a valid address",Toast.LENGTH_LONG).show()
+                                userManager.clearUserData()
+                            }
+
+                    }
+                    // direct user to Setup if UserData not found
+                    else if (!fetchUserData()){
+                        startActivity(Intent(this@InitActivity, SetupActivity::class.java),
                             ActivityOptions.makeSceneTransitionAnimation(this@InitActivity).toBundle())
+                    }
+
                     finish()
                 }, 3200)
             }
@@ -57,6 +89,37 @@ class InitActivity : AppCompatActivity() {
         })
 
 
+
+    }
+
+    private fun fetchUserData():Boolean{
+        var userStatus = false
+        userManager = UserPreferenceManager(this)
+        userPUID = userManager.getUserID().toString()
+        serverUrl = userManager.getServerUrl().toString()
+        if ((userPUID.isBlank() || serverUrl.isBlank()) || (userPUID.textEqualTo("null")
+                    || serverUrl.textEqualTo("null"))){
+            userStatus = false
+        }
+        else if ((userPUID.isNotEmpty() && serverUrl.isNotEmpty())
+            || (userPUID.textNotEqualTo("null") || serverUrl.textNotEqualTo("null"))){
+            userStatus = true
+        }
+        return userStatus
+    }
+
+
+    private fun serverTest(): Boolean{
+        return false
+    }
+
+    private fun pushUserData(){
+        val retryIntent = Intent(this, SetupActivity::class.java).apply {
+            putExtra("chironPUID",userPUID)
+        }
+        val options = ActivityOptions.makeSceneTransitionAnimation(this)
+
+        startActivity(retryIntent, options.toBundle())
 
     }
 

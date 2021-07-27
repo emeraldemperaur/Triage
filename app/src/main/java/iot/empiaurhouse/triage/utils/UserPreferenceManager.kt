@@ -1,49 +1,44 @@
 package iot.empiaurhouse.triage.utils
 
 import android.content.Context
-import androidx.datastore.preferences.createDataStore
-import androidx.datastore.preferences.edit
-import androidx.datastore.preferences.preferencesKey
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import android.content.SharedPreferences
+
 
 class UserPreferenceManager(context: Context) {
 
-    private val dataStore = context.createDataStore(name = "chiron_prefs")
+    private var userPreferences: SharedPreferences = context.getSharedPreferences("chiron_user_preferences", 0)
+    var preferencesEditor: SharedPreferences.Editor = userPreferences.edit()
 
-    companion object {
-        val USER_EMAIL_KEY = preferencesKey<String>("USER_EMAIL")
-        val SERVER_URL_KEY = preferencesKey<String>("USER_SERVER")
-        val USER_PHONE_KEY = preferencesKey<String>("USER_PHONE")
-        val CHIRON_ID_KEY = preferencesKey<String>("CHIRON_ID")
-    }
+    fun storeUserData(email: String, serverUrl: String, phone: String, chironID: String){
+        preferencesEditor.putString("USER_EMAIL_KEY", email);
+        preferencesEditor.putString("SERVER_URL_KEY", serverUrl);
+        preferencesEditor.putString("USER_PHONE_KEY", phone);
+        preferencesEditor.putString("CHIRON_ID_KEY", chironID);
+        preferencesEditor.apply()
 
-    suspend fun storeUser(email: String, serverUrl: String, phone: String, chironID: String) {
-        dataStore.edit {
-            it[USER_EMAIL_KEY] = email
-            it[SERVER_URL_KEY] = serverUrl
-            it[USER_PHONE_KEY] = phone
-            it[CHIRON_ID_KEY] = chironID
-        }
-    }
-
-    val userEmailFlow: Flow<String> = dataStore.data.map {
-        it[USER_EMAIL_KEY] ?: ""
-    }
-
-    val serverUrlFlow: Flow<String> = dataStore.data.map {
-        it[SERVER_URL_KEY] ?: ""
-    }
-
-    val userPhoneFlow: Flow<String> = dataStore.data.map {
-        it[USER_PHONE_KEY] ?: ""
-    }
-
-    val chironIDFlow: Flow<String> = dataStore.data.map {
-        it[CHIRON_ID_KEY] ?: ""
     }
 
 
+    fun clearUserData(){
+        preferencesEditor.clear()
+        preferencesEditor.apply()
+    }
+
+    fun getUserID(): String? {
+        return userPreferences.getString("USER_EMAIL_KEY", null)
+    }
+
+    fun getServerUrl(): String? {
+        return userPreferences.getString("SERVER_URL_KEY", null)
+    }
+
+    fun getUserPhone(): String? {
+        return userPreferences.getString("USER_PHONE_KEY", null)
+    }
+
+    fun getChironID(): String? {
+        return userPreferences.getString("CHIRON_ID_KEY", null)
+    }
 
 
 }

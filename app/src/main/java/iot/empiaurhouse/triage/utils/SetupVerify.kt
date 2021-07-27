@@ -9,8 +9,6 @@ import com.wajahatkarim3.easyvalidation.core.Validator
 import com.wajahatkarim3.easyvalidation.core.view_ktx.nonEmpty
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.view.ChironBufferDialog
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 
 class SetupVerify {
@@ -116,15 +114,12 @@ class SetupVerify {
 
     private fun saveChironUser(){
         // get device phone number or IMEI
-        GlobalScope.launch {
-            userPreferences.storeUser(userPUID,serverUrl,"", "$userPUID::$serverUrl")
-        }
+        userPreferences.storeUserData(userPUID, serverUrl, "","$userPUID::$serverUrl")
+
     }
 
     fun clearChironUser(){
-        GlobalScope.launch {
-            userPreferences.storeUser(null.toString(), null.toString(), null.toString(), null.toString())
-        }
+        userPreferences.clearUserData()
     }
 
 

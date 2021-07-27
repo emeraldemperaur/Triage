@@ -11,4 +11,21 @@ class HubActivity : AppCompatActivity() {
         setContentView(R.layout.activity_hub)
 
     }
+
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+
+    override fun onBackPressed()
+    {
+        moveTaskToBack(true)
+    }
+
 }
