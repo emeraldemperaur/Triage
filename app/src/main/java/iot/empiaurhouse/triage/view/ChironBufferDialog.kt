@@ -10,6 +10,7 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import iot.empiaurhouse.triage.R
 import kotlinx.android.synthetic.main.buffer_dialog_view.view.*
@@ -18,6 +19,8 @@ class ChironBufferDialog {
 
     lateinit var dialog: CustomDialog
     lateinit var view : View
+    lateinit var closeView : ConstraintLayout
+    lateinit var contextB: Context
 
     fun show(context: Context): Dialog {
         return show(context, null)
@@ -30,15 +33,15 @@ class ChironBufferDialog {
         if (title != null) {
             view.buffer_title.text = title
         }
-
+        contextB = context
         // Card Color
         view.buffer_cardview.setCardBackgroundColor(Color.parseColor("#600c204f"))
 
         // Progress Bar Color
-        setColorFilter(view.buffer_pbar.indeterminateDrawable, ResourcesCompat.getColor(context.resources, R.color.white, null))
+        setColorFilter(view.buffer_pbar.indeterminateDrawable, ResourcesCompat.getColor(context.resources, R.color.chiron_blue, null))
 
         // Text Color
-        view.buffer_title.setTextColor(Color.WHITE)
+        view.buffer_title.setTextColor(Color.parseColor("#0c204f"))
 
         dialog = CustomDialog(context)
         dialog.setContentView(view)
@@ -48,6 +51,30 @@ class ChironBufferDialog {
 
     fun setTitle(bufferTitle: String){
         view.buffer_title.text = bufferTitle
+    }
+
+    fun setErrorIcon(){
+        view.buffer_pbar.indeterminateDrawable = ResourcesCompat.getDrawable(contextB.resources, R.drawable.error_info_icon, null)
+        view.buffer_pbar.progressDrawable = ResourcesCompat.getDrawable(contextB.resources, R.drawable.error_info_icon, null)
+        view.buffer_subtitle.text = contextB.getString(R.string.retry_ip)
+    }
+
+
+    fun setTitleSize(titleSize: Int){
+        view.buffer_title.textSize = titleSize.toFloat()
+    }
+
+    fun setTitleColor(resourceInt: Int){
+        view.buffer_title.setTextColor(resourceInt)
+    }
+
+    fun initCloser(){
+        closeView = view.buffer_bg_view
+        closeView.setOnClickListener{
+            dialog.cancel()
+        }
+
+
     }
 
     private fun setColorFilter(drawable: Drawable, color: Int) {

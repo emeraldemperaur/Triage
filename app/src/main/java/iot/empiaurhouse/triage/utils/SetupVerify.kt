@@ -24,9 +24,6 @@ class SetupVerify() {
 
 
 
-    // fun SetupVerify(context: Context?) {
-       // this.context = context
-    // }
 
     fun verifyID(IDEditText: EditText, IDTextView: TextView): Boolean {
         isValidField = IDEditText.nonEmpty()
@@ -79,19 +76,25 @@ class SetupVerify() {
         return if(serverFound){
             Handler().postDelayed(
                     {
-                        bufferDialog.setTitle("Connecting...")
+                        bufferDialog.setTitleSize(21)
+                        bufferDialog.setErrorIcon()
+                        // bufferDialog.setTitleColor(Color.parseColor("#800020"))
+                        bufferDialog.setTitle("API Server Unavailable")
+                        bufferDialog.initCloser()
 
                     },
-                    1000 // value in milliseconds
+                    3000 // value in milliseconds
             )
             serverFound
         }
         else{
             Handler().postDelayed(
                     {
-                        bufferDialog.setTitle("Oh Shit...Server not Found")
+                        bufferDialog.setTitle("Oh Shit...Server Unavailable")
+                        // before closing
+                        bufferDialog.initCloser()
                     },
-                    1000 // value in milliseconds
+                    3000 // value in milliseconds
             )
             serverNotFound
         }

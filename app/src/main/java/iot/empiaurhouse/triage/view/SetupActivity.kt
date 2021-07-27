@@ -102,5 +102,8 @@ class SetupActivity : AppCompatActivity() {
         binding.setupChironTitle.clearAnimation()
     }
 
+    fun retryButton(view: View) {
+    }
+
 
 }

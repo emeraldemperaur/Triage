@@ -69,4 +69,7 @@
     <string name="diagnosis">DIAGNOSIS</string>
     <string name="host_practitioner">HOST PRACTITIONER</string>
     <string name="infectious">INFECTIOUS</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="retry_ip">Try a different URL or IP address</string>
 </resources>

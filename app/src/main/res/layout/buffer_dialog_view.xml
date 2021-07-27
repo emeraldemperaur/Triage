@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:background="#00000000"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/buffer_bg_view"
     app:layout_constraintBottom_toBottomOf="parent"
@@ -14,10 +13,9 @@
         android:id="@+id/buffer_cardview"
         android:layout_width="333dp"
         android:layout_height="196dp"
-        app:cardBackgroundColor="#00000000"
-        app:cardCornerRadius="33dp"
-        app:cardElevation="13dp"
-        app:cardMaxElevation="0dp"
+        app:cardBackgroundColor="@color/black"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="33dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +23,9 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_margin="6dp"
             android:id="@+id/buffer_view"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -47,17 +47,39 @@
                 android:id="@+id/buffer_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="-3dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="23dp"
+                android:layout_marginBottom="6dp"
                 android:text=""
-                android:textSize="24sp"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
+                android:textSize="22sp"
+                android:textColor="@android:color/black"
+                android:textStyle="normal"
                 android:fontFamily="@font/montserratlight"
+                app:layout_constraintTop_toBottomOf="@id/buffer_pbar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:visibility="visible"
+                android:id="@+id/buffer_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="23dp"
+                android:text=""
+                android:textSize="13sp"
+                android:textColor="@color/chiron_blue"
+                android:textStyle="bold"
+                android:fontFamily="@font/montserratlight"
+                app:layout_constraintTop_toBottomOf="@id/buffer_title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
