@@ -16,6 +16,7 @@ import com.wajahatkarim3.easyvalidation.core.view_ktx.textEqualTo
 import com.wajahatkarim3.easyvalidation.core.view_ktx.textNotEqualTo
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.ActivityInitBinding
+import iot.empiaurhouse.triage.network.RetrofitClientFactory
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
 import iot.empiaurhouse.triage.utils.UserPreferenceManager
 import java.util.*
@@ -46,6 +47,7 @@ class InitActivity : AppCompatActivity() {
         setContentView(viewInit)
         typeText = binding.subtitle
         binding.title.startAnimation(fadeInAnimation)
+        RetrofitClientFactory.initServerUrl(this)
         fadeInAnimation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationRepeat(animation: Animation?) {
             }
@@ -103,11 +105,13 @@ class InitActivity : AppCompatActivity() {
             || (userPUID.textNotEqualTo("null") || serverUrl.textNotEqualTo("null"))){
             userStatus = true
         }
+        RetrofitClientFactory.initServerUrl(this)
         return userStatus
     }
 
 
     private fun serverTest(): Boolean{
+        // RetrofitClientFactory.chironGetService.getChironAPIStatus()
         return false
     }
 

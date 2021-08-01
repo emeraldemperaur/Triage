@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.wajahatkarim3.easyvalidation.core.Validator
 import com.wajahatkarim3.easyvalidation.core.view_ktx.nonEmpty
 import iot.empiaurhouse.triage.R
+import iot.empiaurhouse.triage.network.RetrofitClientFactory
 import iot.empiaurhouse.triage.view.ChironBufferDialog
 
 
@@ -25,6 +26,8 @@ class SetupVerify {
     private var serverNotFound = false
     private val bufferDialog = ChironBufferDialog()
     lateinit var userPreferences: UserPreferenceManager
+    private lateinit var retrofitClientFactory: RetrofitClientFactory
+    private lateinit var retrofitContext: Context
 
 
 
@@ -81,8 +84,11 @@ class SetupVerify {
 
     fun chironConnect(context: Context, chironUrl: String): Boolean{
         // connect to server then return YES or NO
+        retrofitContext = context
         bufferDialog.show(context, "Please Wait...")
         userPreferences = UserPreferenceManager(context)
+        RetrofitClientFactory.initServerUrl(retrofitContext)
+        serverFound = false
         return if(serverFound){
             Handler().postDelayed(
                     {
@@ -118,9 +124,11 @@ class SetupVerify {
 
     }
 
-    fun clearChironUser(){
+    private fun clearChironUser(){
         userPreferences.clearUserData()
     }
+
+
 
 
 
