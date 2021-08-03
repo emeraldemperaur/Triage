@@ -82,16 +82,15 @@ class SetupVerify {
 
     }
 
-    fun chironConnect(context: Context, chironUrl: String): Boolean{
+    fun chironConnect(context: Context, result: Boolean): Boolean{
         // connect to server then return YES or NO
-        retrofitContext = context
-        bufferDialog.show(context, "Please Wait...")
+        //retrofitContext = context
         userPreferences = UserPreferenceManager(context)
-        RetrofitClientFactory.initServerUrl(retrofitContext)
-        serverFound = false
+        serverFound = result
         return if(serverFound){
             Handler().postDelayed(
                     {
+                        bufferDialog.show(context, "Please Wait...")
                         saveChironUser()
                         bufferDialog.setTitleSize(21)
                         bufferDialog.setErrorIcon()
@@ -106,11 +105,13 @@ class SetupVerify {
         else{
             Handler().postDelayed(
                     {
-                        bufferDialog.setTitle(context.getString(R.string.buffer_text_fail))
+                        // bufferDialog.setTitle(context.getString(R.string.buffer_text_fail))
+                        // bufferDialog.setTitleSize(21)
                         // before closing
-                        bufferDialog.initCloser()
+                        //bufferDialog.dismissBufferDialog()
+
                     },
-                    3000 // value in milliseconds
+                    1000 // value in milliseconds
             )
             serverNotFound
         }

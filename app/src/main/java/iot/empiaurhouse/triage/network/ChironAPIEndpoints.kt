@@ -4,14 +4,17 @@ import io.reactivex.Single
 import iot.empiaurhouse.triage.model.*
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.Path
 
 interface ChironAPIEndpoints {
 
-    @GET("api/whatsup")
+    @Headers("Accept: application/json")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/whatsup")
     fun getChironAPIStatus(): Single<List<APIStatus>>
 
-    @GET("api/records")
+    @Headers("Accept: application/json")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/records")
     fun getChironRecords(): Single<List<ChironRecords>>
 
     @GET("api/patients")

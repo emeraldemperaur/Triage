@@ -12,13 +12,14 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.wajahatkarim3.easyvalidation.core.view_ktx.textEqualTo
 import com.wajahatkarim3.easyvalidation.core.view_ktx.textNotEqualTo
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.ActivityInitBinding
-import iot.empiaurhouse.triage.network.RetrofitClientFactory
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
 import iot.empiaurhouse.triage.utils.UserPreferenceManager
+import iot.empiaurhouse.triage.viewmodel.InitViewModel
 import java.util.*
 
 
@@ -28,6 +29,7 @@ class InitActivity : AppCompatActivity() {
     private lateinit var fadeInAnimation : Animation
     private lateinit var typeText : TypeWriterTextView
     private lateinit var userManager: UserPreferenceManager
+    private lateinit var initViewModel: InitViewModel
     private var userPUID = ""
     private var serverUrl = ""
 
@@ -35,6 +37,9 @@ class InitActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInitBinding.inflate(layoutInflater)
+        //ChironAPIService().initServerUrl(this)
+        initViewModel = ViewModelProvider(this).get(InitViewModel::class.java)
+        initViewModel.pingServer()
         val viewInit = binding.root
         fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fader)
         with(window) {
@@ -47,7 +52,6 @@ class InitActivity : AppCompatActivity() {
         setContentView(viewInit)
         typeText = binding.subtitle
         binding.title.startAnimation(fadeInAnimation)
-        RetrofitClientFactory.initServerUrl(this)
         fadeInAnimation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationRepeat(animation: Animation?) {
             }
@@ -105,14 +109,21 @@ class InitActivity : AppCompatActivity() {
             || (userPUID.textNotEqualTo("null") || serverUrl.textNotEqualTo("null"))){
             userStatus = true
         }
-        RetrofitClientFactory.initServerUrl(this)
         return userStatus
     }
 
 
     private fun serverTest(): Boolean{
-        // RetrofitClientFactory.chironGetService.getChironAPIStatus()
-        return false
+        var result: Boolean = false
+        initViewModel.serverStatus.observe(this, androidx.lifecycle.Observer{reply ->
+            reply?.let{
+                result = reply.isNotEmpty()
+                println("Init response object is not empty: " + reply.isNotEmpty().toString())
+                println("See response result: $reply")
+
+            }
+        })
+        return result
     }
 
     private fun pushUserData(){
@@ -121,7 +132,7 @@ class InitActivity : AppCompatActivity() {
         }
         val options = ActivityOptions.makeSceneTransitionAnimation(this)
 
-        startActivity(retryIntent, options.toBundle())
+        startActivity(retryIntent)
 
     }
 

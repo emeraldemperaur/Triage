@@ -1,37 +1,43 @@
 package iot.empiaurhouse.triage.network
 
 import android.content.Context
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import iot.empiaurhouse.triage.utils.JSONHeaderInterceptor
 import iot.empiaurhouse.triage.utils.UserPreferenceManager
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitClientFactory {
+
+class RetrofitClientFactory {
     private lateinit var serverUrl: String
     private lateinit var userManager: UserPreferenceManager
     private val client = OkHttpClient.Builder().build()
+    private var online: Boolean = false
+
+    var gson: Gson = GsonBuilder()
+        .setLenient()
+        .create()
 
 
-    private fun retrofit(): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(serverUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .client(client)
-            .build()
+
+    private val chironAPI = Retrofit.Builder()
+        .baseUrl(serverUrl)
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .client(provideHttpClient())
+        .build()
+        .create(ChironAPIEndpoints::class.java)
+
+
+
+    private fun provideHttpClient(): OkHttpClient {
+        val okHttpClientBuilder = OkHttpClient.Builder()
+        okHttpClientBuilder.addInterceptor(JSONHeaderInterceptor())
+        return okHttpClientBuilder.build()
     }
-
-
-    val chironGetService: ChironAPIEndpoints by lazy {
-        retrofit().create(ChironAPIEndpoints::class.java)
-    }
-
-    val chironPostService: ChironAPIPOSTEndpoints by lazy {
-       retrofit().create(ChironAPIPOSTEndpoints::class.java)
-    }
-
-
 
 
 
@@ -43,18 +49,13 @@ object RetrofitClientFactory {
             println(serverUrl)
         }
         if(!serverUrl.startsWith("http://") || !serverUrl.startsWith("https://")){
-            serverUrl = "http://$serverUrl"
+            serverUrl = "https://$serverUrl"
             println(serverUrl)
         }
 
 
     }
 
-    fun serverPingTest(): Boolean{
-        // Test the service with ping request return Boolean
-        chironGetService.getChironAPIStatus()
-        return false
-    }
 
 
 }

@@ -10,11 +10,14 @@ import android.view.View
 import android.view.Window
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.ActivitySetupBinding
 import iot.empiaurhouse.triage.utils.SetupVerify
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
+import iot.empiaurhouse.triage.viewmodel.InitViewModel
 
 class SetupActivity : AppCompatActivity() {
 
@@ -22,6 +25,7 @@ class SetupActivity : AppCompatActivity() {
     private lateinit var fadeInAnimation : Animation
     private lateinit var typeText : TypeWriterTextView
     private lateinit var chironVerify : SetupVerify
+    private lateinit var setupActivityViewModel: InitViewModel
     private var intentValue:String? = ""
 
 
@@ -30,6 +34,8 @@ class SetupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySetupBinding.inflate(layoutInflater)
+        setupActivityViewModel = ViewModelProvider(this).get(InitViewModel::class.java)
+        setupActivityViewModel.pingServer()
         val viewSetup = binding.root
         fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fader)
         with(window) {
@@ -44,6 +50,21 @@ class SetupActivity : AppCompatActivity() {
         chironVerify = SetupVerify()
 
     }
+
+
+    private fun serverPing(): Boolean{
+        var result = false
+        setupActivityViewModel.serverStatus.observe(this, androidx.lifecycle.Observer{reply ->
+            reply?.let{
+                result = reply.isNotEmpty()
+                println("Setup response object is not empty: " + reply.isNotEmpty().toString())
+                println("See response result: $reply")
+
+            }
+        })
+        return result
+    }
+
 
 
     private fun typeWriterText(typeText: String, charDelay: Int, targetTextView: TypeWriterTextView) {
@@ -87,12 +108,15 @@ class SetupActivity : AppCompatActivity() {
                     || chironVerify.verifyIP(binding.setupServerUrl, binding.chironURLNote))){
                         // TODO ping Chiron URL before intent
 
-            if(chironVerify.chironConnect(this, "")){
+            if(chironVerify.chironConnect(this, serverPing())){
                 startActivity(Intent(this@SetupActivity, HubActivity::class.java))
             }
-            else if(!chironVerify.chironConnect(this, "")){
+            else if(!chironVerify.chironConnect(this, serverPing())){
                 // show toast noting connection failure
-                onBackPressed()
+                Toast.makeText(applicationContext,"Hmm, ${binding.setupServerUrl.text} wasn't " +
+                        "reachable! Please confirm API availability " +
+                        "and enter a valid address", Toast.LENGTH_LONG).show()
+                // onBackPressed()
             }
 
         }
