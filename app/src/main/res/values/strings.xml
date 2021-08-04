@@ -74,4 +74,7 @@
     <string name="retry_ip">Try a different URL or IP address</string>
     <string name="buffer_text_pass">API Server Unavailable</string>
     <string name="buffer_text_fail">Oh Shit…Server Unavailable</string>
+    <string name="chironquickaction">chironQuickAction</string>
+    <string name="profile_icon">Profile Icon</string>
+    <string name="insights">INSIGHTS</string>
 </resources>

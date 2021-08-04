@@ -8,7 +8,6 @@ import android.widget.TextView
 import com.wajahatkarim3.easyvalidation.core.Validator
 import com.wajahatkarim3.easyvalidation.core.view_ktx.nonEmpty
 import iot.empiaurhouse.triage.R
-import iot.empiaurhouse.triage.network.RetrofitClientFactory
 import iot.empiaurhouse.triage.view.ChironBufferDialog
 
 
@@ -26,7 +25,6 @@ class SetupVerify {
     private var serverNotFound = false
     private val bufferDialog = ChironBufferDialog()
     lateinit var userPreferences: UserPreferenceManager
-    private lateinit var retrofitClientFactory: RetrofitClientFactory
     private lateinit var retrofitContext: Context
 
 
