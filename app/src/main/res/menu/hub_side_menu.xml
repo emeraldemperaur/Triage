@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/launch_chiron"
+            android:icon="@drawable/ic_baseline_chiron_web_app_24"
+            android:title="@string/launch_chiron_web" />
+        <item
+            android:id="@+id/about_chiron"
+            android:icon="@drawable/ic_baseline_info_24"
+            android:title="@string/about_chiron" />
+        <item
+            android:id="@+id/about_triage"
+            android:icon="@drawable/ic_baseline_triage_information_24"
+            android:title="@string/about_triage" />
+
+        <item
+            android:id="@+id/about_me"
+            android:icon="@drawable/ic_baseline_star_outline_24"
+            android:title="@string/about_me" />
+    </group>
+
+</menu>

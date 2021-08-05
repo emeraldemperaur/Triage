@@ -77,4 +77,15 @@
     <string name="chironquickaction">chironQuickAction</string>
     <string name="profile_icon">Profile Icon</string>
     <string name="insights">INSIGHTS</string>
+    <string name="pivots">PIVOTS</string>
+    <string name="chiron_records">CHIRON RECORDS</string>
+    <string name="search">Search</string>
+    <string name="chiron_web">Chiron Web</string>
+    <string name="dummy_time_string">As at 27 April, 2021</string>
+    <string name="triage_is_a_chiron_api_data_analysis_app">Triage is a Chiron API data pivot &amp; analysis app</string>
+    <string name="hello_user_name">Hello, User.Name!</string>
+    <string name="launch_chiron_web">Launch Chiron</string>
+    <string name="about_chiron">About Chiron</string>
+    <string name="about_triage">About Triage</string>
+    <string name="about_me">About ME</string>
 </resources>
