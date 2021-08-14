@@ -9,18 +9,24 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.ActivityLaunchBinding
+import iot.empiaurhouse.triage.viewmodel.InitViewModel
 
 class LaunchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLaunchBinding
     private lateinit var fadeInAnimation : Animation
     private lateinit var rotationAnimation : Animation
+    private lateinit var initViewModel: InitViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLaunchBinding.inflate(layoutInflater)
+        initViewModel = ViewModelProvider(this).get(InitViewModel::class.java)
+        initViewModel.pingServer(this)
         val viewLaunch = binding.root
         fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
         rotationAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate)

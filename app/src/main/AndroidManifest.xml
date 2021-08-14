@@ -11,35 +11,72 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/chironlogo500"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.Triage">
-        <activity android:name=".view.HubActivity"
-            android:screenOrientation="portrait">
+        android:theme="@style/Theme.Triage"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".view.PivotActivity"></activity>
+        <activity
+            android:name=".view.MEActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MeInfoTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.SetupActivity"
+        <activity
+            android:name=".view.TriageInfoActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.InitActivity"
-            android:theme="@style/Theme.Triage.FullScreen"
+        <activity
+            android:name=".view.ChironInfoActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.LaunchActivity"
-            android:theme="@style/Theme.Triage.FullScreen"
+        <activity
+            android:name=".view.HubActivity"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.SetupActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.InitActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Triage.FullScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.LaunchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Triage.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

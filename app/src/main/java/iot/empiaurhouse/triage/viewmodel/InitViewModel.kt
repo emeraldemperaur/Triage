@@ -1,24 +1,30 @@
 package iot.empiaurhouse.triage.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
-import iot.empiaurhouse.triage.model.ChironRecords
+import iot.empiaurhouse.triage.model.APIStatus
 import iot.empiaurhouse.triage.network.ChironAPIService
+import iot.empiaurhouse.triage.utils.UserPreferenceManager
 
 
 class InitViewModel: ViewModel() {
 
     private val chironAPIService = ChironAPIService()
     private val disposable = CompositeDisposable()
-
-    val serverStatus = MutableLiveData<List<ChironRecords>>()
+    private lateinit var info: Map<String, String?>
+    val serverStatus = MutableLiveData<List<APIStatus>>()
     val serverError = MutableLiveData<Boolean>()
     val connecting = MutableLiveData<Boolean>()
+    private lateinit var userManager: UserPreferenceManager
 
-    fun pingServer(){
+
+    fun pingServer(context: Context){
+        userManager = UserPreferenceManager(context)
         fetchServerResponse()
+        // fetchServerInfo()
     }
 
 
@@ -30,14 +36,23 @@ class InitViewModel: ViewModel() {
     private fun fetchServerResponse(){
         connecting.value = true
         disposable.add(
-            chironAPIService.getChironRecords()
+            chironAPIService.getChironStatus()
                 .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
                 .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
-                .subscribeWith(object: DisposableSingleObserver<List<ChironRecords>>(){
-                    override fun onSuccess(reply: List<ChironRecords>) {
+                .subscribeWith(object: DisposableSingleObserver<List<APIStatus>>(){
+                    override fun onSuccess(reply: List<APIStatus>) {
                         serverStatus.value = reply
                         serverError.value = false
                         connecting.value = false
+                        val replyItem = reply.first()
+                            replyItem.serverStatus?.let { replyItem.localhost?.let { it1 ->
+                                replyItem.signature?.let { it2 ->
+                                    userManager.storeServerInfo(it,
+                                        it1, it2
+                                    )
+                                }
+                            } }
+
                         println(reply.toString())
 
                     }
@@ -51,6 +66,21 @@ class InitViewModel: ViewModel() {
                 } )
         )
 
+    }
+
+
+     fun fetchServerInfo(): Map<String, String?>{
+        var infoList = serverStatus.value
+        var infoObject = infoList?.first()
+
+        println("Chiron Server Info Object found: $infoObject")
+        if (infoObject != null) {
+            println("Status: ${infoObject.serverStatus}")
+            println("Signature: ${infoObject.signature}")
+            println("LocalHost: ${infoObject.localhost}")
+            info = mapOf("Status" to infoObject.serverStatus, "Signature" to infoObject.signature, "LocalHost" to infoObject.localhost)
+        }
+        return info
     }
 
 

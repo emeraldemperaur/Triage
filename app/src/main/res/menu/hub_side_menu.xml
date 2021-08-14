@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/menu1" android:checkableBehavior="single">
         <item
             android:id="@+id/launch_chiron"
-            android:icon="@drawable/ic_baseline_chiron_web_app_24"
+            android:icon="@drawable/ic_launch"
             android:title="@string/launch_chiron_web" />
-        <item
+
+    </group>
+
+    <group android:id="@+id/menu2" android:checkableBehavior="single">
+    <item
             android:id="@+id/about_chiron"
-            android:icon="@drawable/ic_baseline_info_24"
+            android:icon="@drawable/ic_chiron_logo"
             android:title="@string/about_chiron" />
+    </group>
+    <group android:id="@+id/menu3" android:checkableBehavior="single">
         <item
             android:id="@+id/about_triage"
-            android:icon="@drawable/ic_baseline_triage_information_24"
+            android:icon="@drawable/ic_infoicon"
             android:title="@string/about_triage" />
 
+    </group>
+
+    <group android:id="@+id/menu4" android:checkableBehavior="single">
         <item
             android:id="@+id/about_me"
-            android:icon="@drawable/ic_baseline_star_outline_24"
+            android:icon="@drawable/ic_me_logo"
             android:title="@string/about_me" />
     </group>
 

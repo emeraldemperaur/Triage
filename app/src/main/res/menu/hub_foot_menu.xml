@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/hub_dashboard"
+        android:icon="@drawable/ic_baseline_dashboard_24"
+        android:title="@string/dashboard" />
+
+    <item
+        android:id="@+id/hub_insights"
+        android:icon="@drawable/ic_baseline_insights_24"
+        android:title="@string/insights_hub" />
+
+    <item
+        android:id="@+id/hub_pivots"
+        android:icon="@drawable/ic_baseline_pivot_24"
+        android:title="@string/pivots_hub" />
+
+    <item
+        android:id="@+id/hub_settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/settings_hub" />
+
+</menu>

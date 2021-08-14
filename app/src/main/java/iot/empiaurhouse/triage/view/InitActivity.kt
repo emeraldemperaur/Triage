@@ -39,7 +39,7 @@ class InitActivity : AppCompatActivity() {
         binding = ActivityInitBinding.inflate(layoutInflater)
         //ChironAPIService().initServerUrl(this)
         initViewModel = ViewModelProvider(this).get(InitViewModel::class.java)
-        initViewModel.pingServer()
+        initViewModel.pingServer(this)
         val viewInit = binding.root
         fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fader)
         with(window) {
