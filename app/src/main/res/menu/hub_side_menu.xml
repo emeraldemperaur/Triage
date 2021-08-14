@@ -28,6 +28,13 @@
             android:id="@+id/about_me"
             android:icon="@drawable/ic_me_logo"
             android:title="@string/about_me" />
+
     </group>
 
+    <group android:id="@+id/menu5" android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_none"
+            android:title=""
+            android:visible="false"/>
+    </group>
 </menu>

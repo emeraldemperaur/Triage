@@ -8,9 +8,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
+import com.google.android.material.navigation.NavigationView
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.ActivityHubBinding
 import iot.empiaurhouse.triage.utils.UserPreferenceManager
@@ -29,6 +34,9 @@ class HubActivity : AppCompatActivity() {
     private val strLength = 24
     private lateinit var hubMenu: Menu
     private lateinit var pivotsTitle: TextView
+    private lateinit var navigationView: NavigationView
+    private lateinit var hubDrawer: DrawerLayout
+    private lateinit var navView: View
 
 
 
@@ -40,6 +48,8 @@ class HubActivity : AppCompatActivity() {
         setContentView(viewSetup)
         userManager = UserPreferenceManager(this)
         hubMenu = binding.hubToolbar.menu
+        navigationView = binding.hubDrawerNavView
+        hubDrawer = binding.hubDrawerView
         initSideOptionsMenu()
         fetchTZ()
         initView()
@@ -83,10 +93,13 @@ class HubActivity : AppCompatActivity() {
                     isShow = true
                     showOption(0)
                     showOption(1)
+                    binding.hubToolbar.navigationIcon = ResourcesCompat.getDrawable(resources,
+                        R.drawable.ic_baseline_account_circle_24, baseContext.theme)
                 } else if (isShow) {
                     isShow = false
                     hideOption(0)
                     hideOption(1)
+                    binding.hubToolbar.navigationIcon = null
 
 
                 }
@@ -106,6 +119,22 @@ class HubActivity : AppCompatActivity() {
         val greeting = "Hello, $displayID!"
         binding.hubUsernameTitle.text = greeting
         invalidateOptionsMenu()
+        navView = navigationView.getHeaderView(0)
+        val chironID: TextView = navView.findViewById(R.id.chiron_id_sidemenu)
+        val serverUrlView: TextView = navView.findViewById(R.id.chiron_serverinfo_sidemenu)
+        val timeZone: TextView = navView.findViewById(R.id.triage_timezone_sidemenu)
+        chironID.text = displayID
+        serverUrlView.text = sliceURL(serverUrl)
+        timeZone.text = fetchTZ()
+        val toolbar = binding.hubToolbar
+        setSupportActionBar(toolbar)
+        val actionbar: ActionBar? = supportActionBar
+        actionbar?.apply {
+            setDisplayHomeAsUpEnabled(false)
+            setDisplayShowTitleEnabled(false)
+            setHomeAsUpIndicator(null)
+        }
+
 
 
     }
@@ -119,11 +148,17 @@ class HubActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        val id = item.itemId
-        if (id == R.id.app_bar_chiron) {
-            return true
-        } else if (id == R.id.app_bar_search) {
-            return true
+        when (item.itemId) {
+            android.R.id.home -> {
+                hubDrawer.openDrawer(GravityCompat.START)
+            }
+
+            R.id.app_bar_chiron -> {
+                val url = serverIntentUrl
+                val optionIntent = Intent(Intent.ACTION_VIEW)
+                optionIntent.data = Uri.parse(url)
+                startActivity(optionIntent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -138,10 +173,6 @@ class HubActivity : AppCompatActivity() {
     }
 
     private fun initSideOptionsMenu(){
-
-        val userid = binding.hubDrawerNavView.hub_drawer_nav_view.chiron_id_sidemenu
-        val clientServer = binding.hubDrawerNavView.hub_drawer_nav_view.chiron_serverinfo_sidemenu
-        val clientTZ = binding.hubDrawerNavView.triage_timezone_sidemenu
         binding.hubDrawerNavView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.launch_chiron -> {
@@ -206,6 +237,8 @@ class HubActivity : AppCompatActivity() {
         println("Client Device Time Zone: " + tz.getDisplayName(Locale.ENGLISH))
         return tz.getDisplayName(Locale.ENGLISH)
     }
+
+
 
 
 }

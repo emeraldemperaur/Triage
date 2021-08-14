@@ -63,6 +63,7 @@
         android:textSize="12sp"
         android:text="@string/chiron_server_url"
         android:textColor="@color/white"
+        android:maxLength="40"
         android:maxLines="2"
         android:textStyle="bold"
         android:fontFamily="@font/montserratlight"
@@ -82,7 +83,9 @@
         android:textSize="12sp"
         android:text="@string/chiron_user_timezone_holder"
         android:textColor="@color/white"
+        android:lines="2"
         android:maxLines="2"
+        android:maxLength="40"
         android:textStyle="bold"
         android:fontFamily="@font/montserratthin"
         />

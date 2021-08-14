@@ -122,10 +122,6 @@ class SetupActivity : AppCompatActivity() {
                 startActivity(Intent(this@SetupActivity, HubActivity::class.java))
             }
             else if(!chironVerify.chironConnect(this, serverPing())){
-                // show toast noting connection failure
-//                Toast.makeText(applicationContext,"Hmm, ${binding.setupServerUrl.text} wasn't " +
-//                        "reachable! Please confirm API availability " +
-//                        "and enter a valid address", Toast.LENGTH_LONG).show()
                 errorNoteSnackBar(view)
             }
 
@@ -159,8 +155,6 @@ class SetupActivity : AppCompatActivity() {
 
     }
 
-    fun retryButton(view: View) {
-    }
 
     private fun fetchPUID(){
         intentValue = intent.getStringExtra("chironPUID")
