@@ -13,11 +13,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.ActivityHubBinding
+import iot.empiaurhouse.triage.model.ChironRecords
 import iot.empiaurhouse.triage.utils.UserPreferenceManager
 import kotlinx.android.synthetic.main.activity_hub.view.*
 import kotlinx.android.synthetic.main.side_menu_top_view.view.*
@@ -35,8 +40,13 @@ class HubActivity : AppCompatActivity() {
     private lateinit var hubMenu: Menu
     private lateinit var pivotsTitle: TextView
     private lateinit var navigationView: NavigationView
+    private lateinit var bottomNavigation: BottomNavigationView
+    private lateinit var hubNavController: NavController
+    private lateinit var hubNavHostFragment: NavHostFragment
     private lateinit var hubDrawer: DrawerLayout
     private lateinit var navView: View
+    var recordsFound = arrayListOf<ChironRecords>()
+
 
 
 
@@ -50,12 +60,17 @@ class HubActivity : AppCompatActivity() {
         hubMenu = binding.hubToolbar.menu
         navigationView = binding.hubDrawerNavView
         hubDrawer = binding.hubDrawerView
+        bottomNavigation = binding.hubFootNav
         initSideOptionsMenu()
-        fetchTZ()
         initView()
         offSetFX()
+        //ListStore.cacheRecordsList(recordsFound)
         hideOption(0)
         hideOption(1)
+        hubNavHostFragment = supportFragmentManager.findFragmentById(R.id.hub_nav_host_fragment) as NavHostFragment
+        hubNavController = hubNavHostFragment.navController
+        bottomNavigation.setupWithNavController(hubNavController)
+
 
     }
 
@@ -209,6 +224,24 @@ class HubActivity : AppCompatActivity() {
     }
 
 
+//    private fun fetchRecordsData(): ArrayList<ChironRecords>{
+//        var result: Boolean
+//        val fetchedRecords = arrayListOf<ChironRecords>()
+//        recordsViewModel.serverStatus.observe(this, androidx.lifecycle.Observer{reply ->
+//            reply?.let{
+//                result = reply.isNotEmpty()
+//                fetchedRecords.addAll(reply)
+//                println("Records response object is not empty: $result")
+//                println("See Chiron Records response result: $reply")
+//
+//            }
+//        })
+//
+//        return fetchedRecords
+//    }
+
+
+
 
 
     private fun prepURL(urlString: String): String{
@@ -226,7 +259,7 @@ class HubActivity : AppCompatActivity() {
         slicedUrl = slicedUrl.substringAfter("www.")
         slicedUrl = slicedUrl.substringBefore(".")
         if (slicedUrl.length > strLength) {
-            slicedUrl = slicedUrl.substring(0, strLength);
+            slicedUrl = slicedUrl.substring(0, strLength)
         }
         return slicedUrl
     }
@@ -237,6 +270,9 @@ class HubActivity : AppCompatActivity() {
         println("Client Device Time Zone: " + tz.getDisplayName(Locale.ENGLISH))
         return tz.getDisplayName(Locale.ENGLISH)
     }
+
+
+
 
 
 

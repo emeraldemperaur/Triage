@@ -12,4 +12,18 @@
     <color name="chiron_red">#800020</color>
     <color name="bufferBackground">#600c204f</color>
 
+    <color name="recordColor1">#000080</color>
+    <color name="recordColor2">#013220</color>
+    <color name="recordColor3">#8B0000</color>
+    <color name="recordColor4">#8B8000</color>
+    <color name="recordColor5">#301934</color>
+    <color name="recordColor6">#6E0671</color>
+    <color name="recordColor7">#008080</color>
+    <color name="recordColor8">#000000</color>
+    <color name="recordColor9">#d4af37</color>
+
+
+
+
+
 </resources>

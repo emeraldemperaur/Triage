@@ -10,6 +10,7 @@ import iot.empiaurhouse.triage.network.ChironAPIService
 class SetupActivityViewModel: ViewModel() {
     private val chironAPIService = ChironAPIService()
     private val disposable = CompositeDisposable()
+    private var cachedRecords: ArrayList<ChironRecords>? = null
 
     val serverStatus = MutableLiveData<List<ChironRecords>>()
     val serverError = MutableLiveData<Boolean>()
@@ -25,6 +26,19 @@ class SetupActivityViewModel: ViewModel() {
         disposable.clear()
     }
 
+    fun stashRecordsList(chironRecords :List<ChironRecords>) {
+        cachedRecords = arrayListOf()
+        if (cachedRecords!!.isEmpty()) {
+            cachedRecords!!.addAll(chironRecords)
+            println("Chiron Records cached successfully in ViewModel: $cachedRecords")
+        }
+    }
+
+
+    fun fetchRecords(): ArrayList<ChironRecords>? {
+        return cachedRecords
+    }
+
     private fun fetchServerResponse(){
         connecting.value = true
         disposable.add(
@@ -36,6 +50,7 @@ class SetupActivityViewModel: ViewModel() {
                         serverStatus.value = reply
                         serverError.value = false
                         connecting.value = false
+                        stashRecordsList(reply)
                         println(reply.toString())
 
                     }

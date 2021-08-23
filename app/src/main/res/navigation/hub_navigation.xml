@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/hub_dashboard"
+    android:id="@+id/hub_navigation">
+
+    <fragment
+        android:id="@+id/hub_dashboard"
+        android:name="iot.empiaurhouse.triage.view.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard">
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/hub_insights"
+        android:name="iot.empiaurhouse.triage.view.InsightFragment"
+        android:label="Insights"
+        tools:layout="@layout/fragment_insight">
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/hub_pivots"
+        android:name="iot.empiaurhouse.triage.view.PivotsFragment"
+        android:label="Insights"
+        tools:layout="@layout/fragment_pivots">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/hub_settings"
+        android:name="iot.empiaurhouse.triage.view.SettingsFragment"
+        android:label="Insights"
+        tools:layout="@layout/fragment_settings">
+
+    </fragment>
+
+</navigation>
