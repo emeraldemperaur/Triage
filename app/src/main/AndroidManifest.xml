@@ -13,7 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Triage"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.PivotActivity"></activity>
         <activity
             android:name=".view.MEActivity"
             android:screenOrientation="portrait"
