@@ -10,10 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
@@ -44,6 +46,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     private var recordRecyclerView: RecyclerView? = null
     private lateinit var insightChart: PieChart
     private lateinit var chironNote: TextView
+    private lateinit var dashboardSwipeRefresh: SwipeRefreshLayout
     private lateinit var pivotsRVA: PivotRecyclerAdapter
     private var recordsRVA: RecordRecyclerAdapter? = null
     private lateinit var hubInsightChart: InsightChart
@@ -82,6 +85,8 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDashboardBinding.bind(view)
+        dashboardSwipeRefresh = binding.dashboardSwipeRefresh
+        dashboardSwipeRefresh.setColorSchemeColors(ResourcesCompat.getColor(resources, R.color.chiron_blue, null))
         binding.insightRequestTime.text = getTimeStamp()
         pivotRecyclerView = binding.hubPivotsRecyclerView
         recordRecyclerView = binding.hubRecordsRecyclerView
@@ -99,7 +104,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         ListStore.cacheRecordsList(fetchRecordsData())
         recordsFound = ListStore.getCachedRecordsList()
         pivotRecyclerView.adapter = pivotsRVA
-
+        initRefresh()
 
 
 
@@ -182,7 +187,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
                 result = reply.isNotEmpty()
                 if (fetchedRecords.isEmpty()) {
                     fetchedRecords.addAll(reply)
-                    dashboardViewModel.stashRecordsList(reply)
+                    // dashboardViewModel.stashRecordsList(reply)
                     recordsFound = fetchedRecords
                     println("Records response object is not empty: $result")
                     println("See Chiron Records response result: $reply")
@@ -273,6 +278,27 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
 //
 //
 //    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun viewRefresh(){
+        recordRecyclerView?.adapter = null
+        recordsRVA = null
+        recordRecyclerView = null
+        Handler(Looper.getMainLooper()).postDelayed({
+            recordRecyclerView = binding.hubRecordsRecyclerView
+            recordsRVA = RecordRecyclerAdapter(fetchRecordsData())
+            recordRecyclerView!!.adapter = recordsRVA
+        }, 1000)
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun initRefresh(){
+        dashboardSwipeRefresh.setOnRefreshListener {
+            viewRefresh()
+            dashboardSwipeRefresh.isRefreshing = false
+        }
+    }
 
 
     @RequiresApi(Build.VERSION_CODES.O)

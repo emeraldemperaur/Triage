@@ -44,6 +44,13 @@
         <item name="lineSpacing">0.20dp</item>
     </style>
 
+    <style name="TimeStreamPickerTheme">
+        <item name="android:textColor">@color/chiron_grey</item>
+        <item name="colorAccent">@color/chiron_blue</item>
+        <item name="android:fontFamily">@font/montserratlight</item>
+        <item name="lineSpacing">0.06dp</item>
+    </style>
+
     <style name="InfoButtonTheme">
         <item name="android:fontFamily">@font/montserratlight</item>
         <item name="lineSpacing">0.20dp</item>
@@ -60,6 +67,14 @@
 
     <style name="MeInfoTheme" parent="Theme.Triage">
         <item name="android:statusBarColor">@color/black</item>
+    </style>
+
+
+
+    <style name="selectedButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="backgroundColor">@color/chiron_blue</item>
+        <item name="cardBackgroundColor">@color/chiron_blue</item>
     </style>
 
 </resources>

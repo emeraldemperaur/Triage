@@ -4,9 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.reactivex.Single
-import iot.empiaurhouse.triage.model.APIStatus
-import iot.empiaurhouse.triage.model.ChironRecords
-import iot.empiaurhouse.triage.model.Patient
+import iot.empiaurhouse.triage.model.*
 import iot.empiaurhouse.triage.utils.JSONHeaderInterceptor
 import iot.empiaurhouse.triage.utils.UserPreferenceManager
 import okhttp3.OkHttpClient
@@ -75,6 +73,38 @@ class ChironAPIService {
 
     fun getChironPatientsByBirthDateBetween(birthDateA: String, birthDateB: String): Single<List<Patient>>{
         return chironAPI.getChironPatientsByBirthDateBetween(birthDateA, birthDateB)
+    }
+
+    fun getChironDiagnoses(): Single<List<Diagnosis>>{
+        return chironAPI.getChironDiagnoses()
+    }
+
+    fun getChironPrescriptions(): Single<List<Prescription>>{
+        return chironAPI.getChironPrescriptions()
+    }
+
+    fun getChironVisits(): Single<List<Visit>>{
+        return chironAPI.getChironVisits()
+    }
+
+    fun getChironPractitioners(): Single<List<Practitioner>>{
+        return chironAPI.getChironPractitioners()
+    }
+
+    fun getChironDoctors(): Single<List<Doctor>>{
+        return chironAPI.getChironDoctors()
+    }
+
+    fun getChironNursePractitioners(): Single<List<NursePractitioner>>{
+        return chironAPI.getChironNursePractitioners()
+    }
+
+    fun getChironRegisteredNurses(): Single<List<RegisteredNurse>>{
+        return chironAPI.getChironRegisteredNurses()
+    }
+
+    fun getChironPharmaceuticals(): Single<List<Pharmaceuticals>>{
+        return chironAPI.getChironPharmaceuticals()
     }
 
 

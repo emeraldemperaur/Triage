@@ -2,7 +2,6 @@ package iot.empiaurhouse.triage.network
 
 import io.reactivex.Single
 import iot.empiaurhouse.triage.model.*
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
@@ -45,8 +44,8 @@ interface ChironAPIEndpoints {
     fun getChironPatientsByBirthDateBetween(@Path("birthDate") birthDate: String?,
                                             @Path("birthDate2") birthDate2: String?): Single<List<Patient>>
 
-    @GET("api/diagnoses")
-    fun getChironDiagnoses(): Call<List<Diagnosis>>
+    @GET("http://chiron-cloudapp.herokuapp.com/api/diagnoses")
+    fun getChironDiagnoses(): Single<List<Diagnosis>>
 
     @GET("api/diagnoses/on/{visitDate}")
     fun getChironDiagnosesByVisitDate(@Path("visitDate") visitDate: String?): Single<List<Diagnosis>>
@@ -65,6 +64,9 @@ interface ChironAPIEndpoints {
 
     @GET("api/diagnoses/diagnosislevel/{diagnosisLevelName}")
     fun getChironDiagnosesByDiagnosisLevelName(@Path("diagnosisLevelName") diagnosisLevelName: String?): Single<List<Diagnosis>>
+
+    @GET("api/diagnoses/synopsis/{diagnosisSynopsis}")
+    fun getChironDiagnosesByDiagnosisSynopsis(@Path("diagnosisSynopsis") diagnosisSynopsis: String?): Single<List<Diagnosis>>
 
     @GET("api/prescriptions")
     fun getChironPrescriptions(): Single<List<Prescription>>

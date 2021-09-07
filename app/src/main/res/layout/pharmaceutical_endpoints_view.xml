@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:id="@+id/entity_type_editor_layout"
+    android:id="@+id/pharmaceutical_endpoints_layout"
     android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
@@ -22,21 +22,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="33dp"
-            android:layout_marginBottom="33dp"
-            android:letterSpacing="0.33"
-            android:textStyle="normal"
-            android:fontFamily="@font/montserratsemibold"
-            android:textColor="@color/chiron_blue"
-            android:textSize="19sp"
-            android:text="@string/entity_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_gravity="end"
+                android:lines="1"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="33dp"
+                android:layout_marginBottom="33dp"
+                android:letterSpacing="0.11"
+                android:textStyle="bold"
+                android:fontFamily="@font/montserratsemibold"
+                android:textColor="@color/chiron_blue"
+                android:textSize="19sp"
+                android:text="@string/pharmaceutical_endpoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
-                android:id="@+id/entity_row_1"
+                android:id="@+id/patient_endpoint_row_1"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:orientation="horizontal"
@@ -45,15 +47,13 @@
 
 
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/patient_entity"
-                    android:checkable="true"
-                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
-                    app:checkedIconTint="@color/chiron_blue"
-                    android:theme="@style/selectedButton"
+                <androidx.cardview.widget.CardView
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
+                    android:checkable="true"
+                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
+                    app:checkedIconTint="@color/chiron_blue"
                     android:layout_gravity="center"
                     android:layout_marginStart="6dp"
                     android:layout_marginTop="6dp"
@@ -79,18 +79,20 @@
                             android:layout_width="44dp"
                             android:layout_height="44dp">
 
-                        <ImageView
-                            android:id="@+id/quick_pivot_icon_patients"
-                            android:layout_gravity="center"
-                            android:layout_margin="3dp"
-                            android:src="@drawable/patient_pivot_icon"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            app:tint="@color/chiron_blue" />
+                            <ImageView
+                                android:id="@+id/quick_pivot_icon_patients"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:layout_margin="3dp"
+                                android:src="@drawable/brand_icon"
+                                app:tint="@color/chiron_blue" />
 
                         </androidx.cardview.widget.CardView>
 
                         <TextView
+                            android:layout_marginStart="1dp"
+                            android:layout_marginEnd="1dp"
                             android:layout_marginTop="3dp"
                             app:layout_constraintTop_toBottomOf="@id/quick_pivot_icon_patients_view"
                             app:layout_constraintLeft_toLeftOf="parent"
@@ -98,9 +100,9 @@
                             android:textSize="18sp"
                             android:fontFamily="@font/montserratlight"
                             android:textStyle="bold"
-                            android:letterSpacing="0.22"
+                            android:letterSpacing="0.12"
                             android:textColor="@color/chiron_blue"
-                            android:text="@string/patient"
+                            android:text="@string/brand"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
@@ -109,17 +111,16 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                </com.google.android.material.card.MaterialCardView>
+                </androidx.cardview.widget.CardView>
 
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/diagnosis_entity"
-                    android:checkable="true"
-                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
-                    app:checkedIconTint="@color/chiron_blue"
+                <androidx.cardview.widget.CardView
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
+                    android:checkable="true"
+                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
+                    app:checkedIconTint="@color/chiron_blue"
                     android:layout_marginStart="6dp"
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="6dp"
@@ -148,7 +149,7 @@
                                 android:id="@+id/quick_pivot_icon_diagnosis"
                                 android:layout_gravity="center"
                                 android:layout_margin="3dp"
-                                android:src="@drawable/ic_virus_art_icon"
+                                android:src="@drawable/generic_icon"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 app:tint="@color/chiron_blue" />
@@ -163,9 +164,9 @@
                             android:textSize="18sp"
                             android:fontFamily="@font/montserratlight"
                             android:textStyle="bold"
-                            android:letterSpacing="0.22"
+                            android:letterSpacing="0.12"
                             android:textColor="@color/chiron_blue"
-                            android:text="@string/diagnosis_uc"
+                            android:text="@string/generic"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
@@ -174,7 +175,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                </com.google.android.material.card.MaterialCardView>
+                </androidx.cardview.widget.CardView>
 
             </LinearLayout>
 
@@ -188,14 +189,13 @@
 
 
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/prescription_entity"
-                    android:checkable="true"
-                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
-                    app:checkedIconTint="@color/chiron_blue"
+                <androidx.cardview.widget.CardView
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
+                    android:checkable="true"
+                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
+                    app:checkedIconTint="@color/chiron_blue"
                     android:layout_gravity="center"
                     android:layout_marginStart="6dp"
                     android:layout_marginTop="6dp"
@@ -225,7 +225,7 @@
                                 android:id="@+id/quick_pivot_icon_prescription"
                                 android:layout_gravity="center"
                                 android:layout_margin="3dp"
-                                android:src="@drawable/rx_sheet_icon"
+                                android:src="@drawable/chemical_icon"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 app:tint="@color/chiron_blue" />
@@ -240,9 +240,9 @@
                             android:textSize="18sp"
                             android:fontFamily="@font/montserratlight"
                             android:textStyle="bold"
-                            android:letterSpacing="0.10"
+                            android:letterSpacing="0.12"
                             android:textColor="@color/chiron_blue"
-                            android:text="@string/prescription"
+                            android:text="@string/chemical"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
@@ -251,17 +251,16 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                </com.google.android.material.card.MaterialCardView>
+                </androidx.cardview.widget.CardView>
 
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/visit_entity"
-                    android:checkable="true"
-                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
-                    app:checkedIconTint="@color/chiron_blue"
+                <androidx.cardview.widget.CardView
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
+                    android:checkable="true"
+                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
+                    app:checkedIconTint="@color/chiron_blue"
                     android:layout_marginStart="6dp"
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="6dp"
@@ -290,7 +289,7 @@
                                 android:id="@+id/quick_pivot_icon_visit"
                                 android:layout_gravity="center"
                                 android:layout_margin="3dp"
-                                android:src="@drawable/visit_icon_png3"
+                                android:src="@drawable/rx_manufacturer_icon"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 app:tint="@color/chiron_blue" />
@@ -298,6 +297,8 @@
                         </androidx.cardview.widget.CardView>
 
                         <TextView
+                            android:layout_marginStart="1dp"
+                            android:layout_marginEnd="1dp"
                             android:layout_marginTop="3dp"
                             app:layout_constraintTop_toBottomOf="@id/quick_pivot_icon_visit_view"
                             app:layout_constraintLeft_toLeftOf="parent"
@@ -305,9 +306,9 @@
                             android:textSize="18sp"
                             android:fontFamily="@font/montserratlight"
                             android:textStyle="bold"
-                            android:letterSpacing="0.22"
+                            android:letterSpacing="0.03"
                             android:textColor="@color/chiron_blue"
-                            android:text="@string/visit"
+                            android:text="@string/manufacturer_lc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
@@ -316,7 +317,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                </com.google.android.material.card.MaterialCardView>
+                </androidx.cardview.widget.CardView>
 
             </LinearLayout>
 
@@ -330,14 +331,13 @@
 
 
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/pharmaceutical_entity"
-                    android:checkable="true"
-                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
-                    app:checkedIconTint="@color/chiron_blue"
+                <androidx.cardview.widget.CardView
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
+                    android:checkable="true"
+                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
+                    app:checkedIconTint="@color/chiron_blue"
                     android:layout_gravity="center"
                     android:layout_marginStart="6dp"
                     android:layout_marginTop="6dp"
@@ -367,7 +367,7 @@
                                 android:id="@+id/quick_pivot_icon_pharmaceuticals"
                                 android:layout_gravity="center"
                                 android:layout_margin="3dp"
-                                android:src="@drawable/ic_pharmaceuticals_pivot"
+                                android:src="@drawable/visit_time_icon"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 app:tint="@color/chiron_blue" />
@@ -376,6 +376,7 @@
 
                         <TextView
                             android:lines="1"
+                            android:letterSpacing="0.12"
                             android:layout_marginTop="3dp"
                             app:layout_constraintTop_toBottomOf="@id/quick_pivot_icon_pharmaceuticals_view"
                             app:layout_constraintLeft_toLeftOf="parent"
@@ -384,7 +385,7 @@
                             android:fontFamily="@font/montserratlight"
                             android:textStyle="bold"
                             android:textColor="@color/chiron_blue"
-                            android:text="@string/pharmaceutical"
+                            android:text="@string/make_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
@@ -393,17 +394,16 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                </com.google.android.material.card.MaterialCardView>
+                </androidx.cardview.widget.CardView>
 
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/practitioner_entity"
-                    android:checkable="true"
-                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
-                    app:checkedIconTint="@color/chiron_blue"
+                <androidx.cardview.widget.CardView
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
+                    android:checkable="true"
+                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
+                    app:checkedIconTint="@color/chiron_blue"
                     android:layout_marginStart="6dp"
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="6dp"
@@ -432,7 +432,7 @@
                                 android:id="@+id/quick_pivot_icon_practitioner"
                                 android:layout_gravity="center"
                                 android:layout_margin="3dp"
-                                android:src="@drawable/nurse_practitioner_stafficon"
+                                android:src="@drawable/expiry_icon"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 app:tint="@color/chiron_blue" />
@@ -447,9 +447,9 @@
                             android:textSize="18sp"
                             android:fontFamily="@font/montserratlight"
                             android:textStyle="bold"
-                            android:letterSpacing="0.02"
+                            android:letterSpacing="0.12"
                             android:textColor="@color/chiron_blue"
-                            android:text="@string/practitioner_s"
+                            android:text="@string/expire_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
@@ -458,7 +458,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                </com.google.android.material.card.MaterialCardView>
+                </androidx.cardview.widget.CardView>
 
             </LinearLayout>
 
@@ -468,4 +468,4 @@
     </androidx.cardview.widget.CardView>
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -50,7 +50,7 @@ class SetupActivityViewModel: ViewModel() {
                         serverStatus.value = reply
                         serverError.value = false
                         connecting.value = false
-                        stashRecordsList(reply)
+                        // stashRecordsList(reply)
                         println(reply.toString())
 
                     }
