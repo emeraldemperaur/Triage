@@ -269,11 +269,77 @@
                 android:layout_marginBottom="3dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/endpoints_editor_view_include"
+                app:layout_constraintTop_toBottomOf="@id/practitioners_options_editor_view_include"
                 android:background="@color/chiron_grey"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
+            <include
+                android:elevation="39dp"
+                android:visibility="gone"
+                android:id="@+id/practitioners_endpoints_editor_view_include"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="23dp"
+                android:layout_width="match_parent"
+                android:layout_height="511dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pivot_editor_line0"
+                layout="@layout/practitioner_entity_endpoints_view"/>
+
+            <View
+                android:elevation="3dp"
+                android:id="@+id/pivot_editor_endline1"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="3dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/practitioners_endpoints_editor_view_include"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <include
+                android:elevation="39dp"
+                android:visibility="gone"
+                android:id="@+id/value_parameters_editor_view_include"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="23dp"
+                android:layout_width="match_parent"
+                android:layout_height="511dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pivot_editor_endline1"
+                layout="@layout/value_parameter_view"/>
+
+
+            <include
+                android:elevation="39dp"
+                android:visibility="gone"
+                android:id="@+id/date_parameters_editor_view_include"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="23dp"
+                android:layout_width="match_parent"
+                android:layout_height="511dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pivot_editor_endline1"
+                layout="@layout/date_parameter_view"/>
+
+
+
+            <View
+                android:visibility="gone"
+                android:elevation="3dp"
+                android:id="@+id/pivot_editor_bottomline"
+                android:layout_marginTop="519dp"
+                android:layout_marginBottom="3dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pivot_editor_endline1"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
 
 
             <com.google.android.material.button.MaterialButton
@@ -295,7 +361,7 @@
                 android:fontFamily="@font/montserratbold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/pivot_editor_endline"
+                app:layout_constraintTop_toBottomOf="@id/pivot_editor_bottomline"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
 

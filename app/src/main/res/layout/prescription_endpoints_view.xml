@@ -47,6 +47,7 @@
 
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/prescription_name_endpoint"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
@@ -114,6 +115,7 @@
 
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/prescription_prescriber_endpoint"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
@@ -189,6 +191,7 @@
 
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/prescription_prescriber_id_endpoint"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
@@ -254,6 +257,7 @@
 
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/prescription_insurer_id_endpoint"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
@@ -331,6 +335,7 @@
 
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/prescription_date_endpoint"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"

@@ -47,7 +47,8 @@
 
 
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/pharmaceutical_brand_name_endpoint"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
@@ -111,10 +112,11 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/pharmaceutical_generic_name_endpoint"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
@@ -175,7 +177,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 
@@ -189,7 +191,8 @@
 
 
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/pharmaceutical_chemical_name_endpoint"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
@@ -251,10 +254,11 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/pharmaceutical_manufacturer_name_endpoint"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
@@ -317,7 +321,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 
@@ -331,7 +335,8 @@
 
 
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/pharmaceutical_make_date_endpoint"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
@@ -394,10 +399,11 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/pharmaceutical_expiry_date_endpoint"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
@@ -458,7 +464,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 

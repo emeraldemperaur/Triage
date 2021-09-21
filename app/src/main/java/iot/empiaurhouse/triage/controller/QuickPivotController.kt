@@ -6,6 +6,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import iot.empiaurhouse.triage.R
 
@@ -102,7 +103,8 @@ class QuickPivotController {
 
     //listen for view IDs of selected view
     fun initEndPointViewConductor(context: Context, entityOptions: ArrayList<MaterialCardView>,
-                                  optionLayouts: ArrayList<ConstraintLayout>): Int{
+                                  optionLayouts: ArrayList<ConstraintLayout>, parameterLayouts: ArrayList<ConstraintLayout>
+                                  , parameterSubLayouts: ArrayList<ConstraintLayout>?,  editorButtonView: View, editButton: MaterialButton): Int{
         var optionCode = 0
         optionsLayouts = optionLayouts
         slideUpAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_up)
@@ -110,36 +112,53 @@ class QuickPivotController {
             entity.setOnClickListener {
                 when(entity.id){
                      R.id.patient_entity -> {
+                         clearInputLayouts(parameterLayouts)
+                         parameterSubLayouts?.get(0)?.visibility = View.GONE
                          toggleEntityOptions(entity, entityOptions)
                          toggleEntityOptionLayouts(0, optionsLayouts)
+                         hideEditorButton(editorButtonView, editButton)
                          optionCode = 1
                             }
 
                     R.id.diagnosis_entity -> {
+                        clearInputLayouts(parameterLayouts)
+                        parameterSubLayouts?.get(0)?.visibility = View.GONE
                         toggleEntityOptions(entity, entityOptions)
                         toggleEntityOptionLayouts(1, optionsLayouts)
+                        hideEditorButton(editorButtonView, editButton)
                         optionCode = 2
                     }
                     R.id.prescription_entity -> {
+                        clearInputLayouts(parameterLayouts)
+                        parameterSubLayouts?.get(0)?.visibility = View.GONE
                         toggleEntityOptions(entity, entityOptions)
                         toggleEntityOptionLayouts(2, optionsLayouts)
+                        hideEditorButton(editorButtonView, editButton)
                         optionCode = 3
                     }
                     R.id.visit_entity -> {
+                        clearInputLayouts(parameterLayouts)
+                        parameterSubLayouts?.get(0)?.visibility = View.GONE
                         toggleEntityOptions(entity, entityOptions)
                         toggleEntityOptionLayouts(3, optionsLayouts)
+                        hideEditorButton(editorButtonView, editButton)
                         optionCode = 4
                     }
                     R.id.pharmaceutical_entity -> {
+                        clearInputLayouts(parameterLayouts)
+                        parameterSubLayouts?.get(0)?.visibility = View.GONE
                         toggleEntityOptions(entity, entityOptions)
                         toggleEntityOptionLayouts(4, optionsLayouts)
+                        hideEditorButton(editorButtonView, editButton)
                         optionCode = 5
 
                     }
                     R.id.practitioner_entity -> {
+                        clearInputLayouts(parameterLayouts)
+                        parameterSubLayouts?.get(0)?.visibility = View.GONE
                         toggleEntityOptions(entity, entityOptions)
                         toggleEntityOptionLayouts(5, optionsLayouts)
-
+                        hideEditorButton(editorButtonView, editButton)
                         optionCode = 6
                     }
                 }
@@ -150,60 +169,70 @@ class QuickPivotController {
         return optionCode
     }
 
-    fun initParametersViewConductor(context: Context, endPointOptions: ArrayList<MaterialCardView>,
-                                    parameterLayouts: ArrayList<ConstraintLayout>): Int{
+    fun initPatientParametersViewConductor(context: Context, endPointOptionsPatients: ArrayList<MaterialCardView>,
+                                           parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton): Int{
         var endPointCode = 0
-        for (entity in entityOptions){
-            entity.setOnClickListener {
-                when(entity.id){
+        for (endpointPatient in endPointOptionsPatients){
+            endpointPatient.setOnClickListener {
+                when(endpointPatient.id){
                     R.id.first_name_patient_endpoint -> {
-                        toggleEndPointOptions(entity, endPointOptions)
+                        toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
                         endPointCode = 1
                     }
                     R.id.last_name_patient_endpoint ->{
-                        toggleEndPointOptions(entity, endPointOptions)
+                        toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
                         toggleEndPointOptionLayouts(2, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
                         endPointCode = 2
                     }
                     R.id.birth_date_patient_endpoint ->{
-                        toggleEndPointOptions(entity, endPointOptions)
+                        toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
                         toggleEndPointOptionLayouts(3, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
                         endPointCode = 3
                     }
                     R.id.blood_group_patient_endpoint ->{
-                        toggleEndPointOptions(entity, endPointOptions)
+                        toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
                         toggleEndPointOptionLayouts(4, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
                         endPointCode = 4
                     }
                     R.id.insurer_patient_endpoint ->{
-                        toggleEndPointOptions(entity, endPointOptions)
+                        toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
                         toggleEndPointOptionLayouts(5, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
                         endPointCode = 5
                     }
                     R.id.insurer_id_patient_endpoint ->{
-                        toggleEndPointOptions(entity, endPointOptions)
+                        toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
                         toggleEndPointOptionLayouts(6, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
                         endPointCode = 6
                     }
                     R.id.synopsis_diagnosis_endpoint ->{
-                        toggleEndPointOptions(entity, endPointOptions)
+                        toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
                         toggleEndPointOptionLayouts(7, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
                         endPointCode = 7
                     }
                     R.id.visit_date_diagnosis_endpoint ->{
-                        toggleEndPointOptions(entity, endPointOptions)
+                        toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
                         toggleEndPointOptionLayouts(8, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
                         endPointCode = 8
                     }
                     R.id.insurer_id_diagnosis_endpoint ->{
-                        toggleEndPointOptions(entity, endPointOptions)
+                        toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
                         toggleEndPointOptionLayouts(9, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
                         endPointCode = 9
                     }
                     R.id.level_diagnosis_endpoint ->{
-                        toggleEndPointOptions(entity, endPointOptions)
+                        toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
                         toggleEndPointOptionLayouts(10, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
                         endPointCode = 10
                     }
 
@@ -214,9 +243,310 @@ class QuickPivotController {
         return endPointCode
     }
 
+    fun initDiagnosisParametersViewConductor(context: Context, endPointOptionsDiagnosis: ArrayList<MaterialCardView>,
+                                           parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton): Int{
+
+        var endPointCode = 0
+        for (endpointDiagnosis in endPointOptionsDiagnosis){
+            endpointDiagnosis.setOnClickListener {
+                when(endpointDiagnosis.id){
+                    R.id.synopsis_diagnosis_endpoint -> {
+                        toggleEndPointOptions(endpointDiagnosis, endPointOptionsDiagnosis)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 14
+                    }
+                    R.id.visit_date_diagnosis_endpoint -> {
+                        toggleEndPointOptions(endpointDiagnosis, endPointOptionsDiagnosis)
+                        toggleEndPointOptionLayouts(2, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 15
+                    }
+                    R.id.insurer_id_diagnosis_endpoint -> {
+                        toggleEndPointOptions(endpointDiagnosis, endPointOptionsDiagnosis)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 16
+                    }
+                    R.id.level_diagnosis_endpoint -> {
+                        toggleEndPointOptions(endpointDiagnosis, endPointOptionsDiagnosis)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 17
+
+                    }
+                }
+
+            }
+        }
+
+
+
+            return endPointCode
+    }
+
+
+    fun initPrescriptionParametersViewConductor(context: Context, endPointOptionsPrescription: ArrayList<MaterialCardView>,
+                                             parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton): Int {
+
+        var endPointCode = 0
+        for (endpointPrescription in endPointOptionsPrescription){
+            endpointPrescription.setOnClickListener {
+                when(endpointPrescription.id){
+                    R.id.prescription_name_endpoint -> {
+                        toggleEndPointOptions(endpointPrescription, endPointOptionsPrescription)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 18
+                    }
+                    R.id.prescription_prescriber_endpoint -> {
+                        toggleEndPointOptions(endpointPrescription, endPointOptionsPrescription)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 19
+                    }
+                    R.id.prescription_prescriber_id_endpoint -> {
+                        toggleEndPointOptions(endpointPrescription, endPointOptionsPrescription)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 20
+                    }
+                    R.id.prescription_insurer_id_endpoint -> {
+                        toggleEndPointOptions(endpointPrescription, endPointOptionsPrescription)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 21
+                    }
+                    R.id.prescription_date_endpoint -> {
+                        toggleEndPointOptions(endpointPrescription, endPointOptionsPrescription)
+                        toggleEndPointOptionLayouts(2, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 22
+
+                    }
+
+                    }
+            }
+        }
+
+        return endPointCode
+    }
+
+
+    fun initVisitParametersViewConductor(context: Context, endPointOptionsVisit: ArrayList<MaterialCardView>,
+                                                parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton): Int {
+
+        var endPointCode = 0
+       for (endpointVisit in endPointOptionsVisit){
+             endpointVisit.setOnClickListener {
+                when(endpointVisit.id) {
+                    R.id.visit_host_endpoint -> {
+                        toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 23
+                    }
+                    R.id.visit_host_id_endpoint -> {
+                        toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 24
+
+                    }
+                    R.id.visit_time_endpoint -> {
+                        toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 25
+                    }
+                    R.id.visit_description_endpoint -> {
+                        toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 26
+                    }
+                    R.id.visit_date_endpoint -> {
+                        toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
+                        toggleEndPointOptionLayouts(2, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 27
+
+                    }
+                    R.id.visit_insurer_id_endpoint -> {
+                        toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 28
+
+                    }
+
+
+                    }
+            }
+        }
+
+
+        return endPointCode
+    }
+
+    fun initPharmaceuticalParametersViewConductor(context: Context, endPointOptionsPharmaceutical: ArrayList<MaterialCardView>,
+                                         parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton): Int {
+
+        var endPointCode = 0
+        for (endpointPharmaceutical in endPointOptionsPharmaceutical){
+            endpointPharmaceutical.setOnClickListener {
+                when(endpointPharmaceutical.id) {
+                    R.id.pharmaceutical_brand_name_endpoint -> {
+                        toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 29
+
+                    }
+                    R.id.pharmaceutical_generic_name_endpoint -> {
+                        toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 30
+
+                    }
+                    R.id.pharmaceutical_chemical_name_endpoint -> {
+                        toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 31
+
+                    }
+                    R.id.pharmaceutical_manufacturer_name_endpoint -> {
+                        toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 32
+
+                    }
+                    R.id.pharmaceutical_make_date_endpoint -> {
+                        toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
+                        toggleEndPointOptionLayouts(2, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 33
+
+                    }
+                    R.id.pharmaceutical_expiry_date_endpoint -> {
+                        toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
+                        toggleEndPointOptionLayouts(2, parameterLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 34
+
+
+                    }
+                }
+            }
+        }
+
+        return endPointCode
+    }
+
+
+    fun initPractitionersOptionsView(practitionerEntityOptions: ArrayList<MaterialCardView>,
+                                     practitionerOptionLayout: ArrayList<ConstraintLayout>,
+                                     endPointParamLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton): Int{
+        var practitionerCode = 0
+        for (entityOption in practitionerEntityOptions){
+            entityOption.setOnClickListener {
+                when(entityOption.id){
+                    R.id.gp_practitioner_option -> {
+                        clearInputLayouts(endPointParamLayouts)
+                        toggleOptions(entityOption, practitionerEntityOptions)
+                        entityOption.isChecked = true
+                        toggleEntityOptionLayouts(0, practitionerOptionLayout)
+                        hideOptionsLayouts(optionsLayouts)
+                        hideEditorButton(editorButtonView, editButton)
+                        practitionerCode = 10
+                    }
+                    R.id.doctor_practitioner_option -> {
+                        clearInputLayouts(endPointParamLayouts)
+                        toggleOptions(entityOption, practitionerEntityOptions)
+                        entityOption.isChecked = true
+                        toggleEntityOptionLayouts(0, practitionerOptionLayout)
+                        hideOptionsLayouts(optionsLayouts)
+                        hideEditorButton(editorButtonView, editButton)
+                        practitionerCode = 20
+                    }
+                    R.id.np_practitioner_option -> {
+                        clearInputLayouts(endPointParamLayouts)
+                        toggleOptions(entityOption, practitionerEntityOptions)
+                        entityOption.isChecked = true
+                        toggleEntityOptionLayouts(0, practitionerOptionLayout)
+                        hideOptionsLayouts(optionsLayouts)
+                        hideEditorButton(editorButtonView, editButton)
+                        practitionerCode = 30
+                    }
+                    R.id.rn_practitioner_option -> {
+                        clearInputLayouts(endPointParamLayouts)
+                        toggleOptions(entityOption, practitionerEntityOptions)
+                        entityOption.isChecked = true
+                        toggleEntityOptionLayouts(0, practitionerOptionLayout)
+                        hideOptionsLayouts(optionsLayouts)
+                        hideEditorButton(editorButtonView, editButton)
+                        practitionerCode = 40
+                    }
+
+
+                    }
+                }
+            }
+
+     return practitionerCode
+    }
+
+    fun initPractitionerParametersViewConductor(context: Context, endPointOptionsPractitioners: ArrayList<MaterialCardView>,
+                                           parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton): Int{
+        var endPointCode = 0
+        for (endpointPractitioner in endPointOptionsPractitioners) {
+            endpointPractitioner.setOnClickListener {
+                when(endpointPractitioner.id){
+                    R.id.practitioner_first_name_endpoint -> {
+                        toggleOptions(endpointPractitioner, endPointOptionsPractitioners)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        hideOptionsLayouts(optionsLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 11
+                    }
+                    R.id.practitioner_last_name_endpoint -> {
+                        toggleOptions(endpointPractitioner, endPointOptionsPractitioners)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        hideOptionsLayouts(optionsLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 12
+                    }
+                    R.id.practitioner_id_endpoint -> {
+                        toggleOptions(endpointPractitioner, endPointOptionsPractitioners)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        hideOptionsLayouts(optionsLayouts)
+                        showEditorButton(editorButtonView, editButton)
+                        endPointCode = 13
+                    }
+
+                    }
+            }
+
+        }
+
+        return endPointCode
+    }
+
 
 
     private fun toggleEntityOptions(selectedOption: MaterialCardView, entityOptions: ArrayList<MaterialCardView>){
+        for (entity in entityOptions){
+            entity.isChecked = false
+            if (entity == selectedOption){
+                selectedOption.isChecked = true
+            }
+        }
+    }
+
+    private fun toggleOptions(selectedOption: MaterialCardView, entityOptions: ArrayList<MaterialCardView>){
         for (entity in entityOptions){
             entity.isChecked = false
             if (entity == selectedOption){
@@ -244,21 +574,65 @@ class QuickPivotController {
         }
     }
 
+    private fun clearEntityOptions(options: ArrayList<MaterialCardView>){
+        for (option in options){
+            option.isChecked = false
+        }
+    }
 
-    private fun toggleEndPointOptionLayouts(endPointCode: Int, endPointParamLayouts: ArrayList<ConstraintLayout>){
-        for (option in endPointParamLayouts){
+    private fun showEditorButton(buttonView: View, editButton: MaterialButton){
+        buttonView.visibility = View.VISIBLE
+        editButton.visibility = View.VISIBLE
+    }
+
+    private fun hideEditorButton(buttonView: View, editButton: MaterialButton){
+        buttonView.visibility = View.GONE
+        editButton.visibility = View.GONE
+    }
+
+    private fun toggleEditorButton(buttonView: View, editButton: MaterialButton){
+        if (buttonView.visibility == View.VISIBLE || editButton.visibility == View.VISIBLE){
+            buttonView.visibility = View.GONE
+            editButton.visibility = View.GONE
+
+        }
+        else if (buttonView.visibility == View.GONE || editButton.visibility == View.GONE){
+            buttonView.visibility = View.VISIBLE
+            editButton.visibility = View.VISIBLE
+
+        }
+
+    }
+
+    private fun  hideOptionsLayouts(optionLayouts: ArrayList<ConstraintLayout>){
+        for (option in optionLayouts){
             option.visibility = View.GONE
         }
-       if (endPointCode == 0 or 1 or 2 or 4){
+
+    }
+
+
+    private fun toggleEndPointOptionLayouts(endPointType: Int, endPointParamLayouts: ArrayList<ConstraintLayout>){
+        endPointParamLayouts[0].visibility = View.GONE
+        endPointParamLayouts[1].visibility = View.GONE
+       if (endPointType == 1){
            endPointParamLayouts[0].startAnimation(slideUpAnimation)
            endPointParamLayouts[0].visibility = View.VISIBLE
        }
-        else if (endPointCode == 3 or 5 or 6){
+        else if (endPointType == 2){
             endPointParamLayouts[1].startAnimation(slideUpAnimation)
             endPointParamLayouts[1].visibility = View.VISIBLE
         }
 
     }
+
+
+    private fun clearInputLayouts(endPointParamLayouts: ArrayList<ConstraintLayout>){
+            endPointParamLayouts[0].visibility = View.GONE
+            endPointParamLayouts[1].visibility = View.GONE
+
+    }
+
 
 
 }
