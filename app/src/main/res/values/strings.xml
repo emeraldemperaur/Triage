@@ -141,8 +141,8 @@
     <string name="edit">EDIT</string>
     <string name="create">CREATE</string>
     <string name="pivot_label">Pivot Label</string>
-    <string name="enter_pivot_label">Data Pivot Label/Alias</string>
-    <string name="entity_type">Entity Type</string>
+    <string name="enter_pivot_label">Pivot Label/Alias</string>
+    <string name="entity_type">Data Model</string>
     <string name="visit">Visit</string>
     <string name="pharmaceutical">Pharmaceutical</string>
     <string name="practitioner_s">Practitioner(s)</string>
@@ -194,4 +194,6 @@
     <string name="create_pivot">CREATE PIVOT</string>
     <string name="diagnosis_uc">Diagnosis</string>
     <string name="general_practitioner">General Practitioner</string>
+    <string name="endpoint_type">Endpoint Type</string>
+    <string name="date_endpoint_type">Date Endpoint Type</string>
 </resources>

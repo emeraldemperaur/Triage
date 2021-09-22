@@ -24,25 +24,27 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/date_parameter_endpoint_type"
                 android:layout_gravity="end"
                 android:layout_marginEnd="6dp"
                 android:layout_marginTop="13dp"
                 android:layout_marginBottom="6dp"
                 android:letterSpacing="0.22"
                 android:textStyle="bold"
-                android:fontFamily="@font/montserratlight"
+                android:fontFamily="@font/montserratsemibold"
                 android:textColor="@color/chiron_blue"
                 android:textSize="19sp"
                 android:text="@string/date_parameters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
+
             <TextView
                 android:textColor="@color/black"
                 android:fontFamily="@font/montserratlight"
                 android:letterSpacing="0.13"
                 android:layout_gravity="end"
-                android:layout_marginTop="13dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="6dp"
                 android:layout_marginBottom="3dp"
                 android:text="@string/time_stream"
@@ -73,7 +75,7 @@
                 android:orientation="horizontal">
                 <RadioButton
                     android:id="@+id/onDate"
-                    android:layout_width="86dp"
+                    android:layout_width="66dp"
                     android:layout_height="wrap_content"
                     android:text="@string/on"/>
 
@@ -85,13 +87,13 @@
 
                 <RadioButton
                     android:id="@+id/afterDate"
-                    android:layout_width="96dp"
+                    android:layout_width="77dp"
                     android:layout_height="wrap_content"
                     android:text="@string/after"/>
 
                 <RadioButton
                     android:id="@+id/betweenDate"
-                    android:layout_width="100dp"
+                    android:layout_width="123dp"
                     android:layout_height="wrap_content"
                     android:text="@string/between"/>
 
@@ -231,7 +233,7 @@
                                 android:src="@drawable/psi_parameter_icon"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                app:tint="@color/chiron_grey" />
+                                app:tint="@color/chiron_blue" />
 
                         </androidx.cardview.widget.CardView>
 

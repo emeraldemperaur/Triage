@@ -137,19 +137,18 @@
                     />
 
 
-                <TextView
-                    android:id="@+id/chironIDNote"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginTop="0dp"
-                    android:text="@string/enter_pivot_label"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="13sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.184"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/pivot_editor_label" />
+                    <TextView
+                        android:id="@+id/chironIDNote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="@string/enter_pivot_label"
+                        android:textColor="@color/chiron_blue"
+                        android:textSize="13sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.129"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pivot_editor_label" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

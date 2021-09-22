@@ -24,6 +24,8 @@ class TestActivity : AppCompatActivity() {
         val visitEntity = binding.entityTypeEditorViewInclude.visitEntity
         val pharmaceuticalEntity = binding.entityTypeEditorViewInclude.pharmaceuticalEntity
         val practitionerEntities = binding.entityTypeEditorViewInclude.practitionerEntity
+        val valueParameterType = binding.valueParametersEditorViewInclude.valueParameterEndpointType
+        val dateParameterType = binding.dateParametersEditorViewInclude.dateParameterEndpointType
         entityOptions.add(patientEntity)
         entityOptions.add(diagnosisEntity)
         entityOptions.add(prescriptionEntity)
@@ -139,13 +141,13 @@ class TestActivity : AppCompatActivity() {
         pharmaceuticalEndPointOptions.add(pharmaceuticalManufacturerName)
         pharmaceuticalEndPointOptions.add(pharmaceuticalMakeDate)
         pharmaceuticalEndPointOptions.add(pharmaceuticalExpiryDate)
-        masterControl.initPatientParametersViewConductor(this, patientEndPointOptions, paramLayouts, editButtonView, editButton)
+        masterControl.initPatientParametersViewConductor(this, patientEndPointOptions, paramLayouts, editButtonView, editButton, valueParameterType, dateParameterType)
         masterControl.initPractitionersOptionsView(practitionerEntityOptions, practitionerEntityEndPoints, paramLayouts, editButtonView, editButton)
-        masterControl.initPractitionerParametersViewConductor(this, practitionerEndPointOptions, paramLayouts, editButtonView, editButton)
-        masterControl.initDiagnosisParametersViewConductor(this, diagnosisEndPointOptions, paramLayouts, editButtonView, editButton)
-        masterControl.initPrescriptionParametersViewConductor(this, prescriptionEndPointOptions, paramLayouts, editButtonView, editButton)
-        masterControl.initVisitParametersViewConductor(this, visitEndPointOptions, paramLayouts, editButtonView, editButton)
-        masterControl.initPharmaceuticalParametersViewConductor(this, pharmaceuticalEndPointOptions, paramLayouts, editButtonView, editButton)
+        masterControl.initPractitionerParametersViewConductor(this, practitionerEndPointOptions, paramLayouts, editButtonView, editButton, valueParameterType)
+        masterControl.initDiagnosisParametersViewConductor(this, diagnosisEndPointOptions, paramLayouts, editButtonView, editButton, valueParameterType, dateParameterType)
+        masterControl.initPrescriptionParametersViewConductor(this, prescriptionEndPointOptions, paramLayouts, editButtonView, editButton, valueParameterType, dateParameterType)
+        masterControl.initVisitParametersViewConductor(this, visitEndPointOptions, paramLayouts, editButtonView, editButton, valueParameterType, dateParameterType)
+        masterControl.initPharmaceuticalParametersViewConductor(this, pharmaceuticalEndPointOptions, paramLayouts, editButtonView, editButton, valueParameterType, dateParameterType)
 
 
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.button.MaterialButton
@@ -170,7 +171,7 @@ class QuickPivotController {
     }
 
     fun initPatientParametersViewConductor(context: Context, endPointOptionsPatients: ArrayList<MaterialCardView>,
-                                           parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton): Int{
+                                           parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton, valueParameterType: TextView, dateParameterType: TextView): Int{
         var endPointCode = 0
         for (endpointPatient in endPointOptionsPatients){
             endpointPatient.setOnClickListener {
@@ -178,63 +179,46 @@ class QuickPivotController {
                     R.id.first_name_patient_endpoint -> {
                         toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "First Name")
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 1
                     }
                     R.id.last_name_patient_endpoint ->{
                         toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
-                        toggleEndPointOptionLayouts(2, parameterLayouts)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Last Name")
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 2
                     }
                     R.id.birth_date_patient_endpoint ->{
                         toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
-                        toggleEndPointOptionLayouts(3, parameterLayouts)
+                        toggleEndPointOptionLayouts(2, parameterLayouts)
+                        setEndPointType(dateParameterType, "Birth Date")
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 3
                     }
                     R.id.blood_group_patient_endpoint ->{
                         toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
-                        toggleEndPointOptionLayouts(4, parameterLayouts)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Blood Group")
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 4
                     }
                     R.id.insurer_patient_endpoint ->{
                         toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
-                        toggleEndPointOptionLayouts(5, parameterLayouts)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Insurer")
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 5
                     }
                     R.id.insurer_id_patient_endpoint ->{
                         toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
-                        toggleEndPointOptionLayouts(6, parameterLayouts)
+                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Insurer ID")
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 6
                     }
-                    R.id.synopsis_diagnosis_endpoint ->{
-                        toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
-                        toggleEndPointOptionLayouts(7, parameterLayouts)
-                        showEditorButton(editorButtonView, editButton)
-                        endPointCode = 7
-                    }
-                    R.id.visit_date_diagnosis_endpoint ->{
-                        toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
-                        toggleEndPointOptionLayouts(8, parameterLayouts)
-                        showEditorButton(editorButtonView, editButton)
-                        endPointCode = 8
-                    }
-                    R.id.insurer_id_diagnosis_endpoint ->{
-                        toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
-                        toggleEndPointOptionLayouts(9, parameterLayouts)
-                        showEditorButton(editorButtonView, editButton)
-                        endPointCode = 9
-                    }
-                    R.id.level_diagnosis_endpoint ->{
-                        toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
-                        toggleEndPointOptionLayouts(10, parameterLayouts)
-                        showEditorButton(editorButtonView, editButton)
-                        endPointCode = 10
-                    }
+
 
                 }
             }
@@ -244,7 +228,7 @@ class QuickPivotController {
     }
 
     fun initDiagnosisParametersViewConductor(context: Context, endPointOptionsDiagnosis: ArrayList<MaterialCardView>,
-                                           parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton): Int{
+                                           parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton,  valueParameterType: TextView, dateParameterType: TextView): Int{
 
         var endPointCode = 0
         for (endpointDiagnosis in endPointOptionsDiagnosis){
@@ -253,26 +237,30 @@ class QuickPivotController {
                     R.id.synopsis_diagnosis_endpoint -> {
                         toggleEndPointOptions(endpointDiagnosis, endPointOptionsDiagnosis)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Synopsis")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 14
+                        endPointCode = 10
                     }
                     R.id.visit_date_diagnosis_endpoint -> {
                         toggleEndPointOptions(endpointDiagnosis, endPointOptionsDiagnosis)
                         toggleEndPointOptionLayouts(2, parameterLayouts)
+                        setEndPointType(dateParameterType, "Diagnosis Date")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 15
+                        endPointCode = 11
                     }
                     R.id.insurer_id_diagnosis_endpoint -> {
                         toggleEndPointOptions(endpointDiagnosis, endPointOptionsDiagnosis)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Insurer ID")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 16
+                        endPointCode = 12
                     }
                     R.id.level_diagnosis_endpoint -> {
                         toggleEndPointOptions(endpointDiagnosis, endPointOptionsDiagnosis)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Diagnosis Level")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 17
+                        endPointCode = 13
 
                     }
                 }
@@ -287,7 +275,7 @@ class QuickPivotController {
 
 
     fun initPrescriptionParametersViewConductor(context: Context, endPointOptionsPrescription: ArrayList<MaterialCardView>,
-                                             parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton): Int {
+                                             parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton, valueParameterType: TextView, dateParameterType: TextView): Int {
 
         var endPointCode = 0
         for (endpointPrescription in endPointOptionsPrescription){
@@ -296,32 +284,37 @@ class QuickPivotController {
                     R.id.prescription_name_endpoint -> {
                         toggleEndPointOptions(endpointPrescription, endPointOptionsPrescription)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Prescription Name")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 18
+                        endPointCode = 14
                     }
                     R.id.prescription_prescriber_endpoint -> {
                         toggleEndPointOptions(endpointPrescription, endPointOptionsPrescription)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Prescriber")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 19
+                        endPointCode = 15
                     }
                     R.id.prescription_prescriber_id_endpoint -> {
                         toggleEndPointOptions(endpointPrescription, endPointOptionsPrescription)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Prescriber ID")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 20
+                        endPointCode = 16
                     }
                     R.id.prescription_insurer_id_endpoint -> {
                         toggleEndPointOptions(endpointPrescription, endPointOptionsPrescription)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Insurer ID")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 21
+                        endPointCode = 17
                     }
                     R.id.prescription_date_endpoint -> {
                         toggleEndPointOptions(endpointPrescription, endPointOptionsPrescription)
                         toggleEndPointOptionLayouts(2, parameterLayouts)
+                        setEndPointType(dateParameterType, "Prescription Date")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 22
+                        endPointCode = 18
 
                     }
 
@@ -334,7 +327,7 @@ class QuickPivotController {
 
 
     fun initVisitParametersViewConductor(context: Context, endPointOptionsVisit: ArrayList<MaterialCardView>,
-                                                parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton): Int {
+                                                parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton, valueParameterType: TextView, dateParameterType: TextView): Int {
 
         var endPointCode = 0
        for (endpointVisit in endPointOptionsVisit){
@@ -343,40 +336,46 @@ class QuickPivotController {
                     R.id.visit_host_endpoint -> {
                         toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Host Name")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 23
+                        endPointCode = 19
                     }
                     R.id.visit_host_id_endpoint -> {
                         toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Host ID")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 24
+                        endPointCode = 20
 
                     }
                     R.id.visit_time_endpoint -> {
                         toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Visit Time")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 25
+                        endPointCode = 21
                     }
                     R.id.visit_description_endpoint -> {
                         toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Visit Description")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 26
+                        endPointCode = 22
                     }
                     R.id.visit_date_endpoint -> {
                         toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
                         toggleEndPointOptionLayouts(2, parameterLayouts)
+                        setEndPointType(dateParameterType, "Visit Date")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 27
+                        endPointCode = 23
 
                     }
                     R.id.visit_insurer_id_endpoint -> {
                         toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Insurer ID")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 28
+                        endPointCode = 24
 
                     }
 
@@ -390,7 +389,7 @@ class QuickPivotController {
     }
 
     fun initPharmaceuticalParametersViewConductor(context: Context, endPointOptionsPharmaceutical: ArrayList<MaterialCardView>,
-                                         parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton): Int {
+                                         parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton,  valueParameterType: TextView, dateParameterType: TextView): Int {
 
         var endPointCode = 0
         for (endpointPharmaceutical in endPointOptionsPharmaceutical){
@@ -399,43 +398,49 @@ class QuickPivotController {
                     R.id.pharmaceutical_brand_name_endpoint -> {
                         toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Brand Name")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 29
+                        endPointCode = 25
 
                     }
                     R.id.pharmaceutical_generic_name_endpoint -> {
                         toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Generic Name")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 30
+                        endPointCode = 26
 
                     }
                     R.id.pharmaceutical_chemical_name_endpoint -> {
                         toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Chemical Name")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 31
+                        endPointCode = 27
 
                     }
                     R.id.pharmaceutical_manufacturer_name_endpoint -> {
                         toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
+                        setEndPointType(valueParameterType, "Manufacturer")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 32
+                        endPointCode = 28
 
                     }
                     R.id.pharmaceutical_make_date_endpoint -> {
                         toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
                         toggleEndPointOptionLayouts(2, parameterLayouts)
+                        setEndPointType(dateParameterType, "Manufacture Date")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 33
+                        endPointCode = 29
 
                     }
                     R.id.pharmaceutical_expiry_date_endpoint -> {
                         toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
                         toggleEndPointOptionLayouts(2, parameterLayouts)
+                        setEndPointType(dateParameterType, "Expiry Date")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 34
+                        endPointCode = 30
 
 
                     }
@@ -500,7 +505,7 @@ class QuickPivotController {
     }
 
     fun initPractitionerParametersViewConductor(context: Context, endPointOptionsPractitioners: ArrayList<MaterialCardView>,
-                                           parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton): Int{
+                                           parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton,  valueParameterType: TextView): Int{
         var endPointCode = 0
         for (endpointPractitioner in endPointOptionsPractitioners) {
             endpointPractitioner.setOnClickListener {
@@ -509,22 +514,25 @@ class QuickPivotController {
                         toggleOptions(endpointPractitioner, endPointOptionsPractitioners)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
                         hideOptionsLayouts(optionsLayouts)
+                        setEndPointType(valueParameterType, "First Name")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 11
+                        endPointCode = 7
                     }
                     R.id.practitioner_last_name_endpoint -> {
                         toggleOptions(endpointPractitioner, endPointOptionsPractitioners)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
                         hideOptionsLayouts(optionsLayouts)
+                        setEndPointType(valueParameterType, "Last Name")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 12
+                        endPointCode = 8
                     }
                     R.id.practitioner_id_endpoint -> {
                         toggleOptions(endpointPractitioner, endPointOptionsPractitioners)
                         toggleEndPointOptionLayouts(1, parameterLayouts)
                         hideOptionsLayouts(optionsLayouts)
+                        setEndPointType(valueParameterType, "Practitioner ID")
                         showEditorButton(editorButtonView, editButton)
-                        endPointCode = 13
+                        endPointCode = 9
                     }
 
                     }
@@ -555,6 +563,10 @@ class QuickPivotController {
         }
     }
 
+    private fun setEndPointType(endPointTextView: TextView, endPointTitle: String){
+        endPointTextView.text = endPointTitle
+
+    }
 
     private fun toggleEntityOptionLayouts(optionPosition: Int, optionLayouts: ArrayList<ConstraintLayout>){
         for (option in optionLayouts){

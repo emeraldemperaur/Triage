@@ -29,10 +29,27 @@
                 android:layout_marginBottom="6dp"
                 android:letterSpacing="0.22"
                 android:textStyle="bold"
-                android:fontFamily="@font/montserratlight"
+                android:fontFamily="@font/montserratsemibold"
                 android:textColor="@color/chiron_blue"
                 android:textSize="19sp"
                 android:text="@string/parameters"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:id="@+id/value_parameter_endpoint_type"
+                android:layout_gravity="start"
+                android:layout_marginEnd="6dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:letterSpacing="0.22"
+                android:textStyle="normal"
+                android:fontFamily="@font/montserratlight"
+                android:textColor="@color/chiron_grey"
+                android:textSize="19sp"
+                android:text="@string/endpoint_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
