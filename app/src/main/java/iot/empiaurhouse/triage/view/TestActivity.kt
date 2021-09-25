@@ -153,6 +153,7 @@ class TestActivity : AppCompatActivity() {
             visitEntity, pharmaceuticalEntity, practitionerEntities, optionLayouts,
             editorInputs, editorIcons, dateTimeStream,this
         )
+
         practitionerEntityOptions = arrayListOf<MaterialCardView>()
         patientEndPointOptions = arrayListOf<MaterialCardView>()
         val patientLN = binding.endpointsEditorViewInclude.lastNamePatientEndpoint
@@ -257,6 +258,16 @@ class TestActivity : AppCompatActivity() {
         pharmaceuticalEndPointOptions.add(pharmaceuticalManufacturerName)
         pharmaceuticalEndPointOptions.add(pharmaceuticalMakeDate)
         pharmaceuticalEndPointOptions.add(pharmaceuticalExpiryDate)
+        optionCode = masterControl.initEndPointViewConductor(
+            this,
+            entityOptions,
+            optionLayouts,
+            paramLayouts,
+            practitionerEntityEndPoints,
+            editButtonView,
+            editButton
+        )
+
         codeTalker()
 
         pivotEditorButton.setOnClickListener {
@@ -274,18 +285,20 @@ class TestActivity : AppCompatActivity() {
                     pivotDateParamPickerView, dateTimeStream, pivotChiParamPicker,
                     pivotChiParamPickerIcon, pivotPsiParamPicker, pivotPsiParamPickerIcon)
 
-                if (pivotValidator.timeStreamNotSelected(dateTimeStream) && valueParamValid > 0){
+                if (pivotValueParamPickerView.visibility == View.VISIBLE && valueParamValid > 0){
                     println("Found pivotAlias: ${pivotAlias.text}")
                     println("Found pivotAlphaParam: ${pivotAlphaParamEdit.text}")
                     println("Found pivotBetaParam: ${pivotBetaParamEdit.text}")
                     println("Found pivotEpsilonParam: ${pivotEpsilonParamEdit.text}")
-                    println("Detected optionCode: $optionCode")
+                    println("Detected optionCode: ${masterControl.fetchOptionCode()}")
+                    println("Detected entityCode: ${masterControl.fetchEntityCode()}")
                     println("Detected practitionerCode: $practitionerCode")
                     println("Detected endPointCode: $endPointCode")
                 }
                 else if(pivotValidator.timeStreamSelected(dateTimeStream) == true && dateParamValid){
                     println("Found pivotAlias: ${pivotAlias.text}")
-                    println("Detected optionCode: $optionCode")
+                    println("Detected optionCode: ${masterControl.fetchOptionCode()}")
+                    println("Detected entityCode: ${masterControl.fetchEntityCode()}")
                     println("Detected practitionerCode: $practitionerCode")
                     println("Detected endPointCode: $endPointCode")
                     println("Detected timeStreamCode: ${pivotValidator.fetchTimeFlowCode()}")
@@ -354,7 +367,6 @@ class TestActivity : AppCompatActivity() {
             dateParameterType
         )
         endPointCode = masterControl.initVisitParametersViewConductor(
-            this,
             visitEndPointOptions,
             paramLayouts,
             editButtonView,

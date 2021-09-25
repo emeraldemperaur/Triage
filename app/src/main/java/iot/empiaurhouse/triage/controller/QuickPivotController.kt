@@ -115,9 +115,7 @@ class QuickPivotController {
                                   parameterLayouts: ArrayList<ConstraintLayout>
                                   , parameterSubLayouts: ArrayList<ConstraintLayout>?,
                                   editorButtonView: View, editButton: MaterialButton): Int?{
-        if (optionCode != null){
-            entityCode = optionCode
-        }
+
         optionsLayouts = optionLayouts
         slideUpAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_up)
         for (entity in entityOptions){
@@ -203,6 +201,8 @@ class QuickPivotController {
                         setValueEndPointType(valueParameterType, "First Name")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        entityCode = 1
+                        optionCode = entityCode
                         endPointCode = 1
                     }
                     R.id.last_name_patient_endpoint ->{
@@ -211,6 +211,8 @@ class QuickPivotController {
                         setValueEndPointType(valueParameterType, "Last Name")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        entityCode = 1
+                        optionCode = entityCode
                         endPointCode = 2
                     }
                     R.id.birth_date_patient_endpoint ->{
@@ -219,6 +221,8 @@ class QuickPivotController {
                         setDateEndPointType(dateParameterType, "Birth Date")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        entityCode = 1
+                        optionCode = entityCode
                         endPointCode = 3
                     }
                     R.id.blood_group_patient_endpoint ->{
@@ -227,6 +231,8 @@ class QuickPivotController {
                         setValueEndPointType(valueParameterType, "Blood Group")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        entityCode = 1
+                        optionCode = entityCode
                         endPointCode = 4
                     }
                     R.id.insurer_patient_endpoint ->{
@@ -235,6 +241,8 @@ class QuickPivotController {
                         setValueEndPointType(valueParameterType, "Insurer")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        entityCode = 1
+                        optionCode = entityCode
                         endPointCode = 5
                     }
                     R.id.insurer_id_patient_endpoint ->{
@@ -243,6 +251,8 @@ class QuickPivotController {
                         setValueEndPointType(valueParameterType, "Insurer ID")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        entityCode = 1
+                        optionCode = entityCode
                         endPointCode = 6
                     }
 
@@ -271,6 +281,8 @@ class QuickPivotController {
                         setValueEndPointType(valueParameterType, "Synopsis")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        entityCode = 2
+                        optionCode = entityCode
                         endPointCode = 10
                     }
                     R.id.visit_date_diagnosis_endpoint -> {
@@ -279,6 +291,8 @@ class QuickPivotController {
                         setDateEndPointType(dateParameterType, "Diagnosis Date")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        entityCode = 2
+                        optionCode = entityCode
                         endPointCode = 11
                     }
                     R.id.insurer_id_diagnosis_endpoint -> {
@@ -287,6 +301,8 @@ class QuickPivotController {
                         setValueEndPointType(valueParameterType, "Insurer ID")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        entityCode = 2
+                        optionCode = entityCode
                         endPointCode = 12
                     }
                     R.id.level_diagnosis_endpoint -> {
@@ -295,6 +311,8 @@ class QuickPivotController {
                         setValueEndPointType(valueParameterType, "Diagnosis Level")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        entityCode = 2
+                        optionCode = entityCode
                         endPointCode = 13
 
                     }
@@ -325,6 +343,8 @@ class QuickPivotController {
                         setValueEndPointType(valueParameterType, "Prescription Name")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        entityCode = 3
+                        optionCode = entityCode
                         endPointCode = 14
                     }
                     R.id.prescription_prescriber_endpoint -> {
@@ -333,6 +353,8 @@ class QuickPivotController {
                         setValueEndPointType(valueParameterType, "Prescriber")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        entityCode = 3
+                        optionCode = entityCode
                         endPointCode = 15
                     }
                     R.id.prescription_prescriber_id_endpoint -> {
@@ -341,6 +363,8 @@ class QuickPivotController {
                         setValueEndPointType(valueParameterType, "Prescriber ID")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        entityCode = 3
+                        optionCode = entityCode
                         endPointCode = 16
                     }
                     R.id.prescription_insurer_id_endpoint -> {
@@ -349,6 +373,8 @@ class QuickPivotController {
                         setValueEndPointType(valueParameterType, "Insurer ID")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        entityCode = 3
+                        optionCode = entityCode
                         endPointCode = 17
                     }
                     R.id.prescription_date_endpoint -> {
@@ -357,6 +383,8 @@ class QuickPivotController {
                         setDateEndPointType(dateParameterType, "Prescription Date")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        entityCode = 3
+                        optionCode = entityCode
                         endPointCode = 18
 
                     }
@@ -370,7 +398,7 @@ class QuickPivotController {
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun initVisitParametersViewConductor(context: Context, endPointOptionsVisit: ArrayList<MaterialCardView>,
+    fun initVisitParametersViewConductor(endPointOptionsVisit: ArrayList<MaterialCardView>,
                                          parameterLayouts: ArrayList<ConstraintLayout>,
                                          editorButtonView: View, editButton: MaterialButton,
                                          valueParameterType: TypeWriterTextView,
@@ -386,6 +414,8 @@ class QuickPivotController {
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         editButton.focusable = View.NOT_FOCUSABLE
+                        entityCode = 4
+                        optionCode = entityCode
                         endPointCode = 19
                     }
                     R.id.visit_host_id_endpoint -> {
@@ -395,6 +425,8 @@ class QuickPivotController {
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         editButton.focusable = View.NOT_FOCUSABLE
+                        entityCode = 4
+                        optionCode = entityCode
                         endPointCode = 20
 
                     }
@@ -405,6 +437,8 @@ class QuickPivotController {
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         editButton.focusable = View.NOT_FOCUSABLE
+                        entityCode = 4
+                        optionCode = entityCode
                         endPointCode = 21
                     }
                     R.id.visit_description_endpoint -> {
@@ -414,6 +448,8 @@ class QuickPivotController {
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         editButton.focusable = View.NOT_FOCUSABLE
+                        entityCode = 4
+                        optionCode = entityCode
                         endPointCode = 22
                     }
                     R.id.visit_date_endpoint -> {
@@ -423,6 +459,8 @@ class QuickPivotController {
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         editButton.focusable = View.NOT_FOCUSABLE
+                        entityCode = 4
+                        optionCode = entityCode
                         endPointCode = 23
 
                     }
@@ -433,6 +471,8 @@ class QuickPivotController {
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         editButton.focusable = View.NOT_FOCUSABLE
+                        entityCode = 4
+                        optionCode = entityCode
                         endPointCode = 24
 
                     }
@@ -464,6 +504,8 @@ class QuickPivotController {
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         editButton.focusable = View.NOT_FOCUSABLE
+                        entityCode = 5
+                        optionCode = entityCode
                         endPointCode = 25
 
                     }
@@ -474,6 +516,8 @@ class QuickPivotController {
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         editButton.focusable = View.NOT_FOCUSABLE
+                        entityCode = 5
+                        optionCode = entityCode
                         endPointCode = 26
 
                     }
@@ -484,6 +528,8 @@ class QuickPivotController {
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         editButton.focusable = View.NOT_FOCUSABLE
+                        entityCode = 5
+                        optionCode = entityCode
                         endPointCode = 27
 
                     }
@@ -494,6 +540,8 @@ class QuickPivotController {
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         editButton.focusable = View.NOT_FOCUSABLE
+                        entityCode = 5
+                        optionCode = entityCode
                         endPointCode = 28
 
                     }
@@ -504,6 +552,8 @@ class QuickPivotController {
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         editButton.focusable = View.NOT_FOCUSABLE
+                        entityCode = 5
+                        optionCode = entityCode
                         endPointCode = 29
 
                     }
@@ -514,6 +564,8 @@ class QuickPivotController {
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         editButton.focusable = View.NOT_FOCUSABLE
+                        entityCode = 5
+                        optionCode = entityCode
                         endPointCode = 30
 
                     }
@@ -605,6 +657,8 @@ class QuickPivotController {
                         showEditorButton(editorButtonView, editButton)
                         inputFocus.requestFocus()
                         inputFocus.clearFocus()
+                        entityCode = 6
+                        optionCode = entityCode
                         endPointCode = 7
                     }
                     R.id.practitioner_last_name_endpoint -> {
@@ -616,6 +670,8 @@ class QuickPivotController {
                         showEditorButton(editorButtonView, editButton)
                         inputFocus.requestFocus()
                         inputFocus.clearFocus()
+                        entityCode = 6
+                        optionCode = entityCode
                         endPointCode = 8
                     }
                     R.id.practitioner_id_endpoint -> {
@@ -627,6 +683,8 @@ class QuickPivotController {
                         showEditorButton(editorButtonView, editButton)
                         inputFocus.requestFocus()
                         inputFocus.clearFocus()
+                        entityCode = 6
+                        optionCode = entityCode
                         endPointCode = 9
                     }
 
@@ -636,6 +694,14 @@ class QuickPivotController {
         }
 
         return endPointCode
+    }
+
+    fun fetchEntityCode(): Int?{
+        return entityCode
+    }
+
+    fun fetchOptionCode(): Int?{
+        return optionCode
     }
 
 
