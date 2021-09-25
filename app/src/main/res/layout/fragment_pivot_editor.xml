@@ -138,7 +138,7 @@
 
 
                     <TextView
-                        android:id="@+id/chironIDNote"
+                        android:id="@+id/pivot_editor_info_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
@@ -357,6 +357,7 @@
                 android:textSize="17sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.12"
+                android:focusable="true"
                 android:fontFamily="@font/montserratbold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

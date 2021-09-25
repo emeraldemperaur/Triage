@@ -24,20 +24,22 @@
 
             <TextView
                 android:layout_gravity="end"
+                android:lines="1"
                 android:layout_marginEnd="6dp"
                 android:layout_marginTop="33dp"
                 android:layout_marginBottom="33dp"
-                android:letterSpacing="0.22"
+                android:letterSpacing="0.13"
                 android:textStyle="bold"
                 android:fontFamily="@font/montserratsemibold"
                 android:textColor="@color/chiron_blue"
                 android:textSize="19sp"
+                android:textAllCaps="true"
+                android:textAlignment="textEnd"
                 android:text="@string/prescription_endpoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <LinearLayout
-                android:id="@+id/patient_endpoint_row_1"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:orientation="horizontal"
@@ -69,7 +71,7 @@
                         android:layout_height="wrap_content">
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/quick_pivot_icon_patients_view"
+                            android:id="@+id/quick_pivot_icon_visit_host_view"
                             android:layout_marginTop="13dp"
                             app:cardCornerRadius="33dp"
                             app:cardElevation="23dp"
@@ -80,7 +82,6 @@
                             android:layout_height="44dp">
 
                             <ImageView
-                                android:id="@+id/quick_pivot_icon_patients"
                                 android:layout_gravity="center"
                                 android:layout_margin="3dp"
                                 android:src="@drawable/ic_infoicon"
@@ -94,7 +95,7 @@
                             android:layout_marginStart="1dp"
                             android:layout_marginEnd="1dp"
                             android:layout_marginTop="3dp"
-                            app:layout_constraintTop_toBottomOf="@id/quick_pivot_icon_patients_view"
+                            app:layout_constraintTop_toBottomOf="@id/quick_pivot_icon_visit_host_view"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             android:textSize="18sp"
@@ -136,7 +137,7 @@
                         android:layout_height="wrap_content">
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/quick_pivot_icon_diagnosis_view"
+                            android:id="@+id/quick_pivot_icon_prescription_prescriber_view"
                             android:layout_marginTop="13dp"
                             app:cardCornerRadius="33dp"
                             app:cardElevation="23dp"
@@ -147,7 +148,6 @@
                             android:layout_height="44dp">
 
                             <ImageView
-                                android:id="@+id/quick_pivot_icon_diagnosis"
                                 android:layout_gravity="center"
                                 android:layout_margin="3dp"
                                 android:src="@drawable/rodofasclepius_icon"
@@ -159,7 +159,7 @@
 
                         <TextView
                             android:layout_marginTop="3dp"
-                            app:layout_constraintTop_toBottomOf="@id/quick_pivot_icon_diagnosis_view"
+                            app:layout_constraintTop_toBottomOf="@id/quick_pivot_icon_prescription_prescriber_view"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             android:textSize="18sp"
@@ -181,7 +181,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/entity_row_2"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:orientation="horizontal"
@@ -213,7 +212,7 @@
                         android:layout_height="wrap_content">
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/quick_pivot_icon_prescription_view"
+                            android:id="@+id/quick_pivot_icon_prescription_prescriber_id_view"
                             android:layout_marginTop="13dp"
                             app:cardCornerRadius="33dp"
                             app:cardElevation="23dp"
@@ -224,7 +223,6 @@
                             android:layout_height="44dp">
 
                             <ImageView
-                                android:id="@+id/quick_pivot_icon_prescription"
                                 android:layout_width="23dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center"
@@ -236,7 +234,7 @@
 
                         <TextView
                             android:layout_marginTop="3dp"
-                            app:layout_constraintTop_toBottomOf="@id/quick_pivot_icon_prescription_view"
+                            app:layout_constraintTop_toBottomOf="@id/quick_pivot_icon_prescription_prescriber_id_view"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             android:textSize="18sp"
@@ -278,7 +276,7 @@
                         android:layout_height="wrap_content">
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/quick_pivot_icon_visit_view"
+                            android:id="@+id/quick_pivot_icon_prescription_insurer_id_view"
                             android:layout_marginTop="13dp"
                             app:cardCornerRadius="33dp"
                             app:cardElevation="23dp"
@@ -289,7 +287,6 @@
                             android:layout_height="44dp">
 
                             <ImageView
-                                android:id="@+id/quick_pivot_icon_visit"
                                 android:layout_gravity="center"
                                 android:layout_margin="3dp"
                                 android:src="@drawable/insuranceid_icon"
@@ -303,7 +300,7 @@
                             android:layout_marginStart="1dp"
                             android:layout_marginEnd="1dp"
                             android:layout_marginTop="3dp"
-                            app:layout_constraintTop_toBottomOf="@id/quick_pivot_icon_visit_view"
+                            app:layout_constraintTop_toBottomOf="@id/quick_pivot_icon_prescription_insurer_id_view"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             android:textSize="18sp"
@@ -325,7 +322,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/entity_row_3"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:orientation="horizontal"
@@ -357,7 +353,7 @@
                         android:layout_height="wrap_content">
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/quick_pivot_icon_pharmaceuticals_view"
+                            android:id="@+id/quick_pivot_icon_prescription_date_view"
                             android:layout_marginTop="13dp"
                             app:cardCornerRadius="33dp"
                             app:cardElevation="23dp"
@@ -368,7 +364,6 @@
                             android:layout_height="44dp">
 
                             <ImageView
-                                android:id="@+id/quick_pivot_icon_pharmaceuticals"
                                 android:layout_gravity="center"
                                 android:layout_margin="3dp"
                                 android:src="@drawable/prescriptions_date_icon"
@@ -381,7 +376,7 @@
                         <TextView
                             android:lines="1"
                             android:layout_marginTop="3dp"
-                            app:layout_constraintTop_toBottomOf="@id/quick_pivot_icon_pharmaceuticals_view"
+                            app:layout_constraintTop_toBottomOf="@id/quick_pivot_icon_prescription_date_view"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             android:textSize="18sp"

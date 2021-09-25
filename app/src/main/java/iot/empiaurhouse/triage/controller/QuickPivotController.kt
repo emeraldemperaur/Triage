@@ -1,31 +1,38 @@
 package iot.empiaurhouse.triage.controller
 
 import android.content.Context
+import android.graphics.Color
+import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.RadioGroup
 import android.widget.TextView
-import androidx.cardview.widget.CardView
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import iot.empiaurhouse.triage.R
+import iot.empiaurhouse.triage.utils.TypeWriterTextView
 
 class QuickPivotController {
 
-    private lateinit var patientEntityCard: CardView
-    private lateinit var diagnosisEntityCard: CardView
-    private lateinit var prescriptionEntityCard: CardView
-    private lateinit var visitEntityCard: CardView
-    private lateinit var practitionersEntityCard: CardView
-    private lateinit var doctorEntityCard: CardView
-    private lateinit var nursePractitionerEntityCard: CardView
-    private lateinit var registeredNurseEntityCard: CardView
-    private lateinit var pharmaceuticalEntityCard: CardView
+
+    private var editorInputs: ArrayList<EditText> = arrayListOf()
+    private var editorIcons: ArrayList<ImageView> = arrayListOf()
     private var entitySelected: Boolean = false
     private var entityOptions: ArrayList<MaterialCardView> = arrayListOf()
     private var optionsLayouts: ArrayList<ConstraintLayout> = arrayListOf()
+    private lateinit var timeStream: RadioGroup
     private lateinit var slideUpAnimation : Animation
+    private var optionCode: Int? = null
+    private var entityCode: Int? = null
+    private var endPointCode: Int? = null
+    private var practitionerCode: Int? = null
 
 
     // Include init reference to respective subview view IDs
@@ -36,9 +43,11 @@ class QuickPivotController {
     fun initPivotEditor(pivotID: Int, patientCard: MaterialCardView, diagnosisCard: MaterialCardView,
                         prescriptionCard: MaterialCardView, visitCard: MaterialCardView,
                         pharmaceuticalCard: MaterialCardView, practitionersCard: MaterialCardView,
-                        optionLayouts: ArrayList<ConstraintLayout>, context: Context): Int{
-        var optionCode = 0
+                        optionLayouts: ArrayList<ConstraintLayout>, editInputs: ArrayList<EditText>, editIcons: ArrayList<ImageView>, timeStreamGroup: RadioGroup,context: Context): Int?{
         optionsLayouts = optionLayouts
+        editorInputs = editInputs
+        editorIcons = editIcons
+        timeStream = timeStreamGroup
         slideUpAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_up)
         entityOptions.add(patientCard)
         entityOptions.add(diagnosisCard)
@@ -104,9 +113,13 @@ class QuickPivotController {
 
     //listen for view IDs of selected view
     fun initEndPointViewConductor(context: Context, entityOptions: ArrayList<MaterialCardView>,
-                                  optionLayouts: ArrayList<ConstraintLayout>, parameterLayouts: ArrayList<ConstraintLayout>
-                                  , parameterSubLayouts: ArrayList<ConstraintLayout>?,  editorButtonView: View, editButton: MaterialButton): Int{
-        var optionCode = 0
+                                  optionLayouts: ArrayList<ConstraintLayout>,
+                                  parameterLayouts: ArrayList<ConstraintLayout>
+                                  , parameterSubLayouts: ArrayList<ConstraintLayout>?,
+                                  editorButtonView: View, editButton: MaterialButton): Int?{
+        if (optionCode != null){
+            entityCode = optionCode
+        }
         optionsLayouts = optionLayouts
         slideUpAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_up)
         for (entity in entityOptions){
@@ -117,8 +130,9 @@ class QuickPivotController {
                          parameterSubLayouts?.get(0)?.visibility = View.GONE
                          toggleEntityOptions(entity, entityOptions)
                          toggleEntityOptionLayouts(0, optionsLayouts)
+                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                          hideEditorButton(editorButtonView, editButton)
-                         optionCode = 1
+                         entityCode = 1
                             }
 
                     R.id.diagnosis_entity -> {
@@ -126,32 +140,36 @@ class QuickPivotController {
                         parameterSubLayouts?.get(0)?.visibility = View.GONE
                         toggleEntityOptions(entity, entityOptions)
                         toggleEntityOptionLayouts(1, optionsLayouts)
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         hideEditorButton(editorButtonView, editButton)
-                        optionCode = 2
+                        entityCode = 2
                     }
                     R.id.prescription_entity -> {
                         clearInputLayouts(parameterLayouts)
                         parameterSubLayouts?.get(0)?.visibility = View.GONE
                         toggleEntityOptions(entity, entityOptions)
                         toggleEntityOptionLayouts(2, optionsLayouts)
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         hideEditorButton(editorButtonView, editButton)
-                        optionCode = 3
+                        entityCode = 3
                     }
                     R.id.visit_entity -> {
                         clearInputLayouts(parameterLayouts)
                         parameterSubLayouts?.get(0)?.visibility = View.GONE
                         toggleEntityOptions(entity, entityOptions)
                         toggleEntityOptionLayouts(3, optionsLayouts)
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         hideEditorButton(editorButtonView, editButton)
-                        optionCode = 4
+                        entityCode = 4
                     }
                     R.id.pharmaceutical_entity -> {
                         clearInputLayouts(parameterLayouts)
                         parameterSubLayouts?.get(0)?.visibility = View.GONE
                         toggleEntityOptions(entity, entityOptions)
                         toggleEntityOptionLayouts(4, optionsLayouts)
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         hideEditorButton(editorButtonView, editButton)
-                        optionCode = 5
+                        entityCode = 5
 
                     }
                     R.id.practitioner_entity -> {
@@ -159,62 +177,73 @@ class QuickPivotController {
                         parameterSubLayouts?.get(0)?.visibility = View.GONE
                         toggleEntityOptions(entity, entityOptions)
                         toggleEntityOptionLayouts(5, optionsLayouts)
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         hideEditorButton(editorButtonView, editButton)
-                        optionCode = 6
+                        entityCode = 6
                     }
                 }
             }
 
         }
 
-        return optionCode
+        return entityCode
     }
 
-    fun initPatientParametersViewConductor(context: Context, endPointOptionsPatients: ArrayList<MaterialCardView>,
-                                           parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton, valueParameterType: TextView, dateParameterType: TextView): Int{
-        var endPointCode = 0
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun initPatientParametersViewConductor(endPointOptionsPatients: ArrayList<MaterialCardView>,
+                                           parameterLayouts: ArrayList<ConstraintLayout>,
+                                           editorButtonView: View, editButton: MaterialButton,
+                                           valueParameterType: TypeWriterTextView,
+                                           dateParameterType: TypeWriterTextView): Int?{
+        editButton.focusable = View.FOCUSABLE_AUTO
         for (endpointPatient in endPointOptionsPatients){
             endpointPatient.setOnClickListener {
                 when(endpointPatient.id){
                     R.id.first_name_patient_endpoint -> {
                         toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "First Name")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "First Name")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 1
                     }
                     R.id.last_name_patient_endpoint ->{
                         toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Last Name")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Last Name")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 2
                     }
                     R.id.birth_date_patient_endpoint ->{
                         toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
-                        toggleEndPointOptionLayouts(2, parameterLayouts)
-                        setEndPointType(dateParameterType, "Birth Date")
+                        toggleEndPointOptionLayouts(2, parameterLayouts, editButton)
+                        setDateEndPointType(dateParameterType, "Birth Date")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 3
                     }
                     R.id.blood_group_patient_endpoint ->{
                         toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Blood Group")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Blood Group")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 4
                     }
                     R.id.insurer_patient_endpoint ->{
                         toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Insurer")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Insurer")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 5
                     }
                     R.id.insurer_id_patient_endpoint ->{
                         toggleEndPointOptions(endpointPatient, endPointOptionsPatients)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Insurer ID")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Insurer ID")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 6
                     }
@@ -227,38 +256,46 @@ class QuickPivotController {
         return endPointCode
     }
 
-    fun initDiagnosisParametersViewConductor(context: Context, endPointOptionsDiagnosis: ArrayList<MaterialCardView>,
-                                           parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton,  valueParameterType: TextView, dateParameterType: TextView): Int{
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun initDiagnosisParametersViewConductor(endPointOptionsDiagnosis: ArrayList<MaterialCardView>,
+                                             parameterLayouts: ArrayList<ConstraintLayout>
+                                             , editorButtonView: View, editButton: MaterialButton,
+                                             valueParameterType: TypeWriterTextView,
+                                             dateParameterType: TypeWriterTextView): Int?{
 
-        var endPointCode = 0
+        editButton.focusable = View.FOCUSABLE_AUTO
         for (endpointDiagnosis in endPointOptionsDiagnosis){
             endpointDiagnosis.setOnClickListener {
                 when(endpointDiagnosis.id){
                     R.id.synopsis_diagnosis_endpoint -> {
                         toggleEndPointOptions(endpointDiagnosis, endPointOptionsDiagnosis)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Synopsis")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Synopsis")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 10
                     }
                     R.id.visit_date_diagnosis_endpoint -> {
                         toggleEndPointOptions(endpointDiagnosis, endPointOptionsDiagnosis)
-                        toggleEndPointOptionLayouts(2, parameterLayouts)
-                        setEndPointType(dateParameterType, "Diagnosis Date")
+                        toggleEndPointOptionLayouts(2, parameterLayouts, editButton)
+                        setDateEndPointType(dateParameterType, "Diagnosis Date")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 11
                     }
                     R.id.insurer_id_diagnosis_endpoint -> {
                         toggleEndPointOptions(endpointDiagnosis, endPointOptionsDiagnosis)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Insurer ID")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Insurer ID")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 12
                     }
                     R.id.level_diagnosis_endpoint -> {
                         toggleEndPointOptions(endpointDiagnosis, endPointOptionsDiagnosis)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Diagnosis Level")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Diagnosis Level")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 13
 
@@ -274,45 +311,53 @@ class QuickPivotController {
     }
 
 
-    fun initPrescriptionParametersViewConductor(context: Context, endPointOptionsPrescription: ArrayList<MaterialCardView>,
-                                             parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton, valueParameterType: TextView, dateParameterType: TextView): Int {
-
-        var endPointCode = 0
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun initPrescriptionParametersViewConductor(endPointOptionsPrescription: ArrayList<MaterialCardView>,
+                                                parameterLayouts: ArrayList<ConstraintLayout>,
+                                                editorButtonView: View, editButton: MaterialButton,
+                                                valueParameterType: TypeWriterTextView,
+                                                dateParameterType: TypeWriterTextView): Int? {
+        editButton.focusable = View.FOCUSABLE_AUTO
         for (endpointPrescription in endPointOptionsPrescription){
             endpointPrescription.setOnClickListener {
                 when(endpointPrescription.id){
                     R.id.prescription_name_endpoint -> {
                         toggleEndPointOptions(endpointPrescription, endPointOptionsPrescription)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Prescription Name")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Prescription Name")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 14
                     }
                     R.id.prescription_prescriber_endpoint -> {
                         toggleEndPointOptions(endpointPrescription, endPointOptionsPrescription)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Prescriber")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Prescriber")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 15
                     }
                     R.id.prescription_prescriber_id_endpoint -> {
                         toggleEndPointOptions(endpointPrescription, endPointOptionsPrescription)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Prescriber ID")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Prescriber ID")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 16
                     }
                     R.id.prescription_insurer_id_endpoint -> {
                         toggleEndPointOptions(endpointPrescription, endPointOptionsPrescription)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Insurer ID")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Insurer ID")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 17
                     }
                     R.id.prescription_date_endpoint -> {
                         toggleEndPointOptions(endpointPrescription, endPointOptionsPrescription)
-                        toggleEndPointOptionLayouts(2, parameterLayouts)
-                        setEndPointType(dateParameterType, "Prescription Date")
+                        toggleEndPointOptionLayouts(2, parameterLayouts, editButton)
+                        setDateEndPointType(dateParameterType, "Prescription Date")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
                         endPointCode = 18
 
@@ -326,55 +371,70 @@ class QuickPivotController {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun initVisitParametersViewConductor(context: Context, endPointOptionsVisit: ArrayList<MaterialCardView>,
-                                                parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton, valueParameterType: TextView, dateParameterType: TextView): Int {
-
-        var endPointCode = 0
-       for (endpointVisit in endPointOptionsVisit){
+                                         parameterLayouts: ArrayList<ConstraintLayout>,
+                                         editorButtonView: View, editButton: MaterialButton,
+                                         valueParameterType: TypeWriterTextView,
+                                         dateParameterType: TypeWriterTextView): Int? {
+        editButton.focusable = View.FOCUSABLE_AUTO
+        for (endpointVisit in endPointOptionsVisit){
              endpointVisit.setOnClickListener {
                 when(endpointVisit.id) {
                     R.id.visit_host_endpoint -> {
                         toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Host Name")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Host Name")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        editButton.focusable = View.NOT_FOCUSABLE
                         endPointCode = 19
                     }
                     R.id.visit_host_id_endpoint -> {
                         toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Host ID")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Host ID")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        editButton.focusable = View.NOT_FOCUSABLE
                         endPointCode = 20
 
                     }
                     R.id.visit_time_endpoint -> {
                         toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Visit Time")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Visit Time")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        editButton.focusable = View.NOT_FOCUSABLE
                         endPointCode = 21
                     }
                     R.id.visit_description_endpoint -> {
                         toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Visit Description")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Visit Description")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        editButton.focusable = View.NOT_FOCUSABLE
                         endPointCode = 22
                     }
                     R.id.visit_date_endpoint -> {
                         toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
-                        toggleEndPointOptionLayouts(2, parameterLayouts)
-                        setEndPointType(dateParameterType, "Visit Date")
+                        toggleEndPointOptionLayouts(2, parameterLayouts, editButton)
+                        setDateEndPointType(dateParameterType, "Visit Date")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        editButton.focusable = View.NOT_FOCUSABLE
                         endPointCode = 23
 
                     }
                     R.id.visit_insurer_id_endpoint -> {
                         toggleEndPointOptions(endpointVisit, endPointOptionsVisit)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Insurer ID")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Insurer ID")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        editButton.focusable = View.NOT_FOCUSABLE
                         endPointCode = 24
 
                     }
@@ -388,60 +448,75 @@ class QuickPivotController {
         return endPointCode
     }
 
-    fun initPharmaceuticalParametersViewConductor(context: Context, endPointOptionsPharmaceutical: ArrayList<MaterialCardView>,
-                                         parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton,  valueParameterType: TextView, dateParameterType: TextView): Int {
-
-        var endPointCode = 0
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun initPharmaceuticalParametersViewConductor(endPointOptionsPharmaceutical: ArrayList<MaterialCardView>,
+                                                  parameterLayouts: ArrayList<ConstraintLayout>,
+                                                  editorButtonView: View,
+                                                  editButton: MaterialButton,
+                                                  valueParameterType: TypeWriterTextView,
+                                                  dateParameterType: TypeWriterTextView): Int? {
+        editButton.focusable = View.FOCUSABLE_AUTO
         for (endpointPharmaceutical in endPointOptionsPharmaceutical){
             endpointPharmaceutical.setOnClickListener {
                 when(endpointPharmaceutical.id) {
                     R.id.pharmaceutical_brand_name_endpoint -> {
                         toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Brand Name")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Brand Name")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        editButton.focusable = View.NOT_FOCUSABLE
                         endPointCode = 25
 
                     }
                     R.id.pharmaceutical_generic_name_endpoint -> {
                         toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Generic Name")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Generic Name")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        editButton.focusable = View.NOT_FOCUSABLE
                         endPointCode = 26
 
                     }
                     R.id.pharmaceutical_chemical_name_endpoint -> {
                         toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Chemical Name")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Chemical Name")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        editButton.focusable = View.NOT_FOCUSABLE
                         endPointCode = 27
 
                     }
                     R.id.pharmaceutical_manufacturer_name_endpoint -> {
                         toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
-                        setEndPointType(valueParameterType, "Manufacturer")
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
+                        setValueEndPointType(valueParameterType, "Manufacturer")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        editButton.focusable = View.NOT_FOCUSABLE
                         endPointCode = 28
 
                     }
                     R.id.pharmaceutical_make_date_endpoint -> {
                         toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
-                        toggleEndPointOptionLayouts(2, parameterLayouts)
-                        setEndPointType(dateParameterType, "Manufacture Date")
+                        toggleEndPointOptionLayouts(2, parameterLayouts, editButton)
+                        setDateEndPointType(dateParameterType, "Manufacture Date")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        editButton.focusable = View.NOT_FOCUSABLE
                         endPointCode = 29
 
                     }
                     R.id.pharmaceutical_expiry_date_endpoint -> {
                         toggleEndPointOptions(endpointPharmaceutical, endPointOptionsPharmaceutical)
-                        toggleEndPointOptionLayouts(2, parameterLayouts)
-                        setEndPointType(dateParameterType, "Expiry Date")
+                        toggleEndPointOptionLayouts(2, parameterLayouts, editButton)
+                        setDateEndPointType(dateParameterType, "Expiry Date")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        editButton.focusable = View.NOT_FOCUSABLE
                         endPointCode = 30
-
 
                     }
                 }
@@ -451,11 +526,12 @@ class QuickPivotController {
         return endPointCode
     }
 
-
+    @RequiresApi(Build.VERSION_CODES.O)
     fun initPractitionersOptionsView(practitionerEntityOptions: ArrayList<MaterialCardView>,
                                      practitionerOptionLayout: ArrayList<ConstraintLayout>,
-                                     endPointParamLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton): Int{
-        var practitionerCode = 0
+                                     endPointParamLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton): Int?{
+        editButton.isFocusable = true
+        editButton.focusable = View.FOCUSABLE
         for (entityOption in practitionerEntityOptions){
             entityOption.setOnClickListener {
                 when(entityOption.id){
@@ -465,7 +541,9 @@ class QuickPivotController {
                         entityOption.isChecked = true
                         toggleEntityOptionLayouts(0, practitionerOptionLayout)
                         hideOptionsLayouts(optionsLayouts)
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         hideEditorButton(editorButtonView, editButton)
+                        editButton.clearFocus()
                         practitionerCode = 10
                     }
                     R.id.doctor_practitioner_option -> {
@@ -474,7 +552,9 @@ class QuickPivotController {
                         entityOption.isChecked = true
                         toggleEntityOptionLayouts(0, practitionerOptionLayout)
                         hideOptionsLayouts(optionsLayouts)
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         hideEditorButton(editorButtonView, editButton)
+                        editButton.clearFocus()
                         practitionerCode = 20
                     }
                     R.id.np_practitioner_option -> {
@@ -483,7 +563,9 @@ class QuickPivotController {
                         entityOption.isChecked = true
                         toggleEntityOptionLayouts(0, practitionerOptionLayout)
                         hideOptionsLayouts(optionsLayouts)
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         hideEditorButton(editorButtonView, editButton)
+                        editButton.clearFocus()
                         practitionerCode = 30
                     }
                     R.id.rn_practitioner_option -> {
@@ -492,7 +574,9 @@ class QuickPivotController {
                         entityOption.isChecked = true
                         toggleEntityOptionLayouts(0, practitionerOptionLayout)
                         hideOptionsLayouts(optionsLayouts)
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         hideEditorButton(editorButtonView, editButton)
+                        editButton.clearFocus()
                         practitionerCode = 40
                     }
 
@@ -504,34 +588,47 @@ class QuickPivotController {
      return practitionerCode
     }
 
-    fun initPractitionerParametersViewConductor(context: Context, endPointOptionsPractitioners: ArrayList<MaterialCardView>,
-                                           parameterLayouts: ArrayList<ConstraintLayout>, editorButtonView: View, editButton: MaterialButton,  valueParameterType: TextView): Int{
-        var endPointCode = 0
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun initPractitionerParametersViewConductor(endPointOptionsPractitioners: ArrayList<MaterialCardView>,
+                                                parameterLayouts: ArrayList<ConstraintLayout>,
+                                                editorButtonView: View, editButton: MaterialButton,
+                                                valueParameterType: TypeWriterTextView): Int?{
+        editButton.isFocusable = true
+        editButton.focusable = View.FOCUSABLE
         for (endpointPractitioner in endPointOptionsPractitioners) {
             endpointPractitioner.setOnClickListener {
                 when(endpointPractitioner.id){
                     R.id.practitioner_first_name_endpoint -> {
                         toggleOptions(endpointPractitioner, endPointOptionsPractitioners)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
                         hideOptionsLayouts(optionsLayouts)
-                        setEndPointType(valueParameterType, "First Name")
+                        setValueEndPointType(valueParameterType, "First Name")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        editButton.requestFocus()
+                        editButton.clearFocus()
                         endPointCode = 7
                     }
                     R.id.practitioner_last_name_endpoint -> {
                         toggleOptions(endpointPractitioner, endPointOptionsPractitioners)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
                         hideOptionsLayouts(optionsLayouts)
-                        setEndPointType(valueParameterType, "Last Name")
+                        setValueEndPointType(valueParameterType, "Last Name")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        editButton.requestFocus()
+                        editButton.clearFocus()
                         endPointCode = 8
                     }
                     R.id.practitioner_id_endpoint -> {
                         toggleOptions(endpointPractitioner, endPointOptionsPractitioners)
-                        toggleEndPointOptionLayouts(1, parameterLayouts)
+                        toggleEndPointOptionLayouts(1, parameterLayouts, editButton)
                         hideOptionsLayouts(optionsLayouts)
-                        setEndPointType(valueParameterType, "Practitioner ID")
+                        setValueEndPointType(valueParameterType, "Practitioner ID")
+                        refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
+                        editButton.requestFocus()
+                        editButton.clearFocus()
                         endPointCode = 9
                     }
 
@@ -563,10 +660,17 @@ class QuickPivotController {
         }
     }
 
-    private fun setEndPointType(endPointTextView: TextView, endPointTitle: String){
+    private fun setValueEndPointType(endPointTextView: TypeWriterTextView, endPointTitle: String){
         endPointTextView.text = endPointTitle
+        endPointTextView.setCharacterDelay(190)
+        endPointTextView.displayTextWithAnimation(endPointTitle)
 
     }
+
+    private fun setDateEndPointType(endPointTextView: TextView, endPointTitle: String){
+        endPointTextView.text = endPointTitle
+    }
+
 
     private fun toggleEntityOptionLayouts(optionPosition: Int, optionLayouts: ArrayList<ConstraintLayout>){
         for (option in optionLayouts){
@@ -624,17 +728,37 @@ class QuickPivotController {
     }
 
 
-    private fun toggleEndPointOptionLayouts(endPointType: Int, endPointParamLayouts: ArrayList<ConstraintLayout>){
+    private fun toggleEndPointOptionLayouts(endPointType: Int, endPointParamLayouts: ArrayList<ConstraintLayout>, editButton: MaterialButton){
         endPointParamLayouts[0].visibility = View.GONE
         endPointParamLayouts[1].visibility = View.GONE
-       if (endPointType == 1){
+        editButton.isFocusable = true
+        if (endPointType == 1){
            endPointParamLayouts[0].startAnimation(slideUpAnimation)
            endPointParamLayouts[0].visibility = View.VISIBLE
-       }
+            Handler(Looper.getMainLooper()).postDelayed({
+                editButton.isFocusable = false
+            }, 1111)
+
+
+            }
         else if (endPointType == 2){
             endPointParamLayouts[1].startAnimation(slideUpAnimation)
             endPointParamLayouts[1].visibility = View.VISIBLE
+           editButton.isFocusable = false
+       }
+
+    }
+
+    private fun refreshParamsInput(editInputs: ArrayList<EditText>, editIcons: ArrayList<ImageView>, timeStream: RadioGroup){
+        for (editInput in editInputs){
+            editInput.text.clear()
         }
+
+        for (editIcon in editIcons){
+            editIcon.setColorFilter(Color.parseColor("#0c204f"))
+        }
+
+        timeStream.clearCheck()
 
     }
 
@@ -648,3 +772,5 @@ class QuickPivotController {
 
 
 }
+
+

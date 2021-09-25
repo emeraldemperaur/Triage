@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <iot.empiaurhouse.triage.utils.TypeWriterTextView
                 android:id="@+id/date_parameter_endpoint_type"
                 android:layout_gravity="end"
                 android:layout_marginEnd="6dp"
@@ -35,6 +35,7 @@
                 android:textColor="@color/chiron_blue"
                 android:textSize="19sp"
                 android:text="@string/date_parameters"
+                app:textAllCaps="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -65,7 +66,7 @@
                 android:layout_height="1dp"/>
 
             <RadioGroup
-                android:checkedButton="@id/onDate"
+                android:id="@+id/date_time_stream"
                 android:theme="@style/TimeStreamPickerTheme"
                 android:layout_marginStart="6dp"
                 android:layout_marginEnd="6dp"
@@ -163,6 +164,7 @@
                         </androidx.cardview.widget.CardView>
 
                         <DatePicker
+                            android:id="@+id/chi_parameter_input"
                             android:tooltipText="Chi Parameter"
                             android:calendarTextColor="@color/chiron_blue"
                             android:layout_marginBottom="3dp"
@@ -238,6 +240,7 @@
                         </androidx.cardview.widget.CardView>
 
                         <DatePicker
+                            android:id="@+id/psi_parameter_input"
                             android:tooltipText="Psi Parameter"
                             android:calendarTextColor="@color/chiron_blue"
                             android:layout_marginBottom="3dp"

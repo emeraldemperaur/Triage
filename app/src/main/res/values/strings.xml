@@ -196,4 +196,7 @@
     <string name="general_practitioner">General Practitioner</string>
     <string name="endpoint_type">Endpoint Type</string>
     <string name="date_endpoint_type">Date Endpoint Type</string>
+    <string name="criterion">Pivot Criterion</string>
+    <string name="practitioner_n_endpoints">PRACTITIONER ENDPOINTS</string>
+    <string name="rx_endpoints">Rx Endpoints</string>
 </resources>
