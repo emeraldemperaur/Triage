@@ -334,7 +334,8 @@ class TestActivity : AppCompatActivity() {
             paramLayouts,
             editButtonView,
             editButton,
-            valueParameterType
+            valueParameterType,
+            pivotEpsilonParamEdit
         )
         endPointCode = masterControl.initDiagnosisParametersViewConductor(
             diagnosisEndPointOptions,

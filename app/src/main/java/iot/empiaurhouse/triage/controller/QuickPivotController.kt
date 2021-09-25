@@ -3,8 +3,6 @@ package iot.empiaurhouse.triage.controller
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -592,9 +590,9 @@ class QuickPivotController {
     fun initPractitionerParametersViewConductor(endPointOptionsPractitioners: ArrayList<MaterialCardView>,
                                                 parameterLayouts: ArrayList<ConstraintLayout>,
                                                 editorButtonView: View, editButton: MaterialButton,
-                                                valueParameterType: TypeWriterTextView): Int?{
-        editButton.isFocusable = true
-        editButton.focusable = View.FOCUSABLE
+                                                valueParameterType: TypeWriterTextView, inputFocus: EditText): Int?{
+        inputFocus.isFocusable = true
+        inputFocus.focusable = View.FOCUSABLE
         for (endpointPractitioner in endPointOptionsPractitioners) {
             endpointPractitioner.setOnClickListener {
                 when(endpointPractitioner.id){
@@ -605,8 +603,8 @@ class QuickPivotController {
                         setValueEndPointType(valueParameterType, "First Name")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
-                        editButton.requestFocus()
-                        editButton.clearFocus()
+                        inputFocus.requestFocus()
+                        inputFocus.clearFocus()
                         endPointCode = 7
                     }
                     R.id.practitioner_last_name_endpoint -> {
@@ -616,8 +614,8 @@ class QuickPivotController {
                         setValueEndPointType(valueParameterType, "Last Name")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
-                        editButton.requestFocus()
-                        editButton.clearFocus()
+                        inputFocus.requestFocus()
+                        inputFocus.clearFocus()
                         endPointCode = 8
                     }
                     R.id.practitioner_id_endpoint -> {
@@ -627,8 +625,8 @@ class QuickPivotController {
                         setValueEndPointType(valueParameterType, "Practitioner ID")
                         refreshParamsInput(editorInputs, editorIcons, timeStream)
                         showEditorButton(editorButtonView, editButton)
-                        editButton.requestFocus()
-                        editButton.clearFocus()
+                        inputFocus.requestFocus()
+                        inputFocus.clearFocus()
                         endPointCode = 9
                     }
 
@@ -731,14 +729,9 @@ class QuickPivotController {
     private fun toggleEndPointOptionLayouts(endPointType: Int, endPointParamLayouts: ArrayList<ConstraintLayout>, editButton: MaterialButton){
         endPointParamLayouts[0].visibility = View.GONE
         endPointParamLayouts[1].visibility = View.GONE
-        editButton.isFocusable = true
         if (endPointType == 1){
            endPointParamLayouts[0].startAnimation(slideUpAnimation)
            endPointParamLayouts[0].visibility = View.VISIBLE
-            Handler(Looper.getMainLooper()).postDelayed({
-                editButton.isFocusable = false
-            }, 1111)
-
 
             }
         else if (endPointType == 2){

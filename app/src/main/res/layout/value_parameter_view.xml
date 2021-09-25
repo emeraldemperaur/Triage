@@ -298,6 +298,7 @@
                             android:fontFamily="@font/montserratlight"
                             android:textStyle="bold"
                             android:letterSpacing="0.12"
+                            android:focusableInTouchMode="true"
                             android:textColor="@color/chiron_blue"
                             android:hint="@string/epsilon_value"
                             android:layout_width="match_parent"
