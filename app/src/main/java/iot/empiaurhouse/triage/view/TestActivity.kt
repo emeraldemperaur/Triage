@@ -287,6 +287,7 @@ class TestActivity : AppCompatActivity() {
 
                 if (pivotValueParamPickerView.visibility == View.VISIBLE && valueParamValid > 0){
                     println("Found pivotAlias: ${pivotAlias.text}")
+                    println("Found pivotValueParamCode: $valueParamValid")
                     println("Found pivotAlphaParam: ${pivotAlphaParamEdit.text}")
                     println("Found pivotBetaParam: ${pivotBetaParamEdit.text}")
                     println("Found pivotEpsilonParam: ${pivotEpsilonParamEdit.text}")
