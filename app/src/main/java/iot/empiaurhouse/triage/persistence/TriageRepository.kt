@@ -11,7 +11,6 @@ class TriageRepository {
     private lateinit var dataPivotDAO: DataPivotDAO
     private lateinit var insightModelDAO: InsightModelDAO
 
-
     @InternalCoroutinesApi
     fun TriageRepository(application: Application) {
         val triageDatabase = TriageDatabase(application.baseContext)

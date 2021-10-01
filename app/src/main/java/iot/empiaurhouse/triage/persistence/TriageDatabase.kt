@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import iot.empiaurhouse.triage.model.DataPivot
 import iot.empiaurhouse.triage.utils.subscribeOnBackground
@@ -14,6 +15,7 @@ import kotlinx.coroutines.internal.synchronized
 import java.time.LocalDate
 
 @Database(entities = [DataPivot::class], version = 1)
+@TypeConverters(ChronoConverter::class)
 abstract class TriageDatabase: RoomDatabase() {
 
     abstract fun dataPivotDOA(): DataPivotDAO
@@ -49,12 +51,12 @@ abstract class TriageDatabase: RoomDatabase() {
             subscribeOnBackground {
                 val initPivot = DataPivot(alias = "Prometheus", entityCode = 1, optionCode = 1,
                     endPointCode = 1, valueParamCode = 1, valueParameterA = "John",
-                    serverOfOrigin = "www.chiron.ca", createdOnTimeStamp = LocalDate.now())
+                    serverOfOrigin = "www.chiron.ca", createdOnTimeStamp = LocalDate.now().toString())
                 dataPivotDAO.insertDataPivot(initPivot)
                 val initPivotII = DataPivot(alias = "Lazuli  List", entityCode = 1, optionCode = 1,
                     endPointCode = 2, valueParamCode = 3,
                     valueParameterA = "Smith", valueParameterB="Doe", valueParameterC = "Coulson",
-                    serverOfOrigin = "www.chiron.com", createdOnTimeStamp = LocalDate.now())
+                    serverOfOrigin = "www.chiron.com", createdOnTimeStamp = LocalDate.now().toString())
                 dataPivotDAO.insertDataPivot(initPivot)
                 dataPivotDAO.insertDataPivot(initPivotII)
             }

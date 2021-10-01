@@ -18,6 +18,7 @@ import java.time.LocalDate
 class TestActivity : AppCompatActivity() {
     private lateinit var binding: FragmentPivotEditorBinding
     private lateinit var pivotEditorButton: MaterialButton
+    private lateinit var pivotTitle: View
     private lateinit var pivotAlias: EditText
     private lateinit var pivotAliasLabel: TextView
     private lateinit var pivotValidator: DataPivotValidator
@@ -72,6 +73,7 @@ class TestActivity : AppCompatActivity() {
         setContentView(viewSetup)
         pivotEditorButton = binding.createDataPivotButton
         pivotAlias = binding.pivotEditorLabel
+        pivotTitle = binding.dataPivotTitleFocus
         pivotAliasLabel = binding.pivotEditorInfoLabel
         pivotAlphaParamEdit = binding.valueParametersEditorViewInclude.alphaParameterInput
         pivotAlphaParamEditIcon = binding.valueParametersEditorViewInclude.alphaParameterIcon
@@ -275,7 +277,7 @@ class TestActivity : AppCompatActivity() {
             codeTalker()
             pivotEditorButton.clearFocus()
             pivotValidator = DataPivotValidator()
-            val pivotTitled = pivotValidator.validateAlias(this, pivotValueParamPickerView, pivotAlias, pivotAliasLabel)
+            val pivotTitled = pivotValidator.validateAlias(this, pivotValueParamPickerView, pivotAlias, pivotAliasLabel, pivotTitle, pivotEditorButton)
             if (pivotTitled){
                 pivotLabel = pivotAlias.text.toString()
                 val valueParamValid = pivotValidator.validateValueParameter(this,

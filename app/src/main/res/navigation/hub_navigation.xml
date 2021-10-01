@@ -11,8 +11,47 @@
         android:label="Dashboard"
         tools:layout="@layout/fragment_dashboard">
 
+        <action
+            android:id="@+id/quick_pivot_action"
+            app:destination="@id/pivot_editor_navigation">
+        <argument
+            android:name="pivotID"
+            app:argType="integer"
+            />
+
+    </action>
 
     </fragment>
+
+    <fragment
+            android:id="@+id/pivot_editor_navigation"
+            android:name="iot.empiaurhouse.triage.view.PivotEditorFragment"
+            android:label="Data Pivot"
+            tools:layout="@layout/fragment_pivot_editor">
+
+            <argument
+                android:name="pivotID"
+                app:argType="integer"
+                />
+
+        </fragment>
+
+
+
+        <fragment
+            android:id="@+id/pivot_dialog"
+            android:name="iot.empiaurhouse.triage.view.PivotDialogFragment"
+            android:label="Data Pivot..."
+            tools:layout="@layout/fragment_pivot_dialog">
+        </fragment>
+
+
+
+
+
+
+
+
 
     <fragment
         android:id="@+id/hub_insights"

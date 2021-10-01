@@ -3,9 +3,11 @@ package iot.empiaurhouse.triage.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.LocalDate
+import iot.empiaurhouse.triage.persistence.TypeConverters
+import org.jetbrains.annotations.Nullable
 
 @Entity(tableName = "pivot_db")
+@androidx.room.TypeConverters(TypeConverters::class)
 data class DataPivot (
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
@@ -20,21 +22,28 @@ data class DataPivot (
     @ColumnInfo(name = "endPointCode")
     val endPointCode: Int? = null,
     @ColumnInfo(name = "timeStreamCode")
+    @Nullable
     val timeStreamCode: Int? = null,
     @ColumnInfo(name = "valueParamCode")
+    @Nullable
     val valueParamCode: Int? = null,
     @ColumnInfo(name = "valueParameterA")
+    @Nullable
     val valueParameterA: String? = null,
     @ColumnInfo(name = "valueParameterB")
+    @Nullable
     val valueParameterB: String? = null,
     @ColumnInfo(name = "valueParameterC")
+    @Nullable
     val valueParameterC: String? = null,
     @ColumnInfo(name = "dateParameterA")
-    val dateParameterA: LocalDate? = null,
+    @Nullable
+    val dateParameterA: String? = null,
     @ColumnInfo(name = "dateParameterB")
-    val dateParameterB: LocalDate? = null,
+    @Nullable
+    val dateParameterB: String? = null,
     @ColumnInfo(name = "serverOfOrigin")
     val serverOfOrigin: String?,
     @ColumnInfo(name = "createdOnTimeStamp")
-    val createdOnTimeStamp: LocalDate?
+    val createdOnTimeStamp: String?
         )

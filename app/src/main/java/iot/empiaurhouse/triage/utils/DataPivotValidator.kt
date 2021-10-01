@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.wajahatkarim3.easyvalidation.core.view_ktx.nonEmpty
 import iot.empiaurhouse.triage.R
@@ -24,24 +25,30 @@ class DataPivotValidator {
     private lateinit var editContext: Context
     private lateinit var dateParameterLayout: ConstraintLayout
     private lateinit var valueParameterLayout: ConstraintLayout
+    private lateinit var pivotEditButton: MaterialButton
 
 
 
 
-    fun validateAlias(context: Context,  parameterLayout: ConstraintLayout, pivotAliasInput: EditText, pivotAliasLabel: TextView): Boolean{
+    fun validateAlias(context: Context,  parameterLayout: ConstraintLayout, pivotAliasInput: EditText,
+                      pivotAliasLabel: TextView, pivotTitleFocus: View, pivotButton: MaterialButton): Boolean{
         var isValid = false
-        if (pivotAliasInput.nonEmpty()){
+        pivotEditButton = pivotButton
+        if (pivotAliasInput.nonEmpty() && pivotAliasInput.text.toString().trim() != ""){
             isValid = true
             pivotAliasLabel.setTextColor(Color.parseColor(success))
-            // pivotAliasInput.error = null
 
         }
-        else if (!pivotAliasInput.nonEmpty()){
+        else if (!pivotAliasInput.nonEmpty() || pivotAliasInput.text.toString().trim() == ""){
             isValid = false
             pivotAliasLabel.setTextColor(Color.parseColor(fail))
             pivotAliasInput.error = "Please provide a Pivot alias"
+            pivotTitleFocus.requestFocus()
             val pivotAliasInputError = Snackbar.make(context, parameterLayout, "Heads up!...You need to provide a unique label or alias for this data pivot model", Snackbar.LENGTH_LONG)
             pivotAliasInputError.show()
+            pivotAliasInputError.anchorView = pivotAliasLabel
+            pivotTitleFocus.clearFocus()
+
 
         }
 
@@ -62,7 +69,7 @@ class DataPivotValidator {
         if (alphaValue.nonEmpty() && betaValue.nonEmpty()){
             alphaValueIcon.setColorFilter(Color.parseColor(success))
             betaValueIcon.setColorFilter(Color.parseColor(success))
-            epsilonValueIcon.setColorFilter(Color.parseColor(success))
+            epsilonValueIcon.setColorFilter(Color.parseColor(ignored))
             isValid = 2
         }
         if (alphaValue.nonEmpty() && betaValue.nonEmpty() && epsilonValue.nonEmpty()){
@@ -75,9 +82,12 @@ class DataPivotValidator {
             alphaValueIcon.setColorFilter(Color.parseColor(fail))
             betaValueIcon.setColorFilter(Color.parseColor(ignored))
             epsilonValueIcon.setColorFilter(Color.parseColor(ignored))
+            alphaValueIcon.requestFocus()
             isValid = 0
             val alphaValueNotFound = Snackbar.make(context, parameterLayout, "Heads up!...You need to provide an alpha (α) criterion for a value based data pivot", Snackbar.LENGTH_LONG)
+            alphaValueNotFound.anchorView = pivotEditButton
             alphaValueNotFound.show()
+            alphaValueIcon.clearFocus()
 
         }
 
@@ -131,9 +141,11 @@ class DataPivotValidator {
 
             isValid = timelineValidation(chiDatePicker, psiDatePicker, chiDatePickerIcon, psiDatePickerIcon)
             if (!isValid){
-
+                chiDatePickerIcon.requestFocus()
                 val timeStreamError = Snackbar.make(context, parameterLayout, "Uh Oh...Looks like those epoch dates would break a time continuum. χ comes before ψ!", Snackbar.LENGTH_LONG)
+                timeStreamError.anchorView = pivotEditButton
                 timeStreamError.show()
+                chiDatePickerIcon.clearFocus()
             }
         }
 
@@ -164,13 +176,18 @@ class DataPivotValidator {
         return isValidDate
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     fun timeStreamNotSelected(radioGroup: RadioGroup): Boolean {
         var unselected = false
         if (dateParameterLayout.visibility == View.VISIBLE &&  radioGroup.checkedRadioButtonId == -1)
         {
             unselected = false
-           val timeStreamUnselected = Snackbar.make(editContext, dateParameterLayout, "Heads up!...You need to pick a time stream option for a chronologic based data pivot", Snackbar.LENGTH_LONG)
-           timeStreamUnselected.show()
+            radioGroup.requestFocus()
+            radioGroup.outlineAmbientShadowColor = Color.parseColor(fail)
+            val timeStreamUnselected = Snackbar.make(editContext, dateParameterLayout, "Heads up!...You need to pick a time stream option for a chronologic based data pivot", Snackbar.LENGTH_LONG)
+            timeStreamUnselected.anchorView = pivotEditButton
+            timeStreamUnselected.show()
+            radioGroup.clearFocus()
         }
         else if (dateParameterLayout.visibility == View.VISIBLE && radioGroup.checkedRadioButtonId != -1){
             unselected = true
@@ -182,8 +199,11 @@ class DataPivotValidator {
         if (valueParameterLayout.visibility == View.GONE && dateParameterLayout.visibility == View.VISIBLE && radioGroup.checkedRadioButtonId == -1)
         {
             timeStreamResult = false
+            radioGroup.requestFocus()
             val timeStreamUnselected = Snackbar.make(editContext, dateParameterLayout, "Heads up!...You need to pick a time stream option for a chronologic based data pivot", Snackbar.LENGTH_LONG)
+            timeStreamUnselected.anchorView = pivotEditButton
             timeStreamUnselected.show()
+            radioGroup.clearFocus()
         }
         else if (valueParameterLayout.visibility == View.GONE && dateParameterLayout.visibility == View.VISIBLE && radioGroup.checkedRadioButtonId != -1){
             timeStreamResult = true

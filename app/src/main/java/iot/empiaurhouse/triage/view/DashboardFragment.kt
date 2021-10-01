@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
@@ -53,6 +54,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     private var recordsFound = arrayListOf<ChironRecords>()
     private var recordsCache = arrayListOf<ChironRecords>()
     private lateinit var dashboardViewModel: SetupActivityViewModel
+    private lateinit var hubView: LinearLayout
 
 
 
@@ -86,6 +88,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDashboardBinding.bind(view)
         dashboardSwipeRefresh = binding.dashboardSwipeRefresh
+        hubView = binding.hubLayoutView
         dashboardSwipeRefresh.setColorSchemeColors(ResourcesCompat.getColor(resources, R.color.chiron_blue, null))
         binding.insightRequestTime.text = getTimeStamp()
         pivotRecyclerView = binding.hubPivotsRecyclerView
@@ -99,7 +102,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         dashboardViewModel.pingServer()
         val fontFace = resources.getFont(R.font.montserratlight)
         InsightChart().renderRecordsPieChart(requireContext(),fontFace,insightChart,recordsFound,this)
-        pivotsRVA = PivotRecyclerAdapter(fetchPivotsList())
+        pivotsRVA = PivotRecyclerAdapter(fetchPivotsList(), hubView)
         recordsFound = fetchRecordsData()
         ListStore.cacheRecordsList(fetchRecordsData())
         recordsFound = ListStore.getCachedRecordsList()
@@ -153,6 +156,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         Handler(Looper.getMainLooper()).postDelayed({
+            //if view still exists check for lifecycle owner
             recordRecyclerView = binding.hubRecordsRecyclerView
             recordsRVA = RecordRecyclerAdapter(fetchRecordsData())
             recordRecyclerView!!.adapter = recordsRVA
@@ -182,18 +186,26 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     private fun fetchRecordsData(): ArrayList<ChironRecords>{
         var result: Boolean
         val fetchedRecords = arrayListOf<ChironRecords>()
-        dashboardViewModel.serverStatus.observe(viewLifecycleOwner, androidx.lifecycle.Observer{reply ->
-            reply?.let{
-                result = reply.isNotEmpty()
-                if (fetchedRecords.isEmpty()) {
-                    fetchedRecords.addAll(reply)
-                    // dashboardViewModel.stashRecordsList(reply)
-                    recordsFound = fetchedRecords
-                    println("Records response object is not empty: $result")
-                    println("See Chiron Records response result: $reply")
-                }
-            }
-        })
+
+        if (view != null) {
+
+            dashboardViewModel.serverStatus.observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer { reply ->
+                    reply?.let {
+                        result = reply.isNotEmpty()
+                        if (fetchedRecords.isEmpty()) {
+                            fetchedRecords.addAll(reply)
+                            // dashboardViewModel.stashRecordsList(reply)
+                            recordsFound = fetchedRecords
+                            println("Records response object is not empty: $result")
+                            println("See Chiron Records response result: $reply")
+                        }
+                    }
+                })
+
+        }
+
 
         return fetchedRecords
     }

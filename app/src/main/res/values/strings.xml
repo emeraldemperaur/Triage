@@ -199,4 +199,9 @@
     <string name="criterion">Pivot Criterion</string>
     <string name="practitioner_n_endpoints">PRACTITIONER ENDPOINTS</string>
     <string name="rx_endpoints">Rx Endpoints</string>
+    <string name="data_vistas">Data Vistas</string>
+    <string name="histogram">Histogram</string>
+    <string name="pie_chart">Pie Chart</string>
+    <string name="line_chart">Line Chart</string>
+    <string name="scatter_plot">Scatter Plot</string>
 </resources>
