@@ -14,12 +14,11 @@
         <action
             android:id="@+id/quick_pivot_action"
             app:destination="@id/pivot_editor_navigation">
-        <argument
+            <argument
             android:name="pivotID"
             app:argType="integer"
             />
-
-    </action>
+        </action>
 
     </fragment>
 
@@ -29,21 +28,20 @@
             android:label="Data Pivot"
             tools:layout="@layout/fragment_pivot_editor">
 
-            <argument
+        <argument
                 android:name="pivotID"
                 app:argType="integer"
                 />
 
-        </fragment>
+    </fragment>
 
 
-
-        <fragment
+    <fragment
             android:id="@+id/pivot_dialog"
             android:name="iot.empiaurhouse.triage.view.PivotDialogFragment"
             android:label="Data Pivot..."
             tools:layout="@layout/fragment_pivot_dialog">
-        </fragment>
+    </fragment>
 
 
 
@@ -68,7 +66,19 @@
         android:label="Insights"
         tools:layout="@layout/fragment_pivots">
 
+        <action
+            android:id="@+id/new_pivot_action"
+            app:destination="@id/pivot_editor_navigation">
+            <argument
+                android:name="pivotID"
+                app:argType="integer"
+                />
+        </action>
+
+
     </fragment>
+
+
 
     <fragment
         android:id="@+id/hub_settings"

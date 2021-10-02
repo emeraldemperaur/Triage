@@ -165,7 +165,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="3dp"
                 android:layout_width="match_parent"
-                android:layout_height="511dp"
+                android:layout_height="591dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/pivot_editor_label_card"

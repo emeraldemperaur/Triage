@@ -72,6 +72,7 @@ class HubActivity : AppCompatActivity() {
         bottomNavigation.setupWithNavController(hubNavController)
 
 
+
     }
 
 
@@ -91,7 +92,12 @@ class HubActivity : AppCompatActivity() {
 
     override fun onBackPressed()
     {
-        moveTaskToBack(true)
+        if (onBackPressedDispatcher.hasEnabledCallbacks()){
+            super.onBackPressed()
+        }
+        else{
+            moveTaskToBack(true)
+        }
     }
 
 

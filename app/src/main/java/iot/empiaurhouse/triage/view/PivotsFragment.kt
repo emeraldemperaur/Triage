@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.FragmentPivotsBinding
 
@@ -18,6 +21,8 @@ class PivotsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding: FragmentPivotsBinding
+    private lateinit var newPivotButton: FloatingActionButton
+    private lateinit var navControls: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +45,18 @@ class PivotsFragment : Fragment() {
         binding = FragmentPivotsBinding.bind(view)
         val pivotsMainTitle = "DATA PIVOTS"
         binding.dataPivotsTitle.text = pivotsMainTitle
+        newPivotButton = binding.createDataPivot
+        navControls = view.findNavController()
+        initPivotsTabView()
+
+    }
+
+
+    private fun initPivotsTabView(){
+        val newPivot = PivotsFragmentDirections.newPivotAction(0)
+        newPivotButton.setOnClickListener {
+            navControls.navigate(newPivot)
+        }
     }
 
 

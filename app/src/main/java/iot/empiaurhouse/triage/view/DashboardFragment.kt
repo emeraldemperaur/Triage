@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -55,6 +56,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     private var recordsCache = arrayListOf<ChironRecords>()
     private lateinit var dashboardViewModel: SetupActivityViewModel
     private lateinit var hubView: LinearLayout
+    private lateinit var navController: NavController
 
 
 
@@ -156,7 +158,6 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         Handler(Looper.getMainLooper()).postDelayed({
-            //if view still exists check for lifecycle owner
             recordRecyclerView = binding.hubRecordsRecyclerView
             recordsRVA = RecordRecyclerAdapter(fetchRecordsData())
             recordRecyclerView!!.adapter = recordsRVA
