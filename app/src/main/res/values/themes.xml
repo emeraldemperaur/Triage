@@ -75,6 +75,10 @@
         <item name="android:statusBarColor">@color/black</item>
     </style>
 
+    <style name="PivotProgress">
+        <item name="colorSecondary">@color/chiron_blue</item>
+    </style>
+
 
 
     <style name="selectedButton">

@@ -204,4 +204,19 @@
     <string name="pie_chart">Pie Chart</string>
     <string name="line_chart">Line Chart</string>
     <string name="scatter_plot">Scatter Plot</string>
+    <string name="pivot_loader">Pivot Loader</string>
+    <string name="pivoting_data">Pivoting Data...</string>
+    <string name="data_model">DATA MODEL</string>
+    <string name="api_end_point">API END POINT</string>
+    <string name="brand_name">Brand Name</string>
+    <string name="pivot_type">PIVOT TYPE</string>
+    <string name="value_based">Value Based</string>
+    <string name="chronological">Chronological</string>
+    <string name="parameter_s">parameter(s)</string>
+    <string name="alpha_symbol">α</string>
+    <string name="beta_symbol">β</string>
+    <string name="epsilon_symbol">ε</string>
+    <string name="chi_symbol">χ</string>
+    <string name="day_month_year">Day, Month Year</string>
+    <string name="psi_symbol">ψ</string>
 </resources>

@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="chiron_blue">#0c204f</color>
     <color name="chiron_grey">#A9A9A9</color>
+    <color name="chiron_deep_grey">#989797</color>
     <color name="chiron_red">#800020</color>
     <color name="bufferBackground">#600c204f</color>
 

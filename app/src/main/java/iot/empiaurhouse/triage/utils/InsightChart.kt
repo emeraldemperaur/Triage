@@ -50,14 +50,14 @@ class InsightChart {
         recordsDataSet.sliceSpace = 3F
         recordsDataSet.selectionShift = 5F
         entryColors.add(R.color.recordColor1)
-        entryColors.add(R.color.recordColor2)
-        entryColors.add(R.color.recordColor3)
-        entryColors.add(R.color.recordColor4)
-        entryColors.add(R.color.recordColor5)
-        entryColors.add(R.color.recordColor6)
-        entryColors.add(R.color.recordColor7)
-        entryColors.add(R.color.recordColor8)
-        entryColors.add(R.color.recordColor9)
+        entryColors.add(R.color.recordColor1)
+        entryColors.add(R.color.recordColor1)
+        entryColors.add(R.color.recordColor1)
+        entryColors.add(R.color.recordColor1)
+        entryColors.add(R.color.recordColor1)
+        entryColors.add(R.color.recordColor1)
+        entryColors.add(R.color.recordColor1)
+        entryColors.add(R.color.recordColor1)
         recordsDataSet.colors = entryColors
         recordsDataSet.valueLinePart1Length = 0.2F
         recordsDataSet.valueLinePart2Length = 0.4F

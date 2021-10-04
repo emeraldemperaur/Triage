@@ -4,9 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
+import com.google.android.material.card.MaterialCardView
 import iot.empiaurhouse.triage.R
+import iot.empiaurhouse.triage.controller.PivotController
+import iot.empiaurhouse.triage.databinding.FragmentPivotDialogBinding
+import iot.empiaurhouse.triage.model.DataPivot
+import iot.empiaurhouse.triage.utils.TypeWriterTextView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,6 +30,35 @@ class PivotDialogFragment : DialogFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding: FragmentPivotDialogBinding
+    private lateinit var triageBot: ImageView
+    private lateinit var pivotDialogView: MaterialCardView
+    private lateinit var pivotingText: TypeWriterTextView
+    private lateinit var pivotLabel: TextView
+    private lateinit var dataModelTitle: TextView
+    private lateinit var dataModelText: TextView
+    private lateinit var endPointTitle: TextView
+    private lateinit var endPointText: TextView
+    private lateinit var pivotTypeTitle: TextView
+    private lateinit var pivotTypeText: TextView
+    private lateinit var parameterTitle: TextView
+    private lateinit var alphaParamTitle: TextView
+    private lateinit var alphaParamText: TextView
+    private lateinit var betaParamTitle: TextView
+    private lateinit var betaParamText: TextView
+    private lateinit var epsilonParamTitle: TextView
+    private lateinit var epsilonParamText: TextView
+    private lateinit var timeStreamTitle: TextView
+    private lateinit var timeStreamText: TextView
+    private lateinit var chiParamTitle: TextView
+    private lateinit var chiParamText: TextView
+    private lateinit var psiParamTitle: TextView
+    private lateinit var psiParamText: TextView
+    private lateinit var pivotProgress: ProgressBar
+    private lateinit var pivotController: PivotController
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +74,44 @@ class PivotDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_pivot_dialog, container, false)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentPivotDialogBinding.bind(view)
+        triageBot = binding.triageBot
+        pivotDialogView = binding.pivotDialogInfo
+        pivotingText = binding.pivotingPrompt
+        pivotLabel = binding.pivotLabelTitle
+        dataModelTitle = binding.dmTitle
+        dataModelText = binding.dmTitleText
+        endPointTitle = binding.epTitle
+        endPointText = binding.epText
+        pivotTypeTitle = binding.ptTitle
+        pivotTypeText = binding.ptText
+        parameterTitle = binding.paramTitle
+        alphaParamTitle = binding.alphaParamTitle
+        alphaParamText = binding.alphaParamText
+        betaParamTitle = binding.betaParamTitle
+        betaParamText = binding.betaParamText
+        epsilonParamTitle = binding.epsilonParamTitle
+        epsilonParamText = binding.epsilonParamText
+        timeStreamTitle = binding.timeStreamTitle
+        timeStreamText = binding.timeStreamText
+        chiParamTitle = binding.chiParamTitle
+        chiParamText = binding.chiParamText
+        psiParamTitle = binding.psiParamTitle
+        psiParamText = binding.psiParamText
+        pivotProgress = binding.pivotProgress
+        pivotController = PivotController()
+        //Pivot Object
+        pivotController.initPivotDialog(requireContext(), DataPivot(alias = "Test", serverOfOrigin = "test.com", createdOnTimeStamp = "test"),triageBot, pivotDialogView, pivotingText,
+        pivotLabel,dataModelTitle, dataModelText, endPointTitle, endPointText, pivotTypeTitle,pivotTypeText, parameterTitle,
+        alphaParamTitle, alphaParamText, betaParamTitle, betaParamText, epsilonParamTitle, epsilonParamText, timeStreamTitle,
+        timeStreamText, chiParamTitle, chiParamText, psiParamTitle, psiParamText, pivotProgress)
+
+
     }
 
     companion object {

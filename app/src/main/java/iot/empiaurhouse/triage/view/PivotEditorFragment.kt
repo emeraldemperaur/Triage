@@ -21,6 +21,7 @@ import iot.empiaurhouse.triage.databinding.FragmentPivotEditorBinding
 import iot.empiaurhouse.triage.utils.DataPivotValidator
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
 import java.time.LocalDate
+import java.util.*
 
 
 private const val ARG_PARAM1 = ""
@@ -436,13 +437,14 @@ class PivotEditorFragment : Fragment() {
                     val builder = AlertDialog.Builder(requireContext())
                     builder.setTitle("Exiting Data Pivot")
                     builder.setIcon(R.drawable.ic_baseline_pivot_circle_theme)
-                    builder.setMessage("You sure you want to discard this unsaved pivot definition?")
-                    builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                    builder.setMessage("Are you sure you'd like to discard this unsaved '${pivotEditTitle.capitalize(
+                        Locale.ROOT)}' pivot definition?")
+                    builder.setPositiveButton("YES") { _, _ ->
                         controller.navigateUp()
                         isEnabled = false
                     }
 
-                    builder.setNegativeButton(android.R.string.no) { dialog, which ->
+                    builder.setNegativeButton("NO") { dialog, _ ->
                         dialog.dismiss()
                         isEnabled = true
                     }
@@ -450,7 +452,6 @@ class PivotEditorFragment : Fragment() {
                 }
             }
         })
-
     }
 
 

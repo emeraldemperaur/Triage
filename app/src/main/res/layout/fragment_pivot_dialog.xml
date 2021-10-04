@@ -1,14 +1,441 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.PivotDialogFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:elevation="0dp"
+        tools:context=".view.PivotDialogFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:visibility="visible"
+        android:id="@+id/pivot_dialog_info"
+        app:cardCornerRadius="3dp"
+        android:clickable="true"
+        app:strokeColor="@color/chiron_deep_grey"
+        app:strokeWidth="1dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginStart="99dp"
+        android:layout_marginEnd="23dp"
+        app:cardElevation="69dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true">
+
+        <LinearLayout
+            android:visibility="visible"
+            android:orientation="vertical"
+            android:background="@drawable/silver"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:visibility="invisible"
+                android:elevation="3dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="3dp"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                android:layout_height="1dp"/>
+
+
+
+            <iot.empiaurhouse.triage.utils.TypeWriterTextView
+                android:id="@+id/pivoting_prompt"
+                android:visibility="visible"
+                android:textSize="21sp"
+                android:text="@string/pivoting_data"
+                android:letterSpacing="0.23"
+                android:textStyle="normal"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:textAllCaps="true"
+                android:textColor="@color/chiron_deep_grey"
+                android:fontFamily="@font/montserratsemibold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:elevation="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                android:layout_height="1dp"/>
+
+            <TextView
+                android:visibility="visible"
+                android:id="@+id/pivot_label_title"
+                android:letterSpacing="0.19"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="6dp"
+                android:text="@string/pivot_label"
+                android:fontFamily="@font/montserratmedium"
+                android:maxLength="24"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                android:textColor="@color/chiron_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:visibility="visible"
+                android:id="@+id/dm_title"
+                android:letterSpacing="0.13"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="6dp"
+                android:text="@string/data_model"
+                android:fontFamily="@font/montserratlight"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/chiron_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:visibility="visible"
+                android:id="@+id/dm_title_text"
+                android:letterSpacing="0.33"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="6dp"
+                android:textSize="14sp"
+                android:text="@string/prescription"
+                android:fontFamily="@font/montserratlight"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:visibility="visible"
+                android:id="@+id/ep_title"
+                android:letterSpacing="0.13"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="44dp"
+                android:text="@string/api_end_point"
+                android:fontFamily="@font/montserratlight"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/chiron_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:visibility="visible"
+                android:id="@+id/ep_text"
+                android:letterSpacing="0.33"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="44dp"
+                android:textSize="14sp"
+                android:text="@string/brand_name"
+                android:fontFamily="@font/montserratlight"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:elevation="3dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                android:layout_height="1dp"/>
+
+
+
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/pt_title"
+                android:letterSpacing="0.13"
+                android:layout_marginTop="13dp"
+                android:layout_marginStart="44dp"
+                android:text="@string/pivot_type"
+                android:fontFamily="@font/montserratlight"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/chiron_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/pt_text"
+                android:letterSpacing="0.33"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginStart="44dp"
+                android:textSize="14sp"
+                android:text="@string/chronological"
+                android:fontFamily="@font/montserratlight"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:elevation="3dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="3dp"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                android:layout_height="1dp"/>
+
+
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/param_title"
+                android:letterSpacing="0.13"
+                android:layout_marginTop="11dp"
+                android:layout_marginStart="44dp"
+                android:text="@string/parameter_s"
+                android:textAllCaps="true"
+                android:fontFamily="@font/montserratlight"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/chiron_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/alpha_param_title"
+                android:letterSpacing="0.13"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="44dp"
+                android:text="@string/alpha_symbol"
+                android:textAllCaps="true"
+                android:fontFamily="@font/montserratlight"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/chiron_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/alpha_param_text"
+                android:letterSpacing="0.33"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="44dp"
+                android:textSize="14sp"
+                android:text="@string/alpha_value"
+                android:fontFamily="@font/montserratlight"
+                android:maxLength="24"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/beta_param_title"
+                android:letterSpacing="0.13"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="44dp"
+                android:text="@string/beta_symbol"
+                android:textAllCaps="true"
+                android:fontFamily="@font/montserratlight"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/chiron_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/beta_param_text"
+                android:letterSpacing="0.33"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="44dp"
+                android:textSize="14sp"
+                android:text="@string/beta_value"
+                android:fontFamily="@font/montserratlight"
+                android:maxLength="24"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/epsilon_param_title"
+                android:letterSpacing="0.13"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="44dp"
+                android:text="@string/epsilon_symbol"
+                android:textAllCaps="true"
+                android:fontFamily="@font/montserratlight"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/chiron_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/epsilon_param_text"
+                android:letterSpacing="0.33"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginStart="44dp"
+                android:textSize="14sp"
+                android:text="@string/epsilon_value"
+                android:maxLength="24"
+                android:fontFamily="@font/montserratlight"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/time_stream_title"
+                android:letterSpacing="0.13"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="44dp"
+                android:text="@string/time_stream"
+                android:textAllCaps="true"
+                android:fontFamily="@font/montserratlight"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/chiron_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/time_stream_text"
+                android:letterSpacing="0.33"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="44dp"
+                android:textSize="14sp"
+                android:text="@string/between"
+                android:fontFamily="@font/montserratlight"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/chi_param_title"
+                android:letterSpacing="0.13"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="44dp"
+                android:text="@string/chi_symbol"
+                android:textAllCaps="true"
+                android:fontFamily="@font/montserratlight"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/chiron_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/chi_param_text"
+                android:letterSpacing="0.23"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="44dp"
+                android:textSize="14sp"
+                android:text="@string/day_month_year"
+                android:fontFamily="@font/montserratlight"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/psi_param_title"
+                android:letterSpacing="0.13"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="44dp"
+                android:text="@string/psi_symbol"
+                android:textAllCaps="true"
+                android:fontFamily="@font/montserratlight"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/chiron_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/psi_param_text"
+                android:letterSpacing="0.23"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginStart="44dp"
+                android:textSize="14sp"
+                android:text="@string/day_month_year"
+                android:fontFamily="@font/montserratlight"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:elevation="3dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="3dp"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                android:layout_height="1dp"/>
+
+
+            <ProgressBar
+                android:id="@+id/pivot_progress"
+                android:visibility="invisible"
+                android:elevation="69dp"
+                android:theme="@style/PivotProgress"
+                android:layout_gravity="center"
+                android:layout_marginTop="11dp"
+                android:layout_marginBottom="13dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+
+
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+        <ImageView
+            android:id="@+id/triage_bot"
+            android:layout_marginTop="129dp"
+            android:layout_marginBottom="69dp"
+            android:visibility="visible"
+            android:elevation="69dp"
+            android:src="@drawable/robotics_fx"
+            android:layout_width="150dp"
+            android:layout_height="400dp"
+            android:contentDescription="@string/pivot_loader" />
+
+
+
+
+
+    </FrameLayout>
+
