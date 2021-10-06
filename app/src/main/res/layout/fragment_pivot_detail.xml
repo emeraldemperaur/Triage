@@ -145,9 +145,8 @@
            android:letterSpacing="0.04"
            android:text="@string/_10000"
            android:maxLength="7"
-           android:lines="1"
-           android:maxLines="1"
-           android:ellipsize="end"
+           android:singleLine="true"
+           android:ellipsize="start"
            android:fontFamily="@font/montserratmedium"
            android:textStyle="bold"
            android:textColor="@color/white"
@@ -225,6 +224,11 @@
             android:id="@+id/pivot_detail_pivot_alpha_parameters_text"
             android:text="@string/alpha_value"
             android:textSize="16sp"
+            android:letterSpacing="0.21"
+            android:lines="1"
+            android:maxLines="1"
+            android:maxLength="24"
+            android:ellipsize="end"
             android:textColor="@color/chiron_blue"
             android:textStyle="bold"
             android:fontFamily="@font/montserratlight"
@@ -250,6 +254,11 @@
             android:id="@+id/pivot_detail_pivot_beta_parameters_text"
             android:text="@string/beta_value"
             android:textSize="16sp"
+            android:letterSpacing="0.21"
+            android:lines="1"
+            android:maxLines="1"
+            android:maxLength="24"
+            android:ellipsize="end"
             android:textColor="@color/chiron_blue"
             android:textStyle="bold"
             android:fontFamily="@font/montserratlight"
@@ -308,6 +317,7 @@
             android:textSize="16sp"
             android:textColor="@color/chiron_blue"
             android:letterSpacing="0.21"
+            android:ellipsize="end"
             android:textStyle="bold"
             android:fontFamily="@font/montserratlight"
             android:layout_marginStart="6dp"
@@ -365,9 +375,16 @@
         android:dividerHeight="0.5dp"
         android:divider="@color/chiron_deep_grey"
         android:layout_width="match_parent"
-        android:layout_height="515dp"/>
+        android:layout_height="519dp"/>
 
 
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/exit_data_pivot"
@@ -380,10 +397,5 @@
         android:contentDescription="@string/chironquickaction"
         app:srcCompat="@drawable/ic_baseline_close_white_24"/>
 
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
