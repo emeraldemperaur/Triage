@@ -27,11 +27,18 @@
             android:name="iot.empiaurhouse.triage.view.PivotEditorFragment"
             android:label="Data Pivot"
             tools:layout="@layout/fragment_pivot_editor">
-
         <argument
                 android:name="pivotID"
                 app:argType="integer"
                 />
+        <action
+            android:id="@+id/create_pivot_action"
+            app:destination="@id/pivot_dialog">
+            <argument
+                android:name="dataPivot"
+                app:argType="iot.empiaurhouse.triage.model.DataPivot"/>
+
+        </action>
 
     </fragment>
 
@@ -41,6 +48,12 @@
             android:name="iot.empiaurhouse.triage.view.PivotDialogFragment"
             android:label="Data Pivot..."
             tools:layout="@layout/fragment_pivot_dialog">
+
+        <argument
+            android:name="dataPivot"
+            app:argType="iot.empiaurhouse.triage.model.DataPivot"/>
+
+
     </fragment>
 
 

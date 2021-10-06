@@ -1,25 +1,30 @@
 package iot.empiaurhouse.triage.controller
 
 import android.content.Context
+import android.os.Build
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import com.google.android.material.card.MaterialCardView
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.model.DataPivot
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class PivotController {
 
     private lateinit var slideRightAnimation : Animation
     private lateinit var fadeInLabelAnimation : Animation
     private lateinit var fadeInModelTitleAnimation : Animation
-    private lateinit var slideDownModelTextAnimation : Animation
+    private lateinit var fadeInModelTextAnimation : Animation
     private lateinit var fadeInEndPointTitleAnimation : Animation
-    private lateinit var slideDownEndPointTextAnimation : Animation
+    private lateinit var fadeInEndPointTextAnimation : Animation
     private lateinit var fadeInPivotTypeTitleAnimation : Animation
 
 
@@ -41,12 +46,12 @@ class PivotController {
 
 
         triageBot.visibility = View.GONE
-        slideRightAnimation = AnimationUtils.loadAnimation(context, R.anim.pull_in_right)
+        slideRightAnimation = AnimationUtils.loadAnimation(context, R.anim.pull_in_left)
         fadeInLabelAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
         fadeInModelTitleAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
-        slideDownModelTextAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_down)
+        fadeInModelTextAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
         fadeInEndPointTitleAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
-        slideDownEndPointTextAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_down)
+        fadeInEndPointTextAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
         fadeInPivotTypeTitleAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
 
 
@@ -59,7 +64,8 @@ class PivotController {
             override fun onAnimationEnd(animation: Animation?) {
 
                 pivotLabel.startAnimation(fadeInLabelAnimation)
-                pivotLabel.visibility
+                pivotLabel.text = dataPivot.alias.capitalize(Locale.ROOT)
+                pivotLabel.visibility = View.VISIBLE
                 triageBot.clearAnimation()
 
 
@@ -67,9 +73,9 @@ class PivotController {
 
             override fun onAnimationStart(animation: Animation?) {
                 pivotDialogView.visibility = View.VISIBLE
-                pivotingText.setCharacterDelay(131)
-                pivotingText.displayTextWithAnimation("Pivoting Data...")
                 pivotingText.visibility = View.VISIBLE
+                pivotingText.setCharacterDelay(96)
+                pivotingText.displayTextWithAnimation("Pivoting Data...")
 
             }
         })
@@ -83,12 +89,12 @@ class PivotController {
                 dataModelTitle.startAnimation(fadeInModelTitleAnimation)
                 dataModelTitle.visibility = View.VISIBLE
                 dataModelText.text = pivotObjectModelCheck(dataPivot)
-                dataModelText.startAnimation(slideDownModelTextAnimation)
+                dataModelText.startAnimation(fadeInModelTextAnimation)
                 dataModelText.visibility = View.VISIBLE
                 endPointTitle.startAnimation(fadeInEndPointTitleAnimation)
                 endPointTitle.visibility = View.VISIBLE
                 endPointText.text = pivotObjectEndPointCheck(dataPivot)
-                endPointText.startAnimation(slideDownEndPointTextAnimation)
+                endPointText.startAnimation(fadeInEndPointTextAnimation)
                 endPointText.visibility = View.VISIBLE
 
             }
@@ -125,6 +131,7 @@ class PivotController {
             override fun onAnimationRepeat(animation: Animation?) {
             }
 
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onAnimationEnd(animation: Animation?) {
                 val isDate = pivotObjectChronoCheck(dataPivot)
                 if (isDate){
@@ -134,24 +141,36 @@ class PivotController {
                     timeStreamText.visibility = View.VISIBLE
                     ChiParamTitle.visibility = View.VISIBLE
                     ChiParamText.visibility = View.VISIBLE
-                    ChiParamText.text = dataPivot.dateParameterA
+                    ChiParamText.text = pivotObjectDateFormat(dataPivot.dateParameterA)
                     PsiParamTitle.visibility = View.VISIBLE
-                    PsiParamText.text = dataPivot.dateParameterB
+                    if (dataPivot.timeStreamCode == 4){
+                    PsiParamText.text = pivotObjectDateFormat(dataPivot.dateParameterB)
+                    }
+                    else{
+                        val holderText = "Not Applicable"
+                        PsiParamText.text = holderText
+                    }
                     PsiParamText.visibility = View.VISIBLE
                     pivotProgress.visibility = View.VISIBLE
+                    pivotProgress.isFocusable = true
+                    pivotProgress.requestFocus()
+                    pivotProgress.isFocusable = false
                 }
                 else if (!isDate){
                     parameterTitle.visibility = View.VISIBLE
                     AlphaParamTitle.visibility = View.VISIBLE
-                    AlphaParamText.text = dataPivot.valueParameterA
+                    AlphaParamText.text = pivotObjectValueHolderCheck(dataPivot.valueParameterA)
                     AlphaParamText.visibility = View.VISIBLE
                     BetaParamTitle.visibility = View.VISIBLE
-                    BetaParamText.text = dataPivot.valueParameterB
+                    BetaParamText.text = pivotObjectValueHolderCheck(dataPivot.valueParameterB)
                     BetaParamText.visibility = View.VISIBLE
                     EpsilonParamTitle.visibility = View.VISIBLE
-                    EpsilonParamText.text = dataPivot.valueParameterC
+                    EpsilonParamText.text = pivotObjectValueHolderCheck(dataPivot.valueParameterC)
                     EpsilonParamText.visibility = View.VISIBLE
                     pivotProgress.visibility = View.VISIBLE
+                    pivotProgress.isFocusable = true
+                    pivotProgress.requestFocus()
+                    pivotProgress.isFocusable = false
 
                 }
 
@@ -280,7 +299,7 @@ class PivotController {
                 entityEndPoint = "Level"
             }
             14 -> {
-                entityEndPoint = "Prescription Name"
+                entityEndPoint = "Name"
             }
             15 -> {
                 entityEndPoint = "Prescriber"
@@ -292,7 +311,7 @@ class PivotController {
                 entityEndPoint = "Insurer ID"
             }
             18 -> {
-                entityEndPoint = "Prescription Date"
+                entityEndPoint = "Date"
             }
             19 -> {
                 entityEndPoint = "Host"
@@ -322,10 +341,10 @@ class PivotController {
                 entityEndPoint = "Chemical Name"
             }
             28 -> {
-                entityEndPoint = "Manufacturer Name"
+                entityEndPoint = "Manufacturer"
             }
             29 -> {
-                entityEndPoint = "Manufacture Date"
+                entityEndPoint = "Make Date"
             }
             30 -> {
                 entityEndPoint = "Expiry Date"
@@ -339,18 +358,40 @@ class PivotController {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun pivotObjectDateFormat(stringDate: String?): String {
+        val dateObject = LocalDate.parse(stringDate)
+        val formatter = DateTimeFormatter.ofPattern("dd, MMMM yyyy")
+        return dateObject.format(formatter)
+    }
+
     fun pivotObjectTypeCheck(dataPivot: DataPivot): String{
         var pivotType = ""
-        if (dataPivot.timeStreamCode != null && dataPivot.valueParamCode == null){
+        val tSC = dataPivot.timeStreamCode
+        val vPC = dataPivot.valueParamCode
+        if (tSC != null){
             pivotType = "Chronological"
         }
-        else if (dataPivot.valueParamCode != null && dataPivot.timeStreamCode == null){
+        else if (vPC != null || dataPivot.valueParamCode!! > 0){
             pivotType = "Value Based"
         }
 
         return pivotType
 
         }
+
+    fun pivotObjectValueHolderCheck(pivotValue: String?): String?{
+        var valueString = pivotValue
+        if (pivotValue != null) {
+            if (pivotValue.isBlank() || pivotValue == ""){
+                valueString = "not provided"
+            }
+        }
+
+        return valueString!!.capitalize(Locale.ROOT)
+    }
+
+
 
 
 

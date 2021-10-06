@@ -105,8 +105,10 @@ class PivotDialogFragment : DialogFragment() {
         psiParamText = binding.psiParamText
         pivotProgress = binding.pivotProgress
         pivotController = PivotController()
+        stagedDataPivot = args.dataPivot
+
         //Pivot Object
-        pivotController.initPivotDialog(requireContext(), DataPivot(alias = "Test", serverOfOrigin = "test.com", createdOnTimeStamp = "test"),triageBot, pivotDialogView, pivotingText,
+        pivotController.initPivotDialog(requireContext(), stagedDataPivot, triageBot, pivotDialogView, pivotingText,
         pivotLabel,dataModelTitle, dataModelText, endPointTitle, endPointText, pivotTypeTitle,pivotTypeText, parameterTitle,
         alphaParamTitle, alphaParamText, betaParamTitle, betaParamText, epsilonParamTitle, epsilonParamText, timeStreamTitle,
         timeStreamText, chiParamTitle, chiParamText, psiParamTitle, psiParamText, pivotProgress)

@@ -219,4 +219,7 @@
     <string name="chi_symbol">χ</string>
     <string name="day_month_year">Day, Month Year</string>
     <string name="psi_symbol">ψ</string>
+    <string name="alias">ALIAS</string>
+    <string name="chi_date_value">Chi Date Value</string>
+    <string name="psi_date_value">Psi Date Value</string>
 </resources>

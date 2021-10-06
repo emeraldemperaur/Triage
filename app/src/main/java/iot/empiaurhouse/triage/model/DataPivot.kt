@@ -1,11 +1,14 @@
 package iot.empiaurhouse.triage.model
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import iot.empiaurhouse.triage.persistence.TypeConverters
+import kotlinx.android.parcel.Parcelize
 import org.jetbrains.annotations.Nullable
 
+@Parcelize
 @Entity(tableName = "pivot_db")
 @androidx.room.TypeConverters(TypeConverters::class)
 data class DataPivot (
@@ -46,4 +49,4 @@ data class DataPivot (
     val serverOfOrigin: String?,
     @ColumnInfo(name = "createdOnTimeStamp")
     val createdOnTimeStamp: String?
-        )
+        ): Parcelable

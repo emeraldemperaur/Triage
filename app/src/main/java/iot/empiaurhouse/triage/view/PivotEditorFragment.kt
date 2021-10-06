@@ -18,8 +18,12 @@ import com.google.android.material.card.MaterialCardView
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.QuickPivotController
 import iot.empiaurhouse.triage.databinding.FragmentPivotEditorBinding
+import iot.empiaurhouse.triage.model.DataPivot
+import iot.empiaurhouse.triage.persistence.TriageRepository
 import iot.empiaurhouse.triage.utils.DataPivotValidator
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
+import iot.empiaurhouse.triage.utils.UserPreferenceManager
+import kotlinx.coroutines.InternalCoroutinesApi
 import java.time.LocalDate
 import java.util.*
 
@@ -32,6 +36,7 @@ class PivotEditorFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding: FragmentPivotEditorBinding
+    private lateinit var userManager: UserPreferenceManager
     private lateinit var pivotEditorButton: MaterialButton
     private lateinit var pivotTitle: View
     private lateinit var pivotAlias: EditText
@@ -75,6 +80,7 @@ class PivotEditorFragment : Fragment() {
     private lateinit var dateParameterType: TypeWriterTextView
     private lateinit var editButtonView: View
     private lateinit var editButton: MaterialButton
+    private lateinit var triageRepository: TriageRepository
     private var editorInputs: ArrayList<EditText> = arrayListOf()
     private var editorIcons: ArrayList<ImageView> = arrayListOf()
     private var pivotIDArg: Int = 0
@@ -97,6 +103,7 @@ class PivotEditorFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_pivot_editor, container, false)
     }
 
+    @InternalCoroutinesApi
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -121,6 +128,11 @@ class PivotEditorFragment : Fragment() {
         pivotIDArg = args.pivotID
         initPivotEditorView()
         onBackPressed()
+        userManager = UserPreferenceManager(requireContext())
+        val app = requireActivity().application
+        triageRepository = TriageRepository()
+        triageRepository.TriageRepository(app)
+
 
 
 
@@ -330,6 +342,14 @@ class PivotEditorFragment : Fragment() {
                     println("Detected entityCode: ${masterControl.fetchEntityCode()}")
                     println("Detected practitionerCode: $practitionerCode")
                     println("Detected endPointCode: $endPointCode")
+                    val stagedPivot = DataPivot(alias = "${pivotAlias.text}", entityCode = masterControl.fetchEntityCode(),
+                    optionCode = masterControl.fetchOptionCode(),practitionerCode = practitionerCode, endPointCode = endPointCode,
+                        valueParamCode=valueParamValid, valueParameterA = pivotAlphaParamEdit.text.toString(), valueParameterB = pivotBetaParamEdit.text.toString(),
+                    valueParameterC = pivotEpsilonParamEdit.text.toString(), createdOnTimeStamp = pivotValidator.pivotTimeStamp(),
+                    serverOfOrigin = userManager.getServerUrl())
+                    processPivot(stagedPivot)
+                    //triageRepository.insertDataPivot(stagedPivot)
+
                 }
                 else if(pivotValidator.timeStreamSelected(dateTimeStream) == true && dateParamValid){
                     println("Found pivotAlias: ${pivotAlias.text}")
@@ -341,12 +361,30 @@ class PivotEditorFragment : Fragment() {
                     println("Found pivotChiParam Date: ${pivotChiParamPicker.dayOfMonth} - ${pivotChiParamPicker.month + 1} - ${pivotChiParamPicker.year}")
                     println("Found pivotPsiParam Date: ${pivotPsiParamPicker.dayOfMonth} - ${pivotPsiParamPicker.month + 1} - ${pivotPsiParamPicker.year}")
                     println("Found pivotTimeStamp: ${pivotValidator.pivotTimeStamp()}")
+                    val stagedPivot = DataPivot(alias = "${pivotAlias.text}", entityCode = masterControl.fetchEntityCode(),
+                    optionCode = masterControl.fetchOptionCode(), practitionerCode = practitionerCode, endPointCode = endPointCode,
+                        timeStreamCode = pivotValidator.fetchTimeFlowCode(),
+                        dateParameterA = pivotValidator.cleanDateString(pivotChiParamPicker.year, pivotChiParamPicker.month, pivotChiParamPicker.dayOfMonth),
+                    dateParameterB = pivotValidator.cleanDateString(pivotPsiParamPicker.year, pivotPsiParamPicker.month, pivotPsiParamPicker.dayOfMonth),
+                    createdOnTimeStamp = pivotValidator.pivotTimeStamp(), serverOfOrigin = userManager.getServerUrl())
+                    processPivot(stagedPivot)
+                    //triageRepository.insertDataPivot(stagedPivot)
+
+
 
                 }
 
             }
 
         }
+    }
+
+
+
+    private fun processPivot(dataPivot: DataPivot){
+        val navController = findNavController()
+        val input = PivotEditorFragmentDirections.createPivotAction(dataPivot)
+        navController.navigate(input)
     }
 
 

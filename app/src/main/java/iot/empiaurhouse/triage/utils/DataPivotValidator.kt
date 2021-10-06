@@ -212,6 +212,29 @@ class DataPivotValidator {
     }
 
 
+    fun cleanDateString(year: Int, month: Int, day: Int): String{
+        var dateString = ""
+        var dayString = day.toString()
+        var monthInt = month + 1
+        var monthString = ""
+        if (monthInt  < 10){
+            monthString = "0${monthInt + 1}"
+        }
+        if (monthInt  > 9){
+            monthString = monthInt.toString()
+        }
+        if (day < 10){
+            dayString = "0$day"
+
+        }
+
+        dateString = "$year-$monthString-$dayString"
+
+
+        return dateString
+    }
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun pivotTimeStamp(): String {
         val timeNow = LocalDateTime.now()
