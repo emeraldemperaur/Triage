@@ -136,6 +136,7 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
+                android:visibility="visible"
                 android:background="@color/white"
                 android:layout_marginTop="0dp"
                 android:layout_marginBottom="33dp"
@@ -144,6 +145,23 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/record_line2"
                 android:overScrollMode="never"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/dashboard_records_found_text"
+                app:layout_constraintTop_toBottomOf="@id/record_line2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="33dp"
+                android:layout_marginBottom="123dp"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:letterSpacing="0.44"
+                android:textColor="@color/chiron_deep_grey"
+                android:fontFamily="@font/montserratlight"
+                android:text="@string/no_records_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:visibility="visible"

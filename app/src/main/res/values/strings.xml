@@ -222,4 +222,5 @@
     <string name="alias">ALIAS</string>
     <string name="chi_date_value">Chi Date Value</string>
     <string name="psi_date_value">Psi Date Value</string>
+    <string name="results_count">results count</string>
 </resources>

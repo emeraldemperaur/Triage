@@ -186,7 +186,7 @@ class PivotController {
 
 
 
-    private fun pivotObjectChronoCheck(dataPivot: DataPivot): Boolean{
+    fun pivotObjectChronoCheck(dataPivot: DataPivot): Boolean{
         var isDate = false
         if (dataPivot.timeStreamCode != null){
             isDate = true
@@ -196,7 +196,7 @@ class PivotController {
     }
 
 
-    private fun pivotObjectModelCheck(dataPivot: DataPivot): String{
+     fun pivotObjectModelCheck(dataPivot: DataPivot): String{
         var modelEntity = ""
         when(dataPivot.entityCode){
             1 -> {
@@ -236,7 +236,7 @@ class PivotController {
         return modelEntity
     }
 
-    private fun pivotObjectTimeFlowInterpreter(dataPivot: DataPivot): String{
+    fun pivotObjectTimeFlowInterpreter(dataPivot: DataPivot): String{
         var timeFlow = ""
         when(dataPivot.timeStreamCode){
             1 -> {
@@ -256,7 +256,7 @@ class PivotController {
     }
 
 
-    private fun pivotObjectEndPointCheck(dataPivot: DataPivot): String{
+    fun pivotObjectEndPointCheck(dataPivot: DataPivot): String{
         var entityEndPoint = ""
         when(dataPivot.endPointCode){
             1 -> {

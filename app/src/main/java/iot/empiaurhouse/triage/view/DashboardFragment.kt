@@ -27,7 +27,6 @@ import iot.empiaurhouse.triage.databinding.FragmentDashboardBinding
 import iot.empiaurhouse.triage.model.ChironRecords
 import iot.empiaurhouse.triage.model.Pivot
 import iot.empiaurhouse.triage.utils.InsightChart
-import iot.empiaurhouse.triage.utils.ListStore
 import iot.empiaurhouse.triage.utils.PivotRecyclerAdapter
 import iot.empiaurhouse.triage.utils.RecordRecyclerAdapter
 import iot.empiaurhouse.triage.viewmodel.SetupActivityViewModel
@@ -57,6 +56,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     private lateinit var dashboardViewModel: SetupActivityViewModel
     private lateinit var hubView: LinearLayout
     private lateinit var navController: NavController
+    private lateinit var noResultsText: TextView
 
 
 
@@ -100,14 +100,13 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         recordRecyclerView!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         insightChart = binding.insightChart
         chironNote = binding.chironNote
+        noResultsText = binding.dashboardRecordsFoundText
         dashboardViewModel = ViewModelProvider(this).get(SetupActivityViewModel::class.java)
         dashboardViewModel.pingServer()
         val fontFace = resources.getFont(R.font.montserratlight)
         InsightChart().renderRecordsPieChart(requireContext(),fontFace,insightChart,recordsFound,this)
         pivotsRVA = PivotRecyclerAdapter(fetchPivotsList(), hubView)
         recordsFound = fetchRecordsData()
-        ListStore.cacheRecordsList(fetchRecordsData())
-        recordsFound = ListStore.getCachedRecordsList()
         pivotRecyclerView.adapter = pivotsRVA
         initRefresh()
 
@@ -140,8 +139,9 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         super.onResume()
         Handler(Looper.getMainLooper()).postDelayed({
         recordRecyclerView = binding.hubRecordsRecyclerView
-        recordsRVA = RecordRecyclerAdapter(fetchRecordsData())
+        recordsRVA = RecordRecyclerAdapter(recordsFound)
         recordRecyclerView!!.adapter = recordsRVA
+            noResultsView(recordsFound.size)
         }, 1000)
 
     }
@@ -158,9 +158,11 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         Handler(Looper.getMainLooper()).postDelayed({
+            recordsFound = fetchRecordsData()
             recordRecyclerView = binding.hubRecordsRecyclerView
-            recordsRVA = RecordRecyclerAdapter(fetchRecordsData())
+            recordsRVA = RecordRecyclerAdapter(recordsFound)
             recordRecyclerView!!.adapter = recordsRVA
+            noResultsView(recordsFound.size)
         }, 1000)
     }
 
@@ -197,7 +199,6 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
                         result = reply.isNotEmpty()
                         if (fetchedRecords.isEmpty()) {
                             fetchedRecords.addAll(reply)
-                            // dashboardViewModel.stashRecordsList(reply)
                             recordsFound = fetchedRecords
                             println("Records response object is not empty: $result")
                             println("See Chiron Records response result: $reply")
@@ -298,10 +299,13 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         recordsRVA = null
         recordRecyclerView = null
         Handler(Looper.getMainLooper()).postDelayed({
+            recordsFound = fetchRecordsData()
             recordRecyclerView = binding.hubRecordsRecyclerView
-            recordsRVA = RecordRecyclerAdapter(fetchRecordsData())
+            recordsRVA = RecordRecyclerAdapter(recordsFound)
             recordRecyclerView!!.adapter = recordsRVA
+            noResultsView(recordsFound.size)
         }, 1000)
+
     }
 
 
@@ -310,6 +314,18 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         dashboardSwipeRefresh.setOnRefreshListener {
             viewRefresh()
             dashboardSwipeRefresh.isRefreshing = false
+        }
+    }
+
+    private fun noResultsView(recordsFound: Int){
+        if (recordsFound < 1){
+            recordRecyclerView!!.visibility = View.GONE
+            noResultsText.visibility = View.VISIBLE
+
+        }
+        else if (recordsFound > 0){
+            noResultsText.visibility = View.GONE
+            recordRecyclerView!!.visibility = View.VISIBLE
         }
     }
 
