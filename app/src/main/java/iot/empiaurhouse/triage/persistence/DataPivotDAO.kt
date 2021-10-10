@@ -32,6 +32,9 @@ interface DataPivotDAO {
     @Query("select * from pivot_db order by id desc")
     fun fetchDataPivotsByID(): Single<List<DataPivot>>
 
+    @Query("select * from pivot_db where serverOfOrigin==:serverOfOrigin order by id desc")
+    fun fetchDataPivotsByIDClean(serverOfOrigin: String): Single<List<DataPivot>>
+
     @Query("select * from pivot_db order by createdOnTimeStamp desc")
     fun fetchDataPivotsByTimeStamp(): Single<List<DataPivot>>
 

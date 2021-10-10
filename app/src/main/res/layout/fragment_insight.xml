@@ -19,21 +19,22 @@
 
 
 
-    <ImageView
-        android:visibility="visible"
-        android:elevation="13dp"
-        android:scaleType="fitXY"
-        android:id="@+id/insight_models_icon"
-        android:src="@drawable/ic_baseline_insights_24"
-        android:layout_marginTop="65dp"
-        android:layout_marginEnd="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="69dp"
-        android:layout_height="69dp"
-        android:contentDescription="@string/insight_n_models"
-        app:tint="@color/chiron_blue" />
+
+            <ImageView
+            android:visibility="visible"
+            android:elevation="13dp"
+            android:scaleType="fitXY"
+            android:id="@+id/insight_models_icon"
+            android:src="@drawable/ic_baseline_insights_24"
+            android:layout_marginTop="65dp"
+            android:layout_marginEnd="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="69dp"
+            android:layout_height="69dp"
+            android:contentDescription="@string/insight_n_models"
+            app:tint="@color/chiron_blue" />
 
             <View
                 android:elevation="3dp"
@@ -83,7 +84,7 @@
         android:layout_height="1dp"/>
 
 
-    <TextView
+            <TextView
         android:visibility="visible"
         android:id="@+id/no_insight_points_found"
         android:text="@string/no_insight_models_found"
@@ -92,8 +93,8 @@
         android:layout_marginStart="3dp"
         android:layout_marginEnd="3dp"
         android:fontFamily="@font/montserratlight"
-        android:layout_marginTop="69dp"
-        app:layout_constraintTop_toBottomOf="@+id/insight_models_view_recyclerview"
+        android:layout_marginTop="169dp"
+        app:layout_constraintTop_toBottomOf="@+id/insight_model_line1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:textColor="@color/chiron_grey"
@@ -101,13 +102,36 @@
         android:layout_height="wrap_content"/>
 
 
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/loading_insight_models"
+                android:text="@string/loading_insight_models"
+                android:letterSpacing="0.36"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
+                android:fontFamily="@font/montserratlight"
+                android:layout_marginTop="169dp"
+                app:layout_constraintTop_toBottomOf="@+id/insight_model_line1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:textColor="@color/chiron_grey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:visibility="visible"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="111dp"
         app:layout_constraintTop_toBottomOf="@+id/insight_model_line1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/insight_models_view_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

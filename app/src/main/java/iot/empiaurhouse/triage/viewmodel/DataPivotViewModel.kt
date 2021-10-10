@@ -9,12 +9,14 @@ import iot.empiaurhouse.triage.model.DataPivot
 import iot.empiaurhouse.triage.model.Patient
 import iot.empiaurhouse.triage.network.ChironAPIService
 import iot.empiaurhouse.triage.persistence.TriageRepository
+import iot.empiaurhouse.triage.utils.UserPreferenceManager
 import kotlinx.coroutines.InternalCoroutinesApi
 
 class DataPivotViewModel: ViewModel() {
     private val chironAPIService = ChironAPIService()
     private val triageRepository = TriageRepository()
     private val dataPivotDisposable = CompositeDisposable()
+    private val dataPivotCleanDisposable = CompositeDisposable()
     private val patientDisposable = CompositeDisposable()
     private val patientSubDisposable = CompositeDisposable()
     private val patientUnSubDisposable = CompositeDisposable()
@@ -23,6 +25,7 @@ class DataPivotViewModel: ViewModel() {
     val patientUnSubRecords = MutableLiveData<List<Patient>>()
     val serviceError = MutableLiveData<Boolean>()
     val dataPivots = MutableLiveData<List<DataPivot>>()
+    val dataPivotsClean = MutableLiveData<List<DataPivot>>()
     val resultError = MutableLiveData<Boolean>()
     val connecting = MutableLiveData<Boolean>()
     private lateinit var alphaParam: String
@@ -30,12 +33,16 @@ class DataPivotViewModel: ViewModel() {
     private lateinit var epsilonParam: String
     private lateinit var chiParam: String
     private lateinit var psiParam: String
+    private lateinit var userManager: UserPreferenceManager
+
 
 
     @InternalCoroutinesApi
     fun processPivot(application: Application){
         triageRepository.TriageRepository(application)
+        userManager = UserPreferenceManager(application.applicationContext)
         fetchPivotsList()
+        //fetchPivotsListClean()
     }
 
 
@@ -51,6 +58,31 @@ class DataPivotViewModel: ViewModel() {
                         resultError.value = false
                         connecting.value = false
                         println("\nFound Data Pivots DB: \n $reply")
+
+                    }
+
+                    override fun onError(e: Throwable) {
+                        resultError.value = true
+                        connecting.value = false
+                        e.printStackTrace()
+                    }
+
+                } )
+        )
+    }
+
+     fun fetchPivotsListClean(){
+        val extantServer = userManager.getServerUrl().toString()
+        connecting.value = true
+        dataPivotCleanDisposable.add(
+            triageRepository.fetchDataPivotsByIDClean(extantServer).subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribeWith(object: DisposableSingleObserver<List<DataPivot>>(){
+                    override fun onSuccess(reply: List<DataPivot>) {
+                        dataPivotsClean.value = reply
+                        resultError.value = false
+                        connecting.value = false
+                        println("\nFound Extant Server Data Pivots DB: \n $reply")
 
                     }
 

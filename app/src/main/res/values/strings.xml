@@ -224,4 +224,6 @@
     <string name="psi_date_value">Psi Date Value</string>
     <string name="results_count">results count</string>
     <string name="loading_data_pivots">Loading Data Pivots...</string>
+    <string name="loading_insight_models">Loading Insight Models...</string>
+
 </resources>

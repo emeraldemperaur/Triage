@@ -28,6 +28,10 @@ class TriageRepository {
         return dataPivotDAO.fetchDataPivotsByID()
     }
 
+    fun fetchDataPivotsByIDClean(serverOfOrigin: String): Single<List<DataPivot>>{
+        return dataPivotDAO.fetchDataPivotsByIDClean(serverOfOrigin)
+    }
+
     fun fetchDataPivotsByChronology(): Single<List<DataPivot>>{
         return dataPivotDAO.fetchDataPivotsByTimeStamp()
     }

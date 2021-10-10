@@ -4,8 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
+import iot.empiaurhouse.triage.databinding.FragmentSettingsBinding
 
 
 private const val ARG_PARAM1 = ""
@@ -15,6 +19,11 @@ private const val ARG_PARAM2 = ""
 class SettingsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding: FragmentSettingsBinding
+    private lateinit var hubUserName: TextView
+    private lateinit var searchButton: FloatingActionButton
+    private lateinit var toolbarView: CollapsingToolbarLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +39,19 @@ class SettingsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentSettingsBinding.bind(view)
+        hubUserName = requireActivity().findViewById(R.id.hub_username_title)
+        searchButton = requireActivity().findViewById(R.id.hub_search_button)
+        toolbarView = requireActivity().findViewById(R.id.hub_collapsing_toolbar)
+        hubUserName.visibility = View.GONE
+        searchButton.visibility = View.GONE
+        toolbarView.visibility = View.GONE
+
     }
 
     companion object {

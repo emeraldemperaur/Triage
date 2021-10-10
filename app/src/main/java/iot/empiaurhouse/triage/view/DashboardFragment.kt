@@ -22,6 +22,8 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.FragmentDashboardBinding
 import iot.empiaurhouse.triage.model.ChironRecords
@@ -57,6 +59,9 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     private lateinit var hubView: LinearLayout
     private lateinit var navController: NavController
     private lateinit var noResultsText: TextView
+    private lateinit var hubUserName: TextView
+    private lateinit var searchButton: FloatingActionButton
+    private lateinit var toolbarView: CollapsingToolbarLayout
 
 
 
@@ -80,7 +85,6 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
 
         return inflater.inflate(R.layout.fragment_dashboard, container, false)
     }
@@ -157,6 +161,12 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
+        hubUserName = requireActivity().findViewById(R.id.hub_username_title)
+        searchButton = requireActivity().findViewById(R.id.hub_search_button)
+        toolbarView = requireActivity().findViewById(R.id.hub_collapsing_toolbar)
+        hubUserName.visibility = View.VISIBLE
+        searchButton.visibility = View.VISIBLE
+        toolbarView.visibility = View.VISIBLE
         Handler(Looper.getMainLooper()).postDelayed({
             recordsFound = fetchRecordsData()
             recordRecyclerView = binding.hubRecordsRecyclerView

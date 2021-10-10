@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.FragmentPivotsBinding
@@ -40,9 +41,14 @@ class PivotsFragment : Fragment() {
     private lateinit var loadingText: TextView
     private lateinit var navControls: NavController
     private lateinit var pivotsView: ConstraintLayout
-    private  var pivotsRecyclerView: RecyclerView? = null
+    private var pivotsRecyclerView: RecyclerView? = null
     private var dataPivotsFound = arrayListOf<DataPivot>()
-    private  var dataPivotRVA: DataPivotsAdapter? = null
+    private var dataPivotRVA: DataPivotsAdapter? = null
+    private var cleanDBEnabled = false
+    private lateinit var hubUserName: TextView
+    private lateinit var searchButton: FloatingActionButton
+    private lateinit var toolbarView: CollapsingToolbarLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +76,12 @@ class PivotsFragment : Fragment() {
         pivotsView = binding.pivotView
         noResultsText = binding.noDataPivotsFound
         loadingText = binding.loadingDataPivots
+        hubUserName = requireActivity().findViewById(R.id.hub_username_title)
+        searchButton = requireActivity().findViewById(R.id.hub_search_button)
+        toolbarView = requireActivity().findViewById(R.id.hub_collapsing_toolbar)
+        hubUserName.visibility = View.VISIBLE
+        searchButton.visibility = View.VISIBLE
+        toolbarView.visibility = View.VISIBLE
         pivotViewModel = ViewModelProvider(this).get(DataPivotViewModel::class.java)
         val app = requireActivity().application
         pivotViewModel.processPivot(app)
@@ -97,20 +109,37 @@ class PivotsFragment : Fragment() {
         var result: Boolean
         val fetchedPivots = arrayListOf<DataPivot>()
         if (view != null) {
-
-            pivotViewModel.dataPivots.observe(
-                viewLifecycleOwner,
-                androidx.lifecycle.Observer { reply ->
-                    reply?.let {
-                        result = reply.isNotEmpty()
-                        if (fetchedPivots.isEmpty()) {
-                            fetchedPivots.addAll(reply)
-                            dataPivotsFound = fetchedPivots
-                            println("Data Pivots response object is not empty: $result")
-                            println("See Data Pivots response result: $reply")
+            if (!cleanDBEnabled) {
+                pivotViewModel.dataPivots.observe(
+                    viewLifecycleOwner,
+                    androidx.lifecycle.Observer { reply ->
+                        reply?.let {
+                            result = reply.isNotEmpty()
+                            if (fetchedPivots.isEmpty()) {
+                                fetchedPivots.addAll(reply)
+                                dataPivotsFound = fetchedPivots
+                                println("Data Pivots response object is not empty: $result")
+                                println("See Data Pivots response result: $reply")
+                            }
                         }
-                    }
-                })
+                    })
+            }else if (cleanDBEnabled){
+                pivotViewModel.fetchPivotsListClean()
+                pivotViewModel.dataPivotsClean.observe(
+                    viewLifecycleOwner,
+                    androidx.lifecycle.Observer { reply ->
+                        reply?.let {
+                            result = reply.isNotEmpty()
+                            if (fetchedPivots.isEmpty()) {
+                                fetchedPivots.addAll(reply)
+                                dataPivotsFound = fetchedPivots
+                                println("Data Pivots (Clean) response object is not empty: $result")
+                                println("See Data Pivots (Clean) response result: $reply")
+                            }
+                        }
+                    })
+            }
+
 
         }
 

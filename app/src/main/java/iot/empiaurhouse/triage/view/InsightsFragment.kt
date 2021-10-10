@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.FragmentInsightBinding
 
@@ -16,6 +19,10 @@ class InsightFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding: FragmentInsightBinding
+    private lateinit var hubUserName: TextView
+    private lateinit var searchButton: FloatingActionButton
+    private lateinit var toolbarView: CollapsingToolbarLayout
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +47,13 @@ class InsightFragment : Fragment() {
         binding = FragmentInsightBinding.bind(view)
         val insightsMainTitle = "INSIGHT MODELS"
         binding.insightModelsTitle.text = insightsMainTitle
+        hubUserName = requireActivity().findViewById(R.id.hub_username_title)
+        searchButton = requireActivity().findViewById(R.id.hub_search_button)
+        toolbarView = requireActivity().findViewById(R.id.hub_collapsing_toolbar)
+        hubUserName.visibility = View.VISIBLE
+        searchButton.visibility = View.VISIBLE
+        toolbarView.visibility = View.VISIBLE
+
 
     }
 
