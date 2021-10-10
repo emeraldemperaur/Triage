@@ -104,9 +104,9 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         dashboardViewModel = ViewModelProvider(this).get(SetupActivityViewModel::class.java)
         dashboardViewModel.pingServer()
         val fontFace = resources.getFont(R.font.montserratlight)
-        InsightChart().renderRecordsPieChart(requireContext(),fontFace,insightChart,recordsFound,this)
         pivotsRVA = PivotRecyclerAdapter(fetchPivotsList(), hubView)
         recordsFound = fetchRecordsData()
+        InsightChart().renderRecordsPieChart(requireContext(),fontFace,insightChart,recordsFound,this)
         pivotRecyclerView.adapter = pivotsRVA
         initRefresh()
 

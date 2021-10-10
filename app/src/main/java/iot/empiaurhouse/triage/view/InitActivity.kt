@@ -19,7 +19,9 @@ import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.ActivityInitBinding
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
 import iot.empiaurhouse.triage.utils.UserPreferenceManager
+import iot.empiaurhouse.triage.viewmodel.DataPivotViewModel
 import iot.empiaurhouse.triage.viewmodel.InitViewModel
+import kotlinx.coroutines.InternalCoroutinesApi
 import java.util.*
 
 
@@ -30,16 +32,22 @@ class InitActivity : AppCompatActivity() {
     private lateinit var typeText : TypeWriterTextView
     private lateinit var userManager: UserPreferenceManager
     private lateinit var initViewModel: InitViewModel
+    private lateinit var pivotViewModel: DataPivotViewModel
+
     private var userPUID = ""
     private var serverUrl = ""
 
 
+    @InternalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInitBinding.inflate(layoutInflater)
         //ChironAPIService().initServerUrl(this)
         initViewModel = ViewModelProvider(this).get(InitViewModel::class.java)
         initViewModel.pingServer(this)
+        pivotViewModel = ViewModelProvider(this).get(DataPivotViewModel::class.java)
+        val app = this.application
+        pivotViewModel.processPivot(app)
         val viewInit = binding.root
         fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fader)
         with(window) {

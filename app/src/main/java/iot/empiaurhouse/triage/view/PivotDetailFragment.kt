@@ -8,8 +8,14 @@ import android.view.ViewGroup
 import android.widget.ExpandableListView
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.PivotController
@@ -17,7 +23,6 @@ import iot.empiaurhouse.triage.databinding.FragmentPivotDetailBinding
 import iot.empiaurhouse.triage.model.*
 import java.util.*
 
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
@@ -34,15 +39,26 @@ class PivotDetailFragment : Fragment() {
     private lateinit var alphaParam: TextView
     private lateinit var betaParam: TextView
     private lateinit var epsilonParam: TextView
+    private lateinit var alphaParamTitle: TextView
+    private lateinit var betaParamTitle: TextView
+    private lateinit var epsilonParamTitle: TextView
     private lateinit var chiParam: TextView
     private lateinit var psiParam: TextView
+    private lateinit var chiParamTitle: TextView
+    private lateinit var psiParamTitle: TextView
     private lateinit var pivotListView: ExpandableListView
     private lateinit var exitPivot: FloatingActionButton
+    private lateinit var hubUserName: TextView
+    private lateinit var searchButton: FloatingActionButton
     private lateinit var noResultsText: TextView
     private lateinit var pivotTimeStream: TextView
     private lateinit var noResultsImageView: ImageView
+    private lateinit var toolBar: Toolbar
+    private lateinit var toolbarView: CollapsingToolbarLayout
     private lateinit var pivotController: PivotController
-
+    private lateinit var navigationControls: NavController
+    private val args: PivotDetailFragmentArgs by navArgs()
+    private lateinit var stagedDataPivot: DataPivot
 
 
 
@@ -64,6 +80,7 @@ class PivotDetailFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPivotDetailBinding.bind(view)
@@ -73,16 +90,30 @@ class PivotDetailFragment : Fragment() {
         pivotResultCount = binding.pivotDetailResultsCount
         pivotType = binding.pivotDetailPivotTypeText
         alphaParam = binding.pivotDetailPivotAlphaParametersText
+        alphaParamTitle = binding.pivotDetailPivotAlphaParametersTitle
         betaParam = binding.pivotDetailPivotBetaParametersText
+        betaParamTitle = binding.pivotDetailPivotBetaParametersTitle
         epsilonParam = binding.pivotDetailPivotEpsilonParametersText
+        epsilonParamTitle = binding.pivotDetailPivotEpsilonParametersTitle
         pivotTimeStream = binding.pivotDetailTimeStream
         chiParam = binding.pivotDetailPivotChiParametersText
+        chiParamTitle = binding.pivotDetailPivotChiParametersTitle
         psiParam = binding.pivotDetailPivotPsiParametersText
+        psiParamTitle = binding.pivotDetailPivotPsiParametersTitle
         pivotListView = binding.pivotDetailPivotList
         exitPivot = binding.exitDataPivot
         noResultsText = binding.pivotDetailNoResults
         noResultsImageView = binding.pivotDetailNoResultsImg
+        hubUserName = requireActivity().findViewById(R.id.hub_username_title)
+        searchButton = requireActivity().findViewById(R.id.hub_search_button)
+        toolBar = requireActivity().findViewById(R.id.hub_toolbar)
+        toolbarView = requireActivity().findViewById(R.id.hub_collapsing_toolbar)
+        navigationControls = view.findNavController()
         pivotController = PivotController()
+        stagedDataPivot = args.dataPivot
+        initPivotDetailView(stagedDataPivot)
+        initPivotRecordsView(stagedDataPivot)
+        onBackPressed()
 
     }
 
@@ -90,12 +121,25 @@ class PivotDetailFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun initPivotDetailView(dataPivot: DataPivot){
+        hubUserName.visibility = View.INVISIBLE
+        searchButton.visibility = View.INVISIBLE
         pivotLabel.text = dataPivot.alias.capitalize(Locale.ROOT)
         pivotModel.text = pivotController.pivotObjectModelCheck(dataPivot)
         pivotEndPoint.text = pivotController.pivotObjectEndPointCheck(dataPivot)
         pivotType.text = pivotController.pivotObjectTypeCheck(dataPivot)
         val isDatePivot = pivotController.pivotObjectChronoCheck(dataPivot)
         if (isDatePivot){
+            alphaParamTitle.visibility = View.GONE
+            alphaParam.visibility = View.GONE
+            betaParamTitle.visibility = View.GONE
+            betaParam.visibility = View.GONE
+            epsilonParamTitle.visibility = View.GONE
+            epsilonParam.visibility = View.GONE
+            pivotTimeStream.visibility = View.VISIBLE
+            chiParamTitle.visibility = View.VISIBLE
+            chiParam.visibility = View.VISIBLE
+            psiParamTitle.visibility = View.VISIBLE
+            psiParam.visibility = View.VISIBLE
             pivotTimeStream.text = pivotController.pivotObjectTimeFlowInterpreter(dataPivot)
             if (dataPivot.timeStreamCode == 4){
                 chiParam.text = pivotController.pivotObjectDateFormat(dataPivot.dateParameterA)
@@ -107,78 +151,100 @@ class PivotDetailFragment : Fragment() {
             }
         }
         else if (!isDatePivot){
+            pivotTimeStream.visibility = View.GONE
+            chiParamTitle.visibility = View.GONE
+            chiParam.visibility = View.GONE
+            psiParamTitle.visibility = View.GONE
+            psiParam.visibility = View.GONE
+            alphaParamTitle.visibility = View.VISIBLE
+            alphaParam.visibility = View.VISIBLE
+            betaParamTitle.visibility = View.VISIBLE
+            betaParam.visibility = View.VISIBLE
+            epsilonParamTitle.visibility = View.VISIBLE
+            epsilonParam.visibility = View.VISIBLE
             alphaParam.text = pivotController.pivotObjectValueHolderCheck(dataPivot.valueParameterA)
             betaParam.text = pivotController.pivotObjectValueHolderCheck(dataPivot.valueParameterB)
             epsilonParam.text = pivotController.pivotObjectValueHolderCheck(dataPivot.valueParameterC)
+
+        }
+
+
+        exitPivot.setOnClickListener {
+            hubUserName.visibility = View.VISIBLE
+            searchButton.visibility = View.VISIBLE
+            toolbarView.visibility = View.VISIBLE
+
+            val input = PivotDetailFragmentDirections.exitPivotDetail()
+            navigationControls.navigate(input)
         }
 
     }
 
 
-    fun initPivotRecordsView(dataPivot: DataPivot, patientRecords: ArrayList<Patient>? = null,
-                             diagnosisList: ArrayList<Diagnosis>? = null,
-    prescriptionList: ArrayList<Prescription>? = null,
-                             visitList: ArrayList<Visit>? = null,
-                             pharmaceuticalsList: ArrayList<Pharmaceuticals>? = null,
-    practitionerList: ArrayList<Practitioner>? = null,
-                             doctorList: ArrayList<Doctor>? = null,
-                             nursePractitionerList: ArrayList<NursePractitioner>? = null,
-                             registeredNurseList: ArrayList<RegisteredNurse>? = null){
+    private fun initPivotRecordsView(dataPivot: DataPivot, patientRecords: ArrayList<Patient>? = null,
+                                     diagnosisList: ArrayList<Diagnosis>? = null,
+                                     prescriptionList: ArrayList<Prescription>? = null,
+                                     visitList: ArrayList<Visit>? = null,
+                                     pharmaceuticalsList: ArrayList<Pharmaceuticals>? = null,
+                                     practitionerList: ArrayList<Practitioner>? = null,
+                                     doctorList: ArrayList<Doctor>? = null,
+                                     nursePractitionerList: ArrayList<NursePractitioner>? = null,
+                                     registeredNurseList: ArrayList<RegisteredNurse>? = null){
 
-        var listSize = 0
+        val listSize = 0
         when(dataPivot.entityCode) {
             1 -> {
-                listSize = patientRecords!!.size
+                //listSize = patientRecords!!.size
                 noResultsView(listSize)
-                noResultsText.text = listSize.toString()
+                pivotResultCount.text = listSize.toString()
             }
             2 -> {
-                listSize = diagnosisList!!.size
+                //listSize = diagnosisList!!.size
                 noResultsView(listSize)
-                noResultsText.text = listSize.toString()
+                pivotResultCount.text = listSize.toString()
 
             }
             3 -> {
-                listSize = prescriptionList!!.size
+                //listSize = prescriptionList!!.size
                 noResultsView(listSize)
-                noResultsText.text = listSize.toString()
+                pivotResultCount.text = listSize.toString()
 
             }
             4 -> {
-                listSize = visitList!!.size
+                //listSize = visitList!!.size
                 noResultsView(listSize)
-                noResultsText.text = listSize.toString()
+                pivotResultCount.text = listSize.toString()
             }
             5 -> {
-                listSize = pharmaceuticalsList!!.size
+                //listSize = pharmaceuticalsList!!.size
                 noResultsView(listSize)
-                noResultsText.text = listSize.toString()
+                pivotResultCount.text = listSize.toString()
 
             }
             6 -> {
 
                 when (dataPivot.practitionerCode) {
                     10 -> {
-                        listSize = practitionerList!!.size
+                        // listSize = practitionerList!!.size
                         noResultsView(listSize)
-                        noResultsText.text = listSize.toString()
+                        pivotResultCount.text = listSize.toString()
                     }
                     20 -> {
-                        listSize = doctorList!!.size
+                        // listSize = doctorList!!.size
                         noResultsView(listSize)
-                        noResultsText.text = listSize.toString()
+                        pivotResultCount.text = listSize.toString()
 
                     }
                     30 -> {
-                        listSize = nursePractitionerList!!.size
+                        // listSize = nursePractitionerList!!.size
                         noResultsView(listSize)
-                        noResultsText.text = listSize.toString()
+                        pivotResultCount.text = listSize.toString()
 
                     }
                     40 -> {
-                        listSize = registeredNurseList!!.size
+                        // listSize = registeredNurseList!!.size
                         noResultsView(listSize)
-                        noResultsText.text = listSize.toString()
+                        pivotResultCount.text = listSize.toString()
 
                     }
                 }
@@ -188,11 +254,12 @@ class PivotDetailFragment : Fragment() {
     }
 
 
-    private fun noResultsView(recordsFound: Int){
-        if (recordsFound < 1){
+    private fun noResultsView(recordsFound: Int?){
+        if (recordsFound!! < 1){
             pivotListView.visibility = View.GONE
             noResultsText.visibility = View.VISIBLE
             noResultsImageView.visibility = View.VISIBLE
+            pivotResultCount.text = 0.toString()
 
         }
         else if (recordsFound > 0){
@@ -200,6 +267,25 @@ class PivotDetailFragment : Fragment() {
             noResultsImageView.visibility = View.GONE
             pivotListView.visibility = View.VISIBLE
         }
+    }
+
+
+    fun onBackPressed(){
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                isEnabled = true
+                requireActivity().moveTaskToBack(true)
+            }
+        })
+    }
+
+
+
+    override fun onResume() {
+        super.onResume()
+        toolbarView.visibility = View.VISIBLE
+        hubUserName.visibility = View.INVISIBLE
+        searchButton.visibility = View.INVISIBLE
     }
 
     companion object {

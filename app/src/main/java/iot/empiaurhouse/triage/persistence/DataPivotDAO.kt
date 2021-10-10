@@ -2,6 +2,7 @@ package iot.empiaurhouse.triage.persistence
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import io.reactivex.Single
 import iot.empiaurhouse.triage.model.DataPivot
 
 @Dao
@@ -28,8 +29,14 @@ interface DataPivotDAO {
     @Query("select * from pivot_db where alias==:pivotAlias")
     fun fetchDataPivotByAlias(pivotAlias: String): LiveData<DataPivot>
 
+    @Query("select * from pivot_db order by id desc")
+    fun fetchDataPivotsByID(): Single<List<DataPivot>>
+
     @Query("select * from pivot_db order by createdOnTimeStamp desc")
-    fun fetchDataPivotsByTimeStamp(): LiveData<List<DataPivot>>
+    fun fetchDataPivotsByTimeStamp(): Single<List<DataPivot>>
+
+    @Query("select * from pivot_db where serverOfOrigin==:serverOfOrigin")
+    fun fetchDataPivotsByOriginServer(serverOfOrigin: String): LiveData<List<DataPivot>>
 
     @Query("select * from pivot_db order by alias desc")
     fun fetchDataPivotsByDESCAlias(): LiveData<List<DataPivot>>

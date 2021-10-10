@@ -25,6 +25,10 @@ interface ChironAPIEndpoints {
     @GET("api/patients/l/{firstName}")
     fun getChironPatientsByFirstName(@Path("firstName") firstName: String?): Single<List<Patient>>
 
+    @GET("api/patients/blood/{bloodGroup}")
+    fun getChironPatientsByBloodGroup(@Path("bloodGroup") bloodGroup: String?): Single<List<Patient>>
+
+
     @GET("api/patients/insurancevendor/{insuranceVendor}")
     fun getChironPatientsByInsuranceVendor(@Path("insuranceVendor") insuranceVendor: String?): Single<List<Patient>>
 

@@ -2,6 +2,7 @@ package iot.empiaurhouse.triage.persistence
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import io.reactivex.Single
 import iot.empiaurhouse.triage.model.DataPivot
 import kotlinx.coroutines.InternalCoroutinesApi
 
@@ -23,7 +24,11 @@ class TriageRepository {
         return dataPivotDAO.bulkFetchDataPivots()
     }
 
-    fun fetchDataPivotsByChronology(): LiveData<List<DataPivot>>{
+    fun fetchDataPivotsByID(): Single<List<DataPivot>>{
+        return dataPivotDAO.fetchDataPivotsByID()
+    }
+
+    fun fetchDataPivotsByChronology(): Single<List<DataPivot>>{
         return dataPivotDAO.fetchDataPivotsByTimeStamp()
     }
 
@@ -34,6 +39,10 @@ class TriageRepository {
 
     fun fetchDataPivotsByASCAlias(): LiveData<List<DataPivot>>{
         return dataPivotDAO.fetchDataPivotsByASCAlias()
+    }
+
+    fun fetchDataPivotsByOriginServer(originServer: String): LiveData<List<DataPivot>>{
+        return dataPivotDAO.fetchDataPivotsByOriginServer(originServer)
     }
 
     fun fetchDataPivotsByEntityCode(entityCode: Int): LiveData<List<DataPivot>>{

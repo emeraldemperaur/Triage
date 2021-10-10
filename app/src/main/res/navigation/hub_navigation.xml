@@ -53,6 +53,15 @@
             android:name="dataPivot"
             app:argType="iot.empiaurhouse.triage.model.DataPivot"/>
 
+        <action
+            android:id="@+id/view_pivot_action"
+            app:destination="@id/pivot_detail">
+            <argument
+                android:name="dataPivot"
+                app:argType="iot.empiaurhouse.triage.model.DataPivot"/>
+
+        </action>
+
 
     </fragment>
 
@@ -88,6 +97,34 @@
                 />
         </action>
 
+        <action
+            android:id="@+id/open_pivot_action"
+            app:destination="@id/pivot_dialog">
+            <argument
+                android:name="dataPivot"
+                app:argType="iot.empiaurhouse.triage.model.DataPivot"
+                />
+        </action>
+
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/pivot_detail"
+        android:name="iot.empiaurhouse.triage.view.PivotDetailFragment"
+        android:label="Pivot Details"
+        tools:layout="@layout/fragment_pivot_detail">
+
+        <argument
+            android:name="dataPivot"
+            app:argType="iot.empiaurhouse.triage.model.DataPivot"/>
+
+        <action
+            android:id="@+id/exit_pivot_detail"
+            app:destination="@id/hub_pivots">
+
+        </action>
 
     </fragment>
 

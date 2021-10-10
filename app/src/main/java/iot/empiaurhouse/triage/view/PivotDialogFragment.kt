@@ -1,14 +1,22 @@
 package iot.empiaurhouse.triage.view
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.PivotController
 import iot.empiaurhouse.triage.databinding.FragmentPivotDialogBinding
@@ -31,6 +39,7 @@ class PivotDialogFragment : DialogFragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding: FragmentPivotDialogBinding
+    private lateinit var viewObject: View
     private lateinit var triageBot: ImageView
     private lateinit var pivotDialogView: MaterialCardView
     private lateinit var pivotingText: TypeWriterTextView
@@ -55,6 +64,9 @@ class PivotDialogFragment : DialogFragment() {
     private lateinit var psiParamTitle: TextView
     private lateinit var psiParamText: TextView
     private lateinit var pivotProgress: ProgressBar
+    private lateinit var searchButton: FloatingActionButton
+    private lateinit var toolbarView: CollapsingToolbarLayout
+    private lateinit var hubUserName: TextView
     private lateinit var pivotController: PivotController
 
 
@@ -72,7 +84,6 @@ class PivotDialogFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_pivot_dialog, container, false)
     }
 
@@ -81,6 +92,7 @@ class PivotDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPivotDialogBinding.bind(view)
         triageBot = binding.triageBot
+        viewObject = binding.pivotDialogView
         pivotDialogView = binding.pivotDialogInfo
         pivotingText = binding.pivotingPrompt
         pivotLabel = binding.pivotLabelTitle
@@ -104,6 +116,13 @@ class PivotDialogFragment : DialogFragment() {
         psiParamTitle = binding.psiParamTitle
         psiParamText = binding.psiParamText
         pivotProgress = binding.pivotProgress
+        searchButton = requireActivity().findViewById(R.id.hub_search_button)
+        hubUserName = requireActivity().findViewById(R.id.hub_username_title)
+        toolbarView = requireActivity().findViewById(R.id.hub_collapsing_toolbar)
+        searchButton.visibility = View.GONE
+        hubUserName.visibility = View.GONE
+        toolbarView.visibility = View.GONE
+        navigationControl = view.findNavController()
         pivotController = PivotController()
         stagedDataPivot = args.dataPivot
 
@@ -115,6 +134,27 @@ class PivotDialogFragment : DialogFragment() {
 
 
     }
+
+
+    fun onBackPressed(){
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                isEnabled = true
+                requireActivity().moveTaskToBack(true)
+            }
+        })
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        if (navigationControl.currentDestination == navigationControl.graph.findNode(R.id.pivot_dialog)){
+            pivotProcess(renderComplete)
+        }
+
+    }
+
+
 
     companion object {
         /**

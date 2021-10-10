@@ -103,7 +103,8 @@
             android:textSize="13sp"
             android:textStyle="bold"
             android:textColor="@color/chiron_grey"
-            android:lines="6"
+            android:lines="7"
+            android:maxLines="7"
             android:textAlignment="center"
             android:layout_marginTop="33dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -215,7 +216,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="41dp"
-            android:layout_marginBottom="41dp"
+            android:layout_marginBottom="12dp"
             android:paddingTop="13dp"
             android:paddingBottom="23dp"
             android:text="@string/learn_more_text"
@@ -227,6 +228,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/server_credentials_card"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
 
 

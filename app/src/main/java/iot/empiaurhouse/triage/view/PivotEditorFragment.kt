@@ -11,6 +11,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.button.MaterialButton
@@ -23,6 +24,8 @@ import iot.empiaurhouse.triage.persistence.TriageRepository
 import iot.empiaurhouse.triage.utils.DataPivotValidator
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
 import iot.empiaurhouse.triage.utils.UserPreferenceManager
+import iot.empiaurhouse.triage.utils.subscribeOnBackground
+import iot.empiaurhouse.triage.viewmodel.DataPivotViewModel
 import kotlinx.coroutines.InternalCoroutinesApi
 import java.time.LocalDate
 import java.util.*
@@ -80,6 +83,7 @@ class PivotEditorFragment : Fragment() {
     private lateinit var dateParameterType: TypeWriterTextView
     private lateinit var editButtonView: View
     private lateinit var editButton: MaterialButton
+    private lateinit var pivotViewModel: DataPivotViewModel
     private lateinit var triageRepository: TriageRepository
     private var editorInputs: ArrayList<EditText> = arrayListOf()
     private var editorIcons: ArrayList<ImageView> = arrayListOf()
@@ -99,7 +103,6 @@ class PivotEditorFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_pivot_editor, container, false)
     }
 
@@ -130,8 +133,9 @@ class PivotEditorFragment : Fragment() {
         onBackPressed()
         userManager = UserPreferenceManager(requireContext())
         val app = requireActivity().application
-        triageRepository = TriageRepository()
-        triageRepository.TriageRepository(app)
+        pivotViewModel = ViewModelProvider(this).get(DataPivotViewModel::class.java)
+        pivotViewModel.processPivot(app)
+
 
 
 
@@ -348,8 +352,9 @@ class PivotEditorFragment : Fragment() {
                     valueParameterC = pivotEpsilonParamEdit.text.toString(), createdOnTimeStamp = pivotValidator.pivotTimeStamp(),
                     serverOfOrigin = userManager.getServerUrl())
                     processPivot(stagedPivot)
-                    //triageRepository.insertDataPivot(stagedPivot)
-
+                    subscribeOnBackground {
+                        pivotViewModel.insertDataPivot(stagedPivot)
+                    }
                 }
                 else if(pivotValidator.timeStreamSelected(dateTimeStream) == true && dateParamValid){
                     println("Found pivotAlias: ${pivotAlias.text}")
@@ -368,9 +373,9 @@ class PivotEditorFragment : Fragment() {
                     dateParameterB = pivotValidator.cleanDateString(pivotPsiParamPicker.year, pivotPsiParamPicker.month, pivotPsiParamPicker.dayOfMonth),
                     createdOnTimeStamp = pivotValidator.pivotTimeStamp(), serverOfOrigin = userManager.getServerUrl())
                     processPivot(stagedPivot)
-                    //triageRepository.insertDataPivot(stagedPivot)
-
-
+                    subscribeOnBackground {
+                        pivotViewModel.insertDataPivot(stagedPivot)
+                    }
 
                 }
 

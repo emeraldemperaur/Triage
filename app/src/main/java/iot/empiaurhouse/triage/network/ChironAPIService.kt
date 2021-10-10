@@ -59,6 +59,20 @@ class ChironAPIService {
         return chironAPI.getChironPatientsByFirstName(firstName)
     }
 
+    fun getChironPatientsByBloodGroup(bloodGroup: String): Single<List<Patient>>{
+        return chironAPI.getChironPatientsByBloodGroup(bloodGroup)
+    }
+
+    fun getChironPatientsByInsurer(insurer: String): Single<List<Patient>>{
+        return chironAPI.getChironPatientsByInsuranceVendor(insurer)
+    }
+
+    fun getChironPatientsByInsurerID(insurerID: String): Single<List<Patient>>{
+        return chironAPI.getChironPatientsByInsuranceVendorID(insurerID)
+    }
+
+
+
     fun getChironPatientsByBirthDateOn(birthDate: String): Single<List<Patient>>{
         return chironAPI.getChironPatientsByBirthDate(birthDate)
     }

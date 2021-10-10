@@ -50,14 +50,14 @@ abstract class TriageDatabase: RoomDatabase() {
             val dataPivotDAO = db.dataPivotDOA()
             subscribeOnBackground {
                 val initPivot = DataPivot(alias = "Prometheus", entityCode = 1, optionCode = 1,
-                    endPointCode = 1, valueParamCode = 1, valueParameterA = "John",
+                    endPointCode = 1, valueParamCode = 1, valueParameterA = "John", valueParameterB=" ",
+                    valueParameterC = " ",
                     serverOfOrigin = "www.chiron.ca", createdOnTimeStamp = LocalDate.now().toString())
                 dataPivotDAO.insertDataPivot(initPivot)
                 val initPivotII = DataPivot(alias = "Lazuli  List", entityCode = 1, optionCode = 1,
                     endPointCode = 2, valueParamCode = 3,
                     valueParameterA = "Smith", valueParameterB="Doe", valueParameterC = "Coulson",
                     serverOfOrigin = "www.chiron.com", createdOnTimeStamp = LocalDate.now().toString())
-                dataPivotDAO.insertDataPivot(initPivot)
                 dataPivotDAO.insertDataPivot(initPivotII)
             }
 

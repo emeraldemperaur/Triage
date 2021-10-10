@@ -218,7 +218,7 @@ class DataPivotValidator {
         var monthInt = month + 1
         var monthString = ""
         if (monthInt  < 10){
-            monthString = "0${monthInt + 1}"
+            monthString = "0${monthInt}"
         }
         if (monthInt  > 9){
             monthString = monthInt.toString()

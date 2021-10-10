@@ -19,6 +19,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.ActivityHubBinding
@@ -39,6 +40,7 @@ class HubActivity : AppCompatActivity() {
     private val strLength = 24
     private lateinit var hubMenu: Menu
     private lateinit var pivotsTitle: TextView
+    private lateinit var searchButton: FloatingActionButton
     private lateinit var navigationView: NavigationView
     private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var hubNavController: NavController
@@ -60,6 +62,7 @@ class HubActivity : AppCompatActivity() {
         hubMenu = binding.hubToolbar.menu
         navigationView = binding.hubDrawerNavView
         hubDrawer = binding.hubDrawerView
+        searchButton = binding.hubSearchButton
         bottomNavigation = binding.hubFootNav
         initSideOptionsMenu()
         initView()

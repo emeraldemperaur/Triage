@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.PivotDialogFragment"
+    android:id="@+id/pivot_dialog_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -25,7 +26,7 @@
         android:clickable="true"
         app:strokeColor="@color/chiron_deep_grey"
         app:strokeWidth="1dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="40dp"
         android:layout_marginStart="99dp"
         android:layout_marginEnd="23dp"
         app:cardElevation="69dp"
@@ -453,7 +454,7 @@
 
         <ImageView
             android:id="@+id/triage_bot"
-            android:layout_marginTop="109dp"
+            android:layout_marginTop="79dp"
             android:layout_marginBottom="69dp"
             android:visibility="invisible"
             android:elevation="69dp"

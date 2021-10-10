@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.navigation.NavController
 import com.google.android.material.card.MaterialCardView
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.model.DataPivot
@@ -29,7 +30,7 @@ class PivotController {
 
 
     fun initPivotDialog(context: Context,
-                        dataPivot: DataPivot,
+                        dataPivot: DataPivot, navigationControl: NavController,
                         triageBot: ImageView, pivotDialogView: MaterialCardView,
                         pivotingText: TypeWriterTextView, pivotLabel: TextView,
                         dataModelTitle: TextView, dataModelText: TextView,
@@ -42,9 +43,9 @@ class PivotController {
                         timeStreamTitle: TextView, timeStreamText: TextView,
                         ChiParamTitle: TextView, ChiParamText: TextView,
                         PsiParamTitle: TextView, PsiParamText: TextView,
-                        pivotProgress: ProgressBar){
+                        pivotProgress: ProgressBar): Boolean{
 
-
+        var isFinished = false
         triageBot.visibility = View.GONE
         slideRightAnimation = AnimationUtils.loadAnimation(context, R.anim.pull_in_left)
         fadeInLabelAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
@@ -175,6 +176,40 @@ class PivotController {
                 }
 
                 pivotTypeTitle.clearAnimation()
+                triageBot.clearAnimation()
+                pivotDialogView.clearAnimation()
+                pivotingText.clearAnimation()
+                pivotLabel.clearAnimation()
+                dataModelTitle.clearAnimation()
+                dataModelText.clearAnimation()
+                endPointTitle.clearAnimation()
+                endPointText.clearAnimation()
+                pivotTypeTitle.clearAnimation()
+                pivotTypeText.clearAnimation()
+                parameterTitle.clearAnimation()
+                AlphaParamTitle.clearAnimation()
+                AlphaParamText.clearAnimation()
+                BetaParamTitle.clearAnimation()
+                BetaParamText.clearAnimation()
+                EpsilonParamTitle.clearAnimation()
+                EpsilonParamText.clearAnimation()
+                timeStreamTitle.clearAnimation()
+                timeStreamText.clearAnimation()
+                ChiParamTitle.clearAnimation()
+                ChiParamText.clearAnimation()
+                PsiParamTitle.clearAnimation()
+                PsiParamText.clearAnimation()
+                pivotProgress.clearAnimation()
+                isFinished = true
+
+               /* Handler(Looper.getMainLooper()).postDelayed({
+                    val input = PivotDialogFragmentDirections.viewPivotAction(dataPivot)
+                    navigationControl.previousBackStackEntry.navigate(input)
+                }, 6000)
+*/
+
+
+
             }
 
             override fun onAnimationStart(animation: Animation?) {
@@ -182,6 +217,7 @@ class PivotController {
             }
         })
 
+        return isFinished
     }
 
 
@@ -311,7 +347,7 @@ class PivotController {
                 entityEndPoint = "Insurer ID"
             }
             18 -> {
-                entityEndPoint = "Date"
+                entityEndPoint = "Rx Date"
             }
             19 -> {
                 entityEndPoint = "Host"
@@ -380,7 +416,7 @@ class PivotController {
 
         }
 
-    fun pivotObjectValueHolderCheck(pivotValue: String?): String?{
+    fun pivotObjectValueHolderCheck(pivotValue: String?): String {
         var valueString = pivotValue
         if (pivotValue != null) {
             if (pivotValue.isBlank() || pivotValue == ""){
@@ -391,6 +427,16 @@ class PivotController {
         return valueString!!.capitalize(Locale.ROOT)
     }
 
+    fun pivotsObjectValueHolderCheck(pivotValue: String?): String {
+        var valueString = pivotValue
+        if (pivotValue != null) {
+            if (pivotValue.isBlank() || pivotValue == ""){
+                valueString = ""
+            }
+        }
+
+        return valueString!!.capitalize(Locale.ROOT)
+    }
 
 
 

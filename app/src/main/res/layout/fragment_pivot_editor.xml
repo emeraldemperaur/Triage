@@ -127,7 +127,7 @@
                         android:hint="@string/pivot_label"
                         android:importantForAutofill="no"
                         android:inputType="text"
-                        android:maxLength="24"
+                        android:maxLength="19"
                         android:textColor="@color/chiron_blue"
                         android:textColorHint="@color/chiron_grey"
                         android:textSize="21sp"
