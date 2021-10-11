@@ -114,12 +114,13 @@ class PivotsFragment : Fragment() {
         initRefresh()
     }
 
+
     private fun initSwipeDeleteGesture(){
         val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = dataPivotRVA
                 adapter!!.deletePivot(viewHolder.adapterPosition)
-
+                noResultsView(dataPivotsFound.size)
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeHandler)

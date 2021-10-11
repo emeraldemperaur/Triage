@@ -16,28 +16,35 @@ interface ChironAPIEndpoints {
     @GET("http://chiron-cloudapp.herokuapp.com/api/records")
     fun getChironRecords(): Single<List<ChironRecords>>
 
-    @GET("api/patients")
+    @Headers("Accept: application/json")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/patients")
     fun getChironPatients(): Single<List<Patient>>
 
+    @Headers("Accept: application/json")
     @GET("api/patients/l/{lastName}")
     fun getChironPatientsByLastName(@Path("lastName") lastName: String?): Single<List<Patient>>
 
+    @Headers("Accept: application/json")
     @GET("api/patients/l/{firstName}")
     fun getChironPatientsByFirstName(@Path("firstName") firstName: String?): Single<List<Patient>>
 
+    @Headers("Accept: application/json")
     @GET("api/patients/blood/{bloodGroup}")
     fun getChironPatientsByBloodGroup(@Path("bloodGroup") bloodGroup: String?): Single<List<Patient>>
 
-
+    @Headers("Accept: application/json")
     @GET("api/patients/insurancevendor/{insuranceVendor}")
     fun getChironPatientsByInsuranceVendor(@Path("insuranceVendor") insuranceVendor: String?): Single<List<Patient>>
 
+    @Headers("Accept: application/json")
     @GET("api/patients/insurancevendorid/{insuranceVendorID}")
     fun getChironPatientsByInsuranceVendorID(@Path("insuranceVendorID") insuranceVendorID: String?): Single<List<Patient>>
 
+    @Headers("Accept: application/json")
     @GET("api/patients/birthdate/on/{birthDate}")
     fun getChironPatientsByBirthDate(@Path("birthDate") birthDate: String?): Single<List<Patient>>
 
+    @Headers("Accept: application/json")
     @GET("api/patients/birthdate/before/{birthDate}")
     fun getChironPatientsByBirthDateBefore(@Path("birthDate") birthDate: String?): Single<List<Patient>>
 
@@ -72,7 +79,7 @@ interface ChironAPIEndpoints {
     @GET("api/diagnoses/synopsis/{diagnosisSynopsis}")
     fun getChironDiagnosesByDiagnosisSynopsis(@Path("diagnosisSynopsis") diagnosisSynopsis: String?): Single<List<Diagnosis>>
 
-    @GET("api/prescriptions")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/prescriptions")
     fun getChironPrescriptions(): Single<List<Prescription>>
 
     @GET("api/prescriptions/name/{prescriptionName}")
@@ -100,7 +107,7 @@ interface ChironAPIEndpoints {
     @GET("api/prescriptions/insurancevendorid/{insuranceVendorID}")
     fun getChironPrescriptionsByInsuranceVendorID(@Path("insuranceVendorID") insuranceVendorID: String?): Single<List<Prescription>>
 
-    @GET("api/visits")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/visits")
     fun getChironVisits(): Single<List<Visit>>
 
     @GET("api/visits/host/{hostPractitioner}")
@@ -131,7 +138,7 @@ interface ChironAPIEndpoints {
     @GET("api/visits/insurancevendorid/{insuranceVendorID}")
     fun getChironVisitsByInsuranceVendorID(@Path("insuranceVendorID") insuranceVendorID: String?): Single<List<Visit>>
 
-    @GET("api/practitioners")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/practitioners")
     fun getChironPractitioners(): Single<List<Practitioner>>
 
     @GET("api/practitioners/l/{lastName}")
@@ -143,7 +150,7 @@ interface ChironAPIEndpoints {
     @GET("api/practitioners/id/{practitionerId}")
     fun getChironPractitionersByPractitionerID(@Path("practitionerId") practitionerId: String?): Single<List<Practitioner>>
 
-    @GET("api/doctors")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/doctors")
     fun getChironDoctors(): Single<List<Doctor>>
 
     @GET("api/doctors/l/{lastName}")
@@ -155,7 +162,7 @@ interface ChironAPIEndpoints {
     @GET("api/doctors/id/{practitionerId}")
     fun getChironDoctorsByPractitionerID(@Path("practitionerId") practitionerId: String?): Single<List<Doctor>>
 
-    @GET("api/nursepractitioners")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/nursepractitioners")
     fun getChironNursePractitioners(): Single<List<NursePractitioner>>
 
     @GET("api/nursepractitioners/l/{lastName}")
@@ -168,7 +175,7 @@ interface ChironAPIEndpoints {
     fun getChironNursePractitionersByPractitionerID(@Path("practitionerId") practitionerId: String?): Single<List<NursePractitioner>>
 
 
-    @GET("api/registerednurses")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/registerednurses")
     fun getChironRegisteredNurses(): Single<List<RegisteredNurse>>
 
     @GET("api/registerednurses/l/{lastName}")
@@ -180,7 +187,7 @@ interface ChironAPIEndpoints {
     @GET("api/registerednurses/id/{practitionerId}")
     fun getChironRegisteredNursesByPractitionerID(@Path("practitionerId") practitionerId: String?): Single<List<RegisteredNurse>>
 
-    @GET("api/pharmaceuticals")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/pharmaceuticals")
     fun getChironPharmaceuticals(): Single<List<Pharmaceuticals>>
 
     @GET("api/pharmaceuticals/brand/{brandName}")

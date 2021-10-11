@@ -16,9 +16,9 @@ data class Pharmaceuticals(
     @JsonProperty("chemicalName")
     @SerializedName("chemicalName")
     val chemicalName: String?,
-    @JsonProperty("manufactureName")
-    @SerializedName("manufactureName")
-    val manufactureName: String?,
+    @JsonProperty("manufacturerName")
+    @SerializedName("manufacturerName")
+    val manufacturerName: String?,
     @JsonProperty("batchNumber")
     @SerializedName("batchNumber")
     val batchNumber: String?,

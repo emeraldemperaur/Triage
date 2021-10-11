@@ -90,9 +90,8 @@ class DataPivotsAdapter(private val dataPivotList: ArrayList<DataPivot>, private
         dataPivotList.add(position, dataPivot)
         subscribeOnBackground {
             pivotViewModel.insertDataPivot(dataPivot)
-            println("Resorted Pivot to DB:\n $dataPivot")
+            println("Resorted Data Pivot to DB:\n $dataPivot")
         }
-
         notifyItemInserted(position)
     }
 
@@ -101,11 +100,14 @@ class DataPivotsAdapter(private val dataPivotList: ArrayList<DataPivot>, private
         val focusPivot = dataPivotList[position]
         subscribeOnBackground {
             pivotViewModel.deleteDataPivot(focusPivot)
-            println("Deleting Pivot from DB:\n $focusPivot")
+            println("Deleted Data Pivot from DB:\n $focusPivot")
         }
         dataPivotList.removeAt(position)
         notifyItemRemoved(position)
-        val deletedPrompt = Snackbar.make(pivotsViewObject,"Deleted Pivot | ${focusPivot.alias}", Snackbar.LENGTH_LONG)
+        val deletedPrompt = Snackbar.make(pivotsViewObject,"Deleted Pivot | ${focusPivot.alias.capitalize(
+            Locale.ROOT
+        )
+        }", Snackbar.LENGTH_LONG)
         deletedPrompt.setAction("UNDO", View.OnClickListener {
 
             restorePivot(focusPivot, position)
