@@ -1,4 +1,4 @@
-package iot.empiaurhouse.triage.utils
+package iot.empiaurhouse.triage.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,13 +12,13 @@ class RecordRecyclerAdapter(private val recordsList: ArrayList<ChironRecords>): 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecordRecyclerAdapter.ViewHolder {
+    ): ViewHolder {
         val v = LayoutInflater.from(parent.context)
             .inflate(R.layout.records_list_view, parent, false)
         return ViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: RecordRecyclerAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.recordItemTitle.text = recordsList[position].recordName
         holder.recordItemType.text = recordsList[position].recordType
         holder.recordItemCount.text = recordsList[position].recordCount.toString()

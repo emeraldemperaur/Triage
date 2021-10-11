@@ -1,4 +1,4 @@
-package iot.empiaurhouse.triage.utils
+package iot.empiaurhouse.triage.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -20,7 +20,7 @@ class PivotRecyclerAdapter(private val pivotList: ArrayList<Pivot>, private val 
     private lateinit var pivotContext: Context
     private lateinit var hubView: View
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PivotRecyclerAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)
             .inflate(R.layout.quick_pivot_item, parent, false)
         pivotContext = parent.context
@@ -30,7 +30,7 @@ class PivotRecyclerAdapter(private val pivotList: ArrayList<Pivot>, private val 
         return ViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: PivotRecyclerAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val pivot = pivotList[position]
         val navControls = holder.navControl
         holder.pivotIcon.setImageDrawable(ContextCompat.getDrawable(pivotContext, pivotList[position].drawableResourceID))

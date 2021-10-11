@@ -96,9 +96,8 @@ class TriageRepository {
         dataPivotDAO.deleteDataPivotsDB()
     }
 
-    fun deleteDataPivot(dataPivot: DataPivot): DataPivot{
-        dataPivotDAO.deleteDataPivot(dataPivot)
-        return dataPivot
+    fun deleteDataPivot(dataPivot: DataPivot) {
+         dataPivotDAO.deleteDataPivot(dataPivot)
     }
 
 }

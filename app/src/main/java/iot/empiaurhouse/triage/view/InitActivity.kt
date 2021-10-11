@@ -33,7 +33,6 @@ class InitActivity : AppCompatActivity() {
     private lateinit var userManager: UserPreferenceManager
     private lateinit var initViewModel: InitViewModel
     private lateinit var pivotViewModel: DataPivotViewModel
-
     private var userPUID = ""
     private var serverUrl = ""
 

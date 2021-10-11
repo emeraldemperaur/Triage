@@ -1,5 +1,6 @@
 package iot.empiaurhouse.triage.view
 
+import android.app.Application
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,18 +10,22 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
+import iot.empiaurhouse.triage.adapter.DataPivotsAdapter
+import iot.empiaurhouse.triage.adapter.SwipeToDeleteCallback
 import iot.empiaurhouse.triage.databinding.FragmentPivotsBinding
 import iot.empiaurhouse.triage.model.DataPivot
-import iot.empiaurhouse.triage.utils.DataPivotsAdapter
 import iot.empiaurhouse.triage.viewmodel.DataPivotViewModel
 import kotlinx.coroutines.InternalCoroutinesApi
 import java.util.*
@@ -37,10 +42,12 @@ class PivotsFragment : Fragment() {
     private lateinit var binding: FragmentPivotsBinding
     private lateinit var pivotViewModel: DataPivotViewModel
     private lateinit var newPivotButton: FloatingActionButton
+    private lateinit var pivotSwipeRefresh: SwipeRefreshLayout
     private lateinit var noResultsText: TextView
     private lateinit var loadingText: TextView
     private lateinit var navControls: NavController
     private lateinit var pivotsView: ConstraintLayout
+    private lateinit var app: Application
     private var pivotsRecyclerView: RecyclerView? = null
     private var dataPivotsFound = arrayListOf<DataPivot>()
     private var dataPivotRVA: DataPivotsAdapter? = null
@@ -76,6 +83,8 @@ class PivotsFragment : Fragment() {
         pivotsView = binding.pivotView
         noResultsText = binding.noDataPivotsFound
         loadingText = binding.loadingDataPivots
+        pivotSwipeRefresh = binding.pivotsSwipeRefresh
+        pivotSwipeRefresh.setColorSchemeColors(ResourcesCompat.getColor(resources, R.color.chiron_blue, null))
         hubUserName = requireActivity().findViewById(R.id.hub_username_title)
         searchButton = requireActivity().findViewById(R.id.hub_search_button)
         toolbarView = requireActivity().findViewById(R.id.hub_collapsing_toolbar)
@@ -83,17 +92,15 @@ class PivotsFragment : Fragment() {
         searchButton.visibility = View.VISIBLE
         toolbarView.visibility = View.VISIBLE
         pivotViewModel = ViewModelProvider(this).get(DataPivotViewModel::class.java)
-        val app = requireActivity().application
+        app = requireActivity().application
         pivotViewModel.processPivot(app)
         pivotsRecyclerView = binding.dataPivotsViewRecyclerview
         pivotsRecyclerView!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         navControls = view.findNavController()
         initPivotsTabView()
-        onBackPressed()
         dataPivotsFound = fetchPivotsDB()
-        dataPivotRVA = DataPivotsAdapter(dataPivotsFound, pivotsView)
+        dataPivotRVA = DataPivotsAdapter(dataPivotsFound, pivotsView, this, app)
         pivotsRecyclerView!!.adapter = dataPivotRVA
-
     }
 
 
@@ -102,7 +109,23 @@ class PivotsFragment : Fragment() {
         newPivotButton.setOnClickListener {
             navControls.navigate(newPivot)
         }
+        onBackPressed()
+        initSwipeDeleteGesture()
+        initRefresh()
     }
+
+    private fun initSwipeDeleteGesture(){
+        val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = dataPivotRVA
+                adapter!!.deletePivot(viewHolder.adapterPosition)
+
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(pivotsRecyclerView)
+
+        }
 
 
     private fun fetchPivotsDB(): ArrayList<DataPivot> {
@@ -139,11 +162,7 @@ class PivotsFragment : Fragment() {
                         }
                     })
             }
-
-
         }
-
-
         return fetchedPivots
     }
 
@@ -155,11 +174,11 @@ class PivotsFragment : Fragment() {
         Handler(Looper.getMainLooper()).postDelayed({
             dataPivotsFound = fetchPivotsDB()
             pivotsRecyclerView = binding.dataPivotsViewRecyclerview
-            dataPivotRVA = DataPivotsAdapter(dataPivotsFound, pivotsView)
+            dataPivotRVA = DataPivotsAdapter(dataPivotsFound, pivotsView, this, app)
             pivotsRecyclerView!!.adapter = dataPivotRVA
             noResultsView(dataPivotsFound.size)
         }, 1000)
-
+        initSwipeDeleteGesture()
     }
 
 
@@ -176,23 +195,37 @@ class PivotsFragment : Fragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
+
+    private fun initRefresh(){
+        pivotSwipeRefresh.setOnRefreshListener {
+            loadingText.visibility = View.VISIBLE
+            viewRefresh()
+            pivotSwipeRefresh.isRefreshing = false
+        }
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        loadingText.visibility = View.VISIBLE
     }
 
 
     private fun noResultsView(recordsFound: Int){
         loadingText.visibility = View.GONE
         if (recordsFound < 1){
-            pivotsRecyclerView!!.visibility = View.GONE
+            if (pivotsRecyclerView != null) {
+                pivotsRecyclerView!!.visibility = View.GONE
+            }
             noResultsText.visibility = View.VISIBLE
         }
         else if (recordsFound > 0){
             noResultsText.visibility = View.GONE
-            pivotsRecyclerView!!.visibility = View.VISIBLE
+            if (pivotsRecyclerView != null) {
+                pivotsRecyclerView!!.visibility = View.VISIBLE
+            }
         }
     }
-
 
     fun onBackPressed(){
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){

@@ -106,7 +106,7 @@
                 android:visibility="invisible"
                 android:id="@+id/loading_insight_models"
                 android:text="@string/loading_insight_models"
-                android:letterSpacing="0.36"
+                android:letterSpacing="0.41"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 android:layout_marginStart="3dp"

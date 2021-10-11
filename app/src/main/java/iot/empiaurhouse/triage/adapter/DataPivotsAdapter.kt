@@ -1,5 +1,6 @@
-package iot.empiaurhouse.triage.utils
+package iot.empiaurhouse.triage.adapter
 
+import android.app.Application
 import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
@@ -7,31 +8,42 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.snackbar.Snackbar
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.PivotController
 import iot.empiaurhouse.triage.model.DataPivot
-import iot.empiaurhouse.triage.model.Pivot
+import iot.empiaurhouse.triage.utils.subscribeOnBackground
 import iot.empiaurhouse.triage.view.PivotsFragmentDirections
+import iot.empiaurhouse.triage.viewmodel.DataPivotViewModel
+import kotlinx.coroutines.InternalCoroutinesApi
 import java.util.*
 
-class DataPivotsAdapter(private val dataPivotList: ArrayList<DataPivot>, private val pivotsViewObject: View): RecyclerView.Adapter<DataPivotsAdapter.ViewHolder>() {
+class DataPivotsAdapter(private val dataPivotList: ArrayList<DataPivot>, private val pivotsViewObject: View,
+                        private val activity: ViewModelStoreOwner,
+                        private val application: Application): RecyclerView.Adapter<DataPivotsAdapter.ViewHolder>() {
 
     private lateinit var pivotContext: Context
     private lateinit var hubView: View
     private lateinit var pivotController: PivotController
+    private lateinit var pivotViewModel: DataPivotViewModel
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataPivotsAdapter.ViewHolder {
+
+    @InternalCoroutinesApi
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)
             .inflate(R.layout.datapivots_list_view, parent, false)
         pivotContext = parent.context
         pivotController = PivotController()
+        pivotViewModel = ViewModelProvider(activity).get(DataPivotViewModel::class.java)
+        pivotViewModel.processPivot(application)
         hubView = pivotsViewObject
         val holder = ViewHolder(v)
         holder.dataPivotsItem.setOnClickListener {  }
@@ -39,7 +51,7 @@ class DataPivotsAdapter(private val dataPivotList: ArrayList<DataPivot>, private
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onBindViewHolder(holder: DataPivotsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dataPivot = dataPivotList[position]
         val navControls = holder.dataPivotsNavControl
         holder.dataPivotsIcon.setImageDrawable(ContextCompat.getDrawable(pivotContext, pivotIconController(dataPivot)))
@@ -74,11 +86,36 @@ class DataPivotsAdapter(private val dataPivotList: ArrayList<DataPivot>, private
         return dataPivotList.size
     }
 
-    private fun toastSnippet(pivotItem: Pivot){
-        Toast.makeText(pivotContext,"Pivot Item Selected: ${pivotItem.title} -- ID: $${pivotItem.id.toString()}",
-            Toast.LENGTH_LONG).show()
+    private fun restorePivot(dataPivot: DataPivot, position: Int){
+        dataPivotList.add(position, dataPivot)
+        subscribeOnBackground {
+            pivotViewModel.insertDataPivot(dataPivot)
+            println("Resorted Pivot to DB:\n $dataPivot")
+        }
+
+        notifyItemInserted(position)
+    }
+
+
+    fun deletePivot(position: Int){
+        val focusPivot = dataPivotList[position]
+        subscribeOnBackground {
+            pivotViewModel.deleteDataPivot(focusPivot)
+            println("Deleting Pivot from DB:\n $focusPivot")
+        }
+        dataPivotList.removeAt(position)
+        notifyItemRemoved(position)
+        val deletedPrompt = Snackbar.make(pivotsViewObject,"Deleted Pivot | ${focusPivot.alias}", Snackbar.LENGTH_LONG)
+        deletedPrompt.setAction("UNDO", View.OnClickListener {
+
+            restorePivot(focusPivot, position)
+
+        })
+        deletedPrompt.anchorView = pivotsViewObject.rootView.findViewById(R.id.hub_foot_nav)
+        deletedPrompt.show()
 
     }
+
 
 
     private fun pivotIconController(dataPivot: DataPivot): Int{

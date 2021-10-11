@@ -20,6 +20,7 @@ class DataPivotViewModel: ViewModel() {
     private val patientDisposable = CompositeDisposable()
     private val patientSubDisposable = CompositeDisposable()
     private val patientUnSubDisposable = CompositeDisposable()
+    private val deleteDisposable = CompositeDisposable()
     val patientRecords = MutableLiveData<List<Patient>>()
     val patientSubRecords = MutableLiveData<List<Patient>>()
     val patientUnSubRecords = MutableLiveData<List<Patient>>()

@@ -12,10 +12,10 @@ interface DataPivotDAO {
     fun insertDataPivot(dataPivot: DataPivot)
 
     @Update
-    fun updateDataPivot(dataPivot: DataPivot): Int
+    fun updateDataPivot(dataPivot: DataPivot)
 
     @Delete
-    fun deleteDataPivot(dataPivot: DataPivot): Int
+    fun deleteDataPivot(dataPivot: DataPivot)
 
     @Query("delete from pivot_db")
     fun deleteDataPivotsDB()

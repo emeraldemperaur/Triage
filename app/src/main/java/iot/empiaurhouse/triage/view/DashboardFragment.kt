@@ -25,12 +25,12 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
+import iot.empiaurhouse.triage.adapter.PivotRecyclerAdapter
+import iot.empiaurhouse.triage.adapter.RecordRecyclerAdapter
 import iot.empiaurhouse.triage.databinding.FragmentDashboardBinding
 import iot.empiaurhouse.triage.model.ChironRecords
 import iot.empiaurhouse.triage.model.Pivot
 import iot.empiaurhouse.triage.utils.InsightChart
-import iot.empiaurhouse.triage.utils.PivotRecyclerAdapter
-import iot.empiaurhouse.triage.utils.RecordRecyclerAdapter
 import iot.empiaurhouse.triage.viewmodel.SetupActivityViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
