@@ -38,47 +38,47 @@ class PivotRecyclerAdapter(private val pivotList: ArrayList<Pivot>, private val 
         holder.pivotItem.setOnClickListener {
             when (pivot.id) {
                 1 -> {
-                    toastSnippet(pivot)
+                    //toastSnippet(pivot)
                     val input = DashboardFragmentDirections.quickPivotAction(1)
                     navControls.navigate(input)
                 }
                 2 -> {
-                    toastSnippet(pivot)
+                    //toastSnippet(pivot)
                     val input = DashboardFragmentDirections.quickPivotAction(2)
                     navControls.navigate(input)
                 }
                 3 -> {
-                    toastSnippet(pivot)
+                    //toastSnippet(pivot)
                     val input = DashboardFragmentDirections.quickPivotAction(3)
                     navControls.navigate(input)
                 }
                 4 -> {
-                    toastSnippet(pivot)
+                    //toastSnippet(pivot)
                     val input = DashboardFragmentDirections.quickPivotAction(4)
                     navControls.navigate(input)
                 }
                 5 -> {
-                    toastSnippet(pivot)
+                    //toastSnippet(pivot)
                     val input = DashboardFragmentDirections.quickPivotAction(5)
                     navControls.navigate(input)
                 }
                 6 -> {
-                    toastSnippet(pivot)
+                    //toastSnippet(pivot)
                     val input = DashboardFragmentDirections.quickPivotAction(6)
                     navControls.navigate(input)
                 }
                 7 -> {
-                    toastSnippet(pivot)
+                    //toastSnippet(pivot)
                     val input = DashboardFragmentDirections.quickPivotAction(6)
                     navControls.navigate(input)
                 }
                 8 -> {
-                    toastSnippet(pivot)
+                    //toastSnippet(pivot)
                     val input = DashboardFragmentDirections.quickPivotAction(6)
                     navControls.navigate(input)
                 }
                 9 -> {
-                    toastSnippet(pivot)
+                    //toastSnippet(pivot)
                     val input = DashboardFragmentDirections.quickPivotAction(6)
                     navControls.navigate(input)
                     true

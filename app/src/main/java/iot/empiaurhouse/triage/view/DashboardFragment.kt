@@ -143,7 +143,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         super.onResume()
         Handler(Looper.getMainLooper()).postDelayed({
         recordRecyclerView = binding.hubRecordsRecyclerView
-        recordsRVA = RecordRecyclerAdapter(recordsFound)
+        recordsRVA = RecordRecyclerAdapter(recordsFound, hubView)
         recordRecyclerView!!.adapter = recordsRVA
             noResultsView(recordsFound.size)
         }, 1000)
@@ -170,7 +170,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         Handler(Looper.getMainLooper()).postDelayed({
             recordsFound = fetchRecordsData()
             recordRecyclerView = binding.hubRecordsRecyclerView
-            recordsRVA = RecordRecyclerAdapter(recordsFound)
+            recordsRVA = RecordRecyclerAdapter(recordsFound, hubView)
             recordRecyclerView!!.adapter = recordsRVA
             noResultsView(recordsFound.size)
         }, 1000)
@@ -311,7 +311,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         Handler(Looper.getMainLooper()).postDelayed({
             recordsFound = fetchRecordsData()
             recordRecyclerView = binding.hubRecordsRecyclerView
-            recordsRVA = RecordRecyclerAdapter(recordsFound)
+            recordsRVA = RecordRecyclerAdapter(recordsFound, hubView)
             recordRecyclerView!!.adapter = recordsRVA
             noResultsView(recordsFound.size)
         }, 1000)

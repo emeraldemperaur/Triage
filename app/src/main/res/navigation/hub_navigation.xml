@@ -20,6 +20,15 @@
             />
         </action>
 
+        <action
+            android:id="@+id/view_records_action"
+            app:destination="@id/allRecords">
+            <argument
+                android:name="recordID"
+                app:argType="integer"
+                />
+        </action>
+
     </fragment>
 
     <fragment
@@ -63,6 +72,19 @@
         </action>
 
 
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/allRecords"
+        android:name="iot.empiaurhouse.triage.view.AllRecordsFragment"
+        android:label="All Records"
+        tools:layout="@layout/fragment_all_records">
+
+        <argument
+            android:name="recordID"
+            app:argType="integer"
+            />
     </fragment>
 
 

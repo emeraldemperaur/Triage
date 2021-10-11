@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import iot.empiaurhouse.triage.R
+import iot.empiaurhouse.triage.controller.MultiRecordController
 import iot.empiaurhouse.triage.databinding.FragmentAllRecordsBinding
 import iot.empiaurhouse.triage.model.*
 import iot.empiaurhouse.triage.viewmodel.ChironRecordsViewModel
@@ -27,6 +29,7 @@ class AllRecordsFragment : Fragment() {
     private lateinit var recordTitle: TextView
     private lateinit var noRecordsFound: TextView
     private lateinit var recordsRV: RecyclerView
+    private lateinit var recordsController: MultiRecordController
     private var patientsFound = arrayListOf<Patient>()
     private var diagnosesFound = arrayListOf<Diagnosis>()
     private var prescriptionsFound = arrayListOf<Prescription>()
@@ -36,6 +39,8 @@ class AllRecordsFragment : Fragment() {
     private var nursePractitionersFound = arrayListOf<NursePractitioner>()
     private var registeredNursesFound = arrayListOf<RegisteredNurse>()
     private var pharmaceuticalsFound = arrayListOf<Pharmaceuticals>()
+    private var recordsID: Int = 1
+    private val args: AllRecordsFragmentArgs by navArgs()
 
 
 
@@ -60,12 +65,23 @@ class AllRecordsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAllRecordsBinding.bind(view)
         recordsViewModel = ViewModelProvider(this).get(ChironRecordsViewModel::class.java)
+        recordsController = MultiRecordController()
         recordsViewModel.pullChironRecords()
+        recordsID = args.recordID
         recordCount = binding.chironRecordsSize
         recordTitle = binding.chironRecordsTitle
         noRecordsFound = binding.noChironRecordsFound
         recordsRV = binding.chironRecordsViewRecyclerview
+        initRecordsView()
 
+    }
+
+
+
+
+    fun initRecordsView(){
+        recordTitle.text = recordsController.fetchRecordName(recordsID)
+        recordCount.text = 0.toString()
     }
 
 

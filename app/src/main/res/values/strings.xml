@@ -225,5 +225,6 @@
     <string name="results_count">results count</string>
     <string name="loading_data_pivots">Loading Data Pivots...</string>
     <string name="loading_insight_models">Loading Insight Models...</string>
+    <string name="loading_chiron_records">Loading Records...</string>
 
 </resources>
