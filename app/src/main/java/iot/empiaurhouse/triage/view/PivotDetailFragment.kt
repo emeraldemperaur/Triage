@@ -103,7 +103,6 @@ class PivotDetailFragment : Fragment() {
         pivotListView = binding.pivotDetailPivotList
         exitPivot = binding.exitDataPivot
         noResultsText = binding.pivotDetailNoResults
-        noResultsImageView = binding.pivotDetailNoResultsImg
         hubUserName = requireActivity().findViewById(R.id.hub_username_title)
         searchButton = requireActivity().findViewById(R.id.hub_search_button)
         toolBar = requireActivity().findViewById(R.id.hub_toolbar)
@@ -258,13 +257,11 @@ class PivotDetailFragment : Fragment() {
         if (recordsFound!! < 1){
             pivotListView.visibility = View.GONE
             noResultsText.visibility = View.VISIBLE
-            noResultsImageView.visibility = View.VISIBLE
             pivotResultCount.text = 0.toString()
 
         }
         else if (recordsFound > 0){
             noResultsText.visibility = View.GONE
-            noResultsImageView.visibility = View.GONE
             pivotListView.visibility = View.VISIBLE
         }
     }

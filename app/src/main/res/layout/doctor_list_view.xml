@@ -1,151 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="155dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:id="@+id/doctor_list_view"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/doctor_card_view"
-        android:elevation="33dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/doctor_list_view"
+        android:background="@drawable/silver"
+        android:clickable="true"
         android:layout_width="match_parent"
-        android:background="?android:selectableItemBackground"
-        android:layout_height="150dp"
-        android:layout_margin="5dp"
-        android:padding="33dp"
-        app:cardUseCompatPadding="true"
-        app:cardCornerRadius="5dp">
-
+        android:layout_height="wrap_content"
+        android:focusable="true">
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:contentDescription="@string/info_card"
-                android:id="@+id/doctor_iv"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:scaleType="fitXY"
-                tools:src="@drawable/meka_yingyanglogo_chironblue"
-                />
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/doctor_name_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserratregular"
-                    android:text="@string/md"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/doctor_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="-6dp"
-                    android:layout_weight="1"
-                    android:maxLines="2"
-                    android:fontFamily="@font/montserratlight"
-                    android:text="@string/practitioner_name"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
-
-                <TextView
-                    android:id="@+id/doctor_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserratbold"
-                    android:text="@string/practitioner_id"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/doctor_contact"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="-1dp"
-                    android:fontFamily="@font/montserratlight"
-                    android:paddingBottom="0dp"
-                    android:text="@string/info_contact_com"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="17sp"
-                    android:textStyle="normal" />
-
-            </LinearLayout>
+            android:layout_height="match_parent">
+            <View
+                android:visibility="invisible"
+                android:elevation="33dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/doctor_diagnoses_count"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:gravity="bottom"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserratbold"
-                    android:text="@string/_10"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginStart="6dp"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/doctor_list_practitioner_label"
+                    android:text="@string/md_title"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
                     android:textColor="@color/chiron_blue"
-                    android:textSize="45sp"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/montserratlight"
+                    android:textSize="16sp"
+                    android:letterSpacing="0.21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:id="@+id/doctor_diagnoses_label"
+                    android:layout_marginTop="-9dp"
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/doctor_list_practitioner_label"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/doctor_list_practitioner_name_text"
+                    android:text="@string/dr_thelonious_jaha"
+                    android:textSize="21sp"
+                    android:maxLength="24"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:letterSpacing="0.09"
+                    android:textStyle="normal"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserratmedium"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:gravity="center_horizontal"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="9dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserratregular"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:text="@string/diagnoses_found"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginTop="6dp"
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/doctor_list_practitioner_name_text"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/doctor_list_host_practitioner_id"
+                    android:textColor="@color/chiron_grey"
+                    android:textSize="21sp"
+                    android:textStyle="normal"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.21"
+                    android:text="@string/tj100ark"
+                    android:fontFamily="@font/montserratlight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginTop="6dp"
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/doctor_list_host_practitioner_id"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/doctor_list_practitioner_speciality"
                     android:textColor="@color/chiron_blue"
-                    android:textSize="13sp"
-                    android:textAlignment="center"
-                    android:textStyle="bold" />
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.21"
+                    android:text="@string/neurosurgery"
+                    android:fontFamily="@font/montserratthin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+                <ImageView
+                    android:src="@drawable/ic_baseline_local_phone_24"
+                    android:contentDescription="@string/phone"
+                    android:id="@+id/doctor_list_phone_icon"
+                    android:visibility="visible"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="23dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:tint="@color/chiron_blue" />
+
+
+                <ImageView
+                    android:id="@+id/doctor_list_email_icon"
+                    android:contentDescription="@string/email"
+                    android:src="@drawable/ic_baseline_mark_email_read_24"
+                    android:visibility="visible"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="23dp"
+                    android:layout_marginBottom="23dp"
+                    app:layout_constraintTop_toBottomOf="@id/doctor_list_phone_icon"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:tint="@color/chiron_deep_grey" />
+
+
+
+
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
+            <View
+                android:elevation="33dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="0dp"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
 
         </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

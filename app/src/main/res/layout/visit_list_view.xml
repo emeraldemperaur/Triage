@@ -1,141 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="155dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:id="@+id/visit_list_view"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/visit_card_view"
-        android:elevation="33dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/visit_list_view"
+        android:background="@drawable/silver"
+        android:clickable="true"
         android:layout_width="match_parent"
-        android:background="?android:selectableItemBackground"
-        android:layout_height="150dp"
-        android:layout_margin="5dp"
-        android:padding="33dp"
-        app:cardUseCompatPadding="true"
-        app:cardCornerRadius="5dp">
-
+        android:layout_height="wrap_content"
+        android:focusable="true">
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/visit_diagnosis"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserratbold"
-                    tools:text="@string/diagnosis"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/host_practitioner_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="13dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserratlight"
-                    android:text="@string/host_practitioner"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="16sp"
-                    android:textStyle="normal" />
-
-                <TextView
-                    android:id="@+id/visit_examination_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserratregular"
-                    tools:text="@string/host_practitioner"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/host_practitioner_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="6dp"
-                    android:fontFamily="@font/montserratbold"
-                    tools:text="@string/examination_date"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-
-
-            </LinearLayout>
+            android:layout_height="match_parent">
+            <View
+                android:visibility="invisible"
+                android:elevation="33dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:elevation="6dp"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/visit_time"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:gravity="bottom"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserratbold"
-                    tools:text="10:00"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginStart="6dp"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/visit_list_host_practitioner"
+                    android:text="@string/host_practitioner"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
                     android:textColor="@color/chiron_blue"
-                    android:textSize="45sp"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/montserratlight"
+                    android:textSize="16sp"
+                    android:letterSpacing="0.21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:id="@+id/diagnosis_level_label"
+                    android:layout_marginTop="-9dp"
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/visit_list_host_practitioner"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/visit_list_host_practitioner_text"
+                    android:text="@string/dr_thelonious_jaha"
+                    android:textSize="21sp"
+                    android:maxLength="24"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:letterSpacing="0.09"
+                    android:textStyle="normal"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserratmedium"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:gravity="center_horizontal"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginTop="6dp"
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/visit_list_host_practitioner_text"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/visit_list_host_practitioner_id"
+                    android:textColor="@color/chiron_grey"
+                    android:textSize="21sp"
+                    android:textStyle="normal"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.21"
+                    android:text="@string/tj100ark"
                     android:fontFamily="@font/montserratlight"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+                <TextView
+                    android:id="@+id/visit_list_visit_date"
+                    android:visibility="visible"
+                    android:text="@string/phil_coulson"
+                    android:textSize="19sp"
+                    android:fontFamily="@font/montserratlight"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.21"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="96dp"
+                    android:layout_marginEnd="33dp"
+                    android:singleLine="true"
+                    android:ellipsize="middle"
+                    android:textAllCaps="false"
+                    android:maxLength="33"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    tools:text="@string/infectious"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="12sp"
-                    android:textAlignment="center"
-                    android:textStyle="normal" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+                <TextView
+                    android:id="@+id/visit_list_visit_patient"
+                    android:visibility="visible"
+                    android:text="@string/day_month_year"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/montserratlight"
+                    android:textStyle="normal"
+                    android:letterSpacing="0.21"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="117dp"
+                    android:layout_marginEnd="33dp"
+                    android:singleLine="true"
+                    android:ellipsize="middle"
+                    android:textAllCaps="false"
+                    android:maxLength="33"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+
+
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
+            <View
+                android:elevation="33dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="0dp"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
 
         </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

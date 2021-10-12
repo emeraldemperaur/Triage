@@ -1,141 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="155dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:id="@+id/diagnosis_list_view"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/diagnosis_card_view"
-        android:elevation="33dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/diagnosis_list_view"
+        android:background="@drawable/silver"
+        android:clickable="true"
         android:layout_width="match_parent"
-        android:background="?android:selectableItemBackground"
-        android:layout_height="150dp"
-        android:layout_margin="5dp"
-        android:padding="33dp"
-        app:cardUseCompatPadding="true"
-        app:cardCornerRadius="5dp">
-
+        android:layout_height="wrap_content"
+        android:focusable="true">
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:contentDescription="@string/info_card"
-                android:id="@+id/diagnosis_iv"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:scaleType="fitXY"
-                tools:src="@drawable/meka_yingyanglogo_chironblue"
-                />
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/diagnosis_level"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserratbold"
-                    android:text="@string/diagnosis_level"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/synopsis_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_weight="1"
-                    android:maxLines="2"
-                    android:fontFamily="@font/montserratlight"
-                    android:text="@string/synopsis"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="16sp"
-                    android:textStyle="normal" />
-
-                <TextView
-                    android:id="@+id/diagnosis_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserratbold"
-                    android:text="@string/examination_date"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-
-
-            </LinearLayout>
+            android:layout_height="match_parent">
+            <View
+                android:visibility="invisible"
+                android:elevation="33dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:elevation="6dp"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/patient_visit_count"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:gravity="bottom"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserratbold"
-                    android:text="@string/_10"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginStart="6dp"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/diagnosis_list_synopsis_label"
+                    android:text="@string/synopsis"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
                     android:textColor="@color/chiron_blue"
-                    android:textSize="45sp"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/montserratlight"
+                    android:textSize="16sp"
+                    android:letterSpacing="0.21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:id="@+id/patient_visit_label"
+                    android:layout_marginTop="-9dp"
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/diagnosis_list_synopsis_label"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/diagnosis_list_synopsis_text"
+                    android:text="@string/extremis"
+                    android:textSize="26sp"
+                    android:maxLength="23"
+                    android:singleLine="true"
+                    android:ellipsize="middle"
+                    android:letterSpacing="0.09"
+                    android:textStyle="normal"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserratmedium"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:gravity="center_horizontal"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserratlight"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:text="@string/patient_visits"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginTop="3dp"
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/diagnosis_list_synopsis_text"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/diagnosis_list_patient_title"
                     android:textColor="@color/chiron_blue"
-                    android:textSize="12sp"
-                    android:textAlignment="center"
-                    android:textStyle="normal" />
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.21"
+                    android:text="@string/patient"
+                    android:fontFamily="@font/montserratlight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+
+
+
+                <TextView
+                    android:text="@string/phil_coulson"
+                    android:fontFamily="@font/montserratlight"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"
+                    android:textStyle="normal"
+                    android:letterSpacing="0.03"
+                    android:layout_marginStart="6dp"
+                    android:maxLength="23"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    app:layout_constraintTop_toBottomOf="@id/diagnosis_list_patient_title"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/diagnosis_list_patient_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+
+                <TextView
+                    android:text="@string/day_month_year"
+                    android:fontFamily="@font/montserratthin"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.03"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:maxLength="23"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textAllCaps="false"
+                    app:layout_constraintTop_toBottomOf="@id/diagnosis_list_patient_text"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/diagnosis_list_diagnosis_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:contentDescription="@string/prescription"
+                    android:src="@drawable/rx_manufacturer_icon"
+                    android:id="@+id/diagnosis_list_prescription_icon"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="33dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    app:tint="@color/chiron_blue" />
+
+                <TextView
+                    android:text="@string/_23"
+                    android:textSize="17sp"
+                    android:maxLength="6"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/montserratbold"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="33dp"
+                    app:layout_constraintTop_toBottomOf="@id/diagnosis_list_prescription_icon"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+
+                <ImageView
+                    android:contentDescription="@string/visit"
+                    android:src="@drawable/hospital_visit_icon"
+                    android:id="@+id/diagnosis_list_visit_icon"
+                    android:text="@string/b_plus"
+                    android:layout_marginTop="73dp"
+                    android:layout_marginEnd="33dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    app:tint="@color/chiron_blue" />
+
+                <TextView
+                    android:id="@+id/diagnosis_list_visit_count"
+                    android:text="@string/_7"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/montserratbold"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="33dp"
+                    android:maxLength="6"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    app:layout_constraintTop_toBottomOf="@id/diagnosis_list_visit_icon"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/diagnosis_list_diagnosis_level"
+                    android:text="@string/contagious"
+                    android:textSize="19sp"
+                    android:fontFamily="@font/montserratmedium"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.21"
+                    android:textColor="@color/chiron_red"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="33dp"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textAllCaps="true"
+                    app:layout_constraintTop_toBottomOf="@id/diagnosis_list_visit_count"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
+            <View
+                android:elevation="33dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="0dp"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
 
         </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

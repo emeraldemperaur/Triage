@@ -1,140 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="220dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:id="@+id/pharmaceutical_list_view"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/pharmaceutical_card_view"
-        android:elevation="33dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/pharmaceutical_list_view"
+        android:background="@drawable/silver"
+        android:clickable="true"
         android:layout_width="match_parent"
-        android:background="?android:selectableItemBackground"
-        android:layout_height="213dp"
-        android:layout_margin="5dp"
-        android:padding="33dp"
-        app:cardUseCompatPadding="true"
-        app:cardCornerRadius="5dp">
-
+        android:layout_height="wrap_content"
+        android:focusable="true">
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
+            <View
+                android:visibility="invisible"
+                android:elevation="33dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
 
-            <ImageView
-                android:contentDescription="@string/info_card"
-                android:id="@+id/pharmaceutical__iv"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="44dp"
-                android:scaleType="fitXY"
-                tools:src="@drawable/meka_yingyanglogo_chironblue"
-                />
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="179dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/pharmaceutical_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserratbold"
-                    android:text="@string/pharmaceutical_name"
-                    android:maxLines="2"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/pharmaceutical_list_brand_label"
+                    android:text="@string/name"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
                     android:textColor="@color/chiron_blue"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/manufacturer_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="13dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserratsemibold"
-                    android:text="@string/manufacturer"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/manufacturer_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_weight="1"
                     android:fontFamily="@font/montserratlight"
-                    android:text="@string/manufacturer_name"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
+                    android:textSize="16sp"
+                    android:letterSpacing="0.21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:id="@+id/manufacturer_date_label"
+                    android:layout_marginTop="-9dp"
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/pharmaceutical_list_brand_label"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/pharmaceutical_list_brand_text"
+                    android:text="@string/tylenol"
+                    android:textSize="26sp"
+                    android:maxLength="23"
+                    android:singleLine="true"
+                    android:ellipsize="middle"
+                    android:letterSpacing="0.09"
+                    android:textStyle="normal"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserratmedium"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="13dp"
-                    android:fontFamily="@font/montserratsemibold"
-                    android:text="@string/manufacture_date"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content"/>
+
                 <TextView
-                    android:id="@+id/manufacture_date"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/pharmaceutical_list_brand_text"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/pharmaceutical_list_maker_title"
+                    android:textColor="@color/chiron_blue"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.21"
+                    android:text="@string/manufacturer"
+                    android:fontFamily="@font/montserratlight"
                     android:layout_width="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+
+
+
+
+                <TextView
+                    android:text="@string/johnson_amp_johnson"
+                    android:fontFamily="@font/montserratlight"
+                    android:textColor="@color/black"
+                    android:textSize="21sp"
+                    android:textStyle="normal"
+                    android:letterSpacing="0.03"
+                    android:layout_marginStart="6dp"
+                    android:maxLength="30"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    app:layout_constraintTop_toBottomOf="@id/pharmaceutical_list_maker_title"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/pharmaceutical_list_make_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+
+                <TextView
+                    android:text="@string/day_month_year"
+                    android:fontFamily="@font/montserratthin"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.03"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:maxLength="23"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textAllCaps="false"
+                    app:layout_constraintTop_toBottomOf="@id/pharmaceutical_list_make_text"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/pharmaceutical_list_make_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:scaleType="fitXY"
+                    android:contentDescription="@string/prescription"
+                    android:src="@drawable/inventory_check_icon"
+                    android:id="@+id/diagnosis_list_prescription_icon"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="33dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:tint="@color/chiron_blue" />
+
+                <TextView
+                    android:text="@string/_23"
+                    android:textSize="17sp"
+                    android:maxLength="9"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:fontFamily="@font/montserratbold"
-                    android:text="@string/manufacture_date"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/black"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="33dp"
+                    app:layout_constraintTop_toBottomOf="@id/diagnosis_list_prescription_icon"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+
+                <ImageView
+                    android:contentDescription="@string/visit"
+                    android:src="@drawable/tag_icon"
+                    android:id="@+id/diagnosis_list_visit_icon"
+                    android:text="@string/b_plus"
+                    android:layout_marginTop="71dp"
+                    android:layout_marginEnd="33dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    app:tint="@color/chiron_grey" />
 
                 <TextView
-                    android:id="@+id/expiry_date_label"
+                    android:id="@+id/diagnosis_list_visit_count"
+                    android:text="@string/no_batch"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/montserratmedium"
+                    android:textColor="@color/chiron_deep_grey"
+                    android:textStyle="normal"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="33dp"
+                    android:maxLength="13"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    app:layout_constraintTop_toBottomOf="@id/diagnosis_list_visit_icon"
+                    app:layout_constraintRight_toRightOf="parent"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="3dp"
-                    android:fontFamily="@font/montserratsemibold"
-                    android:text="@string/expiry_date"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:id="@+id/expiry_date"
+                    android:id="@+id/diagnosis_list_diagnosis_level"
+                    android:text="@string/expired"
+                    android:textSize="19sp"
+                    android:fontFamily="@font/montserratmedium"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.21"
+                    android:textColor="@color/chiron_red"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="33dp"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textAllCaps="false"
+                    app:layout_constraintTop_toBottomOf="@id/diagnosis_list_visit_count"
+                    app:layout_constraintRight_toRightOf="parent"
                     android:layout_width="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserratbold"
-                    android:text="@string/expiry_date"
-                    android:textColor="@color/chiron_blue"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content"/>
 
 
-            </LinearLayout>
 
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:elevation="33dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="0dp"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
 
         </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

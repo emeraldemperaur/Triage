@@ -50,6 +50,7 @@
     <string name="info_contact_com">info@contact.com</string>
     <string name="diagnoses_found">DIAGNOSES ENTRIES</string>
     <string name="md">MD.</string>
+    <string name="md_title">MD</string>
     <string name="np">NP.</string>
     <string name="rn">RN.</string>
     <string name="synopsis">SYNOPSIS</string>
@@ -157,7 +158,6 @@
     <string name="diagnosis_endpoints">Diagnosis Endpoints</string>
     <string name="synopsis_lc">Synopsis</string>
     <string name="prescription_endpoints">Prescription Endpoints</string>
-    <string name="name">Name</string>
     <string name="prescriber_lc">Prescriber</string>
     <string name="prescriber_id">Prescriber ID</string>
     <string name="rx_date">Rx Date</string>
@@ -226,5 +226,25 @@
     <string name="loading_data_pivots">Loading Data Pivots...</string>
     <string name="loading_insight_models">Loading Insight Models...</string>
     <string name="loading_chiron_records">Loading Records...</string>
+    <string name="name">Name</string>
+    <string name="phil_coulson">Coulson, P</string>
+    <string name="blue_cross">Blue Cross</string>
+    <string name="bchc1234">BCHC1234</string>
+    <string name="b_plus">B+</string>
+    <string name="extremis">Extremis</string>
+    <string name="critical">CRITICAL</string>
+    <string name="contagious">Contagious</string>
+    <string name="rx_name">Rx NAME</string>
+    <string name="tylenol">Tylenol</string>
+    <string name="dr_thelonious_jaha">Dr. Thelonious Jaha</string>
+    <string name="tj100ark">TJ100ARK</string>
+    <string name="phone">Phone</string>
+    <string name="neurosurgery">Neurosurgery</string>
+    <string name="gp">GP</string>
+    <string name="np_title">NP</string>
+    <string name="rn_title">RN</string>
+    <string name="johnson_amp_johnson"><![CDATA[Johnson & Johnson]]></string>
+    <string name="expired">EXPIRED</string>
+    <string name="no_batch">No Lot ID</string>
 
 </resources>

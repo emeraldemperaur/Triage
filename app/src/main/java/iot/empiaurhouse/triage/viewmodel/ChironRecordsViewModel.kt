@@ -43,15 +43,15 @@ class ChironRecordsViewModel: ViewModel() {
     val connecting = MutableLiveData<Boolean>()
 
     fun pullChironRecords(){
-        fetchPatientRecords()
-        fetchDiagnosesRecords()
-        fetchPrescriptionRecords()
-        fetchVisitRecords()
-        fetchPractitionerRecords()
-        fetchDoctorRecords()
-        fetchNursePractitionerRecords()
-        fetchRegisteredNurseRecords()
-        fetchPharmaceuticalRecords()
+        //fetchPatientRecords()
+        //fetchDiagnosesRecords()
+        //fetchPrescriptionRecords()
+        //fetchVisitRecords()
+        //fetchPractitionerRecords()
+        //fetchDoctorRecords()
+        //fetchNursePractitionerRecords()
+        //fetchRegisteredNurseRecords()
+        //fetchPharmaceuticalRecords()
     }
 
 
