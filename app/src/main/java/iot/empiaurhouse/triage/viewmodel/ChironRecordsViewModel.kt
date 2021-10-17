@@ -29,6 +29,8 @@ class ChironRecordsViewModel: ViewModel() {
     val registeredNurseRecords = MutableLiveData<List<RegisteredNurse>>()
     val pharmaceuticalRecords = MutableLiveData<List<Pharmaceuticals>>()
 
+    private lateinit var patientStore: Patient
+
 
     val patientError = MutableLiveData<Boolean>()
     val diagnosisError = MutableLiveData<Boolean>()
@@ -42,16 +44,37 @@ class ChironRecordsViewModel: ViewModel() {
 
     val connecting = MutableLiveData<Boolean>()
 
-    fun pullChironRecords(){
-        //fetchPatientRecords()
-        //fetchDiagnosesRecords()
-        //fetchPrescriptionRecords()
-        //fetchVisitRecords()
-        //fetchPractitionerRecords()
-        //fetchDoctorRecords()
-        //fetchNursePractitionerRecords()
-        //fetchRegisteredNurseRecords()
-        //fetchPharmaceuticalRecords()
+    fun pullChironRecords(recordID: Int){
+        when(recordID){
+            1 ->{
+                fetchPatientRecords()
+            }
+            2 ->{
+                fetchDiagnosesRecords()
+
+            }
+            3 ->{
+                fetchPrescriptionRecords()
+            }
+            4 ->{
+                fetchVisitRecords()
+            }
+            5 ->{
+                fetchPractitionerRecords()
+            }
+            6 ->{
+                fetchDoctorRecords()
+            }
+            7 ->{
+                fetchRegisteredNurseRecords()
+            }
+            8 ->{
+                fetchNursePractitionerRecords()
+            }
+            9 ->{
+                fetchPharmaceuticalRecords()
+            }
+        }
     }
 
 
@@ -81,6 +104,16 @@ class ChironRecordsViewModel: ViewModel() {
         )
 
     }
+
+    fun storePatientRecord(patient: Patient){
+        patientStore = patient
+    }
+
+    fun fetchPatientStored(): Patient{
+        return patientStore
+    }
+
+
 
     private fun fetchDiagnosesRecords(){
         connecting.value = true

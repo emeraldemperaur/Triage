@@ -31,6 +31,9 @@
 
     </fragment>
 
+
+
+
     <fragment
             android:id="@+id/pivot_editor_navigation"
             android:name="iot.empiaurhouse.triage.view.PivotEditorFragment"
@@ -85,7 +88,47 @@
             android:name="recordID"
             app:argType="integer"
             />
+
+        <action
+            android:id="@+id/view_record_details"
+            app:destination="@id/allRecordsView">
+            <argument
+                android:name="recordID"
+                app:argType="integer"/>
+
+            <argument
+                android:name="Patient"
+                app:argType="iot.empiaurhouse.triage.model.Patient"/>
+
+
+        </action>
+
+
+
     </fragment>
+
+
+
+    <fragment
+        android:id="@+id/allRecordsView"
+        android:name="iot.empiaurhouse.triage.view.RecordViewFragment"
+        android:label="Record Details"
+        tools:layout="@layout/fragment_record_view">
+
+        <argument
+            android:name="recordID"
+            app:argType="integer"
+            />
+
+        <argument
+            android:name="Patient"
+            app:argType="iot.empiaurhouse.triage.model.Patient"/>
+
+
+
+
+    </fragment>
+
 
 
 

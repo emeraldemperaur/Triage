@@ -1,15 +1,22 @@
 package iot.empiaurhouse.triage.view
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
+import iot.empiaurhouse.triage.adapter.ChironRecordsRecyclerAdapter
 import iot.empiaurhouse.triage.controller.MultiRecordController
 import iot.empiaurhouse.triage.databinding.FragmentAllRecordsBinding
 import iot.empiaurhouse.triage.model.*
@@ -25,10 +32,13 @@ class AllRecordsFragment : Fragment() {
     private var param2: String? = null
     private lateinit var binding: FragmentAllRecordsBinding
     private lateinit var recordsViewModel: ChironRecordsViewModel
+    private lateinit var recordsSwipeRefresh: SwipeRefreshLayout
     private lateinit var recordCount: TextView
     private lateinit var recordTitle: TextView
     private lateinit var noRecordsFound: TextView
-    private lateinit var recordsRV: RecyclerView
+    private lateinit var pullPrompt: TextView
+    private var recordsRV: RecyclerView? = null
+    private var cRRA: ChironRecordsRecyclerAdapter? = null
     private lateinit var recordsController: MultiRecordController
     private var patientsFound = arrayListOf<Patient>()
     private var diagnosesFound = arrayListOf<Diagnosis>()
@@ -39,6 +49,13 @@ class AllRecordsFragment : Fragment() {
     private var nursePractitionersFound = arrayListOf<NursePractitioner>()
     private var registeredNursesFound = arrayListOf<RegisteredNurse>()
     private var pharmaceuticalsFound = arrayListOf<Pharmaceuticals>()
+    private var recordsFound = arrayListOf<Any>()
+    private lateinit var recordsView: View
+    private lateinit var loadingText: TextView
+    private lateinit var searchButton: FloatingActionButton
+
+
+
     private var recordsID: Int = 1
     private val args: AllRecordsFragmentArgs by navArgs()
 
@@ -65,28 +82,135 @@ class AllRecordsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAllRecordsBinding.bind(view)
         recordsViewModel = ViewModelProvider(this).get(ChironRecordsViewModel::class.java)
+        searchButton = requireActivity().findViewById(R.id.hub_search_button)
         recordsController = MultiRecordController()
-        recordsViewModel.pullChironRecords()
         recordsID = args.recordID
+        recordsViewModel.pullChironRecords(recordsID)
+        recordsCarousel(recordsID)
+        recordsView = binding.chironRecordsView
+        recordsSwipeRefresh = binding.allRecordsSwipeRefresh
+        recordsSwipeRefresh.setColorSchemeColors(ResourcesCompat.getColor(resources, R.color.chiron_blue, null))
         recordCount = binding.chironRecordsSize
         recordTitle = binding.chironRecordsTitle
+        loadingText = binding.loadingChironRecords
+        pullPrompt = binding.recordsPullToRefreshText
         noRecordsFound = binding.noChironRecordsFound
         recordsRV = binding.chironRecordsViewRecyclerview
-        initRecordsView()
+        recordsRV!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+
+        initRecordsView(recordsID)
+        initRefresh()
 
     }
 
 
 
 
-    fun initRecordsView(){
-        recordTitle.text = recordsController.fetchRecordName(recordsID)
-        recordCount.text = 0.toString()
+    private fun initRecordsView(recordID: Int){
+        searchButton.visibility = View.VISIBLE
+        recordTitle.text = recordsController.fetchRecordName(recordID)
+
+        when(recordID){
+            1 ->{
+                cRRA = ChironRecordsRecyclerAdapter(recordsID, patientsList = patientsFound,
+                    recordsViewObject = recordsView, activity = requireActivity())
+                recordsRV!!.adapter = cRRA
+                recordCount.text = patientsFound.size.toString()
+                noResultsView(patientsFound.size)
+            }
+            2 ->{
+                cRRA = ChironRecordsRecyclerAdapter(recordsID, diagnosesList = diagnosesFound,
+                    recordsViewObject = recordsView, activity = requireActivity())
+                recordsRV!!.adapter = cRRA
+                recordCount.text = diagnosesFound.size.toString()
+                noResultsView(diagnosesFound.size)
+            }
+            3 ->{
+                cRRA = ChironRecordsRecyclerAdapter(recordsID, prescriptionsList = prescriptionsFound,
+                    recordsViewObject = recordsView, activity = requireActivity())
+                recordsRV!!.adapter = cRRA
+                recordCount.text = prescriptionsFound.size.toString()
+                noResultsView(prescriptionsFound.size)
+            }
+            4 ->{
+                cRRA = ChironRecordsRecyclerAdapter(recordsID, visitsList = visitsFound,
+                    recordsViewObject = recordsView, activity = requireActivity())
+                recordsRV!!.adapter = cRRA
+                recordCount.text = visitsFound.size.toString()
+                noResultsView(visitsFound.size)
+            }
+            5 ->{
+                cRRA = ChironRecordsRecyclerAdapter(recordsID, practitionersList = practitionersFound,
+                    recordsViewObject = recordsView, activity = requireActivity())
+                recordsRV!!.adapter = cRRA
+                recordCount.text = practitionersFound.size.toString()
+                noResultsView(practitionersFound.size)
+            }
+            6 ->{
+                cRRA = ChironRecordsRecyclerAdapter(recordsID, doctorsList = doctorsFound,
+                    recordsViewObject = recordsView, activity = requireActivity())
+                recordsRV!!.adapter = cRRA
+                recordCount.text = doctorsFound.size.toString()
+                noResultsView(doctorsFound.size)
+            }
+            7 ->{
+                cRRA = ChironRecordsRecyclerAdapter(recordsID, registeredNursesList = fetchRegisteredNursesList(),
+                    recordsViewObject = recordsView, activity = requireActivity())
+                recordsRV!!.adapter = cRRA
+                recordCount.text = fetchRegisteredNursesList().size.toString()
+                noResultsView(registeredNursesFound.size)
+            }
+            8 ->{
+                cRRA = ChironRecordsRecyclerAdapter(recordsID, nursePractitionersList = fetchNursePractitionersList(),
+                    recordsViewObject = recordsView, activity = requireActivity())
+                recordsRV!!.adapter = cRRA
+                recordCount.text = fetchNursePractitionersList().size.toString()
+                noResultsView(nursePractitionersFound.size)
+            }
+            9 ->{
+                cRRA = ChironRecordsRecyclerAdapter(recordsID, pharmaceuticalsList = pharmaceuticalsFound,
+                    recordsViewObject = recordsView, activity = requireActivity())
+                recordsRV!!.adapter = cRRA
+                recordCount.text = pharmaceuticalsFound.size.toString()
+                noResultsView(pharmaceuticalsFound.size)
+            }
+        }
+
+    }
+
+
+    private fun viewRefresh(){
+        recordsRV!!.adapter = null
+        cRRA = null
+        recordsRV = null
+        Handler(Looper.getMainLooper()).postDelayed({
+            recordsCarousel(recordsID)
+            recordsRV = binding.chironRecordsViewRecyclerview
+            initRecordsView(recordsID)
+        }, 1000)
+
+    }
+
+
+
+    private fun initRefresh(){
+        recordsSwipeRefresh.setOnRefreshListener {
+            loadingText.visibility = View.VISIBLE
+            viewRefresh()
+            recordsSwipeRefresh.isRefreshing = false
+        }
     }
 
 
     override fun onResume() {
         super.onResume()
+        recordsCarousel(recordsID)
+        Handler(Looper.getMainLooper()).postDelayed({
+            recordsCarousel(recordsID)
+            recordsRV = binding.chironRecordsViewRecyclerview
+            initRecordsView(recordsID)
+            recordCount.visibility = View.VISIBLE
+        }, 1000)
 
     }
 
@@ -98,6 +222,8 @@ class AllRecordsFragment : Fragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
+        recordsCarousel(recordsID)
+        viewRefresh()
 
     }
 
@@ -108,6 +234,28 @@ class AllRecordsFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
+
+    }
+
+
+    private fun noResultsView(recordsFound: Int){
+        Handler(Looper.getMainLooper()).postDelayed({
+            loadingText.visibility = View.GONE
+            if (recordsFound < 1){
+                if (recordsRV != null) {
+                    recordsRV!!.visibility = View.GONE
+                }
+                noRecordsFound.visibility = View.VISIBLE
+                pullPrompt.visibility = View.VISIBLE
+            }
+            else if (recordsFound > 0){
+                noRecordsFound.visibility = View.GONE
+                pullPrompt.visibility = View.GONE
+                if (recordsRV != null) {
+                    recordsRV!!.visibility = View.VISIBLE
+                }
+            }
+        }, 1000)
 
     }
 
@@ -159,51 +307,63 @@ class AllRecordsFragment : Fragment() {
     private fun fetchPatientsList(): ArrayList<Patient>{
         var result: Boolean
         val fetchedPatients = arrayListOf<Patient>()
-        recordsViewModel.patientRecords.observe(viewLifecycleOwner, androidx.lifecycle.Observer{reply ->
-            reply?.let{
-                result = reply.isNotEmpty()
-                if (fetchedPatients.isEmpty()) {
-                    fetchedPatients.addAll(reply)
-                    patientsFound = fetchedPatients
-                    println("Patient Records response object is not empty: $result")
-                    println("See Chiron Records (Patient) response result: $reply")
-                }
-            }
-        })
+        if (view != null) {
+            recordsViewModel.patientRecords.observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer { reply ->
+                    reply?.let {
+                        result = reply.isNotEmpty()
+                        if (fetchedPatients.isEmpty()) {
+                            fetchedPatients.addAll(reply)
+                            patientsFound = fetchedPatients
+                            println("Patient Records response object is not empty: $result")
+                            println("See Chiron Records (Patient) response result: $reply")
+                        }
+                    }
+                })
+        }
         return fetchedPatients
     }
 
     private fun fetchDiagnosesList(): ArrayList<Diagnosis>{
         var result: Boolean
         val fetchedDiagnoses = arrayListOf<Diagnosis>()
-        recordsViewModel.diagnosisRecords.observe(viewLifecycleOwner, androidx.lifecycle.Observer{reply ->
-            reply?.let{
-                result = reply.isNotEmpty()
-                if (fetchedDiagnoses.isEmpty()) {
-                    fetchedDiagnoses.addAll(reply)
-                    diagnosesFound = fetchedDiagnoses
-                    println("Diagnosis Records response object is not empty: $result")
-                    println("See Chiron Records (Diagnoses) response result: $reply")
-                }
-            }
-        })
+        if (view != null) {
+            recordsViewModel.diagnosisRecords.observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer { reply ->
+                    reply?.let {
+                        result = reply.isNotEmpty()
+                        if (fetchedDiagnoses.isEmpty()) {
+                            fetchedDiagnoses.addAll(reply)
+                            diagnosesFound = fetchedDiagnoses
+                            println("Diagnosis Records response object is not empty: $result")
+                            println("See Chiron Records (Diagnoses) response result: $reply")
+                        }
+                    }
+                })
+        }
         return fetchedDiagnoses
     }
 
     private fun fetchPrescriptionList(): ArrayList<Prescription>{
         var result: Boolean
         val fetchedPrescriptions = arrayListOf<Prescription>()
-        recordsViewModel.prescriptionRecords.observe(viewLifecycleOwner, androidx.lifecycle.Observer{reply ->
-            reply?.let{
-                result = reply.isNotEmpty()
-                if (fetchedPrescriptions.isEmpty()) {
-                    fetchedPrescriptions.addAll(reply)
-                    prescriptionsFound = fetchedPrescriptions
-                    println("Prescription Records response object is not empty: $result")
-                    println("See Chiron Records (Diagnoses) response result: $reply")
-                }
-            }
-        })
+        if (view != null) {
+            recordsViewModel.prescriptionRecords.observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer { reply ->
+                    reply?.let {
+                        result = reply.isNotEmpty()
+                        if (fetchedPrescriptions.isEmpty()) {
+                            fetchedPrescriptions.addAll(reply)
+                            prescriptionsFound = fetchedPrescriptions
+                            println("Prescription Records response object is not empty: $result")
+                            println("See Chiron Records (Diagnoses) response result: $reply")
+                        }
+                    }
+                })
+        }
         return fetchedPrescriptions
     }
 
@@ -211,51 +371,63 @@ class AllRecordsFragment : Fragment() {
     private fun fetchVisitList(): ArrayList<Visit>{
         var result: Boolean
         val fetchedVisits = arrayListOf<Visit>()
-        recordsViewModel.visitRecords.observe(viewLifecycleOwner, androidx.lifecycle.Observer{reply ->
-            reply?.let{
-                result = reply.isNotEmpty()
-                if (fetchedVisits.isEmpty()) {
-                    fetchedVisits.addAll(reply)
-                    visitsFound = fetchedVisits
-                    println("Visit Records response object is not empty: $result")
-                    println("See Chiron Records (Visits) response result: $reply")
-                }
-            }
-        })
+        if (view != null) {
+            recordsViewModel.visitRecords.observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer { reply ->
+                    reply?.let {
+                        result = reply.isNotEmpty()
+                        if (fetchedVisits.isEmpty()) {
+                            fetchedVisits.addAll(reply)
+                            visitsFound = fetchedVisits
+                            println("Visit Records response object is not empty: $result")
+                            println("See Chiron Records (Visits) response result: $reply")
+                        }
+                    }
+                })
+        }
         return fetchedVisits
     }
 
     private fun fetchPractitionersList(): ArrayList<Practitioner>{
         var result: Boolean
         val fetchedPractitioners = arrayListOf<Practitioner>()
-        recordsViewModel.practitionerRecords.observe(viewLifecycleOwner, androidx.lifecycle.Observer{reply ->
-            reply?.let{
-                result = reply.isNotEmpty()
-                if (fetchedPractitioners.isEmpty()) {
-                    fetchedPractitioners.addAll(reply)
-                    practitionersFound = fetchedPractitioners
-                    println("Practitioner Records response object is not empty: $result")
-                    println("See Chiron Records (Practitioner) response result: $reply")
-                }
-            }
-        })
+        if (view != null) {
+            recordsViewModel.practitionerRecords.observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer { reply ->
+                    reply?.let {
+                        result = reply.isNotEmpty()
+                        if (fetchedPractitioners.isEmpty()) {
+                            fetchedPractitioners.addAll(reply)
+                            practitionersFound = fetchedPractitioners
+                            println("Practitioner Records response object is not empty: $result")
+                            println("See Chiron Records (Practitioner) response result: $reply")
+                        }
+                    }
+                })
+        }
         return fetchedPractitioners
     }
 
     private fun fetchDoctorsList(): ArrayList<Doctor>{
         var result: Boolean
         val fetchedDoctors = arrayListOf<Doctor>()
-        recordsViewModel.doctorRecords.observe(viewLifecycleOwner, androidx.lifecycle.Observer{reply ->
-            reply?.let{
-                result = reply.isNotEmpty()
-                if (fetchedDoctors.isEmpty()) {
-                    fetchedDoctors.addAll(reply)
-                    doctorsFound = fetchedDoctors
-                    println("Practitioner Records response object is not empty: $result")
-                    println("See Chiron Records (Practitioner) response result: $reply")
-                }
-            }
-        })
+        if (view != null) {
+            recordsViewModel.doctorRecords.observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer { reply ->
+                    reply?.let {
+                        result = reply.isNotEmpty()
+                        if (fetchedDoctors.isEmpty()) {
+                            fetchedDoctors.addAll(reply)
+                            doctorsFound = fetchedDoctors
+                            println("Doctor Records response object is not empty: $result")
+                            println("See Chiron Records (Doctor) response result: $reply")
+                        }
+                    }
+                })
+        }
         return fetchedDoctors
     }
 
@@ -263,17 +435,21 @@ class AllRecordsFragment : Fragment() {
     private fun fetchNursePractitionersList(): ArrayList<NursePractitioner>{
         var result: Boolean
         val fetchedNursePractitioners = arrayListOf<NursePractitioner>()
-        recordsViewModel.nursePractitionerRecords.observe(viewLifecycleOwner, androidx.lifecycle.Observer{reply ->
-            reply?.let{
-                result = reply.isNotEmpty()
-                if (fetchedNursePractitioners.isEmpty()) {
-                    fetchedNursePractitioners.addAll(reply)
-                    nursePractitionersFound = fetchedNursePractitioners
-                    println("Practitioner Records response object is not empty: $result")
-                    println("See Chiron Records (Practitioner) response result: $reply")
-                }
-            }
-        })
+        if (view != null) {
+            recordsViewModel.nursePractitionerRecords.observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer { reply ->
+                    reply?.let {
+                        result = reply.isNotEmpty()
+                        if (fetchedNursePractitioners.isEmpty()) {
+                            fetchedNursePractitioners.addAll(reply)
+                            nursePractitionersFound = fetchedNursePractitioners
+                            println("Nurse Practitioner Records response object is not empty: $result")
+                            println("See Chiron Records (Nurse Practitioner) response result: $reply")
+                        }
+                    }
+                })
+        }
         return fetchedNursePractitioners
     }
 
@@ -281,34 +457,42 @@ class AllRecordsFragment : Fragment() {
     private fun fetchRegisteredNursesList(): ArrayList<RegisteredNurse>{
         var result: Boolean
         val fetchedRegisteredNurses = arrayListOf<RegisteredNurse>()
-        recordsViewModel.registeredNurseRecords.observe(viewLifecycleOwner, androidx.lifecycle.Observer{reply ->
-            reply?.let{
-                result = reply.isNotEmpty()
-                if (fetchedRegisteredNurses.isEmpty()) {
-                    fetchedRegisteredNurses.addAll(reply)
-                    registeredNursesFound = fetchedRegisteredNurses
-                    println("Practitioner Records response object is not empty: $result")
-                    println("See Chiron Records (Practitioner) response result: $reply")
-                }
-            }
-        })
+        if (view != null) {
+            recordsViewModel.registeredNurseRecords.observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer { reply ->
+                    reply?.let {
+                        result = reply.isNotEmpty()
+                        if (fetchedRegisteredNurses.isEmpty()) {
+                            fetchedRegisteredNurses.addAll(reply)
+                            registeredNursesFound = fetchedRegisteredNurses
+                            println("Registered Nurse Records response object is not empty: $result")
+                            println("See Chiron Records (Registered Nurse) response result: $reply")
+                        }
+                    }
+                })
+        }
         return fetchedRegisteredNurses
     }
 
     private fun fetchPharmaceuticalsList(): ArrayList<Pharmaceuticals>{
         var result: Boolean
         val fetchedPharmaceuticals = arrayListOf<Pharmaceuticals>()
-        recordsViewModel.pharmaceuticalRecords.observe(viewLifecycleOwner, androidx.lifecycle.Observer{reply ->
-            reply?.let{
-                result = reply.isNotEmpty()
-                if (fetchedPharmaceuticals.isEmpty()) {
-                    fetchedPharmaceuticals.addAll(reply)
-                    pharmaceuticalsFound = fetchedPharmaceuticals
-                    println("Practitioner Records response object is not empty: $result")
-                    println("See Chiron Records (Practitioner) response result: $reply")
-                }
-            }
-        })
+        if (view != null) {
+            recordsViewModel.pharmaceuticalRecords.observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer { reply ->
+                    reply?.let {
+                        result = reply.isNotEmpty()
+                        if (fetchedPharmaceuticals.isEmpty()) {
+                            fetchedPharmaceuticals.addAll(reply)
+                            pharmaceuticalsFound = fetchedPharmaceuticals
+                            println("Pharmaceuticals Records response object is not empty: $result")
+                            println("See Chiron Records (Pharmaceuticals) response result: $reply")
+                        }
+                    }
+                })
+        }
         return fetchedPharmaceuticals
     }
 

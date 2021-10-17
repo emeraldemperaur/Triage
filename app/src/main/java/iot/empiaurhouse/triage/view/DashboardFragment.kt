@@ -58,10 +58,12 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     private lateinit var dashboardViewModel: SetupActivityViewModel
     private lateinit var hubView: LinearLayout
     private lateinit var navController: NavController
+    private lateinit var loadingRecords: TextView
     private lateinit var noResultsText: TextView
     private lateinit var hubUserName: TextView
     private lateinit var searchButton: FloatingActionButton
     private lateinit var toolbarView: CollapsingToolbarLayout
+    private lateinit var pullToRefreshTextView: TextView
 
 
 
@@ -99,6 +101,8 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         binding.insightRequestTime.text = getTimeStamp()
         pivotRecyclerView = binding.hubPivotsRecyclerView
         recordRecyclerView = binding.hubRecordsRecyclerView
+        pullToRefreshTextView = binding.dashboardPullToRefreshText
+        loadingRecords = binding.dashboardLoadingRecords
         recordRecyclerView!!.setItemViewCacheSize(30)
         pivotRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         recordRecyclerView!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
@@ -143,7 +147,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         super.onResume()
         Handler(Looper.getMainLooper()).postDelayed({
         recordRecyclerView = binding.hubRecordsRecyclerView
-        recordsRVA = RecordRecyclerAdapter(recordsFound, hubView)
+        recordsRVA = RecordRecyclerAdapter(recordsFound, hubView, requireActivity())
         recordRecyclerView!!.adapter = recordsRVA
             noResultsView(recordsFound.size)
         }, 1000)
@@ -170,7 +174,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         Handler(Looper.getMainLooper()).postDelayed({
             recordsFound = fetchRecordsData()
             recordRecyclerView = binding.hubRecordsRecyclerView
-            recordsRVA = RecordRecyclerAdapter(recordsFound, hubView)
+            recordsRVA = RecordRecyclerAdapter(recordsFound, hubView, requireActivity())
             recordRecyclerView!!.adapter = recordsRVA
             noResultsView(recordsFound.size)
         }, 1000)
@@ -311,7 +315,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         Handler(Looper.getMainLooper()).postDelayed({
             recordsFound = fetchRecordsData()
             recordRecyclerView = binding.hubRecordsRecyclerView
-            recordsRVA = RecordRecyclerAdapter(recordsFound, hubView)
+            recordsRVA = RecordRecyclerAdapter(recordsFound, hubView, requireActivity())
             recordRecyclerView!!.adapter = recordsRVA
             noResultsView(recordsFound.size)
         }, 1000)
@@ -330,12 +334,17 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     private fun noResultsView(recordsFound: Int){
         if (recordsFound < 1){
             recordRecyclerView!!.visibility = View.GONE
+            loadingRecords.visibility = View.GONE
             noResultsText.visibility = View.VISIBLE
+            pullToRefreshTextView.visibility = View.VISIBLE
 
         }
         else if (recordsFound > 0){
             noResultsText.visibility = View.GONE
+            pullToRefreshTextView.visibility = View.GONE
             recordRecyclerView!!.visibility = View.VISIBLE
+            loadingRecords.visibility = View.GONE
+
         }
     }
 

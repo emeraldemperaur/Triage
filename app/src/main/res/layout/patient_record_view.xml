@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/patient_detail_view"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/patient_info_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="-365dp">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/patient_detail_window"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/chiron_blue"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <TextView
+                    android:id="@+id/patient_detail_alias_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="69dp"
+                    android:fontFamily="@font/montserratlight"
+                    android:letterSpacing="0.21"
+                    android:text="@string/patient"
+                    android:textAllCaps="true"
+                    android:textColor="@color/chiron_grey"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/patient_detail_first_name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="6dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/montserratlight"
+                    android:letterSpacing="0.06"
+                    android:lines="1"
+                    android:maxLength="20"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@string/jane"
+                    android:textColor="@color/white"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/patient_detail_alias_title" />
+
+                <TextView
+                    android:id="@+id/patient_detail_last_name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="6dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/montserratlight"
+                    android:letterSpacing="0.06"
+                    android:lines="1"
+                    android:maxLength="20"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@string/doe_smith"
+                    android:textColor="@color/white"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/patient_detail_first_name_text" />
+
+                <TextView
+                    android:id="@+id/patient_date_of_birth_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/montserratlight"
+                    android:letterSpacing="0.21"
+                    android:text="@string/birthdate"
+                    android:textAllCaps="true"
+                    android:textColor="@color/chiron_grey"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/patient_detail_last_name_text" />
+
+                <TextView
+                    android:id="@+id/patient_date_of_birth_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/montserratlight"
+                    android:letterSpacing="0.16"
+                    android:text="@string/day_month_year"
+                    android:textColor="@color/white"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/patient_date_of_birth_title" />
+
+
+                <TextView
+                    android:id="@+id/patient_detail_insurer_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="9dp"
+                    android:fontFamily="@font/montserratlight"
+                    android:letterSpacing="0.21"
+                    android:text="@string/insurer"
+                    android:textAllCaps="true"
+                    android:textColor="@color/chiron_grey"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/patient_date_of_birth_text" />
+
+
+                <TextView
+                    android:id="@+id/patient_detail_insurer_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="1dp"
+                    android:fontFamily="@font/montserratlight"
+                    android:letterSpacing="0.06"
+                    android:maxLength="20"
+                    android:text="@string/blue_cross"
+                    android:textColor="@color/white"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/patient_detail_insurer_title" />
+
+                <TextView
+                    android:id="@+id/patient_detail_insurer_id_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="12dp"
+                    android:fontFamily="@font/montserratthin"
+                    android:letterSpacing="0.06"
+                    android:maxLength="20"
+                    android:text="@string/insurer_id"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/patient_detail_insurer_text" />
+
+
+                <ImageView
+                    android:id="@+id/patient_detail_bloodgroup_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="69dp"
+                    android:layout_marginEnd="23dp"
+                    android:contentDescription="@string/results_count"
+                    android:src="@drawable/bloodtype_icon"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/chiron_grey" />
+
+                <TextView
+                    android:id="@+id/patient_detail_bloodgroup_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="80dp"
+                    android:layout_marginEnd="0dp"
+                    android:ellipsize="start"
+                    android:fontFamily="@font/montserratregular"
+                    android:letterSpacing="0.04"
+                    android:maxLength="7"
+                    android:singleLine="true"
+                    android:text="@string/b_plus"
+                    android:textColor="@color/white"
+                    android:textSize="21sp"
+                    android:textStyle="bold"
+                    app:layout_constraintRight_toLeftOf="@id/patient_detail_bloodgroup_icon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/patient_detail_profile"
+                    android:layout_width="69dp"
+                    android:layout_height="69dp"
+                    android:layout_marginTop="176dp"
+                    android:layout_marginEnd="23dp"
+                    android:contentDescription="@string/profile_icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/profile_outline"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/chiron_grey" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/patient_detail_contact_info_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/silver"
+                android:orientation="vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/patient_detail_window">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="9dp"
+                    android:background="@color/chiron_grey"
+                    android:elevation="13dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/patient_detail_contact_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/montserratlight"
+                    android:letterSpacing="0.21"
+                    android:text="@string/contact"
+                    android:textAllCaps="true"
+                    android:textColor="@color/chiron_blue"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/patient_detail_info_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/montserratbold"
+                    android:letterSpacing="0.21"
+                    android:text="@string/information"
+                    android:textAllCaps="true"
+                    android:textColor="@color/chiron_blue"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/patient_detail_info_address_title"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="6dp"
+                    android:fontFamily="@font/montserratlight"
+                    android:letterSpacing="0.21"
+                    android:src="@drawable/home_icon"
+                    android:text="@string/address"
+                    android:textAllCaps="true"
+                    android:textColor="@color/chiron_blue"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    app:tint="@color/chiron_blue" />
+
+
+                <TextView
+                    android:id="@+id/patient_detail_info_address_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/montserratlight"
+                    android:letterSpacing="0.21"
+                    android:maxLines="4"
+                    android:text="@string/triage_info_text"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/chiron_blue"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    android:visibility="visible" />
+
+
+                <ImageView
+                    android:id="@+id/patient_detail_phone_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="6dp"
+                    android:contentDescription="@string/phone"
+                    android:src="@drawable/ic_baseline_local_phone_24"
+                    android:visibility="visible"
+                    app:tint="@color/chiron_blue" />
+
+
+                <TextView
+                    android:id="@+id/patient_detail_phone_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginBottom="12dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/montserratlight"
+                    android:letterSpacing="0.21"
+                    android:text="@string/_1_212_113_4564"
+                    android:textColor="@color/chiron_blue"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    android:visibility="visible" />
+
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/patient_detail_line0"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="3dp"
+                android:background="@color/chiron_grey"
+                android:elevation="3dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/patient_detail_contact_info_view" />
+
+
+            <TextView
+                android:id="@+id/patient_detail_diagnoses_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="?actionBarSize"
+                android:breakStrategy="high_quality"
+                android:fontFamily="@font/montserratlight"
+                android:letterSpacing="0.44"
+                android:lines="1"
+                android:minLines="1"
+                android:text="@string/_0_diagnoses"
+                android:textAllCaps="true"
+                android:textColor="@color/chiron_blue"
+                android:textSize="21sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/patient_detail_line0"
+                tools:targetApi="m" />
+
+
+            <View
+                android:id="@+id/patient_detail_line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="3dp"
+                android:background="@color/chiron_grey"
+                android:elevation="3dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/patient_detail_diagnoses_title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/data_pivots_view_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="111dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/patient_detail_line1" />
+
+            <TextView
+                android:id="@+id/no_diagnoses_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="69dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="111dp"
+                android:fontFamily="@font/montserratlight"
+                android:letterSpacing="0.44"
+                android:text="@string/no_diagnoses_found"
+                android:textColor="@color/chiron_grey"
+                android:textSize="16sp"
+                android:visibility="visible"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/patient_detail_line1" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

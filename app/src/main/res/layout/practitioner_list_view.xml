@@ -61,7 +61,7 @@
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserratmedium"
-                    android:layout_width="wrap_content"
+                    android:layout_width="313dp"
                     android:layout_height="wrap_content"/>
 
                 <TextView
@@ -77,7 +77,7 @@
                     android:letterSpacing="0.21"
                     android:text="@string/tj100ark"
                     android:fontFamily="@font/montserratlight"
-                    android:layout_width="wrap_content"
+                    android:layout_width="276dp"
                     android:layout_height="wrap_content"/>
 
 
@@ -92,11 +92,11 @@
                     app:layout_constraintRight_toRightOf="parent"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    app:tint="@color/chiron_blue" />
+                    app:tint="@color/chiron_grey" />
 
 
                 <ImageView
-                    android:id="@+id/doctor_list_email_icon"
+                    android:id="@+id/practitioners_list_email_icon"
                     android:contentDescription="@string/email"
                     android:src="@drawable/ic_baseline_mark_email_read_24"
                     android:visibility="visible"

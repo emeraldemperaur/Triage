@@ -246,5 +246,19 @@
     <string name="johnson_amp_johnson"><![CDATA[Johnson & Johnson]]></string>
     <string name="expired">EXPIRED</string>
     <string name="no_batch">No Lot ID</string>
+    <string name="pull_to_refresh">Pull to Refresh</string>
+    <string name="_0">0</string>
+    <string name="_100000">100000</string>
+    <string name="john">John</string>
+    <string name="doe_smith">Doe-Smith</string>
+    <string name="jane">Jane</string>
+    <string name="birthdate">Birthdate</string>
+    <string name="contact">contact</string>
+    <string name="information">Information</string>
+    <string name="address">address</string>
+    <string name="_1_212_113_4564">+1(212) 113-4564</string>
+    <string name="test_test_com">test@test.com</string>
+    <string name="_0_diagnoses">(10) Diagnoses</string>
+    <string name="no_diagnoses_found">No Diagnoses Found</string>
 
 </resources>

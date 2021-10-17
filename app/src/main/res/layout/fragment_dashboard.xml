@@ -147,19 +147,54 @@
                 android:overScrollMode="never"/>
 
             <TextView
+                android:visibility="visible"
+                android:id="@+id/dashboard_loading_records"
+                app:layout_constraintTop_toBottomOf="@id/record_line2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/chiron_note"
+                android:layout_marginTop="33dp"
+                android:layout_marginBottom="69dp"
+                android:textStyle="normal"
+                android:textSize="16sp"
+                android:letterSpacing="0.44"
+                android:textColor="@color/chiron_deep_grey"
+                android:fontFamily="@font/montserratlight"
+                android:text="@string/loading_chiron_records"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
                 android:visibility="gone"
                 android:id="@+id/dashboard_records_found_text"
                 app:layout_constraintTop_toBottomOf="@id/record_line2"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginTop="123dp"
-                android:layout_marginBottom="123dp"
+                app:layout_constraintBottom_toTopOf="@id/chiron_note"
+                android:layout_marginTop="33dp"
+                android:layout_marginBottom="69dp"
                 android:textStyle="normal"
                 android:textSize="16sp"
                 android:letterSpacing="0.44"
                 android:textColor="@color/chiron_deep_grey"
                 android:fontFamily="@font/montserratlight"
                 android:text="@string/no_records_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/dashboard_pull_to_refresh_text"
+                app:layout_constraintTop_toBottomOf="@id/dashboard_records_found_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="3dp"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:letterSpacing="0.21"
+                android:textColor="@color/chiron_deep_grey"
+                android:fontFamily="@font/montserratthin"
+                android:text="@string/pull_to_refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 

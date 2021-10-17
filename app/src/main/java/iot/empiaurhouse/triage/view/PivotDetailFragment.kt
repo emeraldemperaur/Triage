@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ExpandableListView
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
@@ -52,7 +51,6 @@ class PivotDetailFragment : Fragment() {
     private lateinit var searchButton: FloatingActionButton
     private lateinit var noResultsText: TextView
     private lateinit var pivotTimeStream: TextView
-    private lateinit var noResultsImageView: ImageView
     private lateinit var toolBar: Toolbar
     private lateinit var toolbarView: CollapsingToolbarLayout
     private lateinit var pivotController: PivotController
@@ -193,29 +191,25 @@ class PivotDetailFragment : Fragment() {
         val listSize = 0
         when(dataPivot.entityCode) {
             1 -> {
-                //listSize = patientRecords!!.size
                 noResultsView(listSize)
                 pivotResultCount.text = listSize.toString()
             }
             2 -> {
-                //listSize = diagnosisList!!.size
                 noResultsView(listSize)
                 pivotResultCount.text = listSize.toString()
 
             }
             3 -> {
-                //listSize = prescriptionList!!.size
                 noResultsView(listSize)
                 pivotResultCount.text = listSize.toString()
 
             }
             4 -> {
-                //listSize = visitList!!.size
                 noResultsView(listSize)
                 pivotResultCount.text = listSize.toString()
             }
             5 -> {
-                //listSize = pharmaceuticalsList!!.size
+
                 noResultsView(listSize)
                 pivotResultCount.text = listSize.toString()
 
@@ -224,24 +218,24 @@ class PivotDetailFragment : Fragment() {
 
                 when (dataPivot.practitionerCode) {
                     10 -> {
-                        // listSize = practitionerList!!.size
+
                         noResultsView(listSize)
                         pivotResultCount.text = listSize.toString()
                     }
                     20 -> {
-                        // listSize = doctorList!!.size
+
                         noResultsView(listSize)
                         pivotResultCount.text = listSize.toString()
 
                     }
                     30 -> {
-                        // listSize = nursePractitionerList!!.size
+
                         noResultsView(listSize)
                         pivotResultCount.text = listSize.toString()
 
                     }
                     40 -> {
-                        // listSize = registeredNurseList!!.size
+
                         noResultsView(listSize)
                         pivotResultCount.text = listSize.toString()
 

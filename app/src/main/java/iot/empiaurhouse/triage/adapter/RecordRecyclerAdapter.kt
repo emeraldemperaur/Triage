@@ -5,17 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.model.ChironRecords
 import iot.empiaurhouse.triage.view.DashboardFragmentDirections
+import iot.empiaurhouse.triage.viewmodel.ChironRecordsViewModel
 
-class RecordRecyclerAdapter(private val recordsList: ArrayList<ChironRecords>, private val recordViewObject: View): RecyclerView.Adapter<RecordRecyclerAdapter.ViewHolder>() {
+class RecordRecyclerAdapter(private val recordsList: ArrayList<ChironRecords>,
+                            private val recordViewObject: View,
+                            private val activity: ViewModelStoreOwner): RecyclerView.Adapter<RecordRecyclerAdapter.ViewHolder>() {
 
     private lateinit var pivotContext: Context
     private lateinit var recordView: View
+    private lateinit var recordsViewModel: ChironRecordsViewModel
 
 
     override fun onCreateViewHolder(
@@ -25,6 +31,7 @@ class RecordRecyclerAdapter(private val recordsList: ArrayList<ChironRecords>, p
         val v = LayoutInflater.from(parent.context)
             .inflate(R.layout.records_list_view, parent, false)
         pivotContext = parent.context
+        recordsViewModel = ViewModelProvider(activity).get(ChironRecordsViewModel::class.java)
         recordView = recordViewObject
         return ViewHolder(v)
     }
@@ -45,30 +52,39 @@ class RecordRecyclerAdapter(private val recordsList: ArrayList<ChironRecords>, p
                 when(focusID){
                     1 ->{
                         recordName = "Patients"
+                        recordsViewModel.pullChironRecords(focusID)
                     }
                     2 ->{
                         recordName = "Diagnoses"
+                        recordsViewModel.pullChironRecords(focusID)
                     }
                     3 ->{
                         recordName = "Prescriptions"
+                        recordsViewModel.pullChironRecords(focusID)
                     }
                     4 ->{
                         recordName = "Visits"
+                        recordsViewModel.pullChironRecords(focusID)
                     }
                     5 ->{
                         recordName = "General Practitioners"
+                        recordsViewModel.pullChironRecords(focusID)
                     }
                     6 ->{
                         recordName = "Doctors"
+                        recordsViewModel.pullChironRecords(focusID)
                     }
                     7 ->{
                         recordName = "Registered Nurses"
+                        recordsViewModel.pullChironRecords(focusID)
                     }
                     8 ->{
                         recordName = "Nurse Practitioners"
+                        recordsViewModel.pullChironRecords(focusID)
                     }
                     9 ->{
                         recordName = "Pharmaceuticals"
+                        recordsViewModel.pullChironRecords(focusID)
                     }
 
 
