@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.MultiRecordController
@@ -32,6 +33,7 @@ class RecordViewFragment : Fragment() {
     private lateinit var recordController: MultiRecordController
     private lateinit var navController: NavController
     private lateinit var exitRecordViewButton: FloatingActionButton
+    private lateinit var toolbarView: CollapsingToolbarLayout
     private lateinit var searchButton: FloatingActionButton
     private lateinit var patientRecordView: ConstraintLayout
     private lateinit var patientRecordFirstName: TextView
@@ -46,6 +48,7 @@ class RecordViewFragment : Fragment() {
     private lateinit var patientRecordNoDiagnosesFound: TextView
     private lateinit var patientRecordProfile: ImageView
     private lateinit var patientRecordDiagnosesRV: RecyclerView
+    private lateinit var userName: TextView
     private var recordID: Int? = null
     private lateinit var patient: Patient
     private lateinit var recordsViewModel: ChironRecordsViewModel
@@ -74,6 +77,8 @@ class RecordViewFragment : Fragment() {
         exitRecordViewButton = binding.exitRecordDetail
         recordsViewModel = ViewModelProvider(this).get(ChironRecordsViewModel::class.java)
         searchButton = requireActivity().findViewById(R.id.hub_search_button)
+        toolbarView = requireActivity().findViewById(R.id.hub_collapsing_toolbar)
+        userName = requireActivity().findViewById(R.id.hub_username_title)
         navController = view.findNavController()
         //patientRecordView
         patientRecordView = binding.patientRecordsViewInclude.patientDetailView
@@ -142,6 +147,7 @@ class RecordViewFragment : Fragment() {
         exitRecordViewButton.setOnClickListener {
             navController.navigateUp()
             searchButton.visibility = View.VISIBLE
+            userName.visibility = View.VISIBLE
         }
     }
 
@@ -152,7 +158,10 @@ class RecordViewFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        toolbarView.visibility = View.VISIBLE
         searchButton.visibility = View.GONE
+        userName.visibility = View.VISIBLE
+
     }
 
 

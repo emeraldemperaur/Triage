@@ -45,7 +45,7 @@ data class Patient(
     val diagnoses: ArrayList<Diagnosis>?,
     @JsonProperty("image")
     @SerializedName("image")
-    val image: ArrayList<Int>?,
+    val image: ByteArray?,
     @JsonProperty("fullName")
     @SerializedName("fullName")
     val fullName: String?,
@@ -63,4 +63,20 @@ data class Patient(
     val new: Boolean?,
 
 
-): Parcelable
+): Parcelable {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Patient) return false
+
+        if (image != null) {
+            if (other.image == null) return false
+            if (!image.contentEquals(other.image)) return false
+        } else if (other.image != null) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return image?.contentHashCode() ?: 0
+    }
+}

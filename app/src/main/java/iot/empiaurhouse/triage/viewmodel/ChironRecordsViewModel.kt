@@ -29,9 +29,6 @@ class ChironRecordsViewModel: ViewModel() {
     val registeredNurseRecords = MutableLiveData<List<RegisteredNurse>>()
     val pharmaceuticalRecords = MutableLiveData<List<Pharmaceuticals>>()
 
-    private lateinit var patientStore: Patient
-
-
     val patientError = MutableLiveData<Boolean>()
     val diagnosisError = MutableLiveData<Boolean>()
     val prescriptionError = MutableLiveData<Boolean>()
@@ -104,15 +101,6 @@ class ChironRecordsViewModel: ViewModel() {
         )
 
     }
-
-    fun storePatientRecord(patient: Patient){
-        patientStore = patient
-    }
-
-    fun fetchPatientStored(): Patient{
-        return patientStore
-    }
-
 
 
     private fun fetchDiagnosesRecords(){

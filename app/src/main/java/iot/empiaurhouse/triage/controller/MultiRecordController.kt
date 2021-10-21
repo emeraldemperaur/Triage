@@ -71,7 +71,8 @@ class MultiRecordController {
         insurer.text = patientRecord.insuranceVendor
         insurerID.text = patientRecord.insuranceVendorID
         bloodGroup.text = patientRecord.bloodGroup
-        address.text = patientRecord.address
+        val addressStr = "${patientRecord.address}, ${patientRecord.city}"
+        address.text = addressStr
         phoneNumber.text = patientRecord.phoneNumber
         val diagnosisCount = patientRecord.diagnoses!!.size
         var diagnosesText = ""
@@ -87,10 +88,13 @@ class MultiRecordController {
             diagnosesTitle.letterSpacing = 0.33F
         }
         diagnosesTitle.text = diagnosesText
-        val patientProfileRAW = patientRecord.image.toString().toByteArray()
+        if (patientRecord.image != null){
+        val patientProfileRAW = patientRecord.image
+
         val bmp = BitmapFactory.decodeByteArray(patientProfileRAW, 0, patientProfileRAW.size)
         if (bmp != null){
-            recordProfile.setImageBitmap(Bitmap.createScaledBitmap(bmp, recordProfile.width, recordProfile.height, false))
+            recordProfile.setImageBitmap(Bitmap.createScaledBitmap(bmp, 69, 69, false))
+        }
         }
         recordDiagnosesRV.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         patientDiagnosesRVA = DiagnosesRecyclerAdapter(patientRecord.diagnoses, patientRecordView)

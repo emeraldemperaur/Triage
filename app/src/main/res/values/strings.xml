@@ -256,9 +256,18 @@
     <string name="contact">contact</string>
     <string name="information">Information</string>
     <string name="address">address</string>
-    <string name="_1_212_113_4564">+1(212) 113-4564</string>
+    <string name="_1_212_113_4564">+1(212) 113–4564</string>
     <string name="test_test_com">test@test.com</string>
     <string name="_0_diagnoses">(10) Diagnoses</string>
     <string name="no_diagnoses_found">No Diagnoses Found</string>
+    <string name="prescriptions">Prescriptions</string>
+    <string name="visits">Visits</string>
+    <string name="level_text">______</string>
+    <string name="diagnostic">diagnostic</string>
+    <string name="note">Note</string>
+    <string name="no_prescriptions">No Prescriptions</string>
+    <string name="no_visit_logs">No Visit Logs</string>
+    <string name="_12_months">2 per week | 12 Months</string>
+    <string name="_12_00">12:00</string>
 
 </resources>

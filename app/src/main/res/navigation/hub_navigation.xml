@@ -124,13 +124,32 @@
             android:name="Patient"
             app:argType="iot.empiaurhouse.triage.model.Patient"/>
 
+        <action
+            android:id="@+id/view_patient_diagnoses"
+            app:destination="@id/patient_diagnoses">
 
 
+            <argument
+                android:name="Diagnosis"
+                app:argType="iot.empiaurhouse.triage.model.Diagnosis"/>
+
+
+        </action>
 
     </fragment>
 
+    <fragment
+        android:id="@+id/patient_diagnoses"
+        android:label="Patient Diagnoses"
+        tools:layout="@layout/fragment_patient_diagnoses"
+        android:name="iot.empiaurhouse.triage.view.PatientDiagnosesFragment">
+
+        <argument
+            android:name="Diagnosis"
+            app:argType="iot.empiaurhouse.triage.model.Diagnosis"/>
 
 
+    </fragment>
 
 
 

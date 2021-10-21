@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.PatientDiagnosesFragment">
+
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/patient_diagnoses_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/patient_diagnoses_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <ImageView
+                    android:visibility="visible"
+                    android:elevation="13dp"
+                    android:scaleType="fitXY"
+                    android:id="@+id/patient_diagnoses_icon"
+                    android:src="@drawable/ic_virus_art_icon"
+                    android:layout_marginTop="61dp"
+                    android:layout_marginEnd="0dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_width="69dp"
+                    android:layout_height="69dp"
+                    app:tint="@color/chiron_blue"
+                    android:contentDescription="@string/data_n_pivots" />
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/patient_diagnoses_icon"
+                    android:id="@+id/patient_diagnoses_patient"
+                    android:text="@string/phil_coulson"
+                    android:fontFamily="@font/montserratregular"
+                    android:textAllCaps="true"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:layout_marginTop="76dp"
+                    android:layout_marginEnd="6dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/chiron_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+
+                <View
+                    android:elevation="3dp"
+                    android:id="@+id/patient_diagnoses_line0"
+                    android:layout_marginTop="21dp"
+                    android:layout_marginBottom="3dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/patient_diagnoses_icon"
+                    android:background="@color/chiron_grey"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+
+                <TextView
+                    android:breakStrategy="high_quality"
+                    android:id="@+id/patient_diagnoses_synopsis"
+                    app:layout_constraintTop_toBottomOf="@id/patient_diagnoses_line0"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:letterSpacing="0.21"
+                    android:fontFamily="@font/montserratlight"
+                    android:textSize="21sp"
+                    android:textColor="@color/chiron_blue"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="?actionBarSize"
+                    android:text="@string/synopsis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:targetApi="m" />
+
+
+                <View
+                    android:elevation="3dp"
+                    android:id="@+id/patient_diagnoses_line1"
+                    android:layout_marginTop="21dp"
+                    android:layout_marginBottom="3dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/patient_diagnoses_synopsis"
+                    android:background="@color/chiron_grey"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+
+
+                <com.google.android.material.tabs.TabLayout
+                    android:theme="@style/DiagnosesTab"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/patient_diagnoses_line1"
+                    android:id="@+id/patient_diagnoses_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    >
+
+
+                </com.google.android.material.tabs.TabLayout>
+                
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/patient_diagnoses_view_pager"
+                    app:layout_constraintTop_toBottomOf="@id/patient_diagnoses_tabs"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="377dp"/>
+
+
+                <LinearLayout
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="126dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/patient_diagnoses_view_pager"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.cardview.widget.CardView
+                        app:cardElevation="6dp"
+                        android:clickable="true"
+                        android:background="@drawable/silver"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true">
+
+                        <LinearLayout
+                            android:layout_gravity="center"
+                            android:background="@drawable/silver"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_gravity="center"
+                            android:id="@+id/patient_diagnoses_diagnostics"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="@font/montserratlight"
+                            android:letterSpacing="0.21"
+                            android:text="@string/diagnostic"
+                            android:textAllCaps="true"
+                            android:textColor="@color/chiron_blue"
+                            android:textSize="19sp"
+                            android:textStyle="bold" />
+
+                            <TextView
+                            android:id="@+id/patient_diagnoses_diagnostics_note"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="3dp"
+                            android:fontFamily="@font/montserratbold"
+                            android:letterSpacing="0.21"
+                            android:text="@string/note"
+                            android:textAllCaps="true"
+                            android:textColor="@color/chiron_blue"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                            <TextView
+                                android:textAlignment="center"
+                                android:layout_gravity="center"
+                                android:id="@+id/patient_diagnoses_level"
+                                android:text="@string/level_text"
+                                android:fontFamily="@font/montserratbold"
+                                android:textAllCaps="true"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:layout_marginTop="-6dp"
+                                android:layout_marginBottom="3dp"
+                                android:textStyle="bold"
+                                android:textColor="@color/chiron_blue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+
+
+
+                            <TextView
+                            android:id="@+id/patient_diagnoses_details_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginEnd="6dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/montserratlight"
+                            android:letterSpacing="0.21"
+                            android:maxLines="13"
+                            android:text="@string/triage_info_text"
+                            android:textAlignment="center"
+                            android:textColor="@color/chiron_blue"
+                            android:textSize="14sp"
+                            android:textStyle="normal"
+                            android:visibility="visible" />
+
+                        </LinearLayout>
+
+
+
+                    </androidx.cardview.widget.CardView>
+
+
+                </LinearLayout>
+
+
+
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/return_to_patient_record"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="96dp"
+        android:layout_marginEnd="@dimen/fab"
+        android:contentDescription="@string/chironquickaction"
+        app:srcCompat="@drawable/profile_outline"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

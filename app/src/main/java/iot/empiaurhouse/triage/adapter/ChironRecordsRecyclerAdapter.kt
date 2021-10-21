@@ -99,7 +99,6 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 holder.patientDiagnosesCount.text = focusPatient.diagnoses.size.toString()
                 holder.patientItem!!.setOnClickListener {
                     // go to detail view with navigation + focusPatientObject
-                    //recordsViewModel.storePatientRecord(focusPatient)
                     val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, focusPatient)
                     navControls.navigate(input)
                 }

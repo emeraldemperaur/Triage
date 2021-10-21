@@ -66,6 +66,17 @@
 
     </style>
 
+    <style name="DiagnosesTab">
+        <item name="android:fontFamily">@font/montserratmedium</item>
+        <item name="tabTextAppearance">@style/DiagnosesTabStyle</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DiagnosesTabStyle">
+        <item name="android:fontFamily">@font/montserratmedium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="MeInfoButtonsTheme">
         <item name="colorPrimary">@color/black</item>
 

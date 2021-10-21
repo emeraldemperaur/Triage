@@ -365,7 +365,7 @@
                 android:textAllCaps="true"
                 android:textColor="@color/chiron_blue"
                 android:textSize="21sp"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/patient_detail_line0"

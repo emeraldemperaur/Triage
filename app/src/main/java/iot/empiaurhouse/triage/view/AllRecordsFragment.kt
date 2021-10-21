@@ -195,6 +195,7 @@ class AllRecordsFragment : Fragment() {
 
     private fun initRefresh(){
         recordsSwipeRefresh.setOnRefreshListener {
+            noRecordsFound.visibility = View.INVISIBLE
             loadingText.visibility = View.VISIBLE
             viewRefresh()
             recordsSwipeRefresh.isRefreshing = false
@@ -210,7 +211,7 @@ class AllRecordsFragment : Fragment() {
             recordsRV = binding.chironRecordsViewRecyclerview
             initRecordsView(recordsID)
             recordCount.visibility = View.VISIBLE
-        }, 1000)
+        }, 2000)
 
     }
 
@@ -239,11 +240,12 @@ class AllRecordsFragment : Fragment() {
 
 
     private fun noResultsView(recordsFound: Int){
+
         Handler(Looper.getMainLooper()).postDelayed({
             loadingText.visibility = View.GONE
             if (recordsFound < 1){
                 if (recordsRV != null) {
-                    recordsRV!!.visibility = View.GONE
+                   // recordsRV!!.visibility = View.GONE
                 }
                 noRecordsFound.visibility = View.VISIBLE
                 pullPrompt.visibility = View.VISIBLE
@@ -255,7 +257,7 @@ class AllRecordsFragment : Fragment() {
                     recordsRV!!.visibility = View.VISIBLE
                 }
             }
-        }, 1000)
+        }, 3000)
 
     }
 

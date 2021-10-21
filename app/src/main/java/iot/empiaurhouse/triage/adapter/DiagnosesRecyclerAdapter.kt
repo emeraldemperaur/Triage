@@ -14,6 +14,7 @@ import com.google.android.material.card.MaterialCardView
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.PivotController
 import iot.empiaurhouse.triage.model.Diagnosis
+import iot.empiaurhouse.triage.view.RecordViewFragmentDirections
 
 class DiagnosesRecyclerAdapter(private val diagnoses: ArrayList<Diagnosis>, private val diagnosesViewObject: View): RecyclerView.Adapter<DiagnosesRecyclerAdapter.ViewHolder>()  {
 
@@ -40,14 +41,15 @@ class DiagnosesRecyclerAdapter(private val diagnoses: ArrayList<Diagnosis>, priv
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DiagnosesRecyclerAdapter.ViewHolder, position: Int) {
-        val focusDiagnosis = diagnoses[position]
+        var focusDiagnosis = diagnoses[position]
         val navControls = holder.diagnosesViewNavControl
         holder.diagnosesSynopsis.text = focusDiagnosis.diagnosisSynopsis
         holder.diagnosesDate.text = formatTool.pivotObjectDateFormat(focusDiagnosis.visitDate)
         holder.diagnosesLevel.text = focusDiagnosis.diagnosisLevel.diagnosisLevelName
         holder.diagnosesLevel.setTextColor(Color.parseColor(focusDiagnosis.diagnosisLevel.diagnosisLevelHexCode))
         holder.diagnosesItem.setOnClickListener {
-
+            val input = RecordViewFragmentDirections.viewPatientDiagnoses(focusDiagnosis)
+            navControls.navigate(input)
         }
 
     }
