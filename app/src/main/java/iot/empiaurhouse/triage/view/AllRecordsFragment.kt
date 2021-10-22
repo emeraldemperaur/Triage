@@ -109,73 +109,91 @@ class AllRecordsFragment : Fragment() {
     private fun initRecordsView(recordID: Int){
         searchButton.visibility = View.VISIBLE
         recordTitle.text = recordsController.fetchRecordName(recordID)
-
-        when(recordID){
-            1 ->{
-                cRRA = ChironRecordsRecyclerAdapter(recordsID, patientsList = patientsFound,
-                    recordsViewObject = recordsView, activity = requireActivity())
-                recordsRV!!.adapter = cRRA
-                recordCount.text = patientsFound.size.toString()
-                noResultsView(patientsFound.size)
-            }
-            2 ->{
-                cRRA = ChironRecordsRecyclerAdapter(recordsID, diagnosesList = diagnosesFound,
-                    recordsViewObject = recordsView, activity = requireActivity())
-                recordsRV!!.adapter = cRRA
-                recordCount.text = diagnosesFound.size.toString()
-                noResultsView(diagnosesFound.size)
-            }
-            3 ->{
-                cRRA = ChironRecordsRecyclerAdapter(recordsID, prescriptionsList = prescriptionsFound,
-                    recordsViewObject = recordsView, activity = requireActivity())
-                recordsRV!!.adapter = cRRA
-                recordCount.text = prescriptionsFound.size.toString()
-                noResultsView(prescriptionsFound.size)
-            }
-            4 ->{
-                cRRA = ChironRecordsRecyclerAdapter(recordsID, visitsList = visitsFound,
-                    recordsViewObject = recordsView, activity = requireActivity())
-                recordsRV!!.adapter = cRRA
-                recordCount.text = visitsFound.size.toString()
-                noResultsView(visitsFound.size)
-            }
-            5 ->{
-                cRRA = ChironRecordsRecyclerAdapter(recordsID, practitionersList = practitionersFound,
-                    recordsViewObject = recordsView, activity = requireActivity())
-                recordsRV!!.adapter = cRRA
-                recordCount.text = practitionersFound.size.toString()
-                noResultsView(practitionersFound.size)
-            }
-            6 ->{
-                cRRA = ChironRecordsRecyclerAdapter(recordsID, doctorsList = doctorsFound,
-                    recordsViewObject = recordsView, activity = requireActivity())
-                recordsRV!!.adapter = cRRA
-                recordCount.text = doctorsFound.size.toString()
-                noResultsView(doctorsFound.size)
-            }
-            7 ->{
-                cRRA = ChironRecordsRecyclerAdapter(recordsID, registeredNursesList = fetchRegisteredNursesList(),
-                    recordsViewObject = recordsView, activity = requireActivity())
-                recordsRV!!.adapter = cRRA
-                recordCount.text = fetchRegisteredNursesList().size.toString()
-                noResultsView(registeredNursesFound.size)
-            }
-            8 ->{
-                cRRA = ChironRecordsRecyclerAdapter(recordsID, nursePractitionersList = fetchNursePractitionersList(),
-                    recordsViewObject = recordsView, activity = requireActivity())
-                recordsRV!!.adapter = cRRA
-                recordCount.text = fetchNursePractitionersList().size.toString()
-                noResultsView(nursePractitionersFound.size)
-            }
-            9 ->{
-                cRRA = ChironRecordsRecyclerAdapter(recordsID, pharmaceuticalsList = pharmaceuticalsFound,
-                    recordsViewObject = recordsView, activity = requireActivity())
-                recordsRV!!.adapter = cRRA
-                recordCount.text = pharmaceuticalsFound.size.toString()
-                noResultsView(pharmaceuticalsFound.size)
+        if (view != null) {
+            when (recordID) {
+                1 -> {
+                    cRRA = ChironRecordsRecyclerAdapter(
+                        recordsID, patientsList = patientsFound,
+                        recordsViewObject = recordsView, activity = requireActivity()
+                    )
+                    recordsRV!!.adapter = cRRA
+                    recordCount.text = patientsFound.size.toString()
+                    noResultsView(patientsFound.size)
+                }
+                2 -> {
+                    cRRA = ChironRecordsRecyclerAdapter(
+                        recordsID, diagnosesList = diagnosesFound,
+                        recordsViewObject = recordsView, activity = requireActivity()
+                    )
+                    recordsRV!!.adapter = cRRA
+                    recordCount.text = diagnosesFound.size.toString()
+                    noResultsView(diagnosesFound.size)
+                }
+                3 -> {
+                    cRRA = ChironRecordsRecyclerAdapter(
+                        recordsID, prescriptionsList = prescriptionsFound,
+                        recordsViewObject = recordsView, activity = requireActivity()
+                    )
+                    recordsRV!!.adapter = cRRA
+                    recordCount.text = prescriptionsFound.size.toString()
+                    noResultsView(prescriptionsFound.size)
+                }
+                4 -> {
+                    cRRA = ChironRecordsRecyclerAdapter(
+                        recordsID, visitsList = visitsFound,
+                        recordsViewObject = recordsView, activity = requireActivity()
+                    )
+                    recordsRV!!.adapter = cRRA
+                    recordCount.text = visitsFound.size.toString()
+                    noResultsView(visitsFound.size)
+                }
+                5 -> {
+                    cRRA = ChironRecordsRecyclerAdapter(
+                        recordsID, practitionersList = practitionersFound,
+                        recordsViewObject = recordsView, activity = requireActivity()
+                    )
+                    recordsRV!!.adapter = cRRA
+                    recordCount.text = practitionersFound.size.toString()
+                    noResultsView(practitionersFound.size)
+                }
+                6 -> {
+                    cRRA = ChironRecordsRecyclerAdapter(
+                        recordsID, doctorsList = doctorsFound,
+                        recordsViewObject = recordsView, activity = requireActivity()
+                    )
+                    recordsRV!!.adapter = cRRA
+                    recordCount.text = doctorsFound.size.toString()
+                    noResultsView(doctorsFound.size)
+                }
+                7 -> {
+                    cRRA = ChironRecordsRecyclerAdapter(
+                        recordsID, registeredNursesList = fetchRegisteredNursesList(),
+                        recordsViewObject = recordsView, activity = requireActivity()
+                    )
+                    recordsRV!!.adapter = cRRA
+                    recordCount.text = fetchRegisteredNursesList().size.toString()
+                    noResultsView(registeredNursesFound.size)
+                }
+                8 -> {
+                    cRRA = ChironRecordsRecyclerAdapter(
+                        recordsID, nursePractitionersList = fetchNursePractitionersList(),
+                        recordsViewObject = recordsView, activity = requireActivity()
+                    )
+                    recordsRV!!.adapter = cRRA
+                    recordCount.text = fetchNursePractitionersList().size.toString()
+                    noResultsView(nursePractitionersFound.size)
+                }
+                9 -> {
+                    cRRA = ChironRecordsRecyclerAdapter(
+                        recordsID, pharmaceuticalsList = pharmaceuticalsFound,
+                        recordsViewObject = recordsView, activity = requireActivity()
+                    )
+                    recordsRV!!.adapter = cRRA
+                    recordCount.text = pharmaceuticalsFound.size.toString()
+                    noResultsView(pharmaceuticalsFound.size)
+                }
             }
         }
-
     }
 
 

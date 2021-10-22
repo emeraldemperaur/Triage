@@ -269,5 +269,7 @@
     <string name="no_visit_logs">No Visit Logs</string>
     <string name="_12_months">2 per week | 12 Months</string>
     <string name="_12_00">12:00</string>
+    <string name="unknown_zombie_virus">Unknown Zombie Virus</string>
+    <string name="zombie_virus">Zombie Virus</string>
 
 </resources>

@@ -99,7 +99,7 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 holder.patientDiagnosesCount.text = focusPatient.diagnoses.size.toString()
                 holder.patientItem!!.setOnClickListener {
                     // go to detail view with navigation + focusPatientObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, focusPatient)
+                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, focusPatient, null)
                     navControls.navigate(input)
                 }
 
@@ -117,6 +117,8 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 holder.diagnosisLevel.setTextColor(Color.parseColor(focusDiagnosis.diagnosisLevel.diagnosisLevelHexCode))
                 holder.diagnosisItem!!.setOnClickListener {
                     // go to detail view with navigation + focusDiagnosisObject
+                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null, focusDiagnosis)
+                    navControls.navigate(input)
 
                 }
             }

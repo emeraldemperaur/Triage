@@ -25,14 +25,12 @@ class DiagnosesPagerAdapter(fa: FragmentActivity, private var prescriptions: Arr
         if (position == 0) {
             prescriptionsObject = prescriptions
             fragment = PatientDiagnosesRxFragment.newInstance("", "", prescriptions!!)
-            //notifyDataSetChanged()
 
 
 
         } else if (position == 1) {
             visitsObject = visits
             fragment = PatientDiagnosesVisitFragment.newInstance("","", visits!!)
-            //notifyDataSetChanged()
 
         }
         return fragment!!

@@ -15,11 +15,14 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.tabs.TabLayout
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.MultiRecordController
 import iot.empiaurhouse.triage.databinding.FragmentRecordViewBinding
+import iot.empiaurhouse.triage.model.Diagnosis
 import iot.empiaurhouse.triage.model.Patient
 import iot.empiaurhouse.triage.viewmodel.ChironRecordsViewModel
 
@@ -48,9 +51,19 @@ class RecordViewFragment : Fragment() {
     private lateinit var patientRecordNoDiagnosesFound: TextView
     private lateinit var patientRecordProfile: ImageView
     private lateinit var patientRecordDiagnosesRV: RecyclerView
+    private lateinit var diagnosisRecordView: ConstraintLayout
+    private lateinit var diagnosisSynopsis: TextView
+    private lateinit var diagnosisLevel: TextView
+    private lateinit var diagnosisDate: TextView
+    private lateinit var diagnosisPatient: TextView
+    private lateinit var diagnosisLevelLine: TextView
+    private lateinit var diagnosisNote: TextView
+    private lateinit var diagnosisTabs: TabLayout
+    private lateinit var diagnosisViewPager2: ViewPager2
     private lateinit var userName: TextView
     private var recordID: Int? = null
     private lateinit var patient: Patient
+    private lateinit var diagnosis: Diagnosis
     private lateinit var recordsViewModel: ChironRecordsViewModel
     private val args: RecordViewFragmentArgs by navArgs()
     
@@ -94,8 +107,23 @@ class RecordViewFragment : Fragment() {
         patientRecordNoDiagnosesFound = binding.patientRecordsViewInclude.noDiagnosesFound
         patientRecordDiagnosesRV = binding.patientRecordsViewInclude.dataPivotsViewRecyclerview
         patientRecordProfile = binding.patientRecordsViewInclude.patientDetailProfile
+        //diagnosisRecordView
+        diagnosisRecordView = binding.diagnosisRecordsViewInclude.diagnosisDetailView
+        diagnosisSynopsis = binding.diagnosisRecordsViewInclude.diagnosisSynopsisTitleText
+        diagnosisLevel = binding.diagnosisRecordsViewInclude.diagnosisLevelText
+        diagnosisDate = binding.diagnosisRecordsViewInclude.diagnosisDateText
+        diagnosisPatient = binding.diagnosisRecordsViewInclude.diagnosisPatientText
+        diagnosisLevelLine = binding.diagnosisRecordsViewInclude.diagnosesDiagnosesLevel
+        diagnosisNote = binding.diagnosisRecordsViewInclude.diagnosesDetailNote
+        diagnosisTabs = binding.diagnosisRecordsViewInclude.diagnosisDiagnosesTabs
+        diagnosisViewPager2 = binding.diagnosisRecordsViewInclude.diagnosisDiagnosesViewPager
         recordID = args.recordID
-        patient = args.patient
+        if (args.patient != null){
+            patient = args.patient!!
+        }
+        if (args.diagnosis != null){
+            diagnosis = args.diagnosis!!
+        }
         recordController = MultiRecordController()
         initMultiRecordView(recordID!!)
         initViewExit()
@@ -116,6 +144,8 @@ class RecordViewFragment : Fragment() {
 
                 }
                 2 ->{
+                    recordController.initDiagnosisRecordView(requireActivity(), diagnosis,
+                        diagnosisRecordView, diagnosisSynopsis, diagnosisDate, diagnosisLevel, diagnosisPatient, diagnosisLevelLine, diagnosisNote, diagnosisTabs, diagnosisViewPager2)
 
                 }
                 3 ->{

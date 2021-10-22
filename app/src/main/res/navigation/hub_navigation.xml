@@ -97,8 +97,14 @@
                 app:argType="integer"/>
 
             <argument
+                app:nullable="true"
                 android:name="Patient"
                 app:argType="iot.empiaurhouse.triage.model.Patient"/>
+
+            <argument
+                app:nullable="true"
+                android:name="Diagnosis"
+                app:argType="iot.empiaurhouse.triage.model.Diagnosis"/>
 
 
         </action>
@@ -121,8 +127,15 @@
             />
 
         <argument
+            app:nullable="true"
             android:name="Patient"
             app:argType="iot.empiaurhouse.triage.model.Patient"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Diagnosis"
+            app:argType="iot.empiaurhouse.triage.model.Diagnosis"/>
+
 
         <action
             android:id="@+id/view_patient_diagnoses"
