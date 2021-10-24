@@ -146,10 +146,12 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     override fun onResume() {
         super.onResume()
         Handler(Looper.getMainLooper()).postDelayed({
-        recordRecyclerView = binding.hubRecordsRecyclerView
-        recordsRVA = RecordRecyclerAdapter(recordsFound, hubView, requireActivity())
-        recordRecyclerView!!.adapter = recordsRVA
-            noResultsView(recordsFound.size)
+            if (view != null) {
+                recordRecyclerView = binding.hubRecordsRecyclerView
+                recordsRVA = RecordRecyclerAdapter(recordsFound, hubView, requireActivity())
+                recordRecyclerView!!.adapter = recordsRVA
+                noResultsView(recordsFound.size)
+            }
         }, 1000)
 
     }
@@ -172,11 +174,13 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         searchButton.visibility = View.VISIBLE
         toolbarView.visibility = View.VISIBLE
         Handler(Looper.getMainLooper()).postDelayed({
-            recordsFound = fetchRecordsData()
-            recordRecyclerView = binding.hubRecordsRecyclerView
-            recordsRVA = RecordRecyclerAdapter(recordsFound, hubView, requireActivity())
-            recordRecyclerView!!.adapter = recordsRVA
-            noResultsView(recordsFound.size)
+            if (view != null) {
+                recordsFound = fetchRecordsData()
+                recordRecyclerView = binding.hubRecordsRecyclerView
+                recordsRVA = RecordRecyclerAdapter(recordsFound, hubView, requireActivity())
+                recordRecyclerView!!.adapter = recordsRVA
+                noResultsView(recordsFound.size)
+            }
         }, 1000)
     }
 
