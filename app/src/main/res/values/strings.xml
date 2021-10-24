@@ -271,5 +271,24 @@
     <string name="_12_00">12:00</string>
     <string name="unknown_zombie_virus">Unknown Zombie Virus</string>
     <string name="zombie_virus">Zombie Virus</string>
+    <string name="zombie_virus_cure">Zombie Virus Cure</string>
+    <string name="dosage">Dosage</string>
+    <string name="duration">Duration</string>
+    <string name="_90_days">90 Days</string>
+    <string name="batch_number">BATCH NUMBER</string>
+    <string name="every_3_hours">every 3 Hours</string>
+    <string name="regimen">Regimen</string>
+    <string name="amount">amount</string>
+    <string name="instruction">instruction</string>
+    <string name="logs">Log</string>
+    <string name="thelonious">Thelonious</string>
+    <string name="jaha">Jaha</string>
+    <string name="email_uc">EMAIL</string>
+    <string name="call">CALL</string>
+    <string name="spectroscopy">Spectroscopy</string>
+    <string name="generic_name">Generic Name</string>
+    <string name="chemical_name">Chemical Name</string>
+    <string name="approval">Approval ID</string>
+    <string name="restock">RESTOCK</string>
 
 </resources>

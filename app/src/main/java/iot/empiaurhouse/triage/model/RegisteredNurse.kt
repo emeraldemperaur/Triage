@@ -1,8 +1,11 @@
 package iot.empiaurhouse.triage.model
 
+import android.os.Parcelable
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class RegisteredNurse(
     @JsonProperty("id")
     @SerializedName("id")
@@ -34,4 +37,4 @@ data class RegisteredNurse(
     @JsonProperty("new")
     @SerializedName("new")
     val new: Boolean?
-    )
+    ): Parcelable

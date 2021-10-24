@@ -106,6 +106,41 @@
                 android:name="Diagnosis"
                 app:argType="iot.empiaurhouse.triage.model.Diagnosis"/>
 
+            <argument
+                app:nullable="true"
+                android:name="Prescription"
+                app:argType="iot.empiaurhouse.triage.model.Prescription"/>
+
+            <argument
+                app:nullable="true"
+                android:name="Visit"
+                app:argType="iot.empiaurhouse.triage.model.Visit"/>
+
+            <argument
+                app:nullable="true"
+                android:name="Practitioner"
+                app:argType="iot.empiaurhouse.triage.model.Practitioner"/>
+
+            <argument
+                app:nullable="true"
+                android:name="Doctor"
+                app:argType="iot.empiaurhouse.triage.model.Doctor"/>
+
+            <argument
+                app:nullable="true"
+                android:name="RegisteredNurse"
+                app:argType="iot.empiaurhouse.triage.model.RegisteredNurse"/>
+
+            <argument
+                app:nullable="true"
+                android:name="NursePractitioner"
+                app:argType="iot.empiaurhouse.triage.model.NursePractitioner"/>
+
+            <argument
+                app:nullable="true"
+                android:name="Pharmaceutical"
+                app:argType="iot.empiaurhouse.triage.model.Pharmaceuticals"/>
+
 
         </action>
 
@@ -135,6 +170,44 @@
             app:nullable="true"
             android:name="Diagnosis"
             app:argType="iot.empiaurhouse.triage.model.Diagnosis"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Prescription"
+            app:argType="iot.empiaurhouse.triage.model.Prescription"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Visit"
+            app:argType="iot.empiaurhouse.triage.model.Visit"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Practitioner"
+            app:argType="iot.empiaurhouse.triage.model.Practitioner"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Doctor"
+            app:argType="iot.empiaurhouse.triage.model.Doctor"/>
+
+        <argument
+            app:nullable="true"
+            android:name="RegisteredNurse"
+            app:argType="iot.empiaurhouse.triage.model.RegisteredNurse"/>
+
+
+        <argument
+            app:nullable="true"
+            android:name="NursePractitioner"
+            app:argType="iot.empiaurhouse.triage.model.NursePractitioner"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Pharmaceutical"
+            app:argType="iot.empiaurhouse.triage.model.Pharmaceuticals"/>
+
+
 
 
         <action
