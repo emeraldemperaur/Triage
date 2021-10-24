@@ -99,9 +99,7 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 holder.patientDiagnosesCount.text = focusPatient.diagnoses.size.toString()
                 holder.patientItem!!.setOnClickListener {
                     // go to detail view with navigation + focusPatientObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, focusPatient,
-                        null, null, null, null, null,
-                        null, null, null)
+                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, focusPatient, null)
                     navControls.navigate(input)
                 }
 
@@ -119,9 +117,7 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 holder.diagnosisLevel.setTextColor(Color.parseColor(focusDiagnosis.diagnosisLevel.diagnosisLevelHexCode))
                 holder.diagnosisItem!!.setOnClickListener {
                     // go to detail view with navigation + focusDiagnosisObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        focusDiagnosis, null, null, null, null,
-                        null, null, null)
+                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null, focusDiagnosis)
                     navControls.navigate(input)
 
                 }
@@ -138,10 +134,6 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 holder.prescriptionTypeIcon!!.setImageDrawable(ContextCompat.getDrawable(recordsContext,iconRxController(focusPrescription.prescribedDosageType)))
                 holder.prescriptionItem!!.setOnClickListener {
                     // go to detail view with navigation + focusPrescriptionObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        null, focusPrescription, null, null, null,
-                        null, null, null)
-                    navControls.navigate(input)
 
                 }
 
@@ -158,10 +150,6 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 holder.visitDate!!.text = formatTools.pivotObjectDateFormat(focusVisit.visitDate)
                 holder.visitItem!!.setOnClickListener {
                     // go to detail view with navigation + focusVisitObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        null, null, focusVisit, null, null,
-                        null, null, null)
-                    navControls.navigate(input)
 
                 }
 
@@ -178,10 +166,6 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 }
                 holder.practitionerItem!!.setOnClickListener {
                     // go to detail view with navigation + focusPractitionerObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        null, null, null, focusPractitioner, null,
-                        null, null, null)
-                    navControls.navigate(input)
 
                 }
             }
@@ -205,10 +189,7 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 }
                 holder.doctorItem!!.setOnClickListener {
                     // go to detail view with navigation + focusDoctorObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        null, null, null, null, focusDoctor,
-                        null, null, null)
-                    navControls.navigate(input)
+
 
                 }
 
@@ -225,10 +206,7 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 }
                 holder.registeredNurseItem!!.setOnClickListener {
                     // go to detail view with navigation + focusRegisteredNurseObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        null, null, null, null,
-                        null, focusRegisteredNurse, null, null)
-                    navControls.navigate(input)
+
                 }
 
             }
@@ -244,10 +222,7 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 }
                 holder.nursePractitionerItem!!.setOnClickListener {
                     // go to detail view with navigation + focusNursePractitionerObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        null, null, null, null,
-                        null, null, focusNursePractitioner, null)
-                    navControls.navigate(input)
+
 
                 }
             }
@@ -269,11 +244,7 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 holder.pharmaceuticalMakeDate!!.text = formatTools.pivotObjectDateFormat(focusPharmaceuticals.manufactureDate)
                 expiryController(focusPharmaceuticals.expiryDate, holder.pharmaceuticalExpiryDate)
                 holder.pharmaceuticalItem!!.setOnClickListener {
-                    // go to detail view with navigation + focusPharmaceuticalsObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        null, null, null, null,
-                        null, null, null, focusPharmaceuticals)
-                    navControls.navigate(input)
+
                 }
             }
 
@@ -370,7 +341,7 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
 
 
         //Registered Nurse List View
-        val registeredNurseItem: MaterialCardView? = itemView.findViewById(R.id.registered_nurses_list_view)
+        val registeredNurseItem: MaterialCardView? = itemView.findViewById(R.id.registered_nurse_list_view)
         val registeredNurseName: TextView? = itemView.findViewById(R.id.registered_nurse_list_practitioner_name_text)
         val registeredNursePractitionersID: TextView? = itemView.findViewById(R.id.registered_nurse_list_host_practitioner_id)
         val registeredNursePhoneIcon: ImageView? = itemView.findViewById(R.id.registered_nurse_list_phone_icon)
@@ -378,7 +349,7 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
 
 
         //Nurse Practitioner List View
-        val nursePractitionerItem: MaterialCardView? = itemView.findViewById(R.id.nurse_practitioners_list_view)
+        val nursePractitionerItem: MaterialCardView? = itemView.findViewById(R.id.nurse_practitioner_list_view)
         val nursePractitionerName: TextView? = itemView.findViewById(R.id.nurse_practitioner_list_practitioner_name_text)
         val nursePractitionerPractitionersID: TextView? = itemView.findViewById(R.id.nurse_practitioner_list_host_practitioner_id)
         val nursePractitionerPhoneIcon: ImageView? = itemView.findViewById(R.id.nurse_practitioner_list_phone_icon)

@@ -83,7 +83,6 @@ class AllRecordsFragment : Fragment() {
         binding = FragmentAllRecordsBinding.bind(view)
         recordsViewModel = ViewModelProvider(this).get(ChironRecordsViewModel::class.java)
         searchButton = requireActivity().findViewById(R.id.hub_search_button)
-        searchButton.visibility = View.GONE
         recordsController = MultiRecordController()
         recordsID = args.recordID
         recordsViewModel.pullChironRecords(recordsID)
@@ -108,7 +107,7 @@ class AllRecordsFragment : Fragment() {
 
 
     private fun initRecordsView(recordID: Int){
-        searchButton.visibility = View.GONE
+        searchButton.visibility = View.VISIBLE
         recordTitle.text = recordsController.fetchRecordName(recordID)
         if (view != null) {
             when (recordID) {

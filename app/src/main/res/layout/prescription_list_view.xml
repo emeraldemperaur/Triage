@@ -142,7 +142,7 @@
                     android:visibility="visible"
                     android:text="@string/phil_coulson"
                     android:textSize="19sp"
-                    android:fontFamily="@font/montserratsemibold"
+                    android:fontFamily="@font/montserratlight"
                     android:textStyle="bold"
                     android:letterSpacing="0.21"
                     android:textColor="@color/black"

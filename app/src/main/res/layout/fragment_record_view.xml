@@ -8,14 +8,16 @@
     tools:context=".view.RecordViewFragment">
 
 
-
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/record_detail_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
-            <include
+        <include
             android:visibility="invisible"
             android:id="@+id/patient_records_view_include"
             android:layout_marginTop="0dp"
@@ -39,58 +41,10 @@
                 app:layout_constraintRight_toRightOf="parent"
                 layout="@layout/diagnosis_record_view"/>
 
-            <include
-                android:visibility="invisible"
-                android:id="@+id/prescription_records_view_include"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="23dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                layout="@layout/prescription_record_view"/>
-
-            <include
-                android:visibility="invisible"
-                android:id="@+id/visit_records_view_include"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="23dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                layout="@layout/visit_record_view"/>
-
-            <include
-                android:visibility="invisible"
-                android:id="@+id/practitioner_records_view_include"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="23dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                layout="@layout/practitioner_record_view"/>
-
-            <include
-                android:visibility="invisible"
-                android:id="@+id/pharmaceutical_records_view_include"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="23dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                layout="@layout/pharmaceutical_record_view"/>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/exit_record_detail"

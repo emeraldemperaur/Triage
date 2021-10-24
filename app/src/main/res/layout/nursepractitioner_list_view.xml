@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/nurse_practitioners_list_view"
+        android:id="@+id/nurse_practitioner_list_view"
         android:background="@drawable/silver"
         android:clickable="true"
         android:layout_width="match_parent"

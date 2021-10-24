@@ -17,13 +17,13 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.MultiRecordController
 import iot.empiaurhouse.triage.databinding.FragmentRecordViewBinding
-import iot.empiaurhouse.triage.model.*
+import iot.empiaurhouse.triage.model.Diagnosis
+import iot.empiaurhouse.triage.model.Patient
 import iot.empiaurhouse.triage.viewmodel.ChironRecordsViewModel
 
 private const val ARG_PARAM1 = ""
@@ -60,86 +60,10 @@ class RecordViewFragment : Fragment() {
     private lateinit var diagnosisNote: TextView
     private lateinit var diagnosisTabs: TabLayout
     private lateinit var diagnosisViewPager2: ViewPager2
-    private lateinit var prescriptionRecordView: ConstraintLayout
-    private lateinit var prescriptionName: TextView
-    private lateinit var prescriptionDate: TextView
-    private lateinit var prescriptionPrescriber: TextView
-    private lateinit var prescriptionPrescriberID: TextView
-    private lateinit var prescriptionPatient: TextView
-    private lateinit var prescriptionDosageAmount: TextView
-    private lateinit var prescriptionDosageRegimen: TextView
-    private lateinit var prescriptionDosageDuration: TextView
-    private lateinit var prescriptionDosageType: ImageView
-    private lateinit var prescriptionBatchNumber: TextView
-    private lateinit var visitRecordView: ConstraintLayout
-    private lateinit var visitDate: TextView
-    private lateinit var visitTime: TextView
-    private lateinit var visitHost: TextView
-    private lateinit var visitHostID: TextView
-    private lateinit var visitPatient: TextView
-    private lateinit var visitLogText: TextView
-    private lateinit var practitionerRecordView: ConstraintLayout
-    private lateinit var practitionerFirstName: TextView
-    private lateinit var practitionerLastName: TextView
-    private lateinit var practitionerSpeciality: TextView
-    private lateinit var practitionerPractitionerID: TextView
-    private lateinit var practitionerPractitionerPhone: TextView
-    private lateinit var practitionerPractitionerEmail: TextView
-    private lateinit var practitionerPractitionerPhoneButton: MaterialButton
-    private lateinit var practitionerPractitionerEmailButton: MaterialButton
-    private lateinit var practitionerProfile: ImageView
-    private lateinit var doctorRecordView: ConstraintLayout
-    private lateinit var doctorFirstName: TextView
-    private lateinit var doctorLastName: TextView
-    private lateinit var doctorSpeciality: TextView
-    private lateinit var doctorPractitionerID: TextView
-    private lateinit var doctorPractitionerPhone: TextView
-    private lateinit var doctorPractitionerEmail: TextView
-    private lateinit var doctorPractitionerPhoneButton: MaterialButton
-    private lateinit var doctorPractitionerEmailButton: MaterialButton
-    private lateinit var doctorProfile: ImageView
-    private lateinit var rNRecordView: ConstraintLayout
-    private lateinit var rNFirstName: TextView
-    private lateinit var rNLastName: TextView
-    private lateinit var rNSpeciality: TextView
-    private lateinit var rNPractitionerID: TextView
-    private lateinit var rNPractitionerPhone: TextView
-    private lateinit var rNPractitionerEmail: TextView
-    private lateinit var rNPractitionerPhoneButton: MaterialButton
-    private lateinit var rNPractitionerEmailButton: MaterialButton
-    private lateinit var rNProfile: ImageView
-    private lateinit var nPRecordView: ConstraintLayout
-    private lateinit var nPFirstName: TextView
-    private lateinit var nPLastName: TextView
-    private lateinit var nPSpeciality: TextView
-    private lateinit var nPPractitionerID: TextView
-    private lateinit var nPPractitionerPhone: TextView
-    private lateinit var nPPractitionerEmail: TextView
-    private lateinit var nPPractitionerPhoneButton: MaterialButton
-    private lateinit var nPPractitionerEmailButton: MaterialButton
-    private lateinit var nPProfile: ImageView
-    private lateinit var pharmaceuticalRecordView: ConstraintLayout
-    private lateinit var pharmaceuticalRxName: TextView
-    private lateinit var pharmaceuticalManufacturer: TextView
-    private lateinit var pharmaceuticalExpiryDate: TextView
-    private lateinit var pharmaceuticalMakeDate: TextView
-    private lateinit var pharmaceuticalGenericName: TextView
-    private lateinit var pharmaceuticalChemicalName: TextView
-    private lateinit var pharmaceuticalLotID: TextView
-    private lateinit var pharmaceuticalApprovalID: TextView
-    private lateinit var pharmaceuticalCount: TextView
-    private lateinit var pharmaceuticalButton: MaterialButton
     private lateinit var userName: TextView
     private var recordID: Int? = null
     private lateinit var patient: Patient
     private lateinit var diagnosis: Diagnosis
-    private lateinit var prescription: Prescription
-    private lateinit var visit: Visit
-    private lateinit var practitioner: Practitioner
-    private lateinit var doctor: Doctor
-    private lateinit var registeredNurse: RegisteredNurse
-    private lateinit var nursePractitioner: NursePractitioner
-    private lateinit var pharmaceuticals: Pharmaceuticals
     private lateinit var recordsViewModel: ChironRecordsViewModel
     private val args: RecordViewFragmentArgs by navArgs()
     
@@ -168,7 +92,6 @@ class RecordViewFragment : Fragment() {
         searchButton = requireActivity().findViewById(R.id.hub_search_button)
         toolbarView = requireActivity().findViewById(R.id.hub_collapsing_toolbar)
         userName = requireActivity().findViewById(R.id.hub_username_title)
-        searchButton.visibility = View.GONE
         navController = view.findNavController()
         //patientRecordView
         patientRecordView = binding.patientRecordsViewInclude.patientDetailView
@@ -194,110 +117,12 @@ class RecordViewFragment : Fragment() {
         diagnosisNote = binding.diagnosisRecordsViewInclude.diagnosesDetailNote
         diagnosisTabs = binding.diagnosisRecordsViewInclude.diagnosisDiagnosesTabs
         diagnosisViewPager2 = binding.diagnosisRecordsViewInclude.diagnosisDiagnosesViewPager
-        //prescriptionRecordView
-        prescriptionRecordView = binding.prescriptionRecordsViewInclude.prescriptionDetailView
-        prescriptionName = binding.prescriptionRecordsViewInclude.prescriptionDetailNameText
-        prescriptionDate = binding.prescriptionRecordsViewInclude.prescriptionDetailDateText
-        prescriptionPrescriber = binding.prescriptionRecordsViewInclude.prescriptionDetailPrescriberText
-        prescriptionPrescriberID = binding.prescriptionRecordsViewInclude.prescriptionDetailPrescriberId
-        prescriptionPatient = binding.prescriptionRecordsViewInclude.prescriptionDetailPatientText
-        prescriptionDosageAmount = binding.prescriptionRecordsViewInclude.prescriptionDetailDosageAmountText
-        prescriptionDosageRegimen = binding.prescriptionRecordsViewInclude.prescriptionDetailRegimenText
-        prescriptionDosageDuration = binding.prescriptionRecordsViewInclude.prescriptionDetailDurationText
-        prescriptionDosageType = binding.prescriptionRecordsViewInclude.prescriptionDetailDosageType
-        prescriptionBatchNumber = binding.prescriptionRecordsViewInclude.prescriptionDetailBatchNumber
-        //visitRecordView
-        visitRecordView = binding.visitRecordsViewInclude.visitDetailView
-        visitDate = binding.visitRecordsViewInclude.visitDetailVisitDateText
-        visitTime = binding.visitRecordsViewInclude.visitDetailTimeText
-        visitHost = binding.visitRecordsViewInclude.visitDetailHostText
-        visitHostID = binding.visitRecordsViewInclude.visitDetailHostId
-        visitPatient = binding.visitRecordsViewInclude.visitDetailPatientText
-        visitLogText = binding.visitRecordsViewInclude.visitDetailLogContext
-        //practitionerRecordView
-        practitionerRecordView = binding.practitionerRecordsViewInclude.practitionerDetailView
-        practitionerFirstName = binding.practitionerRecordsViewInclude.practitionerDetailFirstNameText
-        practitionerLastName = binding.practitionerRecordsViewInclude.practitionerDetailLastNameText
-        practitionerSpeciality = binding.practitionerRecordsViewInclude.practitionerDetailSpeciality
-        practitionerPractitionerID = binding.practitionerRecordsViewInclude.practitionerDetailPractitionerIdText
-        practitionerPractitionerPhone = binding.practitionerRecordsViewInclude.practitionerDetailContactPhoneText
-        practitionerPractitionerEmail = binding.practitionerRecordsViewInclude.practitionerDetailContactEmailText
-        practitionerPractitionerPhoneButton = binding.practitionerRecordsViewInclude.practitionerDetailContactPhoneButton
-        practitionerPractitionerEmailButton = binding.practitionerRecordsViewInclude.practitionerDetailContactEmailButton
-        practitionerProfile = binding.practitionerRecordsViewInclude.practitionerDetailProfile
-        //doctorRecordView
-        doctorRecordView = practitionerRecordView
-        doctorFirstName = practitionerFirstName
-        doctorLastName = practitionerLastName
-        doctorSpeciality = practitionerSpeciality
-        doctorPractitionerID = practitionerPractitionerID
-        doctorPractitionerPhone = practitionerPractitionerPhone
-        doctorPractitionerEmail = practitionerPractitionerEmail
-        doctorPractitionerPhoneButton = practitionerPractitionerPhoneButton
-        doctorPractitionerEmailButton = practitionerPractitionerEmailButton
-        doctorProfile = practitionerProfile
-        //registeredNurseRecordView
-        rNRecordView = practitionerRecordView
-        rNFirstName = practitionerFirstName
-        rNLastName = practitionerLastName
-        rNSpeciality = practitionerSpeciality
-        rNPractitionerID = practitionerPractitionerID
-        rNPractitionerPhone = practitionerPractitionerPhone
-        rNPractitionerEmail = practitionerPractitionerEmail
-        rNPractitionerPhoneButton = practitionerPractitionerPhoneButton
-        rNPractitionerEmailButton = practitionerPractitionerEmailButton
-        rNProfile = practitionerProfile
-        //nursePractitionerRecordView
-        nPRecordView = practitionerRecordView
-        nPFirstName = practitionerFirstName
-        nPLastName = practitionerLastName
-        nPSpeciality = practitionerSpeciality
-        nPPractitionerID = practitionerPractitionerID
-        nPPractitionerPhone = practitionerPractitionerPhone
-        nPPractitionerEmail = practitionerPractitionerEmail
-        nPPractitionerPhoneButton = practitionerPractitionerPhoneButton
-        nPPractitionerEmailButton = practitionerPractitionerEmailButton
-        nPProfile = practitionerProfile
-        //pharmaceuticalRecordView
-        pharmaceuticalRecordView = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailView
-        pharmaceuticalRxName = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailBrandNameText
-        pharmaceuticalManufacturer = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailMakerText
-        pharmaceuticalMakeDate = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailMakeDate
-        pharmaceuticalExpiryDate = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailExpiryText
-        pharmaceuticalGenericName = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailGenericNameText
-        pharmaceuticalChemicalName = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailChemicalNameText
-        pharmaceuticalLotID = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailLotNumberIconText
-        pharmaceuticalApprovalID = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailApprovalNumberText
-        pharmaceuticalCount = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailInventoryCount
-        pharmaceuticalButton = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailRestockButton
-
         recordID = args.recordID
         if (args.patient != null){
             patient = args.patient!!
         }
         if (args.diagnosis != null){
             diagnosis = args.diagnosis!!
-        }
-        if (args.prescription != null){
-            prescription = args.prescription!!
-        }
-        if (args.visit != null){
-            visit = args.visit!!
-        }
-        if (args.practitioner != null){
-            practitioner = args.practitioner!!
-        }
-        if (args.doctor != null){
-            doctor = args.doctor!!
-        }
-        if (args.registeredNurse != null){
-            registeredNurse = args.registeredNurse!!
-        }
-        if (args.nursePractitioner != null){
-            nursePractitioner = args.nursePractitioner!!
-        }
-        if (args.pharmaceutical != null){
-            pharmaceuticals = args.pharmaceutical!!
         }
         recordController = MultiRecordController()
         initMultiRecordView(recordID!!)
@@ -320,58 +145,29 @@ class RecordViewFragment : Fragment() {
                 }
                 2 ->{
                     recordController.initDiagnosisRecordView(requireActivity(), diagnosis,
-                        diagnosisRecordView, diagnosisSynopsis, diagnosisDate, diagnosisLevel,
-                        diagnosisPatient, diagnosisLevelLine, diagnosisNote, diagnosisTabs, diagnosisViewPager2)
+                        diagnosisRecordView, diagnosisSynopsis, diagnosisDate, diagnosisLevel, diagnosisPatient, diagnosisLevelLine, diagnosisNote, diagnosisTabs, diagnosisViewPager2)
 
                 }
                 3 ->{
-                    recordController.initPrescriptionRecordView(requireActivity(), prescription,
-                        prescriptionRecordView, prescriptionName, prescriptionDate, prescriptionPrescriber
-                        , prescriptionPrescriberID, prescriptionPatient,prescriptionDosageAmount,
-                        prescriptionDosageRegimen, prescriptionDosageDuration, prescriptionDosageType,
-                        prescriptionBatchNumber)
 
                 }
                 4 ->{
-                    recordController.initVisitRecordView(visit, visitRecordView, visitDate, visitTime,
-                        visitHost, visitHostID, visitPatient, visitLogText)
 
                 }
                 5 ->{
-                    recordController.initPractitionerRecordView(requireActivity(), practitioner,
-                        practitionerRecordView, practitionerFirstName, practitionerLastName,
-                        practitionerSpeciality,practitionerPractitionerID, practitionerPractitionerPhone,
-                        practitionerPractitionerEmail, practitionerPractitionerPhoneButton,
-                        practitionerPractitionerEmailButton, practitionerProfile)
 
                 }
                 6 ->{
-                    recordController.initDoctorRecordView(requireActivity(), doctor, doctorRecordView,
-                        doctorFirstName, doctorLastName, doctorSpeciality, doctorPractitionerID,
-                        doctorPractitionerPhone,doctorPractitionerEmail,doctorPractitionerPhoneButton,
-                        doctorPractitionerEmailButton, doctorProfile)
 
                 }
                 7 ->{
-                    recordController.initRegisteredNurseRecordView(requireActivity(), registeredNurse,
-                        rNRecordView, rNFirstName, rNLastName, rNSpeciality,rNPractitionerID,
-                        rNPractitionerPhone, rNPractitionerEmail, rNPractitionerPhoneButton,
-                        rNPractitionerEmailButton,rNProfile)
 
                 }
                 8 ->{
-                    recordController.initNursePractitionerRecordView(requireActivity(), nursePractitioner,
-                        nPRecordView, nPFirstName, nPLastName, nPSpeciality, nPPractitionerID,
-                        nPPractitionerPhone, nPPractitionerEmail, nPPractitionerPhoneButton,
-                        nPPractitionerEmailButton, nPProfile)
 
                 }
                 9 ->{
-                    recordController.initPharmaceuticalRecordView(requireActivity(), pharmaceuticals,
-                        pharmaceuticalRecordView, pharmaceuticalRxName, pharmaceuticalManufacturer,
-                        pharmaceuticalMakeDate, pharmaceuticalExpiryDate, pharmaceuticalGenericName,
-                        pharmaceuticalChemicalName, pharmaceuticalLotID, pharmaceuticalApprovalID,
-                        pharmaceuticalCount, pharmaceuticalButton)
+
                 }
             }
 
@@ -387,7 +183,6 @@ class RecordViewFragment : Fragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        searchButton.visibility = View.GONE
 
     }
 
