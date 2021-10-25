@@ -16,9 +16,11 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.snackbar.Snackbar
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.PivotController
 import iot.empiaurhouse.triage.model.*
+import iot.empiaurhouse.triage.utils.subscribeOnBackground
 import iot.empiaurhouse.triage.view.AllRecordsFragmentDirections
 import iot.empiaurhouse.triage.viewmodel.ChironRecordsViewModel
 import java.time.LocalDate
@@ -477,6 +479,281 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
         return expireResult
     }
 
+    fun deleteChironRecord(position: Int, recordID: Int){
+        when(recordID){
+            1 ->{
+                val stagedPatient = patientsList!![position]
+                subscribeOnBackground {
+                    //pivotViewModel.deleteDataPivot(focusPivot)
+                    println("Deleted Patient Record from Chiron DB:\n $stagedPatient")
+                }
+                patientsList.removeAt(position)
+                notifyItemRemoved(position)
+                val deletedPrompt = Snackbar.make(recordsView,"Deleted Patient | ${stagedPatient.delimitedFullName!!.capitalize(
+                    Locale.ROOT
+                )
+                }", Snackbar.LENGTH_LONG)
+                deletedPrompt.setAction("UNDO", View.OnClickListener {
+
+                    restoreRecord(recordID = recordID, position, patient = stagedPatient)
+
+                })
+                deletedPrompt.anchorView = recordsView.rootView.findViewById(R.id.hub_foot_nav)
+                deletedPrompt.show()
+
+            }
+            2 ->{
+                val stagedDiagnosis = diagnosesList!![position]
+                subscribeOnBackground {
+                    //pivotViewModel.deleteDataPivot(focusPivot)
+                    println("Deleted Diagnosis Record from Chiron DB:\n $stagedDiagnosis")
+                }
+                diagnosesList.removeAt(position)
+                notifyItemRemoved(position)
+                val deletedPrompt = Snackbar.make(recordsView,"Deleted Diagnosis | ${stagedDiagnosis.diagnosisSynopsis!!.capitalize(
+                    Locale.ROOT
+                )
+                }", Snackbar.LENGTH_LONG)
+                deletedPrompt.setAction("UNDO", View.OnClickListener {
+
+                    restoreRecord(recordID = recordID, position, diagnosis = stagedDiagnosis)
+
+                })
+                deletedPrompt.anchorView = recordsView.rootView.findViewById(R.id.hub_foot_nav)
+                deletedPrompt.show()
+            }
+            3 ->{
+                val stagedPrescription = prescriptionsList!![position]
+                subscribeOnBackground {
+                    //pivotViewModel.deleteDataPivot(focusPivot)
+                    println("Deleted Prescription Record from Chiron DB:\n $stagedPrescription")
+                }
+                prescriptionsList.removeAt(position)
+                notifyItemRemoved(position)
+                val deletedPrompt = Snackbar.make(recordsView,"Deleted Prescription | ${stagedPrescription.prescriptionName!!.capitalize(
+                    Locale.ROOT
+                )
+                }", Snackbar.LENGTH_LONG)
+                deletedPrompt.setAction("UNDO", View.OnClickListener {
+
+                    restoreRecord(recordID = recordID, position, prescription = stagedPrescription)
+
+                })
+                deletedPrompt.anchorView = recordsView.rootView.findViewById(R.id.hub_foot_nav)
+                deletedPrompt.show()
+
+            }
+            4 ->{
+                val stagedVisit = visitsList!![position]
+                subscribeOnBackground {
+                    //pivotViewModel.deleteDataPivot(focusPivot)
+                    println("Deleted Visit Record from Chiron DB:\n $stagedVisit")
+                }
+                visitsList.removeAt(position)
+                notifyItemRemoved(position)
+                val deletedPrompt = Snackbar.make(recordsView,"Deleted Visit Log | ${stagedVisit.hostPractitionerID!!.capitalize(
+                    Locale.ROOT
+                )
+                }", Snackbar.LENGTH_LONG)
+                deletedPrompt.setAction("UNDO", View.OnClickListener {
+
+                    restoreRecord(recordID = recordID, position, visit = stagedVisit)
+
+                })
+                deletedPrompt.anchorView = recordsView.rootView.findViewById(R.id.hub_foot_nav)
+                deletedPrompt.show()
+
+            }
+            5 ->{
+                val stagedPractitioner = practitionersList!![position]
+                subscribeOnBackground {
+                    //pivotViewModel.deleteDataPivot(focusPivot)
+                    println("Deleted Practitioner Record from Chiron DB:\n $stagedPractitioner")
+                }
+                practitionersList.removeAt(position)
+                notifyItemRemoved(position)
+                val deletedPrompt = Snackbar.make(recordsView,"Deleted Practitioner Record | ${stagedPractitioner.delimitedFullName!!.capitalize(
+                    Locale.ROOT
+                )
+                }", Snackbar.LENGTH_LONG)
+                deletedPrompt.setAction("UNDO", View.OnClickListener {
+
+                    restoreRecord(recordID = recordID, position, practitioner = stagedPractitioner)
+
+                })
+                deletedPrompt.anchorView = recordsView.rootView.findViewById(R.id.hub_foot_nav)
+                deletedPrompt.show()
+            }
+            6 ->{
+                val stagedDoctor = doctorsList!![position]
+                subscribeOnBackground {
+                    //pivotViewModel.deleteDataPivot(focusPivot)
+                    println("Deleted Doctor Record from Chiron DB:\n $stagedDoctor")
+                }
+                doctorsList.removeAt(position)
+                notifyItemRemoved(position)
+                val deletedPrompt = Snackbar.make(recordsView,"Deleted Doctor Record | ${stagedDoctor.delimitedFullName!!.capitalize(
+                    Locale.ROOT
+                )
+                }", Snackbar.LENGTH_LONG)
+                deletedPrompt.setAction("UNDO", View.OnClickListener {
+
+                    restoreRecord(recordID = recordID, position, doctor = stagedDoctor)
+
+                })
+                deletedPrompt.anchorView = recordsView.rootView.findViewById(R.id.hub_foot_nav)
+                deletedPrompt.show()
+            }
+            7 ->{
+                val stagedRegisteredNurse = registeredNursesList!![position]
+                subscribeOnBackground {
+                    //pivotViewModel.deleteDataPivot(focusPivot)
+                    println("Deleted Registered Nurse Record from Chiron DB:\n $stagedRegisteredNurse")
+                }
+                registeredNursesList.removeAt(position)
+                notifyItemRemoved(position)
+                val deletedPrompt = Snackbar.make(recordsView,"Deleted Registered Nurse Record | ${stagedRegisteredNurse.delimitedFullName!!.capitalize(
+                    Locale.ROOT
+                )
+                }", Snackbar.LENGTH_LONG)
+                deletedPrompt.setAction("UNDO", View.OnClickListener {
+
+                    restoreRecord(recordID = recordID, position, registeredNurse = stagedRegisteredNurse)
+
+                })
+                deletedPrompt.anchorView = recordsView.rootView.findViewById(R.id.hub_foot_nav)
+                deletedPrompt.show()
+
+            }
+            8 ->{
+                val stagedNursePractitioner = nursePractitionersList!![position]
+                subscribeOnBackground {
+                    //pivotViewModel.deleteDataPivot(focusPivot)
+                    println("Deleted Nurse Practitioner Record from Chiron DB:\n $stagedNursePractitioner")
+                }
+                nursePractitionersList.removeAt(position)
+                notifyItemRemoved(position)
+                val deletedPrompt = Snackbar.make(recordsView,"Deleted Nurse Practitioner Record | ${stagedNursePractitioner.delimitedFullName!!.capitalize(
+                    Locale.ROOT
+                )
+                }", Snackbar.LENGTH_LONG)
+                deletedPrompt.setAction("UNDO", View.OnClickListener {
+
+                    restoreRecord(recordID = recordID, position, nursePractitioner = stagedNursePractitioner)
+
+                })
+                deletedPrompt.anchorView = recordsView.rootView.findViewById(R.id.hub_foot_nav)
+                deletedPrompt.show()
+
+            }
+            9 ->{
+                val stagedPharmaceuticals = pharmaceuticalsList!![position]
+                subscribeOnBackground {
+                    //pivotViewModel.deleteDataPivot(focusPivot)
+                    println("Deleted Pharmaceutical Record from Chiron DB:\n $stagedPharmaceuticals")
+                }
+                pharmaceuticalsList.removeAt(position)
+                notifyItemRemoved(position)
+                val deletedPrompt = Snackbar.make(recordsView,"Deleted Pharmaceuticals Record | ${stagedPharmaceuticals.brandName!!.capitalize(
+                    Locale.ROOT
+                )
+                }", Snackbar.LENGTH_LONG)
+                deletedPrompt.setAction("UNDO", View.OnClickListener {
+
+                    restoreRecord(recordID = recordID, position, pharmaceuticals = stagedPharmaceuticals)
+
+                })
+                deletedPrompt.anchorView = recordsView.rootView.findViewById(R.id.hub_foot_nav)
+                deletedPrompt.show()
+
+            }
+        }
+
+    }
+
+
+    private fun restoreRecord(recordID: Int, position: Int, patient: Patient? = null, diagnosis: Diagnosis? = null,
+                              prescription: Prescription? = null, visit: Visit? = null,
+                              practitioner: Practitioner? = null, doctor: Doctor? = null,
+                              registeredNurse: RegisteredNurse? = null, nursePractitioner: NursePractitioner? = null,
+                              pharmaceuticals: Pharmaceuticals? = null){
+        when(recordID){
+            1 ->{
+                patientsList!!.add(position, patient!!)
+                subscribeOnBackground {
+                    //pivotViewModel.insertDataPivot(dataPivot)
+                    println("Restoring Patient Record to Chiron DB:\n $patient")
+                }
+                notifyItemInserted(position)
+            }
+            2 ->{
+                diagnosesList!!.add(position, diagnosis!!)
+                subscribeOnBackground {
+                    //pivotViewModel.insertDataPivot(dataPivot)
+                    println("Restoring Diagnosis Record to Chiron DB:\n $diagnosis")
+                }
+                notifyItemInserted(position)
+            }
+            3 ->{
+                prescriptionsList!!.add(position, prescription!!)
+                subscribeOnBackground {
+                    //pivotViewModel.insertDataPivot(dataPivot)
+                    println("Restoring Prescription Record to Chiron DB:\n $prescription")
+                }
+                notifyItemInserted(position)
+            }
+            4 ->{
+                visitsList!!.add(position, visit!!)
+                subscribeOnBackground {
+                    //pivotViewModel.insertDataPivot(dataPivot)
+                    println("Restoring Visit Record to Chiron DB:\n $visit")
+                }
+                notifyItemInserted(position)
+            }
+            5 ->{
+                practitionersList!!.add(position, practitioner!!)
+                subscribeOnBackground {
+                    //pivotViewModel.insertDataPivot(dataPivot)
+                    println("Restoring Practitioner Record to Chiron DB:\n $practitioner")
+                }
+                notifyItemInserted(position)
+            }
+            6 ->{
+                doctorsList!!.add(position, doctor!!)
+                subscribeOnBackground {
+                    //pivotViewModel.insertDataPivot(dataPivot)
+                    println("Restoring Doctor Record to Chiron DB:\n $doctor")
+                }
+                notifyItemInserted(position)
+            }
+            7 ->{
+                registeredNursesList!!.add(position, registeredNurse!!)
+                subscribeOnBackground {
+                    //pivotViewModel.insertDataPivot(dataPivot)
+                    println("Restoring Registered Nurse Record to Chiron DB:\n $registeredNurse")
+                }
+                notifyItemInserted(position)
+            }
+            8 ->{
+                nursePractitionersList!!.add(position, nursePractitioner!!)
+                subscribeOnBackground {
+                    //pivotViewModel.insertDataPivot(dataPivot)
+                    println("Restoring Nurse Practitioner Record to Chiron DB:\n $nursePractitioner")
+                }
+                notifyItemInserted(position)
+
+            }
+            9 ->{
+                pharmaceuticalsList!!.add(position, pharmaceuticals!!)
+                subscribeOnBackground {
+                    //pivotViewModel.insertDataPivot(dataPivot)
+                    println("Restoring Pharmaceutical Record to Chiron DB:\n $pharmaceuticals")
+                }
+                notifyItemInserted(position)
+            }
+        }
+
+    }
 
     private fun iconRxController(rxType: String?): Int {
         var iconResInt = R.drawable.pills_bottle_icon

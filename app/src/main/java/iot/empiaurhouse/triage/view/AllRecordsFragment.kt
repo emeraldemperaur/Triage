@@ -11,12 +11,15 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.adapter.ChironRecordsRecyclerAdapter
+import iot.empiaurhouse.triage.adapter.SwipeToDeleteCallback
+import iot.empiaurhouse.triage.adapter.SwipeToEditCallback
 import iot.empiaurhouse.triage.controller.MultiRecordController
 import iot.empiaurhouse.triage.databinding.FragmentAllRecordsBinding
 import iot.empiaurhouse.triage.model.*
@@ -119,6 +122,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = patientsFound.size.toString()
+                    initSwipeEditGesture()
+                    initSwipeDeleteGesture()
                     noResultsView(patientsFound.size)
                 }
                 2 -> {
@@ -128,6 +133,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = diagnosesFound.size.toString()
+                    initSwipeEditGesture()
+                    initSwipeDeleteGesture()
                     noResultsView(diagnosesFound.size)
                 }
                 3 -> {
@@ -137,6 +144,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = prescriptionsFound.size.toString()
+                    initSwipeEditGesture()
+                    initSwipeDeleteGesture()
                     noResultsView(prescriptionsFound.size)
                 }
                 4 -> {
@@ -146,6 +155,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = visitsFound.size.toString()
+                    initSwipeEditGesture()
+                    initSwipeDeleteGesture()
                     noResultsView(visitsFound.size)
                 }
                 5 -> {
@@ -155,6 +166,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = practitionersFound.size.toString()
+                    initSwipeEditGesture()
+                    initSwipeDeleteGesture()
                     noResultsView(practitionersFound.size)
                 }
                 6 -> {
@@ -164,6 +177,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = doctorsFound.size.toString()
+                    initSwipeEditGesture()
+                    initSwipeDeleteGesture()
                     noResultsView(doctorsFound.size)
                 }
                 7 -> {
@@ -173,6 +188,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = fetchRegisteredNursesList().size.toString()
+                    initSwipeEditGesture()
+                    initSwipeDeleteGesture()
                     noResultsView(registeredNursesFound.size)
                 }
                 8 -> {
@@ -182,6 +199,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = fetchNursePractitionersList().size.toString()
+                    initSwipeEditGesture()
+                    initSwipeDeleteGesture()
                     noResultsView(nursePractitionersFound.size)
                 }
                 9 -> {
@@ -191,9 +210,12 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = pharmaceuticalsFound.size.toString()
+                    initSwipeEditGesture()
+                    initSwipeDeleteGesture()
                     noResultsView(pharmaceuticalsFound.size)
                 }
             }
+
         }
     }
 
@@ -210,6 +232,32 @@ class AllRecordsFragment : Fragment() {
 
     }
 
+
+    private fun initSwipeDeleteGesture(){
+        if (view != null) {
+            val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val adapter = cRRA
+                    adapter!!.deleteChironRecord(viewHolder.adapterPosition, recordsID)
+                }
+            }
+            val itemTouchHelper = ItemTouchHelper(swipeHandler)
+            itemTouchHelper.attachToRecyclerView(recordsRV)
+        }
+    }
+
+    private fun initSwipeEditGesture(){
+        if (view != null) {
+            val swipeHandler = object : SwipeToEditCallback(requireContext()) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val adapter = cRRA
+                    adapter!!.deleteChironRecord(viewHolder.adapterPosition, recordsID)
+                }
+            }
+            val itemTouchHelper = ItemTouchHelper(swipeHandler)
+            itemTouchHelper.attachToRecyclerView(recordsRV)
+        }
+    }
 
 
     private fun initRefresh(){
