@@ -122,8 +122,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = patientsFound.size.toString()
-                    initSwipeEditGesture()
-                    initSwipeDeleteGesture()
+                    initSwipeEditGesture(patientsFound.size)
+                    initSwipeDeleteGesture(patientsFound.size)
                     noResultsView(patientsFound.size)
                 }
                 2 -> {
@@ -133,8 +133,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = diagnosesFound.size.toString()
-                    initSwipeEditGesture()
-                    initSwipeDeleteGesture()
+                    initSwipeEditGesture(diagnosesFound.size)
+                    initSwipeDeleteGesture(diagnosesFound.size)
                     noResultsView(diagnosesFound.size)
                 }
                 3 -> {
@@ -144,8 +144,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = prescriptionsFound.size.toString()
-                    initSwipeEditGesture()
-                    initSwipeDeleteGesture()
+                    initSwipeEditGesture(prescriptionsFound.size)
+                    initSwipeDeleteGesture(prescriptionsFound.size)
                     noResultsView(prescriptionsFound.size)
                 }
                 4 -> {
@@ -155,8 +155,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = visitsFound.size.toString()
-                    initSwipeEditGesture()
-                    initSwipeDeleteGesture()
+                    initSwipeEditGesture(visitsFound.size)
+                    initSwipeDeleteGesture(visitsFound.size)
                     noResultsView(visitsFound.size)
                 }
                 5 -> {
@@ -166,8 +166,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = practitionersFound.size.toString()
-                    initSwipeEditGesture()
-                    initSwipeDeleteGesture()
+                    initSwipeEditGesture(practitionersFound.size)
+                    initSwipeDeleteGesture(practitionersFound.size)
                     noResultsView(practitionersFound.size)
                 }
                 6 -> {
@@ -177,8 +177,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = doctorsFound.size.toString()
-                    initSwipeEditGesture()
-                    initSwipeDeleteGesture()
+                    initSwipeEditGesture(doctorsFound.size)
+                    initSwipeDeleteGesture(doctorsFound.size)
                     noResultsView(doctorsFound.size)
                 }
                 7 -> {
@@ -188,8 +188,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = fetchRegisteredNursesList().size.toString()
-                    initSwipeEditGesture()
-                    initSwipeDeleteGesture()
+                    initSwipeEditGesture(registeredNursesFound.size)
+                    initSwipeDeleteGesture(registeredNursesFound.size)
                     noResultsView(registeredNursesFound.size)
                 }
                 8 -> {
@@ -199,8 +199,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = fetchNursePractitionersList().size.toString()
-                    initSwipeEditGesture()
-                    initSwipeDeleteGesture()
+                    initSwipeEditGesture(nursePractitionersFound.size)
+                    initSwipeDeleteGesture(nursePractitionersFound.size)
                     noResultsView(nursePractitionersFound.size)
                 }
                 9 -> {
@@ -210,8 +210,8 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = pharmaceuticalsFound.size.toString()
-                    initSwipeEditGesture()
-                    initSwipeDeleteGesture()
+                    initSwipeEditGesture(pharmaceuticalsFound.size)
+                    initSwipeDeleteGesture(pharmaceuticalsFound.size)
                     noResultsView(pharmaceuticalsFound.size)
                 }
             }
@@ -233,12 +233,13 @@ class AllRecordsFragment : Fragment() {
     }
 
 
-    private fun initSwipeDeleteGesture(){
-        if (view != null) {
+    private fun initSwipeDeleteGesture(size: Int){
+        if (view != null && size > 0) {
             val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val adapter = cRRA
-                    adapter!!.deleteChironRecord(viewHolder.adapterPosition, recordsID)
+
+                        val adapter = cRRA
+                        adapter!!.deleteChironRecord(viewHolder.absoluteAdapterPosition, recordsID)
                 }
             }
             val itemTouchHelper = ItemTouchHelper(swipeHandler)
@@ -246,12 +247,12 @@ class AllRecordsFragment : Fragment() {
         }
     }
 
-    private fun initSwipeEditGesture(){
-        if (view != null) {
+    private fun initSwipeEditGesture(size: Int){
+        if (view != null && size > 0) {
             val swipeHandler = object : SwipeToEditCallback(requireContext()) {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val adapter = cRRA
-                    adapter!!.deleteChironRecord(viewHolder.adapterPosition, recordsID)
+                    adapter!!.deleteChironRecord(viewHolder.absoluteAdapterPosition, recordsID)
                 }
             }
             val itemTouchHelper = ItemTouchHelper(swipeHandler)
