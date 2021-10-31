@@ -479,6 +479,45 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
         return expireResult
     }
 
+
+    fun editChironRecord(position: Int, recordID: Int){
+        val viewControls = recordsView.findNavController()
+        when(recordID){
+            1 ->{
+                val focusPatient = patientsList!![position]
+                val input = AllRecordsFragmentDirections.editRecordDetails(recordID, focusPatient)
+                viewControls.navigate(input)
+
+            }
+            2 ->{
+
+            }
+            3 ->{
+
+            }
+            4 ->{
+
+            }
+            5 ->{
+
+            }
+            6 ->{
+
+            }
+            7 ->{
+
+            }
+            8 ->{
+
+            }
+            9 ->{
+
+            }
+        }
+
+    }
+
+
     fun deleteChironRecord(position: Int, recordID: Int){
         when(recordID){
             1 ->{

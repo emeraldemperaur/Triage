@@ -145,6 +145,40 @@
         </action>
 
 
+        <action
+            android:id="@+id/edit_record_details"
+            app:destination="@id/recordsEditView">
+
+            <argument
+                android:name="recordID"
+                app:argType="integer"/>
+
+            <argument
+                app:nullable="true"
+                android:name="Patient"
+                app:argType="iot.empiaurhouse.triage.model.Patient"/>
+
+        </action>
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/recordsEditView"
+        android:name="iot.empiaurhouse.triage.view.RecordsEditorFragment"
+        android:label="Record Editor"
+        tools:layout="@layout/fragment_records_editor">
+
+        <argument
+            android:name="recordID"
+            app:argType="integer"
+            />
+
+        <argument
+            app:nullable="true"
+            android:name="Patient"
+            app:argType="iot.empiaurhouse.triage.model.Patient"/>
+
 
     </fragment>
 

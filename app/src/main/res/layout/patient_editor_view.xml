@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/patients_editor_view"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/patient_editor_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/patient_editor_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <ImageView
+                android:visibility="visible"
+                android:elevation="13dp"
+                android:scaleType="fitXY"
+                android:id="@+id/patient_editor_icon"
+                android:src="@drawable/patient_pivot_icon"
+                android:layout_marginTop="59dp"
+                android:layout_marginEnd="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_width="69dp"
+                android:layout_height="69dp"
+                app:tint="@color/chiron_blue"
+                android:contentDescription="@string/data_n_pivots" />
+
+            <TextView
+                android:id="@+id/patient_editor_mode"
+                android:layout_marginTop="81dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/patient_editor_icon"
+                android:letterSpacing="0.36"
+                android:text="@string/update"
+                android:textAllCaps="true"
+                android:textColor="@color/chiron_blue"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/montserratsemibold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:elevation="3dp"
+                android:id="@+id/patient_editor_title_focus"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="3dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/patient_editor_icon"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                android:layout_height="1dp"/>
+
+
+            <TextView
+                android:breakStrategy="high_quality"
+                android:id="@+id/patient_editor_title"
+                app:layout_constraintTop_toBottomOf="@id/patient_editor_title_focus"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:lines="1"
+                android:minLines="1"
+                android:letterSpacing="0.36"
+                android:fontFamily="@font/montserratlight"
+                android:textSize="21sp"
+                android:textColor="@color/black"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="?actionBarSize"
+                android:text="@string/patient"
+                android:textAllCaps="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:targetApi="m" />
+
+
+            <View
+                android:elevation="3dp"
+                android:id="@+id/patient_editor_line1"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="3dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/patient_editor_title"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/patient_editor_card"
+                app:cardElevation="33dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/patient_editor_line1"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="33dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:id="@+id/patientFirstNameField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/first_name"
+                        app:hintAnimationEnabled="true"
+                        app:hintTextAppearance="@style/FootMenuTheme"
+                        app:errorTextColor="@color/chiron_red"
+                        app:endIconMode="custom"
+                        app:endIconDrawable="@drawable/ic_firstname_icon"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/patientFirstNameFieldText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserratregular"
+                            android:textSize="21sp"
+                            android:inputType="textPersonName"
+                            android:textColor="@color/chiron_blue"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/patientFirstNameField"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:id="@+id/patientLastNameField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/last_name"
+                        app:hintAnimationEnabled="true"
+                        app:hintTextAppearance="@style/FootMenuTheme"
+                        app:errorTextColor="@color/chiron_red"
+                        app:endIconMode="custom"
+                        app:endIconDrawable="@drawable/ic_lastname_icon"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/patientLastNameFieldText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserratregular"
+                            android:textSize="21sp"
+                            android:inputType="textPersonName"
+                            android:textColor="@color/chiron_blue"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:id="@+id/patient_editor_bio_data"
+                        app:layout_constraintTop_toBottomOf="@id/patientLastNameField"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_marginTop="23dp"
+                        android:layout_marginBottom="23dp"
+                        android:paddingBottom="6dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_gravity="start"
+                            android:paddingTop="6dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp"
+                            android:id="@+id/patientBirthDateField"
+                            android:layout_width="169dp"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/birth_date"
+                            app:hintAnimationEnabled="true"
+                            app:hintTextAppearance="@style/FootMenuTheme"
+                            app:errorTextColor="@color/chiron_red"
+                            app:endIconMode="custom"
+                            app:endIconDrawable="@drawable/ic_baseline_visit_24"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/patientBirthDateFieldText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserratregular"
+                                android:inputType="none"
+                                android:textSize="17sp"
+                                android:textColor="@color/chiron_blue"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/patientBloodGroupField"
+                            android:layout_marginTop="-3dp"
+                            android:layout_marginEnd="6dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="6dp"
+                            android:hint="@string/blood__group">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/patientBloodGroupFieldText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:fontFamily="@font/montserratregular"
+                                android:textSize="17sp"
+                                android:textColor="@color/chiron_blue"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/patientInsuranceFieldsTitle"
+                        android:textColor="@color/chiron_blue"
+                        android:fontFamily="@font/montserratlight"
+                        android:letterSpacing="0.21"
+                        android:text="@string/health_insurance"
+                        android:textAllCaps="true"
+                        android:textSize="19sp"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:layout_marginTop="44dp"
+                        android:layout_marginBottom="13dp"
+                        app:layout_constraintTop_toBottomOf="@id/patient_editor_bio_data"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/patientInsuranceFieldsTitle"
+                        android:layout_marginTop="23dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:id="@+id/patientInsurerNameField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/insurer"
+                        app:hintAnimationEnabled="true"
+                        app:hintTextAppearance="@style/FootMenuTheme"
+                        app:errorTextColor="@color/chiron_red"
+                        app:endIconMode="custom"
+                        app:endIconDrawable="@drawable/ic_baseline_medical_services_24"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/patientInsurerNameFieldText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserratregular"
+                            android:textSize="21sp"
+                            android:inputType="textNoSuggestions"
+                            android:textColor="@color/chiron_blue"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/patientInsurerNameField"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:id="@+id/patientInsurerIDField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/insurer_id"
+                        app:hintAnimationEnabled="true"
+                        app:hintTextAppearance="@style/FootMenuTheme"
+                        app:errorTextColor="@color/chiron_red"
+                        app:endIconMode="custom"
+                        app:endIconDrawable="@drawable/ic_baseline_me_info_pin_24"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/patientInsurerIDFieldText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserratregular"
+                            android:textSize="21sp"
+                            android:inputType="textCapCharacters"
+                            android:textColor="@color/chiron_blue"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:id="@+id/patientContactFieldsTitle"
+                        android:textColor="@color/chiron_blue"
+                        android:fontFamily="@font/montserratlight"
+                        android:letterSpacing="0.21"
+                        android:text="@string/contact_info"
+                        android:textAllCaps="true"
+                        android:textSize="19sp"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:layout_marginTop="44dp"
+                        android:layout_marginBottom="13dp"
+                        app:layout_constraintTop_toBottomOf="@id/patientInsurerIDField"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/patientContactFieldsTitle"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:id="@+id/patientAddressField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/address_uc"
+                        app:hintAnimationEnabled="true"
+                        app:hintTextAppearance="@style/FootMenuTheme"
+                        app:errorTextColor="@color/chiron_red"
+                        app:endIconMode="custom"
+                        app:endIconDrawable="@drawable/ic_baseline_home_24"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/patientAddressFieldText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserratregular"
+                            android:textSize="21sp"
+                            android:lines="4"
+                            android:inputType="textMultiLine|textPostalAddress"
+                            android:textColor="@color/chiron_blue"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/patientAddressField"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:id="@+id/patientPhoneField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/phone"
+                        app:hintAnimationEnabled="true"
+                        app:hintTextAppearance="@style/FootMenuTheme"
+                        app:errorTextColor="@color/chiron_red"
+                        app:endIconMode="custom"
+                        app:endIconDrawable="@drawable/ic_baseline_local_phone_24"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/patientPhoneFieldText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserratregular"
+                            android:textSize="21sp"
+                            android:inputType="phone"
+                            android:textColor="@color/chiron_blue"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+                    <View
+                        android:visibility="visible"
+                        android:elevation="3dp"
+                        android:id="@+id/patient_editor_bottomline"
+                        android:layout_marginTop="69dp"
+                        android:layout_marginBottom="3dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/patientPhoneField"
+                        android:background="@color/chiron_grey"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:visibility="visible"
+                        android:id="@+id/create_edit_patient_button"
+                        android:layout_width="320dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="69dp"
+                        android:layout_marginBottom="96dp"
+                        app:icon="@drawable/ic_baseline_patient_24"
+                        app:iconGravity="textStart"
+                        android:paddingTop="13dp"
+                        android:paddingBottom="23dp"
+                        android:text="@string/edit_patient"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.12"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:fontFamily="@font/montserratbold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/patient_editor_bottomline"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -90,7 +90,10 @@ class MultiRecordController {
             insurerID.text = holderID
         }
         bloodGroup.text = patientRecord.bloodGroup
-        val addressStr = "${patientRecord.address}, ${patientRecord.city}"
+        var addressStr = "${patientRecord.address}, ${patientRecord.city}"
+        if (patientRecord.city.isNullOrBlank()){
+            addressStr = "${patientRecord.address}"
+        }
         address.text = addressStr
         phoneNumber.text = patientRecord.phoneNumber
         val diagnosisCount = patientRecord.diagnoses!!.size

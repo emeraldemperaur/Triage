@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,6 +57,7 @@ class AllRecordsFragment : Fragment() {
     private lateinit var recordsView: View
     private lateinit var loadingText: TextView
     private lateinit var searchButton: FloatingActionButton
+    private lateinit var createNewRecord: FloatingActionButton
 
 
 
@@ -99,10 +101,12 @@ class AllRecordsFragment : Fragment() {
         loadingText = binding.loadingChironRecords
         pullPrompt = binding.recordsPullToRefreshText
         noRecordsFound = binding.noChironRecordsFound
+        createNewRecord = binding.createChironEntityRecord
         recordsRV = binding.chironRecordsViewRecyclerview
         recordsRV!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
         initRecordsView(recordsID)
+        initCreateNewRecord(recordsID)
         initRefresh()
 
     }
@@ -234,29 +238,34 @@ class AllRecordsFragment : Fragment() {
 
 
     private fun initSwipeDeleteGesture(size: Int){
-        if (view != null && size > 0) {
-            val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        if (recordsRV != null) {
+            if (view != null && size > 0) {
+                val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
                         val adapter = cRRA
                         adapter!!.deleteChironRecord(viewHolder.absoluteAdapterPosition, recordsID)
+                    }
                 }
+                val itemTouchHelper = ItemTouchHelper(swipeHandler)
+                itemTouchHelper.attachToRecyclerView(recordsRV)
             }
-            val itemTouchHelper = ItemTouchHelper(swipeHandler)
-            itemTouchHelper.attachToRecyclerView(recordsRV)
         }
     }
 
     private fun initSwipeEditGesture(size: Int){
-        if (view != null && size > 0) {
-            val swipeHandler = object : SwipeToEditCallback(requireContext()) {
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val adapter = cRRA
-                    adapter!!.deleteChironRecord(viewHolder.absoluteAdapterPosition, recordsID)
+        if (recordsRV != null) {
+            if (view != null && size > 0) {
+                val swipeHandler = object : SwipeToEditCallback(requireContext()) {
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        val adapter = cRRA
+                       // adapter!!.deleteChironRecord(viewHolder.absoluteAdapterPosition, recordsID)
+                        adapter!!.editChironRecord(viewHolder.absoluteAdapterPosition, recordsID)
+                    }
                 }
+                val itemTouchHelper = ItemTouchHelper(swipeHandler)
+                itemTouchHelper.attachToRecyclerView(recordsRV)
             }
-            val itemTouchHelper = ItemTouchHelper(swipeHandler)
-            itemTouchHelper.attachToRecyclerView(recordsRV)
         }
     }
 
@@ -304,6 +313,15 @@ class AllRecordsFragment : Fragment() {
     override fun onPause() {
         super.onPause()
 
+    }
+
+    private fun initCreateNewRecord(recordID: Int){
+        createNewRecord.setOnClickListener {
+            val input = AllRecordsFragmentDirections.editRecordDetails(recordID, null)
+            val viewControl = requireView().findNavController()
+            viewControl.navigate(input)
+
+        }
     }
 
 

@@ -2,7 +2,6 @@ package iot.empiaurhouse.triage.adapter
 
 import android.content.Context
 import android.graphics.*
-import android.graphics.drawable.ColorDrawable
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import iot.empiaurhouse.triage.R
@@ -11,7 +10,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 abstract class SwipeToEditCallback(context: Context): ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
 
     private val editIcon = R.drawable.ic_baseline_edit_24
-    private val background = ColorDrawable()
+    private val editTitle = "UPDATE"
     private val backgroundColor = Color.parseColor("#000000")
     private val textColor = Color.parseColor("#ffffff")
     private val clearPaint = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
@@ -23,7 +22,7 @@ abstract class SwipeToEditCallback(context: Context): ItemTouchHelper.SimpleCall
          * if (viewHolder?.itemViewType == YourAdapter.SOME_TYPE) return 0
          * if (viewHolder?.adapterPosition == 0) return 0
          */
-        if (viewHolder.adapterPosition == 10) return 0
+        //if (viewHolder.adapterPosition == 10) return 0
         return super.getMovementFlags(recyclerView, viewHolder)
     }
 
@@ -40,7 +39,7 @@ abstract class SwipeToEditCallback(context: Context): ItemTouchHelper.SimpleCall
         RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             .addSwipeRightBackgroundColor(backgroundColor)
             .addSwipeRightActionIcon(editIcon)
-            .addSwipeRightLabel("EDIT")
+            .addSwipeRightLabel(editTitle)
             .setSwipeRightLabelColor(textColor)
             .create()
             .decorate()
