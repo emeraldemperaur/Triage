@@ -53,7 +53,9 @@ class MultiRecordEditViewController {
                 addressField.setText(addressFieldText)
             }
             if (!patient.bloodGroup.isNullOrBlank()){
-                bloodGroupField.setText(patient.bloodGroup)
+                //bloodGroupField.setText(patient.bloodGroup)
+                (bloodGroupFieldLayout.editText as? AutoCompleteTextView)?.setText(patient.bloodGroup, false)
+
             }
             insurerField.setText(patient.insuranceVendor)
             insurerIDField.setText(patient.insuranceVendorID)
