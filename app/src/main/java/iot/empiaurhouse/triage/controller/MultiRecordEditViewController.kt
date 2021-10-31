@@ -2,6 +2,7 @@ package iot.empiaurhouse.triage.controller
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.text.InputType
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -57,22 +58,36 @@ class MultiRecordEditViewController {
             insurerField.setText(patient.insuranceVendor)
             insurerIDField.setText(patient.insuranceVendorID)
             doBField.setText(patient.birthDate)
+            doBField.inputType = InputType.TYPE_NULL
+            doBField.setTextIsSelectable(false)
+            doBField.isFocusable = false
             if (!patient.phoneNumber.isNullOrBlank()){
                 phoneField.setText(patient.phoneNumber)
             }
-
-
-
             doBField.setOnClickListener {
                 val cal = Calendar.getInstance()
-                val y = cal.get(Calendar.YEAR)
-                val m = cal.get(Calendar.MONTH)
-                val d = cal.get(Calendar.DAY_OF_MONTH)
+                var y = cal.get(Calendar.YEAR)
+                var m = cal.get(Calendar.MONTH)
+                var d = cal.get(Calendar.DAY_OF_MONTH)
+                if (!doBField.text.isNullOrBlank()){
+                    val doB = doBField.text!!.split("-")
+                    y = doB[0].toInt()
+                    m = doB[1].toInt() - 1
+                    d = doB[2].toInt()
+                }
 
 
                 val datePickerDialog:DatePickerDialog = DatePickerDialog(patientEditView.context, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                     val monthInt = monthOfYear + 1
-                    val datePicked = "$year-$monthInt-$dayOfMonth"
+                    var monthStr = monthInt.toString()
+                    var dayInt = dayOfMonth.toString()
+                    if (dayOfMonth < 10){
+                        dayInt = "0$dayInt"
+                    }
+                    if (monthInt < 10){
+                        monthStr = "0$monthInt"
+                    }
+                    val datePicked = "$year-$monthStr-$dayInt"
                     doBField.setText(datePicked)
                 }, y, m, d)
 
@@ -99,16 +114,33 @@ class MultiRecordEditViewController {
             editorButton.text = buttonText
             editorButton.icon = ContextCompat.getDrawable(context, R.drawable.ic_baseline_patient_24)
             editorMode.text = editTitle
-            doBFieldLayout.setOnClickListener {
+            doBField.inputType = InputType.TYPE_NULL
+            doBField.setTextIsSelectable(false)
+            doBField.isFocusable = false
+            doBField.setOnClickListener {
                 val cal = Calendar.getInstance()
-                val y = cal.get(Calendar.YEAR)
-                val m = cal.get(Calendar.MONTH)
-                val d = cal.get(Calendar.DAY_OF_MONTH)
+                var y = cal.get(Calendar.YEAR)
+                var m = cal.get(Calendar.MONTH)
+                var d = cal.get(Calendar.DAY_OF_MONTH)
+                if (!doBField.text.isNullOrBlank()){
+                    val doB = doBField.text!!.split("-")
+                    y = doB[0].toInt()
+                    m = doB[1].toInt() - 1
+                    d = doB[2].toInt()
+                }
 
 
                 val datePickerDialog:DatePickerDialog = DatePickerDialog(patientEditView.context, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                     val monthInt = monthOfYear + 1
-                    val datePicked = "$year-$monthInt-$dayOfMonth"
+                    var monthStr = monthInt.toString()
+                    var dayInt = dayOfMonth.toString()
+                    if (dayOfMonth < 10){
+                        dayInt = "0$dayInt"
+                    }
+                    if (monthInt < 10){
+                        monthStr = "0$monthInt"
+                    }
+                    val datePicked = "$year-$monthStr-$dayInt"
                     doBField.setText(datePicked)
                 }, y, m, d)
 
