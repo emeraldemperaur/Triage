@@ -16,6 +16,7 @@ import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.MultiRecordEditViewController
 import iot.empiaurhouse.triage.databinding.FragmentRecordsEditorBinding
 import iot.empiaurhouse.triage.model.Patient
+import iot.empiaurhouse.triage.utils.RecordEditValidator
 import kotlin.properties.Delegates
 
 
@@ -31,16 +32,23 @@ class RecordsEditorFragment : Fragment() {
     private lateinit var patientEditorView: ConstraintLayout
     private lateinit var patientEditMode: TextView
     private lateinit var patientFirstName: TextInputEditText
+    private lateinit var patientFirstNameLayout: TextInputLayout
     private lateinit var patientLastName: TextInputEditText
+    private lateinit var patientLastNameLayout: TextInputLayout
     private lateinit var patientBirthDate: TextInputEditText
     private lateinit var patientBirthDateLayout: TextInputLayout
     private lateinit var patientBloodGroup: TextInputLayout
     private lateinit var patientBloodGroupField: AutoCompleteTextView
     private lateinit var patientInsurer: TextInputEditText
+    private lateinit var patientInsurerLayout: TextInputLayout
     private lateinit var patientInsurerID: TextInputEditText
+    private lateinit var patientInsurerIDLayout: TextInputLayout
     private lateinit var patientAddress: TextInputEditText
+    private lateinit var patientAddressLayout: TextInputLayout
     private lateinit var patientPhone: TextInputEditText
+    private lateinit var patientPhoneLayout: TextInputLayout
     private lateinit var patientEditorButton: MaterialButton
+    private lateinit var recordValidator: RecordEditValidator
     private lateinit var recordsEditorController: MultiRecordEditViewController
     private lateinit var patientMeta: Patient
     private var recordID by Delegates.notNull<Int>()
@@ -69,17 +77,24 @@ class RecordsEditorFragment : Fragment() {
         patientEditorView = binding.patientRecordsEditorInclude.patientsEditorView
         patientEditMode = binding.patientRecordsEditorInclude.patientEditorMode
         patientFirstName = binding.patientRecordsEditorInclude.patientFirstNameFieldText
+        patientFirstNameLayout = binding.patientRecordsEditorInclude.patientFirstNameField
         patientLastName = binding.patientRecordsEditorInclude.patientLastNameFieldText
+        patientLastNameLayout = binding.patientRecordsEditorInclude.patientLastNameField
         patientBloodGroup = binding.patientRecordsEditorInclude.patientBloodGroupField
         patientBloodGroupField = binding.patientRecordsEditorInclude.patientBloodGroupFieldText
         patientAddress = binding.patientRecordsEditorInclude.patientAddressFieldText
+        patientAddressLayout = binding.patientRecordsEditorInclude.patientAddressField
         patientInsurer = binding.patientRecordsEditorInclude.patientInsurerNameFieldText
+        patientInsurerLayout = binding.patientRecordsEditorInclude.patientInsurerNameField
         patientInsurerID = binding.patientRecordsEditorInclude.patientInsurerIDFieldText
+        patientInsurerIDLayout = binding.patientRecordsEditorInclude.patientInsurerIDField
         patientBirthDate = binding.patientRecordsEditorInclude.patientBirthDateFieldText
         patientBirthDateLayout = binding.patientRecordsEditorInclude.patientBirthDateField
         patientPhone = binding.patientRecordsEditorInclude.patientPhoneFieldText
+        patientPhoneLayout = binding.patientRecordsEditorInclude.patientPhoneField
         patientEditorButton = binding.patientRecordsEditorInclude.createEditPatientButton
         recordsEditorController = MultiRecordEditViewController()
+        recordValidator = RecordEditValidator()
         recordID = args.recordID
         if (args.patient != null){
             patientMeta = args.patient!!
@@ -87,7 +102,7 @@ class RecordsEditorFragment : Fragment() {
         else if (args.patient == null){
             patientMeta = Patient(null, null, null, null, null,
                 null, null, null, null, null,
-                null, null, null, null, null, null,
+                null, arrayListOf(), null, null, null, null,
                 null, null)
         }
         initRecordEditorView(recordID)
@@ -101,8 +116,33 @@ class RecordsEditorFragment : Fragment() {
                     patientEditorView, patientEditMode, patientFirstName, patientLastName,
                     patientBloodGroupField, patientBloodGroup, patientAddress, patientInsurer,
                     patientInsurerID, patientBirthDate, patientBirthDateLayout, patientPhone, patientEditorButton)
+                recordValidator.initValidator(patientEditorView)
                 patientEditorButton.setOnClickListener {
+                    val patientCheck = recordValidator.isValidPatient(patientFirstName, patientFirstNameLayout,
+                        patientLastName, patientLastNameLayout, patientBirthDate, patientBirthDateLayout,
+                        patientBloodGroupField, patientBloodGroup, patientInsurer, patientInsurerLayout,
+                        patientInsurerID, patientInsurerIDLayout, patientAddress, patientAddressLayout, patientPhone, patientPhoneLayout)
+                    if (patientCheck){
+                        //proceed to progress view with patientMetaOutput object
+                        val fullName = "${patientFirstName.text!!.trim()} ${patientLastName.text!!.trim()}"
+                        val shortName = "${patientLastName.text!!.trim()}, ${patientFirstName.text!!.first()}"
+                        val delimitedFullName = "${patientLastName.text!!.trim()}, ${patientFirstName.text!!.trim()}"
+                        var isNew = true
+                        if (patientMeta.id != null){
+                            isNew = false
+                        }
+                        val patientMetaOutput = Patient(patientMeta.id, patientFirstName.text.toString().trim(),
+                            patientLastName.text.toString().trim(), patientBloodGroupField.text.toString(),
+                            patientAddress.text.toString().trim(), patientMeta.city, patientPhone.text.toString().trim(),
+                            patientInsurer.text.toString().trim(), patientInsurerID.text.toString().trim(),
+                            patientMeta.profileImagePath, patientBirthDate.text.toString(),
+                            patientMeta.diagnoses, patientMeta.image,
+                            fullName, shortName, delimitedFullName,
+                            patientMeta.systemImagePath, isNew)
 
+                        println("Found patientMetaOutput:\n\t $patientMetaOutput")
+
+                    }
                 }
             }
         }
