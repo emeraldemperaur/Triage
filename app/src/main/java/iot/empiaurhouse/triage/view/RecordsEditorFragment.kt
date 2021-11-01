@@ -133,7 +133,7 @@ class RecordsEditorFragment : Fragment() {
                         }
                         val patientMetaOutput = Patient(patientMeta.id, patientFirstName.text.toString().trim(),
                             patientLastName.text.toString().trim(), patientBloodGroupField.text.toString(),
-                            patientAddress.text.toString().trim(), patientMeta.city, patientPhone.text.toString().trim(),
+                            patientAddress.text.toString().trim(), null, patientPhone.text.toString().trim(),
                             patientInsurer.text.toString().trim(), patientInsurerID.text.toString().trim(),
                             patientMeta.profileImagePath, patientBirthDate.text.toString(),
                             patientMeta.diagnoses, patientMeta.image,
