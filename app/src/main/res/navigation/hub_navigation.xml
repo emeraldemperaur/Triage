@@ -179,6 +179,39 @@
             android:name="Patient"
             app:argType="iot.empiaurhouse.triage.model.Patient"/>
 
+        <action
+            android:id="@+id/editing_record_dialog"
+            app:destination="@id/record_editor_dialog">
+
+            <argument
+                android:name="recordID"
+                app:argType="integer"/>
+
+            <argument
+                app:nullable="true"
+                android:name="Patient"
+                app:argType="iot.empiaurhouse.triage.model.Patient"/>
+
+        </action>
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/record_editor_dialog"
+        android:name="iot.empiaurhouse.triage.view.RecordEditorDialogFragment"
+        android:label="Record Dialog"
+        tools:layout="@layout/fragment_record_editor_dialog">
+
+        <argument
+            android:name="recordID"
+            app:argType="integer"
+            />
+
+        <argument
+            app:nullable="true"
+            android:name="Patient"
+            app:argType="iot.empiaurhouse.triage.model.Patient"/>
 
     </fragment>
 

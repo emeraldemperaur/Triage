@@ -37,8 +37,8 @@ class MultiRecordEditViewController {
         val adapter = ArrayAdapter(context, R.layout.blood_group_item, bloodGroups)
         (bloodGroupFieldLayout.editText as? AutoCompleteTextView)?.setAdapter(adapter)
         if (patient.id != null){
-            buttonText = "UPDATE PATIENT"
-            editTitle = "UPDATE"
+            buttonText = "UPDATE"
+            editTitle = "EDIT"
             isNew = false
             editorMode.text = editTitle
             editorButton.text = buttonText
@@ -94,22 +94,9 @@ class MultiRecordEditViewController {
 
                 datePickerDialog.show()
             }
-            /*editorButton.setOnClickListener {
-                //set Edit Text
-                val stagedPatient = Patient(patient.id, patient.firstName, patient.lastName,
-                    patient.bloodGroup, patient.address, patient.city, patient.phoneNumber,
-                    patient.insuranceVendor, patient.insuranceVendorID, patient.profileImagePath,
-                    patient.birthDate, patient.diagnoses, patient.image, patient.fullName, patient.shortName,
-                    patient.delimitedFullName, patient.systemImagePath, patient.new)
-                patientObject = stagedPatient
-                println("Found Modified Staged Patient Meta:\n\t $stagedPatient")
-
-
-            }*/
-
         }
         else {
-            buttonText = "CREATE PATIENT"
+            buttonText = "CREATE"
             editTitle = "CREATE"
             isNew = true
             editorButton.text = buttonText
@@ -129,8 +116,6 @@ class MultiRecordEditViewController {
                     m = doB[1].toInt() - 1
                     d = doB[2].toInt()
                 }
-
-
                 val datePickerDialog:DatePickerDialog = DatePickerDialog(patientEditView.context, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                     val monthInt = monthOfYear + 1
                     var monthStr = monthInt.toString()
@@ -147,18 +132,12 @@ class MultiRecordEditViewController {
 
                 datePickerDialog.show()
             }
-            /*editorButton.setOnClickListener {
-
-                val stagedPatient = Patient(null, fNameField.text.toString(), lNameField.text.toString(),
-                    bloodGroupField.text.toString(), addressField.text.toString(), city, phone,
-                    insurerField.text.toString(), insurerIDField.text.toString(), null, birthDate, arrayListOf(),
-                    null, fullName, shortName, delimitedName, null, isNew)
-                patientObject = stagedPatient
-                println("Found Novel Staged Patient Meta:\n\t $stagedPatient")
-
-            }*/
         }
 
+    }
+
+    fun initDiagnosisEditorView(){
+        
     }
 
 

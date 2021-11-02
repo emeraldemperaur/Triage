@@ -1,13 +1,17 @@
 package iot.empiaurhouse.triage.view
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -17,6 +21,7 @@ import iot.empiaurhouse.triage.controller.MultiRecordEditViewController
 import iot.empiaurhouse.triage.databinding.FragmentRecordsEditorBinding
 import iot.empiaurhouse.triage.model.Patient
 import iot.empiaurhouse.triage.utils.RecordEditValidator
+import java.util.*
 import kotlin.properties.Delegates
 
 
@@ -50,7 +55,9 @@ class RecordsEditorFragment : Fragment() {
     private lateinit var patientEditorButton: MaterialButton
     private lateinit var recordValidator: RecordEditValidator
     private lateinit var recordsEditorController: MultiRecordEditViewController
+    private lateinit var navController: NavController
     private lateinit var patientMeta: Patient
+    private var metaID: Int? = null
     private var recordID by Delegates.notNull<Int>()
     private val args: RecordsEditorFragmentArgs by navArgs()
 
@@ -95,9 +102,11 @@ class RecordsEditorFragment : Fragment() {
         patientEditorButton = binding.patientRecordsEditorInclude.createEditPatientButton
         recordsEditorController = MultiRecordEditViewController()
         recordValidator = RecordEditValidator()
+        navController = findNavController()
         recordID = args.recordID
         if (args.patient != null){
             patientMeta = args.patient!!
+            metaID = patientMeta.id
         }
         else if (args.patient == null){
             patientMeta = Patient(null, null, null, null, null,
@@ -117,6 +126,7 @@ class RecordsEditorFragment : Fragment() {
                     patientBloodGroupField, patientBloodGroup, patientAddress, patientInsurer,
                     patientInsurerID, patientBirthDate, patientBirthDateLayout, patientPhone, patientEditorButton)
                 recordValidator.initValidator(patientEditorView)
+                onBackPressed()
                 patientEditorButton.setOnClickListener {
                     val patientCheck = recordValidator.isValidPatient(patientFirstName, patientFirstNameLayout,
                         patientLastName, patientLastNameLayout, patientBirthDate, patientBirthDateLayout,
@@ -141,12 +151,104 @@ class RecordsEditorFragment : Fragment() {
                             patientMeta.systemImagePath, isNew)
 
                         println("Found patientMetaOutput:\n\t $patientMetaOutput")
-
+                        val input = RecordsEditorFragmentDirections.editingRecordDialog(recordID, patientMetaOutput)
+                        navController.navigate(input)
                     }
                 }
             }
+            2 ->{
+
+            }
         }
     }
+
+
+
+    fun onBackPressed(){
+        if (metaID == null) {
+            requireActivity().onBackPressedDispatcher.addCallback(
+                viewLifecycleOwner,
+                object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        isEnabled = true
+                        var promptLabel = ""
+                        var entityType = ""
+                        var promptText = ""
+                        var entityDrawable = 0
+                        when (recordID) {
+                            1 -> {
+                                entityType = "Patient"
+                                entityDrawable = R.drawable.ic_patient_pivot_icon_24
+                                val patientFN = patientFirstName.text.toString().trim()
+                                val patientLN = patientLastName.text.toString().trim()
+                                promptLabel = patientFN
+                                if (patientLN.isNotBlank() && patientFN.isNotBlank()) {
+                                    promptLabel = "$patientLN, ${patientFN.first()}"
+                                }
+                                promptText = "Are you sure you'd like to discard this unsaved $entityType record for ${
+                                    promptLabel.capitalize(
+                                        Locale.ROOT
+                                    )
+                                }?"
+                            }
+                            2 -> {
+                                entityType = "Diagnosis"
+                                entityDrawable = R.drawable.ic_virus_art_icon
+
+                            }
+                            3 -> {
+                                entityType = "Prescription"
+                                entityDrawable = R.drawable.rx_sheet_icon
+                            }
+                            4 -> {
+                                entityType = "Visit"
+                                entityDrawable = R.drawable.visit_icon_png3
+                            }
+                            5 -> {
+                                entityType = "General Practitioner"
+                                entityDrawable = R.drawable.practitioners_pivot_icon
+                            }
+                            6 -> {
+                                entityType = "Doctor"
+                                entityDrawable = R.drawable.rodofasclepius_icon
+                            }
+                            7 -> {
+                                entityType = "Registered Nurse"
+                                entityDrawable = R.drawable.registered_nurse_ong
+                            }
+                            8 -> {
+                                entityType = "Nurse Practitioner"
+                                entityDrawable = R.drawable.practitioners_pivot_icon
+
+                            }
+                            9 -> {
+                                entityType = "Pharmaceuticals"
+                                entityDrawable = R.drawable.ic_pharmaceuticals_pivot
+                            }
+                        }
+                        if (promptLabel.isBlank()) {
+                            navController.navigateUp()
+                            isEnabled = false
+                        } else if (promptLabel.isNotBlank()) {
+                            val builder = AlertDialog.Builder(requireContext())
+                            builder.setTitle("Exiting $entityType Editor")
+                            builder.setIcon(entityDrawable)
+                            builder.setMessage(promptText)
+                            builder.setPositiveButton("YES") { _, _ ->
+                                navController.navigateUp()
+                                isEnabled = false
+                            }
+                            builder.setNegativeButton("NO") { dialog, _ ->
+                                dialog.dismiss()
+                                isEnabled = true
+                            }
+                            builder.show()
+                        }
+                    }
+                })
+        }
+    }
+
 
     companion object {
 

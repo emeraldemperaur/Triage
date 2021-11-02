@@ -145,6 +145,7 @@
                             android:focusable="true"
                             android:inputType="textPersonName"
                             android:textColor="@color/chiron_blue"
+                            android:maxLength="24"
                             />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -177,6 +178,7 @@
                             android:focusable="true"
                             android:inputType="textPersonName"
                             android:textColor="@color/chiron_blue"
+                            android:maxLength="24"
                             />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -299,6 +301,7 @@
                             android:textSize="21sp"
                             android:inputType="textNoSuggestions"
                             android:textColor="@color/chiron_blue"
+                            android:maxLength="24"
                             />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -329,6 +332,7 @@
                             android:textSize="21sp"
                             android:inputType="textCapCharacters"
                             android:textColor="@color/chiron_blue"
+                            android:maxLength="21"
                             />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -380,6 +384,7 @@
                             android:lines="4"
                             android:inputType="textMultiLine|textPostalAddress"
                             android:textColor="@color/chiron_blue"
+                            android:maxLength="24"
                             />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -411,6 +416,7 @@
                             android:textSize="21sp"
                             android:inputType="phone"
                             android:textColor="@color/chiron_blue"
+                            android:maxLength="24"
                             />
 
                     </com.google.android.material.textfield.TextInputLayout>
