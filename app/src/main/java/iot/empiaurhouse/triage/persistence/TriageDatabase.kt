@@ -14,7 +14,7 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.internal.synchronized
 import java.time.LocalDate
 
-@Database(entities = [DataPivot::class], version = 1)
+@Database(entities = [DataPivot::class], version = 1, exportSchema = false)
 @TypeConverters(ChronoConverter::class)
 abstract class TriageDatabase: RoomDatabase() {
 

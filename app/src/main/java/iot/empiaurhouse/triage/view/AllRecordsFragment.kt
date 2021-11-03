@@ -104,7 +104,7 @@ class AllRecordsFragment : Fragment() {
         createNewRecord = binding.createChironEntityRecord
         recordsRV = binding.chironRecordsViewRecyclerview
         recordsRV!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-
+        createNewRecord.visibility = View.VISIBLE
         initRecordsView(recordsID)
         initCreateNewRecord(recordsID)
         initRefresh()
@@ -137,7 +137,7 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = diagnosesFound.size.toString()
-                    initSwipeEditGesture(diagnosesFound.size)
+                    createNewRecord.visibility = View.GONE
                     initSwipeDeleteGesture(diagnosesFound.size)
                     noResultsView(diagnosesFound.size)
                 }
@@ -148,7 +148,7 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = prescriptionsFound.size.toString()
-                    initSwipeEditGesture(prescriptionsFound.size)
+                    createNewRecord.visibility = View.GONE
                     initSwipeDeleteGesture(prescriptionsFound.size)
                     noResultsView(prescriptionsFound.size)
                 }
@@ -159,7 +159,7 @@ class AllRecordsFragment : Fragment() {
                     )
                     recordsRV!!.adapter = cRRA
                     recordCount.text = visitsFound.size.toString()
-                    initSwipeEditGesture(visitsFound.size)
+                    createNewRecord.visibility = View.GONE
                     initSwipeDeleteGesture(visitsFound.size)
                     noResultsView(visitsFound.size)
                 }

@@ -384,7 +384,7 @@
                             android:lines="4"
                             android:inputType="textMultiLine|textPostalAddress"
                             android:textColor="@color/chiron_blue"
-                            android:maxLength="24"
+                            android:maxLength="111"
                             />
 
                     </com.google.android.material.textfield.TextInputLayout>

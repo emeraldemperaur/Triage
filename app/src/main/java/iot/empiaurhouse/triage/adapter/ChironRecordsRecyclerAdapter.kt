@@ -54,6 +54,7 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
         when(recordID){
             1 ->{
                 recordsItemLayout = R.layout.patient_list_view
+
             }
             2 ->{
                 recordsItemLayout = R.layout.diagnosis_list_view
