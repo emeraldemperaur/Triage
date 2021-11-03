@@ -239,7 +239,7 @@ class RecordsEditorFragment : Fragment() {
                         val practitionerMetaOutput = Practitioner(practitionerMeta.id, practitionerFirstName.text.toString(),
                             practitionerMeta.lastName.toString(), practitionerID.text.toString(),
                             practitionerPhone.text.toString(), practitionerEmail.text.toString(), null, fullName, delimitedFullName, practitionerMeta.new)
-                        println("Found patientMetaOutput:\n\t $practitionerMetaOutput")
+                        println("Found practitionerMetaOutput:\n\t $practitionerMetaOutput")
                         val input = RecordsEditorFragmentDirections.editingRecordDialog(recordID, null, practitionerMetaOutput, null, null)
                         navController.navigate(input)
 

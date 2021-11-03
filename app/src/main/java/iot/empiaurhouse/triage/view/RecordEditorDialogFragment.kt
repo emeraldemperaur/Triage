@@ -143,6 +143,7 @@ class RecordEditorDialogFragment : Fragment() {
             }
             5 ->{
                 entityType = "General Practitioner"
+                recordEditEntity.letterSpacing = 0.21F
                 recordEditEntity.text = entityType
                 recordEditLabel.text = practitioner.fullName
             }

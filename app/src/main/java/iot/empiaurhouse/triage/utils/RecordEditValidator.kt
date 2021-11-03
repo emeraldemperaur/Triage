@@ -43,6 +43,47 @@ class RecordEditValidator {
         return isValid
     }
 
+    private fun isValidEmail(inputField: TextInputEditText, inputFieldLayout: TextInputLayout, inputLabel: String): Boolean{
+        var isValid = false
+        if (inputField.text.isNullOrBlank()){
+            isValid = false
+            inputFieldLayout.error = "Required Biodata"
+            inputFieldLayout.boxStrokeColor = Color.parseColor("#800020")
+            inputFieldLayout.isFocusable = true
+            inputFieldLayout.isFocusable = false
+            val missingFieldPrompt = Snackbar.make(viewContext,"Please provide required biodata | ${inputLabel.capitalize(
+                Locale.ROOT
+            )
+            }", Snackbar.LENGTH_LONG)
+
+            missingFieldPrompt.anchorView = viewContext.rootView.findViewById(R.id.hub_foot_nav)
+            missingFieldPrompt.show()
+
+        }
+        else if (!inputField.text.isNullOrBlank()){
+            var isEmail = false
+            if (android.util.Patterns.EMAIL_ADDRESS.matcher(inputField.text.toString()).matches()){
+                    isEmail = true
+                    isValid = isEmail
+                    inputFieldLayout.error = null
+                    inputFieldLayout.boxStrokeColor = Color.parseColor("#0c204f")
+            }else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(inputField.text.toString()).matches()){
+                    isEmail = false
+                    isValid = isEmail
+                    inputFieldLayout.error = "Invalid Email"
+                    inputFieldLayout.boxStrokeColor = Color.parseColor("#800020")
+                    val invalidEmailFieldPrompt = Snackbar.make(viewContext,"Please provide a valid email address", Snackbar.LENGTH_SHORT)
+
+                    invalidEmailFieldPrompt.anchorView = viewContext.rootView.findViewById(R.id.hub_foot_nav)
+                    invalidEmailFieldPrompt.show()
+
+
+            }
+
+        }
+        return isValid
+    }
+
     private fun isValidBloodText(inputField: AutoCompleteTextView, inputFieldLayout: TextInputLayout, inputLabel: String): Boolean{
         var isValid = false
 
@@ -68,6 +109,9 @@ class RecordEditValidator {
         }
         return isValid
     }
+
+
+
 
 
 
@@ -98,7 +142,7 @@ class RecordEditValidator {
         var isPractitioner = false
         isPractitioner = (isValidText(fNInputField, fNInputFieldLayout, "First Name") && isValidText(lNInputField, lNInputFieldLayout,"Last Name")
                 && isValidText(pIDInputField, pIDInputFieldLayout, "Practitioner ID") && isValidText(phoneInputField, phoneInputFieldLayout, "Phone")
-                && isValidText(emailInputField, emailInputFieldLayout, "Email"))
+                && isValidEmail(emailInputField, emailInputFieldLayout, "Email"))
 
         return isPractitioner
     }
