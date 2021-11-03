@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +20,10 @@ import com.google.android.material.textfield.TextInputLayout
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.MultiRecordEditViewController
 import iot.empiaurhouse.triage.databinding.FragmentRecordsEditorBinding
+import iot.empiaurhouse.triage.model.NursePractitioner
 import iot.empiaurhouse.triage.model.Patient
+import iot.empiaurhouse.triage.model.Practitioner
+import iot.empiaurhouse.triage.model.RegisteredNurse
 import iot.empiaurhouse.triage.utils.RecordEditValidator
 import java.util.*
 import kotlin.properties.Delegates
@@ -53,10 +57,31 @@ class RecordsEditorFragment : Fragment() {
     private lateinit var patientPhone: TextInputEditText
     private lateinit var patientPhoneLayout: TextInputLayout
     private lateinit var patientEditorButton: MaterialButton
+    private lateinit var practitionerEditorView: ConstraintLayout
+    private lateinit var practitionerEditMode: TextView
+    private lateinit var practitionerEditTitle: TextView
+    private lateinit var practitionerFirstName: TextInputEditText
+    private lateinit var practitionerFirstNameLayout: TextInputLayout
+    private lateinit var practitionerLastName: TextInputEditText
+    private lateinit var practitionerLastNameLayout: TextInputLayout
+    private lateinit var practitionerID: TextInputEditText
+    private lateinit var practitionerIDLayout: TextInputLayout
+    private lateinit var practitionerEmail: TextInputEditText
+    private lateinit var practitionerEmailLayout: TextInputLayout
+    private lateinit var practitionerPhone: TextInputEditText
+    private lateinit var practitionerIcon: ImageView
+    private lateinit var practitionerPhoneLayout: TextInputLayout
+    private lateinit var practitionerEditorButton: MaterialButton
     private lateinit var recordValidator: RecordEditValidator
     private lateinit var recordsEditorController: MultiRecordEditViewController
     private lateinit var navController: NavController
     private lateinit var patientMeta: Patient
+    private lateinit var practitionerMeta: Practitioner
+    private lateinit var registeredNurseMeta: RegisteredNurse
+    private lateinit var nursePractitionerMeta: NursePractitioner
+
+
+
     private var metaID: Int? = null
     private var recordID by Delegates.notNull<Int>()
     private val args: RecordsEditorFragmentArgs by navArgs()
@@ -100,6 +125,21 @@ class RecordsEditorFragment : Fragment() {
         patientPhone = binding.patientRecordsEditorInclude.patientPhoneFieldText
         patientPhoneLayout = binding.patientRecordsEditorInclude.patientPhoneField
         patientEditorButton = binding.patientRecordsEditorInclude.createEditPatientButton
+        practitionerEditorView = binding.practitionersRecordsEditorInclude.practitionersEditorView
+        practitionerEditMode = binding.practitionersRecordsEditorInclude.practitionerEditorMode
+        practitionerEditTitle = binding.practitionersRecordsEditorInclude.practitionerEditorTitle
+        practitionerIcon = binding.practitionersRecordsEditorInclude.practitionerEditorIcon
+        practitionerFirstName = binding.practitionersRecordsEditorInclude.practitionerFirstNameFieldText
+        practitionerFirstNameLayout = binding.practitionersRecordsEditorInclude.practitionerFirstNameField
+        practitionerLastName = binding.practitionersRecordsEditorInclude.practitionerLastNameFieldText
+        practitionerLastNameLayout = binding.practitionersRecordsEditorInclude.practitionerLastNameField
+        practitionerID = binding.practitionersRecordsEditorInclude.practitionerIDFieldText
+        practitionerIDLayout = binding.practitionersRecordsEditorInclude.practitionerIDField
+        practitionerPhone = binding.practitionersRecordsEditorInclude.practitionerPhoneFieldText
+        practitionerPhoneLayout = binding.practitionersRecordsEditorInclude.practitionerPhoneField
+        practitionerEmail = binding.practitionersRecordsEditorInclude.practitionerEmailFieldText
+        practitionerEmailLayout = binding.practitionersRecordsEditorInclude.practitionerEmailField
+        practitionerEditorButton = binding.practitionersRecordsEditorInclude.createEditPractitionerButton
         recordsEditorController = MultiRecordEditViewController()
         recordValidator = RecordEditValidator()
         navController = findNavController()
@@ -112,7 +152,31 @@ class RecordsEditorFragment : Fragment() {
             patientMeta = Patient(null, null, null, null, null,
                 null, null, null, null, null,
                 null, arrayListOf(), null, null, null, null,
-                null, null)
+                null, true)
+        }
+        if (args.practitioner != null){
+            practitionerMeta = args.practitioner!!
+            metaID = practitionerMeta.id
+        }
+        else if (args.practitioner == null){
+            practitionerMeta = Practitioner(null, null, null, null,
+                null, null, null, null, null, true)
+        }
+        if (args.registeredNurse != null){
+            registeredNurseMeta = args.registeredNurse!!
+            metaID = registeredNurseMeta.id
+        }
+        else if (args.registeredNurse == null){
+            registeredNurseMeta = RegisteredNurse(null, null, null, null,
+                null, null, null, null, null, true)
+        }
+        if (args.nursePractitioner != null){
+            nursePractitionerMeta = args.nursePractitioner!!
+            metaID = nursePractitionerMeta.id
+        }
+        else if (args.nursePractitioner == null){
+            nursePractitionerMeta = NursePractitioner(null, null, null, null,
+                null, null, null, null, null, true)
         }
         initRecordEditorView(recordID)
     }
@@ -151,12 +215,92 @@ class RecordsEditorFragment : Fragment() {
                             patientMeta.systemImagePath, isNew)
 
                         println("Found patientMetaOutput:\n\t $patientMetaOutput")
-                        val input = RecordsEditorFragmentDirections.editingRecordDialog(recordID, patientMetaOutput)
+                        val input = RecordsEditorFragmentDirections.editingRecordDialog(recordID, patientMetaOutput, null, null, null)
                         navController.navigate(input)
                     }
                 }
             }
-            2 ->{
+            5 ->{
+                recordsEditorController.initPractitionerEditorView(requireContext(), recordID, practitioner = practitionerMeta,
+                    null, null,practitionerEditorView,
+                    practitionerEditMode, practitionerEditTitle, practitionerFirstName,
+                    practitionerLastName, practitionerID, practitionerPhone, practitionerEmail,
+                    practitionerIcon, practitionerEditorButton)
+                recordValidator.initValidator(practitionerEditorView)
+                onBackPressed()
+                practitionerEditorButton.setOnClickListener {
+                    val practitionerCheck = recordValidator.isValidPractitioner(practitionerFirstName,
+                        practitionerFirstNameLayout, practitionerLastName, practitionerLastNameLayout,
+                        practitionerID, practitionerIDLayout,practitionerPhone, practitionerPhoneLayout,
+                        practitionerEmail, practitionerEmailLayout)
+                    if (practitionerCheck){
+                        val fullName = "${practitionerFirstName.text!!.trim()} ${practitionerLastName.text!!.trim()}"
+                        val delimitedFullName = "${practitionerLastName.text!!.trim()}, ${practitionerFirstName.text!!.trim()}"
+                        val practitionerMetaOutput = Practitioner(practitionerMeta.id, practitionerFirstName.text.toString(),
+                            practitionerMeta.lastName.toString(), practitionerID.text.toString(),
+                            practitionerPhone.text.toString(), practitionerEmail.text.toString(), null, fullName, delimitedFullName, practitionerMeta.new)
+                        println("Found patientMetaOutput:\n\t $practitionerMetaOutput")
+                        val input = RecordsEditorFragmentDirections.editingRecordDialog(recordID, null, practitionerMetaOutput, null, null)
+                        navController.navigate(input)
+
+                    }
+
+                }
+
+            }
+            7 ->{
+                recordsEditorController.initPractitionerEditorView(requireContext(), recordID, null,
+                    null, registeredNurse = registeredNurseMeta, practitionerEditorView,
+                    practitionerEditMode, practitionerEditTitle, practitionerFirstName,
+                    practitionerLastName, practitionerID, practitionerPhone, practitionerEmail,
+                    practitionerIcon, practitionerEditorButton)
+                recordValidator.initValidator(patientEditorView)
+                onBackPressed()
+                practitionerEditorButton.setOnClickListener {
+                    val registeredNurseCheck = recordValidator.isValidPractitioner(practitionerFirstName,
+                        practitionerFirstNameLayout, practitionerLastName, practitionerLastNameLayout,
+                        practitionerID, practitionerIDLayout,practitionerPhone, practitionerPhoneLayout,
+                        practitionerEmail, practitionerEmailLayout)
+                    if (registeredNurseCheck){
+                        val fullName = "${practitionerFirstName.text!!.trim()} ${practitionerLastName.text!!.trim()}"
+                        val delimitedFullName = "${practitionerLastName.text!!.trim()}, ${practitionerFirstName.text!!.trim()}"
+                        val registeredNurseMetaOutput = RegisteredNurse(registeredNurseMeta.id, practitionerFirstName.text.toString(),
+                            practitionerMeta.lastName.toString(), practitionerID.text.toString(),
+                            practitionerPhone.text.toString(), practitionerEmail.text.toString(), null, fullName, delimitedFullName, practitionerMeta.new)
+                        println("Found registeredNurseMetaOutput:\n\t $registeredNurseMetaOutput")
+                        val input = RecordsEditorFragmentDirections.editingRecordDialog(recordID, null, null, registeredNurseMetaOutput, null)
+                        navController.navigate(input)
+
+                    }
+
+                }
+
+            }
+            8 ->{
+                recordsEditorController.initPractitionerEditorView(requireContext(), recordID, null,
+                    nursePractitioner = nursePractitionerMeta, null, practitionerEditorView,
+                    practitionerEditMode, practitionerEditTitle, practitionerFirstName,
+                    practitionerLastName, practitionerID, practitionerPhone, practitionerEmail,
+                    practitionerIcon, practitionerEditorButton)
+                recordValidator.initValidator(patientEditorView)
+                onBackPressed()
+                practitionerEditorButton.setOnClickListener {
+                    val nursePractitionerCheck = recordValidator.isValidPractitioner(practitionerFirstName,
+                        practitionerFirstNameLayout, practitionerLastName, practitionerLastNameLayout,
+                        practitionerID, practitionerIDLayout,practitionerPhone, practitionerPhoneLayout,
+                        practitionerEmail, practitionerEmailLayout)
+                    if (nursePractitionerCheck){
+                        val fullName = "${practitionerFirstName.text!!.trim()} ${practitionerLastName.text!!.trim()}"
+                        val delimitedFullName = "${practitionerLastName.text!!.trim()}, ${practitionerFirstName.text!!.trim()}"
+                        val nursePractitionerMetaOutput = NursePractitioner(nursePractitionerMeta.id, practitionerFirstName.text.toString(),
+                            practitionerMeta.lastName.toString(), practitionerID.text.toString(),
+                            practitionerPhone.text.toString(), practitionerEmail.text.toString(), null, fullName, delimitedFullName, practitionerMeta.new)
+                        println("Found nursePractitionerMetaOutput:\n\t $nursePractitionerMetaOutput")
+                        val input = RecordsEditorFragmentDirections.editingRecordDialog(recordID, null, null, null, nursePractitionerMetaOutput)
+                        navController.navigate(input)
+
+                    }
+                }
 
             }
         }
@@ -205,8 +349,19 @@ class RecordsEditorFragment : Fragment() {
                                 entityDrawable = R.drawable.visit_icon_png3
                             }
                             5 -> {
-                                entityType = "General Practitioner"
+                                entityType = "Practitioner"
                                 entityDrawable = R.drawable.practitioners_pivot_icon
+                                val practitionerFN = practitionerFirstName.text.toString().trim()
+                                val practitionerLN = practitionerLastName.text.toString().trim()
+                                promptLabel = practitionerFN
+                                if (practitionerLN.isNotBlank() && practitionerFN.isNotBlank()) {
+                                    promptLabel = "$practitionerLN, ${practitionerFN.first()}"
+                                }
+                                promptText = "Are you sure you'd like to discard this unsaved $entityType record for ${
+                                    promptLabel.capitalize(
+                                        Locale.ROOT
+                                    )
+                                }?"
                             }
                             6 -> {
                                 entityType = "Doctor"
@@ -215,10 +370,32 @@ class RecordsEditorFragment : Fragment() {
                             7 -> {
                                 entityType = "Registered Nurse"
                                 entityDrawable = R.drawable.registered_nurse_ong
+                                val practitionerFN = practitionerFirstName.text.toString().trim()
+                                val practitionerLN = practitionerLastName.text.toString().trim()
+                                promptLabel = practitionerFN
+                                if (practitionerLN.isNotBlank() && practitionerFN.isNotBlank()) {
+                                    promptLabel = "$practitionerLN, ${practitionerFN.first()}"
+                                }
+                                promptText = "Are you sure you'd like to discard this unsaved $entityType record for ${
+                                    promptLabel.capitalize(
+                                        Locale.ROOT
+                                    )
+                                }?"
                             }
                             8 -> {
                                 entityType = "Nurse Practitioner"
                                 entityDrawable = R.drawable.practitioners_pivot_icon
+                                val practitionerFN = practitionerFirstName.text.toString().trim()
+                                val practitionerLN = practitionerLastName.text.toString().trim()
+                                promptLabel = practitionerFN
+                                if (practitionerLN.isNotBlank() && practitionerFN.isNotBlank()) {
+                                    promptLabel = "$practitionerLN, ${practitionerFN.first()}"
+                                }
+                                promptText = "Are you sure you'd like to discard this unsaved $entityType record for ${
+                                    promptLabel.capitalize(
+                                        Locale.ROOT
+                                    )
+                                }?"
 
                             }
                             9 -> {

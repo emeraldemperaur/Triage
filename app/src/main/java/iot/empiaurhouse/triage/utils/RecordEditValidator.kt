@@ -89,4 +89,18 @@ class RecordEditValidator {
      return isPatient
     }
 
+
+    fun isValidPractitioner(fNInputField: TextInputEditText, fNInputFieldLayout: TextInputLayout,
+                            lNInputField: TextInputEditText, lNInputFieldLayout: TextInputLayout,
+                            pIDInputField: TextInputEditText, pIDInputFieldLayout: TextInputLayout,
+                            phoneInputField: TextInputEditText, phoneInputFieldLayout: TextInputLayout,
+                            emailInputField: TextInputEditText, emailInputFieldLayout: TextInputLayout): Boolean{
+        var isPractitioner = false
+        isPractitioner = (isValidText(fNInputField, fNInputFieldLayout, "First Name") && isValidText(lNInputField, lNInputFieldLayout,"Last Name")
+                && isValidText(pIDInputField, pIDInputFieldLayout, "Practitioner ID") && isValidText(phoneInputField, phoneInputFieldLayout, "Phone")
+                && isValidText(emailInputField, emailInputFieldLayout, "Email"))
+
+        return isPractitioner
+    }
+
 }

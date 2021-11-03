@@ -6,6 +6,7 @@ import android.text.InputType
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -13,7 +14,10 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import iot.empiaurhouse.triage.R
+import iot.empiaurhouse.triage.model.NursePractitioner
 import iot.empiaurhouse.triage.model.Patient
+import iot.empiaurhouse.triage.model.Practitioner
+import iot.empiaurhouse.triage.model.RegisteredNurse
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -21,6 +25,7 @@ class MultiRecordEditViewController {
 
     private lateinit var  buttonText: String
     private lateinit var editTitle: String
+    private lateinit var practitionerTitle: String
     private var isNew by Delegates.notNull<Boolean>()
 
     fun initPatientEditorView(context: Context, patient: Patient, patientEditView: ConstraintLayout,
@@ -136,7 +141,81 @@ class MultiRecordEditViewController {
 
     }
 
-    fun initDiagnosisEditorView(){
+    fun initPractitionerEditorView(context: Context, recordID: Int, practitioner: Practitioner? = null,
+                                   nursePractitioner: NursePractitioner? = null,
+                                   registeredNurse: RegisteredNurse? = null,
+                                   practitionerEditView: ConstraintLayout,
+                                   editorMode: TextView, editorTitle: TextView,
+                                   fNameField: TextInputEditText,
+                                   lNameField: TextInputEditText,practitionerIDField: TextInputEditText,
+                                   phoneField: TextInputEditText, emailField: TextInputEditText, editIcon: ImageView,
+                                   editorButton: MaterialButton){
+
+
+
+        editTitle = "CREATE"
+        buttonText = editTitle
+        when(recordID){
+            5 ->{
+                practitionerEditView.visibility = View.VISIBLE
+                practitionerTitle = "General Practitioner"
+                if (practitioner!!.id != null){
+                    editTitle = "EDIT"
+                    buttonText = "UPDATE"
+                    fNameField.setText(practitioner.firstName)
+                    lNameField.setText(practitioner.lastName)
+                    practitionerIDField.setText(practitioner.practitionerID)
+                    phoneField.setText(practitioner.contactInfo)
+                    emailField.setText(practitioner.emailInfo)
+
+                }
+                editorMode.text = editTitle
+                editorTitle.text = practitionerTitle
+                editorButton.text = buttonText
+
+
+
+            }
+            7 ->{
+                practitionerEditView.visibility = View.VISIBLE
+                practitionerTitle = "Registered Nurse"
+                editIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.registered_nurse_ong))
+                if (registeredNurse!!.id != null){
+                    editTitle = "EDIT"
+                    buttonText = "UPDATE"
+                    fNameField.setText(registeredNurse.firstName)
+                    lNameField.setText(registeredNurse.lastName)
+                    practitionerIDField.setText(registeredNurse.practitionerID)
+                    phoneField.setText(registeredNurse.contactInfo)
+                    emailField.setText(registeredNurse.emailInfo)
+                }
+                editorMode.text = editTitle
+                editorTitle.text = practitionerTitle
+                editorButton.text = buttonText
+
+
+
+            }
+            8 ->{
+                practitionerEditView.visibility = View.VISIBLE
+                practitionerTitle = "Nurse Practitioner"
+                if (nursePractitioner!!.id != null){
+                    editTitle = "EDIT"
+                    buttonText = "UPDATE"
+                    fNameField.setText(nursePractitioner.firstName)
+                    lNameField.setText(nursePractitioner.lastName)
+                    practitionerIDField.setText(nursePractitioner.practitionerID)
+                    phoneField.setText(nursePractitioner.contactInfo)
+                    emailField.setText(nursePractitioner.emailInfo)
+                }
+                editorMode.text = editTitle
+                editorTitle.text = practitionerTitle
+                editorButton.text = buttonText
+
+
+
+            }
+        }
         
     }
 

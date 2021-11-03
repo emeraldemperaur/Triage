@@ -18,7 +18,10 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.FragmentRecordEditorDialogBinding
+import iot.empiaurhouse.triage.model.NursePractitioner
 import iot.empiaurhouse.triage.model.Patient
+import iot.empiaurhouse.triage.model.Practitioner
+import iot.empiaurhouse.triage.model.RegisteredNurse
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
 
 
@@ -35,6 +38,9 @@ class RecordEditorDialogFragment : Fragment() {
     private lateinit var recordEditEntity: TextView
     private lateinit var rotateAnimation: Animation
     private lateinit var patient: Patient
+    private lateinit var practitioner: Practitioner
+    private lateinit var registeredNurse: RegisteredNurse
+    private lateinit var nursePractitioner: NursePractitioner
     private lateinit var entityType: String
     private lateinit var editStatus: String
     private lateinit var recordEditLabel: TextView
@@ -76,6 +82,24 @@ class RecordEditorDialogFragment : Fragment() {
                 metaDataID = patient.id
             }
         }
+        if (args.practitioner != null){
+            practitioner = args.practitioner!!
+            if (practitioner.id != null){
+                metaDataID = practitioner.id
+            }
+        }
+        if (args.registeredNurse != null){
+            registeredNurse = args.registeredNurse!!
+            if (registeredNurse.id != null){
+                metaDataID = registeredNurse.id
+            }
+        }
+        if (args.nursePractitioner != null){
+            nursePractitioner = args.nursePractitioner!!
+            if (nursePractitioner.id != null){
+                metaDataID = nursePractitioner.id
+            }
+        }
         initRecordEditDialog(recordID!!)
         onBackPressed()
 
@@ -89,18 +113,18 @@ class RecordEditorDialogFragment : Fragment() {
         else if (metaDataID != null){
             editStatus = "UPDATING..."
         }
+        recordEditStatusIcon.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_autorenew_24))
+        recordEditStatusIcon.setColorFilter(Color.parseColor("#0c204f"))
+        recordEditStatusIcon.startAnimation(rotateAnimation)
+        recordEditStatus.visibility = View.VISIBLE
+        recordEditStatus.setCharacterDelay(96)
+        recordEditStatus.displayTextWithAnimation(editStatus)
         Handler(Looper.getMainLooper()).postDelayed({
             recordEditEntity.visibility = View.VISIBLE
             recordEditLabel.visibility = View.VISIBLE
         }, 2569)
         when(recordID){
             1 ->{
-                recordEditStatusIcon.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_autorenew_24))
-                recordEditStatusIcon.setColorFilter(Color.parseColor("#0c204f"))
-                recordEditStatusIcon.startAnimation(rotateAnimation)
-                recordEditStatus.visibility = View.VISIBLE
-                recordEditStatus.setCharacterDelay(96)
-                recordEditStatus.displayTextWithAnimation(editStatus)
                 entityType = "Patient"
                 recordEditEntity.text = entityType
                 recordEditLabel.text = patient.fullName
@@ -120,6 +144,7 @@ class RecordEditorDialogFragment : Fragment() {
             5 ->{
                 entityType = "General Practitioner"
                 recordEditEntity.text = entityType
+                recordEditLabel.text = practitioner.fullName
             }
             6 ->{
                 entityType = "Doctor"
@@ -128,10 +153,14 @@ class RecordEditorDialogFragment : Fragment() {
             7 ->{
                 entityType = "Registered Nurse"
                 recordEditEntity.text = entityType
+                recordEditLabel.text = registeredNurse.fullName
+
             }
             8 ->{
                 entityType = "Nurse Practitioner"
                 recordEditEntity.text = entityType
+                recordEditLabel.text = nursePractitioner.fullName
+
             }
             9 ->{
                 entityType = "Pharmaceutical"
