@@ -1,6 +1,7 @@
 package iot.empiaurhouse.triage.utils
 
 import android.graphics.Color
+import android.telephony.PhoneNumberUtils
 import android.view.View
 import android.widget.AutoCompleteTextView
 import com.google.android.material.snackbar.Snackbar
@@ -50,6 +51,7 @@ class RecordEditValidator {
             inputFieldLayout.error = "Required Biodata"
             inputFieldLayout.boxStrokeColor = Color.parseColor("#800020")
             inputFieldLayout.isFocusable = true
+            inputFieldLayout.requestFocus()
             inputFieldLayout.isFocusable = false
             val missingFieldPrompt = Snackbar.make(viewContext,"Please provide required biodata | ${inputLabel.capitalize(
                 Locale.ROOT
@@ -72,14 +74,14 @@ class RecordEditValidator {
                     isValid = isEmail
                     inputFieldLayout.error = "Invalid Email"
                     inputFieldLayout.boxStrokeColor = Color.parseColor("#800020")
-                    val invalidEmailFieldPrompt = Snackbar.make(viewContext,"Please provide a valid email address", Snackbar.LENGTH_SHORT)
+                    inputFieldLayout.isFocusable = true
+                    inputFieldLayout.requestFocus()
+                    inputFieldLayout.isFocusable = false
+                val invalidEmailFieldPrompt = Snackbar.make(viewContext,"Please provide a valid email address", Snackbar.LENGTH_SHORT)
 
                     invalidEmailFieldPrompt.anchorView = viewContext.rootView.findViewById(R.id.hub_foot_nav)
                     invalidEmailFieldPrompt.show()
-
-
             }
-
         }
         return isValid
     }
@@ -105,6 +107,44 @@ class RecordEditValidator {
             isValid = true
             inputFieldLayout.error = null
             inputFieldLayout.boxStrokeColor = Color.parseColor("#0c204f")
+
+        }
+        return isValid
+    }
+
+    private fun isValidPhone(inputField: TextInputEditText, inputFieldLayout: TextInputLayout, inputLabel: String): Boolean{
+        var isValid = false
+        if (inputField.text.isNullOrBlank()){
+            isValid = false
+            inputFieldLayout.error = "Required Biodata"
+            inputFieldLayout.boxStrokeColor = Color.parseColor("#800020")
+            inputFieldLayout.isFocusable = true
+            inputFieldLayout.isFocusable = false
+            val missingFieldPrompt = Snackbar.make(viewContext,"Please provide required biodata | ${inputLabel.capitalize(
+                Locale.ROOT
+            )
+            }", Snackbar.LENGTH_LONG)
+
+            missingFieldPrompt.anchorView = viewContext.rootView.findViewById(R.id.hub_foot_nav)
+            missingFieldPrompt.show()
+
+        }
+
+        else if (!inputField.text.isNullOrBlank()){
+            if (PhoneNumberUtils.isGlobalPhoneNumber(inputField.text.toString())){
+                isValid = true
+                inputFieldLayout.error = null
+                inputFieldLayout.boxStrokeColor = Color.parseColor("#0c204f")
+            } else if (!PhoneNumberUtils.isGlobalPhoneNumber(inputField.text.toString())){
+                isValid = false
+                inputFieldLayout.error = "Invalid Phone Number"
+                inputFieldLayout.boxStrokeColor = Color.parseColor("#800020")
+                val invalidPhoneFieldPrompt = Snackbar.make(viewContext,"Please provide a valid phone number", Snackbar.LENGTH_SHORT)
+
+                invalidPhoneFieldPrompt.anchorView = viewContext.rootView.findViewById(R.id.hub_foot_nav)
+                invalidPhoneFieldPrompt.show()
+            }
+
 
         }
         return isValid
@@ -141,7 +181,7 @@ class RecordEditValidator {
                             emailInputField: TextInputEditText, emailInputFieldLayout: TextInputLayout): Boolean{
         var isPractitioner = false
         isPractitioner = (isValidText(fNInputField, fNInputFieldLayout, "First Name") && isValidText(lNInputField, lNInputFieldLayout,"Last Name")
-                && isValidText(pIDInputField, pIDInputFieldLayout, "Practitioner ID") && isValidText(phoneInputField, phoneInputFieldLayout, "Phone")
+                && isValidText(pIDInputField, pIDInputFieldLayout, "Practitioner ID") && isValidPhone(phoneInputField, phoneInputFieldLayout, "Phone")
                 && isValidEmail(emailInputField, emailInputFieldLayout, "Email"))
 
         return isPractitioner
