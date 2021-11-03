@@ -15,5 +15,5 @@ data class Speciality(
     val specialityDescription: String?,
     @JsonProperty("new")
     @SerializedName("new")
-    val new: String?
+    val new: Boolean?
 ): Parcelable

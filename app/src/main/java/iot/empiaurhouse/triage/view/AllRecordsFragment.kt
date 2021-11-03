@@ -317,7 +317,8 @@ class AllRecordsFragment : Fragment() {
 
     private fun initCreateNewRecord(recordID: Int){
         createNewRecord.setOnClickListener {
-            val input = AllRecordsFragmentDirections.editRecordDetails(recordID, null, null, null, null)
+            val input = AllRecordsFragmentDirections.editRecordDetails(recordID, null,
+                null, null, null, null)
             val viewControl = requireView().findNavController()
             viewControl.navigate(input)
 

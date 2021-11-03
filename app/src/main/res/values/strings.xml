@@ -298,5 +298,6 @@
     <string name="contact_info">contact info</string>
     <string name="creating">CREATING...</string>
     <string name="updating">UPDATING...</string>
+    <string name="speciality">Speciality</string>
 
 </resources>

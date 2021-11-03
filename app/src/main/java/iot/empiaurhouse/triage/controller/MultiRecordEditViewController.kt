@@ -14,10 +14,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import iot.empiaurhouse.triage.R
-import iot.empiaurhouse.triage.model.NursePractitioner
-import iot.empiaurhouse.triage.model.Patient
-import iot.empiaurhouse.triage.model.Practitioner
-import iot.empiaurhouse.triage.model.RegisteredNurse
+import iot.empiaurhouse.triage.model.*
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -217,6 +214,49 @@ class MultiRecordEditViewController {
             }
         }
         
+    }
+
+
+    fun initDoctorEditorView(context: Context, doctor: Doctor,
+                             doctorEditView: ConstraintLayout,
+                             editorMode: TextView,
+                             fNameField: TextInputEditText,
+                             lNameField: TextInputEditText, practitionerIDField: TextInputEditText,
+                             specialityField: AutoCompleteTextView, specialityFieldLayout: TextInputLayout,
+                             phoneField: TextInputEditText, emailField: TextInputEditText,
+                             editorButton: MaterialButton){
+
+        editTitle = "CREATE"
+        buttonText = editTitle
+        doctorEditView.visibility = View.VISIBLE
+        if (doctor.id != null){
+            editTitle = "EDIT"
+            buttonText = "UPDATE"
+            fNameField.setText(doctor.firstName)
+            lNameField.setText(doctor.lastName)
+            practitionerIDField.setText(doctor.practitionerID)
+            phoneField.setText(doctor.contactInfo)
+            emailField.setText(doctor.emailInfo)
+        }
+        editorMode.text = editTitle
+        editorButton.text = buttonText
+        val dentistry = Speciality(1, "Dentistry", false)
+        val radiology = Speciality(2, "Radiology", false)
+        val neurology = Speciality(3, "Neurology", false)
+        val diagnostics = Speciality(4, "Diagnostics", false)
+        val immunology = Speciality(5, "Immunology", false)
+        val surgery = Speciality(6, "Surgery", false)
+        val specialities = listOf(dentistry, radiology, neurology, diagnostics, immunology, surgery)
+        val specialitiesDescription = arrayListOf<String>()
+        for (speciality in specialities){
+            specialitiesDescription.add(speciality.specialityDescription!!)
+        }
+        val adapter = ArrayAdapter(context, R.layout.blood_group_item, specialitiesDescription)
+        (specialityFieldLayout.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        if (doctor.specialities != null && doctor.specialities.isNotEmpty()){
+            (specialityFieldLayout.editText as? AutoCompleteTextView)?.setText(diagnostics.specialityDescription, false)
+        }
+
     }
 
 

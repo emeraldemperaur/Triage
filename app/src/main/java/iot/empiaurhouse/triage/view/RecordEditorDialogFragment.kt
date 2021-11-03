@@ -18,10 +18,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.FragmentRecordEditorDialogBinding
-import iot.empiaurhouse.triage.model.NursePractitioner
-import iot.empiaurhouse.triage.model.Patient
-import iot.empiaurhouse.triage.model.Practitioner
-import iot.empiaurhouse.triage.model.RegisteredNurse
+import iot.empiaurhouse.triage.model.*
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
 
 
@@ -41,6 +38,7 @@ class RecordEditorDialogFragment : Fragment() {
     private lateinit var practitioner: Practitioner
     private lateinit var registeredNurse: RegisteredNurse
     private lateinit var nursePractitioner: NursePractitioner
+    private lateinit var doctor: Doctor
     private lateinit var entityType: String
     private lateinit var editStatus: String
     private lateinit var recordEditLabel: TextView
@@ -100,6 +98,12 @@ class RecordEditorDialogFragment : Fragment() {
                 metaDataID = nursePractitioner.id
             }
         }
+        if (args.doctor != null){
+            doctor = args.doctor!!
+            if (doctor.id != null){
+                metaDataID = doctor.id
+            }
+        }
         initRecordEditDialog(recordID!!)
         onBackPressed()
 
@@ -150,6 +154,7 @@ class RecordEditorDialogFragment : Fragment() {
             6 ->{
                 entityType = "Doctor"
                 recordEditEntity.text = entityType
+                recordEditLabel.text = doctor.fullName
             }
             7 ->{
                 entityType = "Registered Nurse"
