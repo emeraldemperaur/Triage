@@ -1,6 +1,7 @@
 package iot.empiaurhouse.triage.view
 
 import android.app.AlertDialog
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -84,6 +86,27 @@ class RecordsEditorFragment : Fragment() {
     private lateinit var doctorSpecialityField: TextInputLayout
     private lateinit var doctorPhoneLayout: TextInputLayout
     private lateinit var doctorEditorButton: MaterialButton
+    private lateinit var pharmaceuticalEditorView: ConstraintLayout
+    private lateinit var pharmaceuticalEditMode: TextView
+    private lateinit var pharmaceuticalBrand: TextInputEditText
+    private lateinit var pharmaceuticalBrandLayout: TextInputLayout
+    private lateinit var pharmaceuticalGeneric: TextInputEditText
+    private lateinit var pharmaceuticalGenericLayout: TextInputLayout
+    private lateinit var pharmaceuticalChemical: TextInputEditText
+    private lateinit var pharmaceuticalChemicalLayout: TextInputLayout
+    private lateinit var pharmaceuticalMakeDate: TextInputEditText
+    private lateinit var pharmaceuticalMakeDateLayout: TextInputLayout
+    private lateinit var pharmaceuticalExpiryDate: TextInputEditText
+    private lateinit var pharmaceuticalExpiryDateLayout: TextInputLayout
+    private lateinit var pharmaceuticalManufacturer: TextInputEditText
+    private lateinit var pharmaceuticalManufacturerLayout: TextInputLayout
+    private lateinit var pharmaceuticalBatchNumber: TextInputEditText
+    private lateinit var pharmaceuticalBatchNumberLayout: TextInputLayout
+    private lateinit var pharmaceuticalApprovalNumber: TextInputEditText
+    private lateinit var pharmaceuticalApprovalNumberLayout: TextInputLayout
+    private lateinit var pharmaceuticalInStock: TextInputEditText
+    private lateinit var pharmaceuticalInStockLayout: TextInputLayout
+    private lateinit var pharmaceuticalEditorButton: MaterialButton
     private lateinit var recordValidator: RecordEditValidator
     private lateinit var recordsEditorController: MultiRecordEditViewController
     private lateinit var navController: NavController
@@ -92,6 +115,8 @@ class RecordsEditorFragment : Fragment() {
     private lateinit var registeredNurseMeta: RegisteredNurse
     private lateinit var nursePractitionerMeta: NursePractitioner
     private lateinit var doctorMeta: Doctor
+    private lateinit var pharmaceuticalMeta: Pharmaceuticals
+    private lateinit var focusspeciality: Speciality
 
 
 
@@ -116,6 +141,7 @@ class RecordsEditorFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecordsEditorBinding.bind(view)
@@ -168,6 +194,27 @@ class RecordsEditorFragment : Fragment() {
         doctorEmail = binding.doctorRecordsEditorInclude.doctorEmailFieldText
         doctorEmailLayout = binding.doctorRecordsEditorInclude.doctorEmailField
         doctorEditorButton = binding.doctorRecordsEditorInclude.createEditDoctorButton
+        pharmaceuticalEditorView = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalsEditorView
+        pharmaceuticalEditMode = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalEditorMode
+        pharmaceuticalBrand = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalBrandFieldText
+        pharmaceuticalBrandLayout = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalBrandField
+        pharmaceuticalGeneric = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalGenericFieldText
+        pharmaceuticalGenericLayout = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalGenericField
+        pharmaceuticalChemical = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalChemicalFieldText
+        pharmaceuticalChemicalLayout = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalChemicalField
+        pharmaceuticalMakeDate = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalMakeDateFieldText
+        pharmaceuticalMakeDateLayout = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalMakeDateField
+        pharmaceuticalExpiryDate = binding.pharmaceuticalRecordsEditorInclude.patientExpiryDateFieldText
+        pharmaceuticalExpiryDateLayout = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalExpiryDateField
+        pharmaceuticalManufacturer = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalManufacturerNameFieldText
+        pharmaceuticalManufacturerLayout = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalManufacturerNameField
+        pharmaceuticalBatchNumber = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalBatchNumberFieldText
+        pharmaceuticalBatchNumberLayout = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalBatchNumberField
+        pharmaceuticalApprovalNumber = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalApprovalNumberFieldText
+        pharmaceuticalApprovalNumberLayout = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalApprovalNumberField
+        pharmaceuticalInStock = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalInventoryCountFieldText
+        pharmaceuticalInStockLayout = binding.pharmaceuticalRecordsEditorInclude.pharmaceuticalInventoryCountField
+        pharmaceuticalEditorButton = binding.pharmaceuticalRecordsEditorInclude.createEditPharmaceuticalButton
         recordsEditorController = MultiRecordEditViewController()
         recordValidator = RecordEditValidator()
         navController = findNavController()
@@ -212,12 +259,21 @@ class RecordsEditorFragment : Fragment() {
         }
         else if (args.doctor == null){
             doctorMeta = Doctor(null, null, null, null,
-                null, null, null, null, null, null, true)
+                null, null, null, arrayListOf(), null, null, true)
+        }
+        if (args.pharmaceutical != null){
+            pharmaceuticalMeta = args.pharmaceutical!!
+            metaID = pharmaceuticalMeta.id
+        }
+        else if (args.pharmaceutical == null){
+            pharmaceuticalMeta = Pharmaceuticals(null, null, null, null,
+                null, null, null, null, null, null, 0, true)
         }
         initRecordEditorView(recordID)
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initRecordEditorView(recordID: Int){
         when(recordID){
             1 ->{
@@ -251,7 +307,7 @@ class RecordsEditorFragment : Fragment() {
 
                         println("Found patientMetaOutput:\n\t $patientMetaOutput")
                         val input = RecordsEditorFragmentDirections.editingRecordDialog(recordID, patientMetaOutput,
-                            null, null, null, null)
+                            null, null, null, null, null)
                         navController.navigate(input)
                     }
                 }
@@ -272,12 +328,12 @@ class RecordsEditorFragment : Fragment() {
                     if (practitionerCheck){
                         val fullName = "${practitionerFirstName.text!!.trim()} ${practitionerLastName.text!!.trim()}"
                         val delimitedFullName = "${practitionerLastName.text!!.trim()}, ${practitionerFirstName.text!!.trim()}"
-                        val practitionerMetaOutput = Practitioner(practitionerMeta.id, practitionerFirstName.text.toString(),
-                            practitionerLastName.text.toString(), practitionerID.text.toString(),
-                            practitionerPhone.text.toString(), practitionerEmail.text.toString(), null, fullName, delimitedFullName, practitionerMeta.new)
+                        val practitionerMetaOutput = Practitioner(practitionerMeta.id, practitionerFirstName.text.toString().trim(),
+                            practitionerLastName.text.toString().trim(), practitionerID.text.toString().trim(),
+                            practitionerPhone.text.toString().trim(), practitionerEmail.text.toString().trim(), null, fullName, delimitedFullName, practitionerMeta.new)
                         println("Found practitionerMetaOutput:\n\t $practitionerMetaOutput")
                         val input = RecordsEditorFragmentDirections.editingRecordDialog(recordID, null,
-                            practitionerMetaOutput, null, null, null)
+                            practitionerMetaOutput, null, null, null, null)
                         navController.navigate(input)
 
                     }
@@ -298,12 +354,12 @@ class RecordsEditorFragment : Fragment() {
                     if (doctorCheck){
                         val fullName = "${doctorFirstName.text!!.trim()} ${doctorLastName.text!!.trim()}"
                         val delimitedFullName = "${doctorLastName.text!!.trim()}, ${doctorFirstName.text!!.trim()}"
-                        val doctorMetaOutput = Doctor(doctorMeta.id, doctorFirstName.text.toString(),
-                            doctorLastName.text.toString(), doctorID.text.toString(),
-                            doctorPhone.text.toString(), doctorEmail.text.toString(), null,
-                            doctorMeta.specialities, fullName, delimitedFullName, doctorMeta.new)
+                        val doctorMetaOutput = Doctor(doctorMeta.id, doctorFirstName.text.toString().trim(),
+                            doctorLastName.text.toString().trim(), doctorID.text.toString().trim(),
+                            doctorPhone.text.toString().trim(), doctorEmail.text.toString().trim(), null,
+                            processSpeciality(doctorSpecialityFieldText.text.toString()), fullName, delimitedFullName, doctorMeta.new)
                         println("Found doctorMetaOutput:\n\t $doctorMetaOutput")
-                        val input = RecordsEditorFragmentDirections.editingRecordDialog(recordID, null, null, null, null, doctorMetaOutput)
+                        val input = RecordsEditorFragmentDirections.editingRecordDialog(recordID, null, null, null, null, doctorMetaOutput, null)
                         navController.navigate(input)
                     }
                 }
@@ -324,12 +380,12 @@ class RecordsEditorFragment : Fragment() {
                     if (registeredNurseCheck){
                         val fullName = "${practitionerFirstName.text!!.trim()} ${practitionerLastName.text!!.trim()}"
                         val delimitedFullName = "${practitionerLastName.text!!.trim()}, ${practitionerFirstName.text!!.trim()}"
-                        val registeredNurseMetaOutput = RegisteredNurse(registeredNurseMeta.id, practitionerFirstName.text.toString(),
-                            practitionerLastName.text.toString(), practitionerID.text.toString(),
-                            practitionerPhone.text.toString(), practitionerEmail.text.toString(), null, fullName, delimitedFullName, practitionerMeta.new)
+                        val registeredNurseMetaOutput = RegisteredNurse(registeredNurseMeta.id, practitionerFirstName.text.toString().trim(),
+                            practitionerLastName.text.toString().trim(), practitionerID.text.toString().trim(),
+                            practitionerPhone.text.toString().trim(), practitionerEmail.text.toString().trim(), null, fullName, delimitedFullName, practitionerMeta.new)
                         println("Found registeredNurseMetaOutput:\n\t $registeredNurseMetaOutput")
                         val input = RecordsEditorFragmentDirections.editingRecordDialog(recordID,
-                            null, null, registeredNurseMetaOutput, null, null)
+                            null, null, registeredNurseMetaOutput, null, null, null)
                         navController.navigate(input)
 
                     }
@@ -353,16 +409,46 @@ class RecordsEditorFragment : Fragment() {
                     if (nursePractitionerCheck){
                         val fullName = "${practitionerFirstName.text!!.trim()} ${practitionerLastName.text!!.trim()}"
                         val delimitedFullName = "${practitionerLastName.text!!.trim()}, ${practitionerFirstName.text!!.trim()}"
-                        val nursePractitionerMetaOutput = NursePractitioner(nursePractitionerMeta.id, practitionerFirstName.text.toString(),
-                            practitionerLastName.text.toString(), practitionerID.text.toString(),
-                            practitionerPhone.text.toString(), practitionerEmail.text.toString(), null, fullName, delimitedFullName, practitionerMeta.new)
+                        val nursePractitionerMetaOutput = NursePractitioner(nursePractitionerMeta.id, practitionerFirstName.text.toString().trim(),
+                            practitionerLastName.text.toString().trim(), practitionerID.text.toString().trim(),
+                            practitionerPhone.text.toString().trim(), practitionerEmail.text.toString().trim(), null, fullName, delimitedFullName, practitionerMeta.new)
                         println("Found nursePractitionerMetaOutput:\n\t $nursePractitionerMetaOutput")
-                        val input = RecordsEditorFragmentDirections.editingRecordDialog(recordID, null, null, null, nursePractitionerMetaOutput, null)
+                        val input = RecordsEditorFragmentDirections.editingRecordDialog(recordID, null, null, null, nursePractitionerMetaOutput, null, null)
                         navController.navigate(input)
 
                     }
                 }
 
+            }
+            9 ->{
+                recordsEditorController.initPharmaceuticalEditorView(pharmaceuticalMeta,pharmaceuticalEditorView,
+                    pharmaceuticalEditMode, pharmaceuticalBrand, pharmaceuticalGeneric, pharmaceuticalChemical,
+                    pharmaceuticalMakeDate, pharmaceuticalExpiryDate, pharmaceuticalManufacturer, pharmaceuticalBatchNumber,
+                    pharmaceuticalApprovalNumber, pharmaceuticalInStock, pharmaceuticalEditorButton)
+                recordValidator.initValidator(pharmaceuticalEditorView)
+                onBackPressed()
+                pharmaceuticalEditorButton.setOnClickListener {
+                    val pharmaceuticalCheck = recordValidator.isValidPharmaceutical(pharmaceuticalBrand,
+                        pharmaceuticalBrandLayout, pharmaceuticalGeneric, pharmaceuticalGenericLayout,
+                        pharmaceuticalChemical, pharmaceuticalChemicalLayout, pharmaceuticalMakeDate,
+                        pharmaceuticalMakeDateLayout, pharmaceuticalExpiryDate, pharmaceuticalExpiryDateLayout,
+                        pharmaceuticalManufacturer, pharmaceuticalManufacturerLayout, pharmaceuticalBatchNumber,
+                        pharmaceuticalBatchNumberLayout, pharmaceuticalApprovalNumber, pharmaceuticalApprovalNumberLayout,
+                        pharmaceuticalInStock, pharmaceuticalInStockLayout)
+                    if (pharmaceuticalCheck){
+                        val pharmaceuticalMetaOutput = Pharmaceuticals(pharmaceuticalMeta.id,
+                            pharmaceuticalBrand.text.toString().trim(), pharmaceuticalGeneric.text.toString().trim(),
+                            pharmaceuticalChemical.text.toString().trim(), pharmaceuticalManufacturer.text.toString().trim(),
+                            pharmaceuticalBatchNumber.text.toString().trim(),pharmaceuticalApprovalNumber.text.toString().trim(),
+                            pharmaceuticalMakeDate.text.toString().trim(), pharmaceuticalExpiryDate.text.toString().trim(),
+                            null, pharmaceuticalInStock.text.toString().toInt(), pharmaceuticalMeta.new)
+                        println("Found pharmaceuticalMetaOutput:\n\t $pharmaceuticalMetaOutput")
+                        val input = RecordsEditorFragmentDirections.editingRecordDialog(recordID, null,
+                            null, null, null, null, pharmaceuticalMetaOutput)
+                        navController.navigate(input)
+
+                    }
+                }
             }
         }
     }
@@ -473,6 +559,13 @@ class RecordsEditorFragment : Fragment() {
                             9 -> {
                                 entityType = "Pharmaceuticals"
                                 entityDrawable = R.drawable.ic_pharmaceuticals_pivot
+                                val brand = pharmaceuticalBrand.text.toString().trim()
+                                promptLabel = brand
+                                promptText = "Are you sure you'd like to discard this unsaved $entityType record for ${
+                                    promptLabel.capitalize(
+                                        Locale.ROOT
+                                    )
+                                }?"
                             }
                         }
                         if (promptLabel.isBlank()) {
@@ -496,6 +589,45 @@ class RecordsEditorFragment : Fragment() {
                     }
                 })
         }
+    }
+
+    private fun processSpeciality(selectedOption: String): ArrayList<Speciality>{
+        val dentistry = Speciality(1, "Dentistry", false)
+        val radiology = Speciality(2, "Radiology", false)
+        val neurology = Speciality(3, "Neurology", false)
+        val diagnostics = Speciality(4, "Diagnostics", false)
+        val immunology = Speciality(5, "Immunology", false)
+        val surgery = Speciality(6, "Surgery", false)
+        when(selectedOption){
+            "" ->{
+                focusspeciality = diagnostics
+            }
+            "Dentistry" ->{
+                focusspeciality = dentistry
+            }
+            "Radiology" ->{
+                focusspeciality = radiology
+            }
+            "Neurology" ->{
+                focusspeciality = neurology
+            }
+            "Diagnostics" ->{
+                focusspeciality = diagnostics
+            }
+            "Immunology" ->{
+                focusspeciality = immunology
+            }
+            "Surgery" ->{
+                focusspeciality = surgery
+            }
+        }
+        if (doctorMeta.specialities != null){
+            if (focusspeciality !in doctorMeta.specialities!!){
+                doctorMeta.specialities!!.add(focusspeciality)
+            }
+
+        }
+        return doctorMeta.specialities!!
     }
 
 

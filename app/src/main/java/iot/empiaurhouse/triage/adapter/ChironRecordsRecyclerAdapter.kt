@@ -486,7 +486,7 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
         when(recordID){
             1 ->{
                 val focusPatient = patientsList!![position]
-                val input = AllRecordsFragmentDirections.editRecordDetails(recordID, focusPatient, null, null, null, null)
+                val input = AllRecordsFragmentDirections.editRecordDetails(recordID, focusPatient, null, null, null, null, null)
                 viewControls.navigate(input)
 
             }
@@ -501,28 +501,30 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
             }
             5 ->{
                 val focusPractitioner = practitionersList!![position]
-                val input = AllRecordsFragmentDirections.editRecordDetails(recordID, null, focusPractitioner, null, null, null)
+                val input = AllRecordsFragmentDirections.editRecordDetails(recordID, null, focusPractitioner, null, null, null, null)
                 viewControls.navigate(input)
 
             }
             6 ->{
                 val focusDoctor = doctorsList!![position]
-                val input = AllRecordsFragmentDirections.editRecordDetails(recordID, null, null, null, null, focusDoctor)
+                val input = AllRecordsFragmentDirections.editRecordDetails(recordID, null, null, null, null, focusDoctor, null)
                 viewControls.navigate(input)
             }
             7 ->{
                 val focusRegisteredNurse = registeredNursesList!![position]
-                val input = AllRecordsFragmentDirections.editRecordDetails(recordID, null, null, focusRegisteredNurse, null, null)
+                val input = AllRecordsFragmentDirections.editRecordDetails(recordID, null, null, focusRegisteredNurse, null, null, null)
                 viewControls.navigate(input)
 
             }
             8 ->{
                 val focusNursePractitioner = nursePractitionersList!![position]
-                val input = AllRecordsFragmentDirections.editRecordDetails(recordID, null, null, null, focusNursePractitioner, null)
+                val input = AllRecordsFragmentDirections.editRecordDetails(recordID, null, null, null, focusNursePractitioner, null, null)
                 viewControls.navigate(input)
             }
             9 ->{
-
+                val focusPharmaceutical = pharmaceuticalsList!![position]
+                val input = AllRecordsFragmentDirections.editRecordDetails(recordID, null, null, null, null, null, focusPharmaceutical)
+                viewControls.navigate(input)
             }
         }
 

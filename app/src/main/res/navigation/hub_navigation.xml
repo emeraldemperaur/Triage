@@ -220,6 +220,12 @@
             android:name="Doctor"
             app:argType="iot.empiaurhouse.triage.model.Doctor"/>
 
+        <argument
+            app:nullable="true"
+            android:name="Pharmaceutical"
+            app:argType="iot.empiaurhouse.triage.model.Pharmaceuticals"/>
+
+
         <action
             android:id="@+id/editing_record_dialog"
             app:destination="@id/record_editor_dialog">
@@ -252,6 +258,11 @@
                 app:nullable="true"
                 android:name="Doctor"
                 app:argType="iot.empiaurhouse.triage.model.Doctor"/>
+
+            <argument
+                app:nullable="true"
+                android:name="Pharmaceutical"
+                app:argType="iot.empiaurhouse.triage.model.Pharmaceuticals"/>
 
 
         </action>
@@ -294,6 +305,12 @@
             app:nullable="true"
             android:name="Doctor"
             app:argType="iot.empiaurhouse.triage.model.Doctor"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Pharmaceutical"
+            app:argType="iot.empiaurhouse.triage.model.Pharmaceuticals"/>
+
 
 
     </fragment>

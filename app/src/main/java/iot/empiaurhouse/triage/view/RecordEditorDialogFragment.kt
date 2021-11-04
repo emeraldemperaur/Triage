@@ -39,6 +39,7 @@ class RecordEditorDialogFragment : Fragment() {
     private lateinit var registeredNurse: RegisteredNurse
     private lateinit var nursePractitioner: NursePractitioner
     private lateinit var doctor: Doctor
+    private lateinit var pharmaceutical: Pharmaceuticals
     private lateinit var entityType: String
     private lateinit var editStatus: String
     private lateinit var recordEditLabel: TextView
@@ -102,6 +103,12 @@ class RecordEditorDialogFragment : Fragment() {
             doctor = args.doctor!!
             if (doctor.id != null){
                 metaDataID = doctor.id
+            }
+        }
+        if (args.pharmaceutical != null){
+            pharmaceutical = args.pharmaceutical!!
+            if (pharmaceutical.id != null){
+                metaDataID = pharmaceutical.id
             }
         }
         initRecordEditDialog(recordID!!)
@@ -171,6 +178,7 @@ class RecordEditorDialogFragment : Fragment() {
             9 ->{
                 entityType = "Pharmaceutical"
                 recordEditEntity.text = entityType
+                recordEditLabel.text = pharmaceutical.brandName
             }
         }
 

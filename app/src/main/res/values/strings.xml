@@ -277,6 +277,7 @@
     <string name="duration">Duration</string>
     <string name="_90_days">90 Days</string>
     <string name="batch_number">BATCH NUMBER</string>
+    <string name="batch_number_lc">Batch Number</string>
     <string name="every_3_hours">every 3 Hours</string>
     <string name="regimen">Regimen</string>
     <string name="amount">amount</string>
@@ -299,5 +300,7 @@
     <string name="creating">CREATING...</string>
     <string name="updating">UPDATING...</string>
     <string name="speciality">Speciality</string>
+    <string name="inventory">Inventory</string>
+    <string name="in_stock">In Stock</string>
 
 </resources>

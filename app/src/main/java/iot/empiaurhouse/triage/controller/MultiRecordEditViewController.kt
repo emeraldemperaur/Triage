@@ -260,4 +260,161 @@ class MultiRecordEditViewController {
     }
 
 
+    fun initPharmaceuticalEditorView(pharmaceuticals: Pharmaceuticals, pharmaceuticalEditView: ConstraintLayout,
+                                     editorMode: TextView, brandField: TextInputEditText, genericField: TextInputEditText,
+                                     chemicalField: TextInputEditText, makeDateField: TextInputEditText,
+                                     expiryDateField: TextInputEditText, manufacturerField: TextInputEditText,
+                                     batchNumberField: TextInputEditText, approvalNumberField: TextInputEditText,
+                                     inStockField: TextInputEditText, editorButton: MaterialButton){
+
+        editTitle = "CREATE"
+        buttonText = editTitle
+        pharmaceuticalEditView.visibility = View.VISIBLE
+        if (pharmaceuticals.id != null){
+            editTitle = "EDIT"
+            buttonText = "UPDATE"
+            brandField.setText(pharmaceuticals.brandName)
+            genericField.setText(pharmaceuticals.genericName)
+            chemicalField.setText(pharmaceuticals.chemicalName)
+            manufacturerField.setText(pharmaceuticals.manufacturerName)
+            batchNumberField.setText(pharmaceuticals.batchNumber)
+            approvalNumberField.setText(pharmaceuticals.approvalNumber)
+            inStockField.setText(pharmaceuticals.inStock.toString())
+            makeDateField.setText(pharmaceuticals.manufactureDate)
+            expiryDateField.setText(pharmaceuticals.expiryDate)
+            makeDateField.inputType = InputType.TYPE_NULL
+            makeDateField.setTextIsSelectable(false)
+            makeDateField.isFocusable = false
+            expiryDateField.inputType = InputType.TYPE_NULL
+            expiryDateField.setTextIsSelectable(false)
+            expiryDateField.isFocusable = false
+            makeDateField.setOnClickListener {
+                val cal = Calendar.getInstance()
+                var y = cal.get(Calendar.YEAR)
+                var m = cal.get(Calendar.MONTH)
+                var d = cal.get(Calendar.DAY_OF_MONTH)
+                if (!makeDateField.text.isNullOrBlank()){
+                    val makeDate = makeDateField.text!!.split("-")
+                    y = makeDate[0].toInt()
+                    m = makeDate[1].toInt() - 1
+                    d = makeDate[2].toInt()
+                }
+
+
+                val datePickerDialog:DatePickerDialog = DatePickerDialog(pharmaceuticalEditView.context, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    val monthInt = monthOfYear + 1
+                    var monthStr = monthInt.toString()
+                    var dayInt = dayOfMonth.toString()
+                    if (dayOfMonth < 10){
+                        dayInt = "0$dayInt"
+                    }
+                    if (monthInt < 10){
+                        monthStr = "0$monthInt"
+                    }
+                    val datePicked = "$year-$monthStr-$dayInt"
+                    makeDateField.setText(datePicked)
+                }, y, m, d)
+
+                datePickerDialog.show()
+            }
+            expiryDateField.setOnClickListener {
+                val cal = Calendar.getInstance()
+                var y = cal.get(Calendar.YEAR)
+                var m = cal.get(Calendar.MONTH)
+                var d = cal.get(Calendar.DAY_OF_MONTH)
+                if (!expiryDateField.text.isNullOrBlank()){
+                    val expiryDate = expiryDateField.text!!.split("-")
+                    y = expiryDate[0].toInt()
+                    m = expiryDate[1].toInt() - 1
+                    d = expiryDate[2].toInt()
+                }
+
+
+                val datePickerDialog:DatePickerDialog = DatePickerDialog(pharmaceuticalEditView.context, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    val monthInt = monthOfYear + 1
+                    var monthStr = monthInt.toString()
+                    var dayInt = dayOfMonth.toString()
+                    if (dayOfMonth < 10){
+                        dayInt = "0$dayInt"
+                    }
+                    if (monthInt < 10){
+                        monthStr = "0$monthInt"
+                    }
+                    val datePicked = "$year-$monthStr-$dayInt"
+                    expiryDateField.setText(datePicked)
+                }, y, m, d)
+
+                datePickerDialog.show()
+            }
+
+        }else {
+            makeDateField.inputType = InputType.TYPE_NULL
+            makeDateField.setTextIsSelectable(false)
+            makeDateField.isFocusable = false
+            expiryDateField.inputType = InputType.TYPE_NULL
+            expiryDateField.setTextIsSelectable(false)
+            expiryDateField.isFocusable = false
+            makeDateField.setOnClickListener {
+                val cal = Calendar.getInstance()
+                var y = cal.get(Calendar.YEAR)
+                var m = cal.get(Calendar.MONTH)
+                var d = cal.get(Calendar.DAY_OF_MONTH)
+                if (!makeDateField.text.isNullOrBlank()){
+                    val makeDate = makeDateField.text!!.split("-")
+                    y = makeDate[0].toInt()
+                    m = makeDate[1].toInt() - 1
+                    d = makeDate[2].toInt()
+                }
+                val datePickerDialog:DatePickerDialog = DatePickerDialog(pharmaceuticalEditView.context, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    val monthInt = monthOfYear + 1
+                    var monthStr = monthInt.toString()
+                    var dayInt = dayOfMonth.toString()
+                    if (dayOfMonth < 10){
+                        dayInt = "0$dayInt"
+                    }
+                    if (monthInt < 10){
+                        monthStr = "0$monthInt"
+                    }
+                    val datePicked = "$year-$monthStr-$dayInt"
+                    makeDateField.setText(datePicked)
+                }, y, m, d)
+
+                datePickerDialog.show()
+            }
+            expiryDateField.setOnClickListener {
+                val cal = Calendar.getInstance()
+                var y = cal.get(Calendar.YEAR)
+                var m = cal.get(Calendar.MONTH)
+                var d = cal.get(Calendar.DAY_OF_MONTH)
+                if (!expiryDateField.text.isNullOrBlank()){
+                    val expiryDate = expiryDateField.text!!.split("-")
+                    y = expiryDate[0].toInt()
+                    m = expiryDate[1].toInt() - 1
+                    d = expiryDate[2].toInt()
+                }
+                val datePickerDialog:DatePickerDialog = DatePickerDialog(pharmaceuticalEditView.context, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    val monthInt = monthOfYear + 1
+                    var monthStr = monthInt.toString()
+                    var dayInt = dayOfMonth.toString()
+                    if (dayOfMonth < 10){
+                        dayInt = "0$dayInt"
+                    }
+                    if (monthInt < 10){
+                        monthStr = "0$monthInt"
+                    }
+                    val datePicked = "$year-$monthStr-$dayInt"
+                    expiryDateField.setText(datePicked)
+                }, y, m, d)
+
+                datePickerDialog.show()
+            }
+
+        }
+        editorMode.text = editTitle
+        editorButton.text = buttonText
+
+
+    }
+
+
 }
