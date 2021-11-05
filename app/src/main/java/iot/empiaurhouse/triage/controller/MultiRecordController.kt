@@ -502,7 +502,7 @@ class MultiRecordController {
                                      pharmaceuticalRecordView: ConstraintLayout, pharmaceuticalRxName: TextView,
                                      pharmaceuticalManufacturer: TextView, pharmaceuticalMakeDate: TextView,
                                      pharmaceuticalExpiryDate: TextView, pharmaceuticalGenericName: TextView,
-                                     pharmaceuticalChemicalName: TextView, pharmaceuticalLotID: TextView,
+                                     pharmaceuticalChemicalName: TextView, pharmaceuticalLotID: TextView, pharmaceuticalLotIcon: ImageView,
                                      pharmaceuticalApprovalID: TextView, pharmaceuticalCount: TextView,
                                      restockButton: MaterialButton){
 
@@ -521,7 +521,11 @@ class MultiRecordController {
             val holderTxt = "Not Provided"
             pharmaceuticalChemicalName.text = holderTxt
         }
-        pharmaceuticalLotID.text = pharmaceuticalRecord.batchNumber
+        if (!pharmaceuticalRecord.batchNumber.isNullOrBlank()){
+            pharmaceuticalLotID.text = pharmaceuticalRecord.batchNumber
+            pharmaceuticalLotID.setTextColor(Color.parseColor("#0c204f"))
+            pharmaceuticalLotIcon.setColorFilter(Color.parseColor("#0c204f"))
+        }
         if (pharmaceuticalRecord.batchNumber.isNullOrBlank()){
             val lotHolderTxt = "No Lot #"
             pharmaceuticalLotID.text = lotHolderTxt

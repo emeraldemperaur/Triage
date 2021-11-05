@@ -311,6 +311,47 @@
             android:name="Pharmaceutical"
             app:argType="iot.empiaurhouse.triage.model.Pharmaceuticals"/>
 
+        <action
+            android:id="@+id/view_editor_record_details"
+            app:destination="@id/allRecordsView">
+            <argument
+                android:name="recordID"
+                app:argType="integer"/>
+
+            <argument
+                app:nullable="true"
+                android:name="Patient"
+                app:argType="iot.empiaurhouse.triage.model.Patient"/>
+
+
+            <argument
+                app:nullable="true"
+                android:name="Practitioner"
+                app:argType="iot.empiaurhouse.triage.model.Practitioner"/>
+
+            <argument
+                app:nullable="true"
+                android:name="Doctor"
+                app:argType="iot.empiaurhouse.triage.model.Doctor"/>
+
+            <argument
+                app:nullable="true"
+                android:name="RegisteredNurse"
+                app:argType="iot.empiaurhouse.triage.model.RegisteredNurse"/>
+
+            <argument
+                app:nullable="true"
+                android:name="NursePractitioner"
+                app:argType="iot.empiaurhouse.triage.model.NursePractitioner"/>
+
+            <argument
+                app:nullable="true"
+                android:name="Pharmaceutical"
+                app:argType="iot.empiaurhouse.triage.model.Pharmaceuticals"/>
+
+
+        </action>
+
 
 
     </fragment>

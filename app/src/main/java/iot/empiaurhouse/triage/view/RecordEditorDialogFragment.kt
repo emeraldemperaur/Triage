@@ -14,6 +14,8 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import iot.empiaurhouse.triage.R
@@ -44,6 +46,7 @@ class RecordEditorDialogFragment : Fragment() {
     private lateinit var editStatus: String
     private lateinit var recordEditLabel: TextView
     private lateinit var toolbarView: CollapsingToolbarLayout
+    private lateinit var navController: NavController
     private var metaDataID: Int? = null
     private var recordID: Int? = null
     private val args: RecordEditorDialogFragmentArgs by navArgs()
@@ -74,6 +77,7 @@ class RecordEditorDialogFragment : Fragment() {
         toolbarView = requireActivity().findViewById(R.id.hub_collapsing_toolbar)
         toolbarView.visibility = View.GONE
         rotateAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate)
+        navController = findNavController()
         recordID = args.recordID
         if (args.patient != null){
             patient = args.patient!!
@@ -113,6 +117,14 @@ class RecordEditorDialogFragment : Fragment() {
         }
         initRecordEditDialog(recordID!!)
         onBackPressed()
+
+        //test edited view - pre service response controller
+        recordEditStatusIcon.setOnClickListener {
+            Handler(Looper.getMainLooper()).postDelayed({
+                initViewProcessor(recordID!!)
+            }, 10000)
+
+        }
 
     }
 
@@ -182,6 +194,54 @@ class RecordEditorDialogFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun initViewProcessor(recordID: Int){
+        when(recordID){
+            1 ->{
+                val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, patient,
+                    null, null, null, null, null,
+                    null, null, null)
+                navController.navigate(input)
+
+            }
+
+            5 ->{
+                val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, null,
+                    practitioner, null, null, null, null,
+                    null, null, null)
+                navController.navigate(input)
+
+            }
+            6 ->{
+                val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, null,
+                    null, doctor, null, null, null,
+                    null, null, null)
+                navController.navigate(input)
+
+            }
+            7 ->{
+                val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, null,
+                    null, null, registeredNurse, null, null,
+                    null, null, null)
+                navController.navigate(input)
+            }
+            8 ->{
+                val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, null,
+                    null, null, null, nursePractitioner, null,
+                    null, null, null)
+                navController.navigate(input)
+
+            }
+            9 ->{
+                val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, null,
+                    null, null, null, null, pharmaceutical,
+                    null, null, null)
+                navController.navigate(input)
+
+
+            }
+        }
     }
 
     fun onBackPressed(){

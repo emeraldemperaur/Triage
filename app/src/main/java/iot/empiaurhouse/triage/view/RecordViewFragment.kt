@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -126,6 +127,7 @@ class RecordViewFragment : Fragment() {
     private lateinit var pharmaceuticalGenericName: TextView
     private lateinit var pharmaceuticalChemicalName: TextView
     private lateinit var pharmaceuticalLotID: TextView
+    private lateinit var pharmaceuticalLotIcon: ImageView
     private lateinit var pharmaceuticalApprovalID: TextView
     private lateinit var pharmaceuticalCount: TextView
     private lateinit var pharmaceuticalButton: MaterialButton
@@ -267,6 +269,7 @@ class RecordViewFragment : Fragment() {
         pharmaceuticalGenericName = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailGenericNameText
         pharmaceuticalChemicalName = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailChemicalNameText
         pharmaceuticalLotID = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailLotNumberIconText
+        pharmaceuticalLotIcon = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailLotNumberIcon
         pharmaceuticalApprovalID = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailApprovalNumberText
         pharmaceuticalCount = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailInventoryCount
         pharmaceuticalButton = binding.pharmaceuticalRecordsViewInclude.pharmaceuticalDetailRestockButton
@@ -302,6 +305,7 @@ class RecordViewFragment : Fragment() {
         recordController = MultiRecordController()
         initMultiRecordView(recordID!!)
         initViewExit()
+        onBackPressed()
 
     }
 
@@ -370,7 +374,7 @@ class RecordViewFragment : Fragment() {
                     recordController.initPharmaceuticalRecordView(requireActivity(), pharmaceuticals,
                         pharmaceuticalRecordView, pharmaceuticalRxName, pharmaceuticalManufacturer,
                         pharmaceuticalMakeDate, pharmaceuticalExpiryDate, pharmaceuticalGenericName,
-                        pharmaceuticalChemicalName, pharmaceuticalLotID, pharmaceuticalApprovalID,
+                        pharmaceuticalChemicalName, pharmaceuticalLotID,pharmaceuticalLotIcon, pharmaceuticalApprovalID,
                         pharmaceuticalCount, pharmaceuticalButton)
                 }
             }
@@ -379,7 +383,8 @@ class RecordViewFragment : Fragment() {
 
     private fun initViewExit(){
         exitRecordViewButton.setOnClickListener {
-            navController.navigateUp()
+            //navController.navigateUp()
+            navController.popBackStack(R.id.allRecords, false)
             searchButton.visibility = View.VISIBLE
             userName.visibility = View.VISIBLE
         }
@@ -397,6 +402,17 @@ class RecordViewFragment : Fragment() {
         searchButton.visibility = View.GONE
         userName.visibility = View.VISIBLE
 
+    }
+
+    fun onBackPressed(){
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                isEnabled = true
+                navController.popBackStack(R.id.allRecords, false)
+                searchButton.visibility = View.VISIBLE
+                userName.visibility = View.VISIBLE
+            }
+        })
     }
 
 
