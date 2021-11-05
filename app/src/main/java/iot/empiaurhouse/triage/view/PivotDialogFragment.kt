@@ -23,19 +23,12 @@ import iot.empiaurhouse.triage.databinding.FragmentPivotDialogBinding
 import iot.empiaurhouse.triage.model.DataPivot
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [PivotDialogFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class PivotDialogFragment : DialogFragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding: FragmentPivotDialogBinding
@@ -68,6 +61,10 @@ class PivotDialogFragment : DialogFragment() {
     private lateinit var toolbarView: CollapsingToolbarLayout
     private lateinit var hubUserName: TextView
     private lateinit var pivotController: PivotController
+    private lateinit var stagedDataPivot: DataPivot
+    private var renderComplete: Boolean = false
+    private lateinit var navigationControl: NavController
+    private val args: PivotDialogFragmentArgs by navArgs()
 
 
 
@@ -125,14 +122,25 @@ class PivotDialogFragment : DialogFragment() {
         navigationControl = view.findNavController()
         pivotController = PivotController()
         stagedDataPivot = args.dataPivot
-
-        //Pivot Object
-        pivotController.initPivotDialog(requireContext(), stagedDataPivot, triageBot, pivotDialogView, pivotingText,
+        renderComplete = pivotController.initPivotDialog(requireContext(), stagedDataPivot, navigationControl,
+            triageBot, pivotDialogView, pivotingText,
         pivotLabel,dataModelTitle, dataModelText, endPointTitle, endPointText, pivotTypeTitle,pivotTypeText, parameterTitle,
         alphaParamTitle, alphaParamText, betaParamTitle, betaParamText, epsilonParamTitle, epsilonParamText, timeStreamTitle,
         timeStreamText, chiParamTitle, chiParamText, psiParamTitle, psiParamText, pivotProgress)
+        onBackPressed()
 
+    }
 
+    private fun pivotProcess(renderComplete: Boolean){
+        if (renderComplete || !renderComplete){
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (navigationControl.currentDestination == navigationControl.graph.findNode(R.id.pivot_dialog)) {
+                    val input = PivotDialogFragmentDirections.viewPivotAction(stagedDataPivot)
+                    navigationControl.navigate(input)
+                }
+            }, 10000)
+
+        }
     }
 
 
@@ -157,15 +165,6 @@ class PivotDialogFragment : DialogFragment() {
 
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PivotDialogFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             PivotDialogFragment().apply {
