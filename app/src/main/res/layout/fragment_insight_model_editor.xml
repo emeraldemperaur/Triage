@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.InsightModelEditorFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/chiron_insights_editor_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/chiron_insights_editor_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <ImageView
+                android:visibility="visible"
+                android:elevation="13dp"
+                android:scaleType="fitXY"
+                android:id="@+id/insight_editor_icon"
+                android:src="@drawable/ic_baseline_insights_24"
+                android:layout_marginTop="59dp"
+                android:layout_marginEnd="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_width="69dp"
+                android:layout_height="69dp"
+                app:tint="@color/chiron_blue"
+                android:contentDescription="@string/data_n_pivots" />
+
+            <TextView
+                android:id="@+id/chiron_records_size"
+                android:layout_marginTop="81dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/insight_editor_icon"
+                android:letterSpacing="0.36"
+                android:text="@string/create"
+                android:textColor="@color/chiron_blue"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/montserratsemibold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:elevation="3dp"
+                android:id="@+id/insight_editor_title_focus"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="3dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/insight_editor_icon"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                android:layout_height="1dp"/>
+
+
+            <TextView
+                android:breakStrategy="high_quality"
+                android:id="@+id/insight_editor_title"
+                app:layout_constraintTop_toBottomOf="@id/insight_editor_title_focus"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:lines="1"
+                android:minLines="1"
+                android:letterSpacing="0.36"
+                android:fontFamily="@font/montserratlight"
+                android:textSize="21sp"
+                android:textColor="@color/black"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="?actionBarSize"
+                android:text="@string/insight_n_model"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:targetApi="m" />
+
+
+            <View
+                android:elevation="3dp"
+                android:id="@+id/pivot_editor_line1"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="3dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/insight_editor_title"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/pivot_editor_label_card"
+                app:cardElevation="33dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pivot_editor_line1"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="150dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="33dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:id="@+id/insightEditorVistaLabelField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/vista_label"
+                        app:hintAnimationEnabled="true"
+                        app:hintTextAppearance="@style/HintTextTheme"
+                        app:errorTextColor="@color/chiron_red"
+                        app:endIconMode="custom"
+                        app:endIconDrawable="@drawable/ic_baseline_insights_24"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/insightEditorVistaLabelFieldText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserratregular"
+                            android:textSize="21sp"
+                            android:focusable="true"
+                            android:inputType="textNoSuggestions"
+                            android:textColor="@color/chiron_blue"
+                            android:maxLength="24"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <include
+                android:elevation="39dp"
+                android:paddingBottom="0dp"
+                android:id="@+id/vista_type_editor_view_include"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="510dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pivot_editor_label_card"
+                layout="@layout/vista_type_editor_view"/>
+
+
+
+            <View
+                android:elevation="3dp"
+                android:id="@+id/insight_editor_line0"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="6dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vista_type_editor_view_include"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+
+
+
+
+            <View
+                android:visibility="gone"
+                android:elevation="3dp"
+                android:id="@+id/insight_editor_bottomline"
+                android:layout_marginTop="588dp"
+                android:layout_marginBottom="3dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/insight_editor_line0"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:visibility="gone"
+                android:theme="@style/InfoButtonTheme"
+                android:id="@+id/create_data_pivot_button"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="41dp"
+                android:layout_marginBottom="96dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="23dp"
+                android:text="@string/create_pivot"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.12"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:fontFamily="@font/montserratbold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/insight_editor_bottomline"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

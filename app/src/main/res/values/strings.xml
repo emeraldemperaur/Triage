@@ -134,6 +134,7 @@
     <string name="chrome">Chrome</string>
     <string name="_10000">10000</string>
     <string name="insight_n_models">INSIGHT MODELS</string>
+    <string name="insight_n_model">INSIGHT MODEL</string>
     <string name="data_n_pivots">DATA PIVOTS</string>
     <string name="data_n_pivot">DATA PIVOT</string>
     <string name="_23">23</string>
@@ -302,5 +303,7 @@
     <string name="speciality">Speciality</string>
     <string name="inventory">Inventory</string>
     <string name="in_stock">In Stock</string>
+    <string name="vista_label">Insight Alias</string>
+
 
 </resources>
