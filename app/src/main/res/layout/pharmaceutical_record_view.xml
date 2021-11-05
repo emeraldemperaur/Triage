@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="0dp"
                     android:layout_marginEnd="13dp"
-                    android:layout_marginTop="9dp"
+                    android:layout_marginTop="29dp"
                     android:fontFamily="@font/montserratlight"
                     android:letterSpacing="0.21"
                     android:text="@string/expiry_date"
