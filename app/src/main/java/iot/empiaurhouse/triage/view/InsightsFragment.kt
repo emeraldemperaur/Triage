@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
@@ -22,6 +24,9 @@ class InsightFragment : Fragment() {
     private lateinit var hubUserName: TextView
     private lateinit var searchButton: FloatingActionButton
     private lateinit var toolbarView: CollapsingToolbarLayout
+    private lateinit var insightButton: FloatingActionButton
+    private lateinit var navController: NavController
+
 
 
 
@@ -50,10 +55,22 @@ class InsightFragment : Fragment() {
         hubUserName = requireActivity().findViewById(R.id.hub_username_title)
         searchButton = requireActivity().findViewById(R.id.hub_search_button)
         toolbarView = requireActivity().findViewById(R.id.hub_collapsing_toolbar)
+        insightButton = binding.createInsightModel
+        navController = findNavController()
         hubUserName.visibility = View.VISIBLE
         searchButton.visibility = View.VISIBLE
         toolbarView.visibility = View.VISIBLE
+        initCreateInsight()
 
+
+    }
+
+
+    private fun initCreateInsight(){
+        insightButton.setOnClickListener {
+            val input = InsightFragmentDirections.newInsightModelAction()
+            navController.navigate(input)
+        }
 
     }
 

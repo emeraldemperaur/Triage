@@ -457,6 +457,20 @@
         android:label="Insights"
         tools:layout="@layout/fragment_insight">
 
+        <action
+            android:id="@+id/new_insight_model_action"
+            app:destination="@id/insight_model_editor">
+
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/insight_model_editor"
+        android:name="iot.empiaurhouse.triage.view.InsightModelEditorFragment"
+        android:label="Insight Model"
+        tools:layout="@layout/fragment_insight_model_editor">
+
     </fragment>
 
 
