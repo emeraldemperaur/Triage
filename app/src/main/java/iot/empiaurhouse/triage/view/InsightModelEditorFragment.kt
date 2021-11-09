@@ -4,13 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AutoCompleteTextView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.InsightModelController
 import iot.empiaurhouse.triage.databinding.FragmentInsightModelEditorBinding
@@ -42,6 +46,29 @@ class InsightModelEditorFragment : Fragment() {
     private lateinit var hubUserName: TextView
     private lateinit var searchButton: FloatingActionButton
     private var vistaCode: Int? = null
+    private var entityCode: Int? = null
+    private lateinit var patientButton: MaterialCardView
+    private lateinit var diagnosesButton: MaterialCardView
+    private lateinit var prescriptionButton: MaterialCardView
+    private lateinit var visitButton: MaterialCardView
+    private lateinit var pharmaceuticalButton: MaterialCardView
+    private lateinit var pointOfInterestView: ConstraintLayout
+    private lateinit var pointOfIntLine: View
+    private lateinit var entityTitle: TextView
+    private lateinit var vistaPointOfInterestField: TextInputLayout
+    private lateinit var vistaPointOfInterestFieldText: AutoCompleteTextView
+    private lateinit var startDateFieldText: TextInputEditText
+    private lateinit var startDateField: TextInputLayout
+    private lateinit var endDateFieldText: TextInputEditText
+    private lateinit var endDateField: TextInputLayout
+    private lateinit var aliasFieldText: TextInputEditText
+    private lateinit var aliasField: TextInputLayout
+    private lateinit var insightFocus: TextView
+    private lateinit var insightRangeType: TextView
+    private lateinit var thresholdTitle: TextView
+    private lateinit var thresholdBorderLine: View
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +105,27 @@ class InsightModelEditorFragment : Fragment() {
         vistaDescription = binding.vistaDescription
         vistaModelLayout = binding.vistaDataModelEditorViewInclude.vistaModelEditorLayout
         vistaModelLayoutLine = binding.insightEditorBottomliner
+        patientButton = binding.vistaDataModelEditorViewInclude.vistaModelPatientEntity
+        diagnosesButton = binding.vistaDataModelEditorViewInclude.vistaModelDiagnosisEntity
+        prescriptionButton = binding.vistaDataModelEditorViewInclude.vistaModelPrescriptionEntity
+        visitButton = binding.vistaDataModelEditorViewInclude.vistaModelVisitEntity
+        pharmaceuticalButton = binding.vistaDataModelEditorViewInclude.vistaModelPharmaceuticalEntity
+        pointOfInterestView = binding.vistaDataPointEditorViewInclude.root
+        pointOfIntLine = binding.insightEditorBottomlinerBtn
+        entityTitle = binding.vistaDataPointEditorViewInclude.vistaPointEditorViewEntityTitle
+        vistaPointOfInterestField = binding.vistaDataPointEditorViewInclude.vistaPointOfInterestField
+        vistaPointOfInterestFieldText = binding.vistaDataPointEditorViewInclude.vistaPointOfInterestFieldText
+        insightFocus = binding.vistaDataPointEditorViewInclude.vistaPointInsightRangeViewFocus
+        insightRangeType = binding.vistaDataPointEditorViewInclude.vistaPointInsightRangeViewDateType
+        startDateField = binding.vistaDataPointEditorViewInclude.insightRangeStartDateField
+        startDateFieldText = binding.vistaDataPointEditorViewInclude.insightRangeStartDateFieldText
+        endDateField = binding.vistaDataPointEditorViewInclude.insightRangeEndDateField
+        endDateFieldText = binding.vistaDataPointEditorViewInclude.insightRangeEndDateFieldText
+        aliasFieldText = binding.insightEditorVistaLabelFieldText
+        aliasField = binding.insightEditorVistaLabelField
         renderInsightButton = binding.createInsightButton
+        //thresholdTitle = binding.vistaDataPointEditorViewInclude.vistaPointEditorThresholdTitle
+        thresholdBorderLine = binding.insightEditorBottomlinerBtn
         insightController = InsightModelController()
         initInsightEditorView()
 
@@ -123,6 +170,12 @@ class InsightModelEditorFragment : Fragment() {
         vistaCode = insightController.initInsightModelEditor(requireContext(), insightEditorView, histogramButton,
             pieChartButton, lineChartButton, scatterPlotButton, vistaInfoView, vistaInfoBorder,
             vistaInfoTitle,vistaInfoSubTitle,vistaModelLayout,vistaModelLayoutLine, vistaDescription, hubUserName, searchButton, toolbarView)
+
+        entityCode = insightController.initOptionsEditorView(patientButton, diagnosesButton, prescriptionButton,
+            visitButton, pharmaceuticalButton, pointOfInterestView, pointOfIntLine, entityTitle,
+            vistaPointOfInterestField, vistaPointOfInterestFieldText,startDateFieldText, endDateFieldText,
+            renderInsightButton, insightFocus, insightRangeType, thresholdBorderLine)
+
     }
 
     companion object {

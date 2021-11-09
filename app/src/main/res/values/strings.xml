@@ -155,6 +155,7 @@
     <string name="blood__group">Blood Group</string>
     <string name="visit_date">Visit Date</string>
     <string name="birth_date">Birth Date</string>
+    <string name="diagnosis_date">Diagnosis Date</string>
     <string name="insurer_id">Insurer ID</string>
     <string name="level">Level</string>
     <string name="diagnosis_endpoints">Diagnosis Endpoints</string>
@@ -163,6 +164,7 @@
     <string name="prescriber_lc">Prescriber</string>
     <string name="prescriber_id">Prescriber ID</string>
     <string name="rx_date">Rx Date</string>
+    <string name="prescription_date_sc">Prescription Date</string>
     <string name="visit_endpoints">Visit Endpoints</string>
     <string name="visit_time">Visit Time</string>
     <string name="host_id">Host ID</string>

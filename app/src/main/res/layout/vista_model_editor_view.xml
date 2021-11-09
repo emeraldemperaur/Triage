@@ -51,7 +51,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/vista_model_patient_entity"
                     android:checkable="true"
-                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
+                    app:checkedIcon="@drawable/ic_baseline_done_outline_24"
                     app:checkedIconTint="@color/chiron_blue"
                     android:theme="@style/selectedButton"
                     android:background="?android:selectableItemBackground"
@@ -119,7 +119,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/vista_model_diagnosis_entity"
                     android:checkable="true"
-                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
+                    app:checkedIcon="@drawable/ic_baseline_done_outline_24"
                     app:checkedIconTint="@color/chiron_blue"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
@@ -196,7 +196,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/vista_model_prescription_entity"
                     android:checkable="true"
-                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
+                    app:checkedIcon="@drawable/ic_baseline_done_outline_24"
                     app:checkedIconTint="@color/chiron_blue"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
@@ -263,7 +263,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/vista_model_visit_entity"
                     android:checkable="true"
-                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
+                    app:checkedIcon="@drawable/ic_baseline_done_outline_24"
                     app:checkedIconTint="@color/chiron_blue"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
@@ -340,7 +340,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/vista_model_pharmaceutical_entity"
                     android:checkable="true"
-                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
+                    app:checkedIcon="@drawable/ic_baseline_done_outline_24"
                     app:checkedIconTint="@color/chiron_blue"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
