@@ -56,6 +56,39 @@
         <item name="lineSpacing">0.20dp</item>
     </style>
 
+    <style name="InsightHintTextTheme">
+        <item name="android:fontFamily">@font/montserratlight</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:gravity">center</item>
+        <item name="lineSpacing">0.20dp</item>
+    </style>
+
+    <style name="InsightRangeTextTheme">
+        <item name="android:fontFamily">@font/montserratlight</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:colorAccent">@color/white</item>
+        <item name="android:color">@color/white</item>
+        <item name="android:colorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="lineSpacing">0.20dp</item>
+    </style>
+
+    <style name="InsightInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="android:fontFamily">@font/montserratlight</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:gravity">center</item>
+        <item name="lineSpacing">0.20dp</item>
+        <item name="android:colorAccent">@color/white</item>
+        <item name="android:color">@color/white</item>
+        <item name="android:colorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
     <style name="TimeStreamPickerTheme">
         <item name="android:textColor">@color/chiron_grey</item>
         <item name="colorAccent">@color/chiron_blue</item>

@@ -49,7 +49,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/histogram_vista"
                     android:checkable="true"
-                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
+                    app:checkedIcon="@drawable/ic_baseline_done_outline_24"
                     app:checkedIconTint="@color/chiron_blue"
                     android:theme="@style/selectedButton"
                     android:background="?android:selectableItemBackground"
@@ -73,7 +73,7 @@
                             android:id="@+id/histogram_vista_icon_view"
                             android:layout_marginTop="13dp"
                             app:cardCornerRadius="9dp"
-                            app:cardElevation="23dp"
+                            app:cardElevation="13dp"
                             app:strokeWidth="1dp"
                             app:cardBackgroundColor="@color/chiron_blue"
                             app:strokeColor="@color/white"
@@ -117,9 +117,9 @@
 
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/pie_chart_vistas"
+                    android:id="@+id/pie_chart_vista"
                     android:checkable="true"
-                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
+                    app:checkedIcon="@drawable/ic_baseline_done_outline_24"
                     app:checkedIconTint="@color/chiron_blue"
                     android:background="?android:selectableItemBackground"
                     android:foreground="?android:attr/selectableItemBackground"
@@ -141,7 +141,7 @@
                             android:id="@+id/pie_chart_vista_icon_view"
                             android:layout_marginTop="13dp"
                             app:cardCornerRadius="9dp"
-                            app:cardElevation="23dp"
+                            app:cardElevation="13dp"
                             app:cardBackgroundColor="@color/chiron_blue"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
@@ -206,7 +206,7 @@
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardElevation="4dp"
-                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
+                    app:checkedIcon="@drawable/ic_baseline_done_outline_24"
                     app:checkedIconTint="@color/chiron_blue"
                     >
 
@@ -222,7 +222,7 @@
                             android:layout_marginTop="13dp"
                             app:cardBackgroundColor="@color/chiron_blue"
                             app:cardCornerRadius="9dp"
-                            app:cardElevation="23dp"
+                            app:cardElevation="13dp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -272,7 +272,7 @@
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardElevation="4dp"
-                    app:checkedIcon="@drawable/ic_baseline_add_check_24"
+                    app:checkedIcon="@drawable/ic_baseline_done_outline_24"
                     app:checkedIconTint="@color/chiron_blue"
                     >
 
@@ -288,7 +288,7 @@
                             android:layout_marginTop="13dp"
                             app:cardBackgroundColor="@color/chiron_blue"
                             app:cardCornerRadius="9dp"
-                            app:cardElevation="23dp"
+                            app:cardElevation="13dp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -326,20 +326,6 @@
 
             </LinearLayout>
 
-            <TextView
-                android:visibility="visible"
-                android:layout_marginTop="23dp"
-                android:gravity="center"
-                android:letterSpacing="0.11"
-                android:textColor="@color/chiron_blue"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="3dp"
-                android:textSize="14sp"
-                android:fontFamily="@font/montserratlight"
-                android:maxLines="4"
-                android:text="@string/triage_info_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
 
 
         </LinearLayout>

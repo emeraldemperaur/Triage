@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/chiron_insight_editor_view"
     tools:context=".view.InsightModelEditorFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -117,17 +118,17 @@
                     <com.google.android.material.textfield.TextInputLayout
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        android:gravity="center"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:gravity="center"
                         android:layout_marginTop="33dp"
-                        android:layout_marginStart="33dp"
-                        android:layout_marginEnd="33dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginEnd="0dp"
                         android:id="@+id/insightEditorVistaLabelField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/vista_label"
                         app:hintAnimationEnabled="true"
-                        app:hintTextAppearance="@style/HintTextTheme"
+                        app:hintTextAppearance="@style/InsightHintTextTheme"
                         app:errorTextColor="@color/chiron_red"
                         app:endIconMode="custom"
                         app:endIconDrawable="@drawable/ic_insight_title_icon"
@@ -135,16 +136,17 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/insightEditorVistaLabelFieldText"
-                            android:layout_width="match_parent"
+                            android:layout_width="299dp"
+                            android:gravity="center"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/montserratlight"
+                            android:fontFamily="@font/montserratregular"
                             android:textSize="21sp"
                             android:focusable="true"
-                            android:layout_marginStart="33dp"
-                            android:layout_marginEnd="33dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp"
                             android:inputType="textNoSuggestions"
                             android:textColor="@color/chiron_blue"
-                            android:maxLength="24"
+                            android:maxLength="19"
                             />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -156,17 +158,17 @@
 
 
             <include
-                android:elevation="39dp"
-                android:paddingBottom="0dp"
                 android:id="@+id/vista_type_editor_view_include"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="0dp"
+                layout="@layout/vista_type_editor_view"
                 android:layout_width="match_parent"
                 android:layout_height="588dp"
+                android:layout_marginTop="6dp"
+                android:elevation="39dp"
+                android:paddingBottom="0dp"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/pivot_editor_label_card"
-                layout="@layout/vista_type_editor_view"/>
+                app:layout_constraintTop_toBottomOf="@id/pivot_editor_label_card" />
 
 
 
@@ -182,7 +184,71 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
+            <LinearLayout
+                android:id="@+id/insight_vista_detail_title_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/silver"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/insight_editor_line0">
 
+                <TextView
+                    android:id="@+id/insight_vista_detail_title_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="23dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:fontFamily="@font/montserratlight"
+                    android:letterSpacing="0.21"
+                    android:text="@string/pie"
+                    android:textAllCaps="true"
+                    android:textColor="@color/chiron_blue"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/insight_vista_detail_title_subtext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:fontFamily="@font/montserratbold"
+                    android:letterSpacing="0.21"
+                    android:text="@string/chart"
+                    android:textAllCaps="true"
+                    android:textColor="@color/chiron_blue"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/vista_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="23dp"
+                    android:layout_marginEnd="6dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:fontFamily="@font/montserratlight"
+                    android:gravity="center"
+                    android:letterSpacing="0.11"
+                    android:maxLines="4"
+                    android:text=""
+                    android:textColor="@color/chiron_blue"
+                    android:textSize="14sp"
+                    android:textStyle="italic"
+                    android:visibility="visible" />
+
+
+            </LinearLayout>
 
 
 
@@ -190,20 +256,77 @@
                 android:visibility="gone"
                 android:elevation="3dp"
                 android:id="@+id/insight_editor_bottomline"
-                android:layout_marginTop="588dp"
-                android:layout_marginBottom="3dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="6dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/insight_editor_line0"
+                app:layout_constraintTop_toBottomOf="@id/insight_vista_detail_title_view"
                 android:background="@color/chiron_grey"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
 
+            <include
+                android:id="@+id/vista_data_model_editor_view_include"
+                layout="@layout/vista_model_editor_view"
+                android:layout_width="match_parent"
+                android:layout_height="588dp"
+                android:layout_marginTop="6dp"
+                android:elevation="39dp"
+                android:paddingBottom="0dp"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/insight_editor_bottomline" />
+
+            <View
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:visibility="gone"
+                android:elevation="3dp"
+                android:id="@+id/insight_editor_bottomliner"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="111dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vista_data_model_editor_view_include"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <include
+                android:visibility="gone"
+                android:elevation="39dp"
+                android:paddingBottom="0dp"
+                android:id="@+id/vista_data_point_editor_view_include"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="713dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/insight_editor_bottomliner"
+                layout="@layout/vista_point_editor_view"/>
+
+
+            <View
+                app:layout_constraintTop_toBottomOf="@id/vista_data_point_editor_view_include"
+                android:visibility="gone"
+                android:elevation="3dp"
+                android:id="@+id/insight_editor_bottomliner_btn"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
             <com.google.android.material.button.MaterialButton
                 android:visibility="gone"
                 android:theme="@style/InfoButtonTheme"
-                android:id="@+id/create_data_pivot_button"
+                android:id="@+id/create_insight_button"
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -211,7 +334,9 @@
                 android:layout_marginBottom="96dp"
                 android:paddingTop="13dp"
                 android:paddingBottom="23dp"
-                android:text="@string/create_pivot"
+                android:text="@string/render"
+                app:icon="@drawable/ic_baseline_insights_24"
+                app:iconGravity="textStart"
                 android:textColor="@color/white"
                 android:textSize="17sp"
                 android:textStyle="bold"
@@ -221,7 +346,7 @@
                 android:fontFamily="@font/montserratbold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/insight_editor_bottomline"
+                app:layout_constraintTop_toBottomOf="@id/insight_editor_bottomliner_btn"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
 

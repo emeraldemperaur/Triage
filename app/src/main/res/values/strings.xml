@@ -145,6 +145,7 @@
     <string name="pivot_label">Pivot Label</string>
     <string name="enter_pivot_label">Pivot Label/Alias</string>
     <string name="entity_type">Data Model</string>
+    <string name="entity_types">Data Models</string>
     <string name="visit">Visit</string>
     <string name="pharmaceutical">Pharmaceutical</string>
     <string name="practitioner_s">Practitioner(s)</string>
@@ -304,6 +305,20 @@
     <string name="inventory">Inventory</string>
     <string name="in_stock">In Stock</string>
     <string name="vista_label">Insight Alias</string>
-
-
+    <string name="pie">Pie</string>
+    <string name="chart">Chart</string>
+    <string name="point_of_interest">Point of Interest</string>
+    <string name="focus_endpoint">Focus Endpoint</string>
+    <string name="insight">Insight</string>
+    <string name="range">Range</string>
+    <string name="threshold_s">THRESHOLD(S)</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="pi_threshold_value">Pi Value</string>
+    <string name="omega_threshold_value">Omega Value</string>
+    <string name="render">RENDER</string>
+    <string name="histogram_info">Summarize discrete or continuous data that are measured on an internal scale</string>
+    <string name="pie_chart_info">Summarize a set of nominal data or display different values of a given variable</string>
+    <string name="line_chart_info">A visual comparison of how two variables shown on the X and Y axis are related or vary</string>
+    <string name="scatter_plot_info">A scatter plot shows the axial direction of a relationship between the data variables in focus</string>
 </resources>
