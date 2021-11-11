@@ -51,7 +51,7 @@ repositories {
 
 dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    def lifecycle_version = "2.3.1"
+    def lifecycle_version = "2.4.0"
     def arch_version = "2.1.0"
     def room_version = "2.3.0"
     def nav_version = "2.3.5"
@@ -83,8 +83,9 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
+
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     //implementation "io.reactivex.rxjava3:rxandroid:$RxJavaVersion"
@@ -92,7 +93,7 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation "com.github.bumptech.glide:glide:$glideVersion"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
     implementation 'androidx.palette:palette-ktx:1.0.0'
     implementation "androidx.preference:preference-ktx:$preference_version"
     implementation 'com.google.code.gson:gson:2.8.6'

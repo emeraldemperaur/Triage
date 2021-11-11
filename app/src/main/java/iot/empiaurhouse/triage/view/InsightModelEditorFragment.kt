@@ -1,5 +1,7 @@
 package iot.empiaurhouse.triage.view
 
+import android.app.AlertDialog
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +9,11 @@ import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
@@ -18,6 +23,7 @@ import com.google.android.material.textfield.TextInputLayout
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.InsightModelController
 import iot.empiaurhouse.triage.databinding.FragmentInsightModelEditorBinding
+import java.util.*
 
 
 private const val ARG_PARAM1 = "param1"
@@ -67,7 +73,10 @@ class InsightModelEditorFragment : Fragment() {
     private lateinit var insightRangeType: TextView
     private lateinit var thresholdTitle: TextView
     private lateinit var thresholdBorderLine: View
-
+    private lateinit var piThresholdFieldText: TextInputEditText
+    private lateinit var piThresholdField: TextInputLayout
+    private lateinit var omegaThresholdFieldText: TextInputEditText
+    private lateinit var omegaThresholdField: TextInputLayout
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,6 +96,7 @@ class InsightModelEditorFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentInsightModelEditorBinding.bind(view)
@@ -124,14 +134,20 @@ class InsightModelEditorFragment : Fragment() {
         aliasFieldText = binding.insightEditorVistaLabelFieldText
         aliasField = binding.insightEditorVistaLabelField
         renderInsightButton = binding.createInsightButton
+        omegaThresholdFieldText = binding.vistaDataPointEditorViewInclude.omegaThresholdFieldText
+        omegaThresholdField = binding.vistaDataPointEditorViewInclude.omegaThresholdField
+        piThresholdFieldText = binding.vistaDataPointEditorViewInclude.piThresholdFieldText
+        piThresholdField = binding.vistaDataPointEditorViewInclude.piThresholdField
         //thresholdTitle = binding.vistaDataPointEditorViewInclude.vistaPointEditorThresholdTitle
         thresholdBorderLine = binding.insightEditorBottomlinerBtn
         insightController = InsightModelController()
         initInsightEditorView()
+        onBackPressed()
 
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initInsightEditorView(){
         vistaCode = insightController.initInsightModelEditor(requireContext(), insightEditorView, histogramButton,
             pieChartButton, lineChartButton, scatterPlotButton, vistaInfoView, vistaInfoBorder,
@@ -140,6 +156,17 @@ class InsightModelEditorFragment : Fragment() {
 
         renderInsightButton.setOnClickListener {
             codeTalker()
+            if (vistaCode != null){
+            val insightCheck = insightController.isValidInsightModel(vistaCode!!, aliasFieldText,
+                aliasField, startDateFieldText, startDateField, endDateFieldText, endDateField, piThresholdFieldText,
+                piThresholdField, omegaThresholdFieldText, omegaThresholdField, vistaPointOfInterestField, vistaPointOfInterestFieldText)
+                if (insightCheck){
+                    // Insight Model Build
+                    println("Insight Output Result: $insightCheck \n\t-- vistaCode: $vistaCode \n\t-- entityCode: $entityCode")
+                }
+
+            }
+
         }
     }
 
@@ -174,9 +201,44 @@ class InsightModelEditorFragment : Fragment() {
         entityCode = insightController.initOptionsEditorView(patientButton, diagnosesButton, prescriptionButton,
             visitButton, pharmaceuticalButton, pointOfInterestView, pointOfIntLine, entityTitle,
             vistaPointOfInterestField, vistaPointOfInterestFieldText,startDateFieldText, endDateFieldText,
-            renderInsightButton, insightFocus, insightRangeType, thresholdBorderLine)
+            renderInsightButton, insightFocus, insightRangeType, thresholdBorderLine, omegaThresholdFieldText, omegaThresholdField)
 
     }
+
+
+    fun onBackPressed(){
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                isEnabled = true
+                val insightEditTitle = aliasFieldText.text.toString().trim()
+                val controller = findNavController()
+                if (insightEditTitle.isEmpty()){
+                    controller.navigateUp()
+                    isEnabled = false
+                }
+                else if (insightEditTitle.isNotBlank()){
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder.setTitle("Exiting Insight Model")
+                    builder.setIcon(R.drawable.ic_baseline_insights_24)
+                    builder.setMessage("Are you sure you'd like to discard this unsaved '${insightEditTitle.capitalize(
+                        Locale.ROOT)}' insight model?")
+                    builder.setPositiveButton("YES") { _, _ ->
+                        controller.navigateUp()
+                        isEnabled = false
+                    }
+
+                    builder.setNegativeButton("NO") { dialog, _ ->
+                        dialog.dismiss()
+                        isEnabled = true
+                    }
+                    builder.show()
+                }
+            }
+        })
+    }
+
+
+
 
     companion object {
 

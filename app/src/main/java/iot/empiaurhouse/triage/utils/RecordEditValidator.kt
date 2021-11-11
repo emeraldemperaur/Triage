@@ -21,7 +21,7 @@ class RecordEditValidator {
        viewContext = context
    }
 
-    private fun isValidText(inputField: TextInputEditText, inputFieldLayout: TextInputLayout, inputLabel: String): Boolean{
+    fun isValidText(inputField: TextInputEditText, inputFieldLayout: TextInputLayout, inputLabel: String): Boolean{
         var isValid = false
         if (inputField.text.isNullOrBlank()){
             isValid = false
@@ -30,6 +30,32 @@ class RecordEditValidator {
             inputFieldLayout.isFocusable = true
             inputFieldLayout.isFocusable = false
             val missingFieldPrompt = Snackbar.make(viewContext,"Please provide missing biodata | ${inputLabel.capitalize(
+                Locale.ROOT
+            )
+            }", Snackbar.LENGTH_LONG)
+
+            missingFieldPrompt.anchorView = viewContext.rootView.findViewById(R.id.hub_foot_nav)
+            missingFieldPrompt.show()
+
+        }
+        else if (!inputField.text.isNullOrBlank()){
+            isValid = true
+            inputFieldLayout.error = null
+            inputFieldLayout.boxStrokeColor = Color.parseColor("#0c204f")
+
+        }
+        return isValid
+    }
+
+    fun isValidIText(inputField: TextInputEditText, inputFieldLayout: TextInputLayout, inputLabel: String): Boolean{
+        var isValid = false
+        if (inputField.text.isNullOrBlank()){
+            isValid = false
+            inputFieldLayout.error = "Required"
+            inputFieldLayout.boxStrokeColor = Color.parseColor("#800020")
+            inputFieldLayout.isFocusable = true
+            inputFieldLayout.isFocusable = false
+            val missingFieldPrompt = Snackbar.make(viewContext,"Please provide required metadata | ${inputLabel.capitalize(
                 Locale.ROOT
             )
             }", Snackbar.LENGTH_LONG)
@@ -89,7 +115,7 @@ class RecordEditValidator {
         return isValid
     }
 
-    private fun isValidBloodText(inputField: AutoCompleteTextView, inputFieldLayout: TextInputLayout, inputLabel: String): Boolean{
+    fun isValidBloodText(inputField: AutoCompleteTextView, inputFieldLayout: TextInputLayout, inputLabel: String): Boolean{
         var isValid = false
 
         if (inputField.text.isNullOrBlank()){
@@ -99,6 +125,32 @@ class RecordEditValidator {
             inputFieldLayout.isFocusable = true
             inputFieldLayout.requestFocus()
             val missingFieldPrompt = Snackbar.make(viewContext,"Please provide required biodata | ${inputLabel.capitalize(
+                Locale.ROOT
+            )
+            }", Snackbar.LENGTH_LONG)
+
+            missingFieldPrompt.anchorView = viewContext.rootView.findViewById(R.id.hub_foot_nav)
+            missingFieldPrompt.show()
+        }
+        else if (!inputField.text.isNullOrBlank()){
+            isValid = true
+            inputFieldLayout.error = null
+            inputFieldLayout.boxStrokeColor = Color.parseColor("#0c204f")
+
+        }
+        return isValid
+    }
+
+    fun isValidPOIText(inputField: AutoCompleteTextView, inputFieldLayout: TextInputLayout, inputLabel: String): Boolean{
+        var isValid = false
+
+        if (inputField.text.isNullOrBlank()){
+            isValid = false
+            inputFieldLayout.error = "Required"
+            inputFieldLayout.boxStrokeColor = Color.parseColor("#800020")
+            inputFieldLayout.isFocusable = true
+            inputFieldLayout.requestFocus()
+            val missingFieldPrompt = Snackbar.make(viewContext,"Please provide required metadata | ${inputLabel.capitalize(
                 Locale.ROOT
             )
             }", Snackbar.LENGTH_LONG)
@@ -201,7 +253,7 @@ class RecordEditValidator {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun isValidTimeText(inputField1: TextInputEditText, inputFieldLayout1: TextInputLayout,
+     fun isValidTimeText(inputField1: TextInputEditText, inputFieldLayout1: TextInputLayout,
                                 inputField2: TextInputEditText, inputFieldLayout2: TextInputLayout): Boolean{
         var isValid = false
         val makeDate = LocalDate.parse(inputField1.text.toString())
@@ -218,6 +270,40 @@ class RecordEditValidator {
             inputFieldLayout2.isFocusable = false
             inputFieldLayout1.requestFocus()
             val missingFieldPrompt = Snackbar.make(viewContext,"Please provide a valid Make & Expiry Date", Snackbar.LENGTH_LONG)
+            missingFieldPrompt.anchorView = viewContext.rootView.findViewById(R.id.hub_foot_nav)
+            missingFieldPrompt.show()
+        } else if (expiryDate > makeDate){
+            isValid = true
+            inputFieldLayout1.error = null
+            inputFieldLayout1.boxStrokeColor = Color.parseColor("#0c204f")
+            inputFieldLayout1.isFocusable = false
+            inputFieldLayout2.isFocusable = false
+            inputFieldLayout2.error = null
+            inputFieldLayout2.boxStrokeColor = Color.parseColor("#0c204f")
+
+        }
+
+        return isValid
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun isValidITimeText(inputField1: TextInputEditText, inputFieldLayout1: TextInputLayout,
+                        inputField2: TextInputEditText, inputFieldLayout2: TextInputLayout): Boolean{
+        var isValid = false
+        val makeDate = LocalDate.parse(inputField1.text.toString())
+        val expiryDate = LocalDate.parse(inputField2.text.toString())
+        if (makeDate > expiryDate || makeDate == expiryDate){
+            isValid = false
+            inputFieldLayout1.error = "Invalid Start Date"
+            inputFieldLayout1.boxStrokeColor = Color.parseColor("#800020")
+            inputFieldLayout1.isFocusable = true
+            inputFieldLayout1.isFocusable = false
+            inputFieldLayout2.error = "Invalid End Date"
+            inputFieldLayout2.boxStrokeColor = Color.parseColor("#800020")
+            inputFieldLayout2.isFocusable = true
+            inputFieldLayout2.isFocusable = false
+            inputFieldLayout1.requestFocus()
+            val missingFieldPrompt = Snackbar.make(viewContext,"Please provide a valid Start & End Date", Snackbar.LENGTH_LONG)
             missingFieldPrompt.anchorView = viewContext.rootView.findViewById(R.id.hub_foot_nav)
             missingFieldPrompt.show()
         } else if (expiryDate > makeDate){

@@ -2,6 +2,7 @@ package iot.empiaurhouse.triage.controller
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.os.Build
 import android.text.InputType
 import android.view.View
 import android.view.animation.Animation
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.button.MaterialButton
@@ -18,6 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import iot.empiaurhouse.triage.R
+import iot.empiaurhouse.triage.utils.RecordEditValidator
 import java.util.*
 
 class InsightModelController {
@@ -30,6 +33,8 @@ class InsightModelController {
     private lateinit var vistaDescribe: TextView
     private lateinit var modelLayout: LinearLayout
     private lateinit var modelLayoutLine: View
+    private lateinit var omegaThresholdEditText: TextInputEditText
+    private lateinit var omegaThresholdEdit: TextInputLayout
     private lateinit var modelType: TextView
     private lateinit var insightPointLayout: ConstraintLayout
     private lateinit var insightPointLayoutLine: View
@@ -85,24 +90,29 @@ class InsightModelController {
                         vistaCode = 1
                         toggleEntityOptions(vista, vistaOptions)
                         toggleEntityOptionLayouts(vistaCode!!)
+                        initOmegaInput(vistaCode!!, omegaThresholdEditText, omegaThresholdEdit)
 
                     }
                     R.id.pie_chart_vista ->{
                         vistaCode = 2
                         toggleEntityOptions(vista, vistaOptions)
                         toggleEntityOptionLayouts(vistaCode!!)
+                        initOmegaInput(vistaCode!!, omegaThresholdEditText, omegaThresholdEdit)
 
                     }
                     R.id.line_chart_vista ->{
                         vistaCode = 3
                         toggleEntityOptions(vista, vistaOptions)
                         toggleEntityOptionLayouts(vistaCode!!)
+                        initOmegaInput(vistaCode!!, omegaThresholdEditText, omegaThresholdEdit)
+
 
                     }
                     R.id.scatter_plot_vista ->{
                         vistaCode = 4
                         toggleEntityOptions(vista, vistaOptions)
                         toggleEntityOptionLayouts(vistaCode!!)
+                        initOmegaInput(vistaCode!!, omegaThresholdEditText, omegaThresholdEdit)
 
                     }
                 }
@@ -118,7 +128,10 @@ class InsightModelController {
                               pointOfIntLine: View, entityTitle: TextView, vistaPointOfInterestField: TextInputLayout,
                               vistaPointOfInterestFieldText: AutoCompleteTextView, startDateField: TextInputEditText,
                               endDateField: TextInputEditText, renderButton: MaterialButton,
-                              insightFocus: TextView, insightRangeType:TextView, thresholdLine: View): Int?{
+                              insightFocus: TextView, insightRangeType:TextView, thresholdLine: View,
+                              omegaThresholdFieldText: TextInputEditText, omegaThresholdField: TextInputLayout): Int?{
+        omegaThresholdEditText = omegaThresholdFieldText
+        omegaThresholdEdit = omegaThresholdField
         modelOptions.add(patientButton)
         modelOptions.add(diagnosesButton)
         modelOptions.add(prescriptionButton)
@@ -126,6 +139,9 @@ class InsightModelController {
         modelOptions.add(pharmaceuticalButton)
         for (model in modelOptions){
             model.setOnClickListener {
+                pointOfInterestView.visibility = View.GONE
+                pointOfIntLine.visibility = View.GONE
+                renderButton.visibility = View.GONE
                 pointOfInterestView.startAnimation(slideUpAnimation)
                 pointOfIntLine.startAnimation(slideUpAnimation)
                 renderButton.startAnimation(slideUpAnimation)
@@ -141,6 +157,7 @@ class InsightModelController {
                         toggleEntityOptions(model, modelOptions)
                         entityTitle.text = controlContext.getString(R.string.patient)
                         insightRangeType.text = controlContext.getString(R.string.birth_date)
+                        initOmegaInput(vistaCode!!, omegaThresholdFieldText, omegaThresholdField)
                         endPointList.addAll(listOf("First Name", "Last Name", "Blood Group", "Insurer"))
                         thresholdLine.requestFocus()
 
@@ -150,6 +167,7 @@ class InsightModelController {
                         toggleEntityOptions(model, modelOptions)
                         entityTitle.text = controlContext.getString(R.string.diagnosis_uc)
                         insightRangeType.text = controlContext.getString(R.string.diagnosis_date)
+                        initOmegaInput(vistaCode!!, omegaThresholdFieldText, omegaThresholdField)
                         endPointList.addAll(listOf("Synopsis", "Insurer ID", "Level"))
                         thresholdLine.requestFocus()
 
@@ -159,6 +177,7 @@ class InsightModelController {
                         toggleEntityOptions(model, modelOptions)
                         entityTitle.text = controlContext.getString(R.string.prescription)
                         insightRangeType.text = controlContext.getString(R.string.prescription_date_sc)
+                        initOmegaInput(vistaCode!!, omegaThresholdFieldText, omegaThresholdField)
                         endPointList.addAll(listOf("Rx Name", "Prescriber", "Prescriber ID", "Insurer ID"))
                         thresholdLine.requestFocus()
 
@@ -168,6 +187,7 @@ class InsightModelController {
                         toggleEntityOptions(model, modelOptions)
                         entityTitle.text = controlContext.getString(R.string.visit)
                         insightRangeType.text = controlContext.getString(R.string.visit_date)
+                        initOmegaInput(vistaCode!!, omegaThresholdFieldText, omegaThresholdField)
                         endPointList.addAll(listOf("Host", "Host ID", "Visit Time", "Description", "Insurer ID"))
                         thresholdLine.requestFocus()
 
@@ -177,14 +197,14 @@ class InsightModelController {
                         toggleEntityOptions(model, modelOptions)
                         entityTitle.text = controlContext.getString(R.string.pharmaceutical)
                         (vistaPointOfInterestField.editText as? AutoCompleteTextView)?.setText("", false)
-                        val holderText = "${controlContext.getString(R.string.make_date)} | ${controlContext.getString(R.string.expire_date)}"
+                        val holderText = controlContext.getString(R.string.expire_date)
+                        initOmegaInput(vistaCode!!, omegaThresholdFieldText, omegaThresholdField)
                         insightRangeType.text = holderText
                         endPointList.addAll(listOf("Brand Name", "Generic Name", "Chemical Name", "Manufacturer"))
                         thresholdLine.requestFocus()
 
                     }
                 }
-
                 val adapter = ArrayAdapter(controlContext, R.layout.blood_group_item, endPointList)
                 (vistaPointOfInterestField.editText as? AutoCompleteTextView)?.setText("", false)
                 (vistaPointOfInterestField.editText as? AutoCompleteTextView)?.setAdapter(adapter)
@@ -255,11 +275,88 @@ class InsightModelController {
 
             }
 
+            vistaInfo.clearAnimation()
+            vistaInfoLine.clearAnimation()
+            modelLayout.clearAnimation()
+            pointOfInterestView.clearAnimation()
+            pointOfIntLine.clearAnimation()
+            renderButton.clearAnimation()
+
         }
 
         return modelCode
     }
 
+    private fun initOmegaInput(vistaCode: Int, omegaThresholdFieldText: TextInputEditText, omegaThresholdField: TextInputLayout){
+        if (omegaThresholdFieldText != null) {
+            when (vistaCode) {
+                1 -> {
+                    omegaThresholdFieldText.inputType = InputType.TYPE_NULL
+                    omegaThresholdFieldText.setTextIsSelectable(false)
+                    omegaThresholdFieldText.isFocusable = false
+                    omegaThresholdFieldText.visibility = View.INVISIBLE
+                    omegaThresholdField.visibility = View.INVISIBLE
+                }
+                2 -> {
+                    omegaThresholdFieldText.inputType = InputType.TYPE_NULL
+                    omegaThresholdFieldText.setTextIsSelectable(false)
+                    omegaThresholdFieldText.isFocusable = false
+                    omegaThresholdFieldText.visibility = View.INVISIBLE
+                    omegaThresholdField.visibility = View.INVISIBLE
+
+                }
+                3 -> {
+                    omegaThresholdFieldText.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+                    omegaThresholdFieldText.setTextIsSelectable(true)
+                    omegaThresholdFieldText.isFocusable = true
+                    omegaThresholdFieldText.visibility = View.VISIBLE
+                    omegaThresholdField.visibility = View.VISIBLE
+
+                }
+                4 -> {
+                    omegaThresholdFieldText.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+                    omegaThresholdFieldText.setTextIsSelectable(true)
+                    omegaThresholdFieldText.isFocusable = true
+                    omegaThresholdFieldText.visibility = View.VISIBLE
+                    omegaThresholdField.visibility = View.VISIBLE
+
+                }
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun isValidInsightModel(vistaCode: Int, insightTitle: TextInputEditText, insightTitleField: TextInputLayout,
+                            insightDateRangeS: TextInputEditText, insightDateRangeSField: TextInputLayout,
+                            insightDateRangeE: TextInputEditText, insightDateRangeEField: TextInputLayout,
+                            piThresholdText: TextInputEditText, piThresholdTextField: TextInputLayout,
+                            omegaThresholdText: TextInputEditText, omegaThresholdTextField: TextInputLayout,
+                            vistaPointOfInterestField: TextInputLayout, vistaPointOfInterestFieldText: AutoCompleteTextView): Boolean{
+        val recordEditCheck = RecordEditValidator()
+        recordEditCheck.initValidator(editorViewContext)
+        var isInsight = false
+        if (vistaCode == 1 || vistaCode == 2) {
+            isInsight = (recordEditCheck.isValidIText(insightTitle, insightTitleField, "Alias")
+                    && recordEditCheck.isValidPOIText(vistaPointOfInterestFieldText, vistaPointOfInterestField, "Point of Interest")
+                    && recordEditCheck.isValidIText(insightDateRangeS, insightDateRangeSField, "Range Start")
+                    && recordEditCheck.isValidIText(insightDateRangeE, insightDateRangeEField, "Range End")
+                    && recordEditCheck.isValidIText(piThresholdText, piThresholdTextField, "Pi Threshold"))
+            if (isInsight){
+                isInsight = recordEditCheck.isValidITimeText(insightDateRangeS, insightDateRangeSField, insightDateRangeE, insightDateRangeEField)
+            }
+        }else if (vistaCode == 3 || vistaCode == 4){
+            isInsight = (recordEditCheck.isValidIText(insightTitle, insightTitleField, "Alias")
+                    && recordEditCheck.isValidPOIText(vistaPointOfInterestFieldText, vistaPointOfInterestField, "Point of Interest")
+                    && recordEditCheck.isValidIText(insightDateRangeS, insightDateRangeSField, "Range Start")
+                    && recordEditCheck.isValidIText(insightDateRangeE, insightDateRangeEField, "Range End")
+                    && recordEditCheck.isValidIText(piThresholdText, piThresholdTextField, "Pi Threshold")
+                    && recordEditCheck.isValidIText(omegaThresholdText, omegaThresholdTextField, "Omega Threshold"))
+            if (isInsight){
+                isInsight = recordEditCheck.isValidITimeText(insightDateRangeS, insightDateRangeSField, insightDateRangeE, insightDateRangeEField)
+            }
+        }
+        return isInsight
+    }
 
 
     private fun toggleEntityOptionLayouts(optionPosition: Int){

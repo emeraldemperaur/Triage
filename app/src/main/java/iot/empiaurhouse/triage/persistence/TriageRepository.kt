@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
 import iot.empiaurhouse.triage.model.DataPivot
-import kotlinx.coroutines.InternalCoroutinesApi
+import iot.empiaurhouse.triage.model.InsightModel
 
 
 class TriageRepository {
@@ -12,7 +12,6 @@ class TriageRepository {
     private lateinit var dataPivotDAO: DataPivotDAO
     private lateinit var insightModelDAO: InsightModelDAO
 
-    @InternalCoroutinesApi
     fun TriageRepository(application: Application) {
         val triageDatabase = TriageDatabase(application.baseContext)
         dataPivotDAO = triageDatabase.dataPivotDOA()
@@ -30,6 +29,14 @@ class TriageRepository {
 
     fun fetchDataPivotsByIDClean(serverOfOrigin: String): Single<List<DataPivot>>{
         return dataPivotDAO.fetchDataPivotsByIDClean(serverOfOrigin)
+    }
+
+    fun fetchInsightModelsByID(): Single<List<InsightModel>>{
+        return insightModelDAO.fetchInsightModelsByID()
+    }
+
+    fun fetchInsightModelsByIDClean(serverOfOrigin: String): Single<List<InsightModel>>{
+        return insightModelDAO.fetchInsightModelsByIDClean(serverOfOrigin)
     }
 
     fun fetchDataPivotsByChronology(): Single<List<DataPivot>>{
@@ -98,6 +105,25 @@ class TriageRepository {
 
     fun deleteDataPivot(dataPivot: DataPivot) {
          dataPivotDAO.deleteDataPivot(dataPivot)
+    }
+
+
+    fun insertInsightModel(insightModel: InsightModel): InsightModel{
+        insightModelDAO.insertInsightModel(insightModel)
+        return insightModel
+    }
+
+    fun editInsightModel(insightModel: InsightModel): InsightModel{
+        insightModelDAO.updateInsightModel(insightModel)
+        return insightModel
+    }
+
+    fun deleteInsightModels(){
+        insightModelDAO.deleteInsightModelsDB()
+    }
+
+    fun deleteInsightModel(insightModel: InsightModel) {
+        insightModelDAO.deleteInsightModel(insightModel)
     }
 
 }
