@@ -13,7 +13,7 @@
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
       android:layout_width="match_parent"
-      android:layout_height="696dp">
+      android:layout_height="712dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
