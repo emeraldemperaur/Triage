@@ -23,6 +23,8 @@ import com.google.android.material.textfield.TextInputLayout
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.InsightModelController
 import iot.empiaurhouse.triage.databinding.FragmentInsightModelEditorBinding
+import iot.empiaurhouse.triage.model.InsightModel
+import java.time.LocalDate
 import java.util.*
 
 
@@ -162,7 +164,14 @@ class InsightModelEditorFragment : Fragment() {
                 piThresholdField, omegaThresholdFieldText, omegaThresholdField, vistaPointOfInterestField, vistaPointOfInterestFieldText)
                 if (insightCheck){
                     // Insight Model Build
+                        val insightModelOutput = InsightModel(alias = aliasFieldText.text.toString().trim(), vistaCode = vistaCode,
+                            entityCode = entityCode, pointOfInterest = vistaPointOfInterestFieldText.text.toString(),
+                            rangeStartDate = startDateFieldText.text.toString().trim(), rangeEndDate = endDateFieldText.text.toString().trim(),
+                            piThresholdValue = piThresholdFieldText.text.toString().trim(), omegaThresholdValue = omegaThresholdFieldText.text.toString().trim(),
+                            serverOfOrigin = "", createdOnTimeStamp = LocalDate.now().toString())
+
                     println("Insight Output Result: $insightCheck \n\t-- vistaCode: $vistaCode \n\t-- entityCode: $entityCode")
+                    println("Insight Model: $insightModelOutput")
                 }
 
             }

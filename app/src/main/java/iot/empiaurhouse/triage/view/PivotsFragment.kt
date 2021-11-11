@@ -208,7 +208,9 @@ class PivotsFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        loadingText.visibility = View.VISIBLE
+        if (dataPivotsFound.size < 0) {
+            loadingText.visibility = View.VISIBLE
+        }
     }
 
 

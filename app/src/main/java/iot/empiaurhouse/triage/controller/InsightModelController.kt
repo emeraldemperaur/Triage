@@ -21,6 +21,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.utils.RecordEditValidator
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class InsightModelController {
@@ -118,7 +120,11 @@ class InsightModelController {
                 }
 
             }
+
         }
+        vistaInfo.clearAnimation()
+        vistaInfoLine.clearAnimation()
+        modelLayout.clearAnimation()
         return vistaCode
     }
 
@@ -275,9 +281,9 @@ class InsightModelController {
 
             }
 
-            vistaInfo.clearAnimation()
-            vistaInfoLine.clearAnimation()
-            modelLayout.clearAnimation()
+            //vistaInfo.clearAnimation()
+            //vistaInfoLine.clearAnimation()
+            //modelLayout.clearAnimation()
             pointOfInterestView.clearAnimation()
             pointOfIntLine.clearAnimation()
             renderButton.clearAnimation()
@@ -420,6 +426,57 @@ class InsightModelController {
 
         }
 
+    }
+
+    fun fetchInsightEntityTitle(entityCode: Int): String{
+        var title = ""
+        when(entityCode){
+            1 ->{
+                title = "Patient"
+            }
+            2 ->{
+                title = "Diagnosis"
+            }
+            3 ->{
+                title = "Prescription"
+            }
+            4 ->{
+                title = "Visit"
+            }
+            5 ->{
+                title = "Pharmaceutical"
+            }
+
+        }
+        return title
+    }
+
+    fun fetchInsightIcon(vistaCode: Int): Int{
+        var icon = R.drawable.histogram_chart
+        when(vistaCode){
+            1 ->{
+                icon = R.drawable.histogram_chart
+            }
+            2 ->{
+                icon = R.drawable.pie_chart
+            }
+            3 ->{
+                icon = R.drawable.line_charts_icon
+            }
+            4 ->{
+                icon = R.drawable.plot_charts_icon
+            }
+
+
+        }
+        return icon
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun insightObjectDateFormat(stringDate: String?): String {
+        val dateObject = LocalDate.parse(stringDate)
+        val formatter = DateTimeFormatter.ofPattern("dd, MMMM yyyy")
+        return dateObject.format(formatter)
     }
 
 

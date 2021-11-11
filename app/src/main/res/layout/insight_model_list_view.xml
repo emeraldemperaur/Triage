@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/insight_model_list_view"
+        android:background="@drawable/silver"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <View
+                android:visibility="invisible"
+                android:elevation="33dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginTop="6dp"
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/insight_model_list_label"
+                    android:text="@string/vista_label"
+                    android:textStyle="bold"
+                    android:textColor="@color/chiron_blue"
+                    android:fontFamily="@font/montserratlight"
+                    android:textSize="21sp"
+                    android:letterSpacing="0.21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginTop="6dp"
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/insight_model_list_label"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/insight_model_list_entity_title"
+                    android:text="@string/entity_type"
+                    android:textSize="14sp"
+                    android:letterSpacing="0.13"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:textColor="@color/chiron_deep_grey"
+                    android:fontFamily="@font/montserratregular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/insight_model_list_entity_title"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/insight_model_list_entity_text"
+                    android:textColor="@color/black"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.13"
+                    android:text="@string/pharmaceutical"
+                    android:fontFamily="@font/montserratmedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+                <ImageView
+                    android:scaleType="fitXY"
+                    android:contentDescription="@string/parameters"
+                    android:src="@drawable/histogram_chart"
+                    android:layout_marginTop="21dp"
+                    android:layout_marginEnd="33dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:id="@+id/insight_model_list_vista_type_icon"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    app:tint="@color/chiron_blue" />
+
+                <TextView
+                    android:text="@string/pi_threshold_value"
+                    android:fontFamily="@font/montserratlight"
+                    android:textStyle="bold"
+                    android:maxLength="19"
+                    android:textSize="14sp"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:letterSpacing="0.04"
+                    android:textColor="@color/chiron_deep_grey"
+                    android:id="@+id/insight_model_list_param_text"
+                    app:layout_constraintTop_toBottomOf="@id/insight_model_list_vista_type_icon"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="@string/omega_threshold_value"
+                    android:fontFamily="@font/montserratlight"
+                    android:textStyle="bold"
+                    android:maxLength="19"
+                    android:textSize="14sp"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:letterSpacing="0.04"
+                    android:visibility="invisible"
+                    android:textColor="@color/chiron_deep_grey"
+                    android:id="@+id/insight_model_list_param_sub_text"
+                    app:layout_constraintTop_toBottomOf="@id/insight_model_list_param_text"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginEnd="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:visibility="gone"
+                    android:text="@string/epsilon_value"
+                    android:fontFamily="@font/montserratlight"
+                    android:textStyle="bold"
+                    android:maxLength="19"
+                    android:textSize="14sp"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:letterSpacing="0.04"
+                    android:textColor="@color/chiron_deep_grey"
+                    android:id="@+id/insight_model_list_param_unsub_text"
+                    app:layout_constraintTop_toBottomOf="@id/insight_model_list_param_sub_text"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginEnd="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="@string/brand_name"
+                    android:fontFamily="@font/montserratthin"
+                    android:textColor="@color/black"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.03"
+                    android:layout_marginStart="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/insight_model_list_entity_text"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/insight_model_list_endpoint_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="@string/day_month_year_insight"
+                    android:fontFamily="@font/montserratlight"
+                    android:textColor="@color/chiron_deep_grey"
+                    android:textSize="13sp"
+                    android:textStyle="normal"
+                    android:letterSpacing="0.03"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginBottom="3dp"
+                    app:layout_constraintTop_toBottomOf="@id/insight_model_list_endpoint_text"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:id="@+id/insight_model_list_range_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:elevation="33dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="0dp"
+                android:background="@color/chiron_grey"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+        </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>
