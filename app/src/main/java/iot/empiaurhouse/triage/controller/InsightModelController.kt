@@ -498,6 +498,28 @@ class InsightModelController {
         return icon
     }
 
+    fun fetchRangeBaseTitle(entityCode: Int): String{
+        var rangeBaseTitle = ""
+        when(entityCode){
+            1 ->{
+                rangeBaseTitle = "Birth Date"
+            }
+            2 ->{
+                rangeBaseTitle = "Diagnosis Date"
+            }
+            3 ->{
+                rangeBaseTitle = "Prescription Date"
+            }
+            4 ->{
+                rangeBaseTitle = "Visit Date"
+            }
+            5 ->{
+                rangeBaseTitle = "Expiry Date"
+            }
+        }
+        return rangeBaseTitle
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun insightObjectDateFormat(stringDate: String?): String {
         val dateObject = LocalDate.parse(stringDate)

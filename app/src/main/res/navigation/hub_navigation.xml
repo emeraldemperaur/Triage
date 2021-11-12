@@ -501,6 +501,33 @@
             android:name="insightModel"
             app:argType="iot.empiaurhouse.triage.model.InsightModel"/>
 
+        <action
+            android:id="@+id/view_insight_action"
+            app:destination="@id/insight_model_detail">
+            <argument
+                android:name="insightModel"
+                app:argType="iot.empiaurhouse.triage.model.InsightModel"/>
+
+        </action>
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/insight_model_detail"
+        android:label="Insight Model Detail"
+        tools:layout="@layout/fragment_insight_model_view"
+        android:name="iot.empiaurhouse.triage.view.InsightModelViewFragment">
+
+        <argument
+            android:name="insightModel"
+            app:argType="iot.empiaurhouse.triage.model.InsightModel"/>
+
+        <action
+            android:id="@+id/exit_insight_detail"
+            app:destination="@id/hub_insights">
+
+        </action>
 
     </fragment>
 

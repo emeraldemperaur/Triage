@@ -123,6 +123,7 @@
     <string name="no_data_pivots_found">No Data Pivots Found</string>
     <string name="no_records_found">No Records Found</string>
     <string name="no_insight_models_found">No Insight Models Found</string>
+    <string name="no_insight_data_found">No Insight Data Found</string>
     <string name="data_pivots">PIVOTS</string>
     <string name="patients">Patients</string>
     <string name="patient">Patient</string>
@@ -328,4 +329,5 @@
     <string name="line_chart_info">A visual comparison of how two variables shown on the X and Y axis are related or vary</string>
     <string name="scatter_plot_info">A scatter plot shows the axial direction of a relationship between the data variables in focus</string>
     <string name="_13_november_2021_13_november_2021">13 November, 2021 - 13 November, 2021</string>
+    <string name="metadata">Metadata</string>
 </resources>

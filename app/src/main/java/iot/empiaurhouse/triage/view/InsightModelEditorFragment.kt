@@ -26,6 +26,7 @@ import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.InsightModelController
 import iot.empiaurhouse.triage.databinding.FragmentInsightModelEditorBinding
 import iot.empiaurhouse.triage.model.InsightModel
+import iot.empiaurhouse.triage.utils.UserPreferenceManager
 import iot.empiaurhouse.triage.utils.subscribeOnBackground
 import iot.empiaurhouse.triage.viewmodel.InsightModelViewModel
 import java.time.LocalDate
@@ -85,6 +86,8 @@ class InsightModelEditorFragment : Fragment() {
     private lateinit var omegaThresholdField: TextInputLayout
     private lateinit var navController: NavController
     private lateinit var insightViewModel: InsightModelViewModel
+    private lateinit var userManager: UserPreferenceManager
+
 
 
 
@@ -149,6 +152,7 @@ class InsightModelEditorFragment : Fragment() {
         piThresholdFieldText = binding.vistaDataPointEditorViewInclude.piThresholdFieldText
         piThresholdField = binding.vistaDataPointEditorViewInclude.piThresholdField
         thresholdBorderLine = binding.insightEditorBottomlinerBtn
+        userManager = UserPreferenceManager(requireContext())
         val app = requireActivity().application
         insightViewModel.processPivot(app)
         insightController = InsightModelController()
@@ -178,14 +182,13 @@ class InsightModelEditorFragment : Fragment() {
                             entityCode = entityCode, pointOfInterest = vistaPointOfInterestFieldText.text.toString(),
                             rangeStartDate = startDateFieldText.text.toString().trim(), rangeEndDate = endDateFieldText.text.toString().trim(),
                             piThresholdValue = piThresholdFieldText.text.toString().trim(), omegaThresholdValue = omegaThresholdFieldText.text.toString().trim(),
-                            serverOfOrigin = "", createdOnTimeStamp = LocalDate.now().toString())
+                            serverOfOrigin = userManager.getServerUrl(), createdOnTimeStamp = LocalDate.now().toString())
                     processInsightModel(insightModelOutput)
                     subscribeOnBackground {
                         insightViewModel.insertInsightModel(insightModelOutput)
                     }
                     println("Insight Output Result: $insightCheck \n\t-- vistaCode: $vistaCode \n\t-- entityCode: $entityCode")
                     println("Insight Model: $insightModelOutput")
-
                 }
 
             }
@@ -193,7 +196,7 @@ class InsightModelEditorFragment : Fragment() {
         }
     }
 
-    fun processInsightModel(insightModel: InsightModel){
+    private fun processInsightModel(insightModel: InsightModel){
         val input = InsightModelEditorFragmentDirections.createInsightModelAction(insightModel)
         navController.navigate(input)
     }

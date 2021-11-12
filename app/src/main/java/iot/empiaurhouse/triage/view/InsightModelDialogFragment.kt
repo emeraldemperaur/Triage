@@ -125,7 +125,7 @@ class InsightModelDialogFragment : Fragment() {
         hubUserName.visibility = View.GONE
         searchButton.visibility = View.GONE
         if (navigationControl.currentDestination == navigationControl.graph.findNode(R.id.insight_model_dialog)){
-            //insightModelProcess(renderComplete)
+            insightModelProcess(renderComplete)
         }
     }
 
@@ -133,8 +133,8 @@ class InsightModelDialogFragment : Fragment() {
         if (renderComplete || !renderComplete){
             Handler(Looper.getMainLooper()).postDelayed({
                 if (navigationControl.currentDestination == navigationControl.graph.findNode(R.id.insight_model_dialog)) {
-                    //val input = PivotDialogFragmentDirections.viewPivotAction(stagedDataPivot)
-                   // navigationControl.navigate(input)
+                    val input = InsightModelDialogFragmentDirections.viewInsightAction(insightModel)
+                   navigationControl.navigate(input)
                 }
             }, 10000)
 
