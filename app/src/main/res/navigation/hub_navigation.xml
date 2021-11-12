@@ -463,6 +463,15 @@
 
         </action>
 
+        <action
+            android:id="@+id/open_insight_model_action"
+            app:destination="@id/insight_model_dialog">
+            <argument
+                android:name="insightModel"
+                app:argType="iot.empiaurhouse.triage.model.InsightModel"
+                />
+        </action>
+
     </fragment>
 
     <fragment
@@ -470,6 +479,28 @@
         android:name="iot.empiaurhouse.triage.view.InsightModelEditorFragment"
         android:label="Insight Model"
         tools:layout="@layout/fragment_insight_model_editor">
+
+        <action
+            android:id="@+id/create_insight_model_action"
+            app:destination="@id/insight_model_dialog">
+            <argument
+                android:name="insightModel"
+                app:argType="iot.empiaurhouse.triage.model.InsightModel"/>
+
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/insight_model_dialog"
+        android:name="iot.empiaurhouse.triage.view.InsightModelDialogFragment"
+        android:label="Insight Model Dialog"
+        tools:layout="@layout/fragment_insight_model_dialog">
+
+        <argument
+            android:name="insightModel"
+            app:argType="iot.empiaurhouse.triage.model.InsightModel"/>
+
 
     </fragment>
 

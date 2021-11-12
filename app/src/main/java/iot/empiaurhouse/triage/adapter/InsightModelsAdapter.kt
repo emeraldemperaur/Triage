@@ -20,6 +20,7 @@ import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.InsightModelController
 import iot.empiaurhouse.triage.model.InsightModel
 import iot.empiaurhouse.triage.utils.subscribeOnBackground
+import iot.empiaurhouse.triage.view.InsightFragmentDirections
 import iot.empiaurhouse.triage.viewmodel.InsightModelViewModel
 import java.util.*
 
@@ -78,8 +79,8 @@ class InsightModelsAdapter(private val insightModelList: ArrayList<InsightModel>
             holder.insightModelParamII.visibility = View.VISIBLE
         }
         holder.insightModelItem.setOnClickListener {
-            //val input = PivotsFragmentDirections.openPivotAction(dataPivot)
-            //navControls.navigate(input)
+            val input = InsightFragmentDirections.openInsightModelAction(insightModel)
+            navControls.navigate(input)
 
         }
 

@@ -13,6 +13,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.button.MaterialButton
@@ -79,6 +80,7 @@ class InsightModelEditorFragment : Fragment() {
     private lateinit var piThresholdField: TextInputLayout
     private lateinit var omegaThresholdFieldText: TextInputEditText
     private lateinit var omegaThresholdField: TextInputLayout
+    private lateinit var navController: NavController
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -143,6 +145,7 @@ class InsightModelEditorFragment : Fragment() {
         //thresholdTitle = binding.vistaDataPointEditorViewInclude.vistaPointEditorThresholdTitle
         thresholdBorderLine = binding.insightEditorBottomlinerBtn
         insightController = InsightModelController()
+        navController = findNavController()
         initInsightEditorView()
         onBackPressed()
 
@@ -172,6 +175,8 @@ class InsightModelEditorFragment : Fragment() {
 
                     println("Insight Output Result: $insightCheck \n\t-- vistaCode: $vistaCode \n\t-- entityCode: $entityCode")
                     println("Insight Model: $insightModelOutput")
+                    val input = InsightModelEditorFragmentDirections.createInsightModelAction(insightModelOutput)
+                    navController.navigate(input)
                 }
 
             }
