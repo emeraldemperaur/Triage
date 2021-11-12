@@ -13,6 +13,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -25,6 +26,8 @@ import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.InsightModelController
 import iot.empiaurhouse.triage.databinding.FragmentInsightModelEditorBinding
 import iot.empiaurhouse.triage.model.InsightModel
+import iot.empiaurhouse.triage.utils.subscribeOnBackground
+import iot.empiaurhouse.triage.viewmodel.InsightModelViewModel
 import java.time.LocalDate
 import java.util.*
 
@@ -81,6 +84,8 @@ class InsightModelEditorFragment : Fragment() {
     private lateinit var omegaThresholdFieldText: TextInputEditText
     private lateinit var omegaThresholdField: TextInputLayout
     private lateinit var navController: NavController
+    private lateinit var insightViewModel: InsightModelViewModel
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,6 +112,7 @@ class InsightModelEditorFragment : Fragment() {
         toolbarView = requireActivity().findViewById(R.id.hub_collapsing_toolbar)
         hubUserName = requireActivity().findViewById(R.id.hub_username_title)
         searchButton = requireActivity().findViewById(R.id.hub_search_button)
+        insightViewModel = ViewModelProvider(this)[InsightModelViewModel::class.java]
         insightEditorView = binding.chironInsightEditorView
         histogramButton = binding.vistaTypeEditorViewInclude.histogramVista
         pieChartButton = binding.vistaTypeEditorViewInclude.pieChartVista
@@ -142,8 +148,9 @@ class InsightModelEditorFragment : Fragment() {
         omegaThresholdField = binding.vistaDataPointEditorViewInclude.omegaThresholdField
         piThresholdFieldText = binding.vistaDataPointEditorViewInclude.piThresholdFieldText
         piThresholdField = binding.vistaDataPointEditorViewInclude.piThresholdField
-        //thresholdTitle = binding.vistaDataPointEditorViewInclude.vistaPointEditorThresholdTitle
         thresholdBorderLine = binding.insightEditorBottomlinerBtn
+        val app = requireActivity().application
+        insightViewModel.processPivot(app)
         insightController = InsightModelController()
         navController = findNavController()
         initInsightEditorView()
@@ -172,16 +179,23 @@ class InsightModelEditorFragment : Fragment() {
                             rangeStartDate = startDateFieldText.text.toString().trim(), rangeEndDate = endDateFieldText.text.toString().trim(),
                             piThresholdValue = piThresholdFieldText.text.toString().trim(), omegaThresholdValue = omegaThresholdFieldText.text.toString().trim(),
                             serverOfOrigin = "", createdOnTimeStamp = LocalDate.now().toString())
-
+                    processInsightModel(insightModelOutput)
+                    subscribeOnBackground {
+                        insightViewModel.insertInsightModel(insightModelOutput)
+                    }
                     println("Insight Output Result: $insightCheck \n\t-- vistaCode: $vistaCode \n\t-- entityCode: $entityCode")
                     println("Insight Model: $insightModelOutput")
-                    val input = InsightModelEditorFragmentDirections.createInsightModelAction(insightModelOutput)
-                    navController.navigate(input)
+
                 }
 
             }
 
         }
+    }
+
+    fun processInsightModel(insightModel: InsightModel){
+        val input = InsightModelEditorFragmentDirections.createInsightModelAction(insightModel)
+        navController.navigate(input)
     }
 
 

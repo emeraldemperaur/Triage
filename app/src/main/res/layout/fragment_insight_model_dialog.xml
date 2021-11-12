@@ -20,7 +20,7 @@
 
 
         <com.google.android.material.card.MaterialCardView
-            android:visibility="visible"
+            android:visibility="invisible"
             android:id="@+id/insight_dialog_info"
             app:cardCornerRadius="3dp"
             android:clickable="true"
@@ -55,8 +55,8 @@
 
 
                 <iot.empiaurhouse.triage.utils.TypeWriterTextView
-                    android:id="@+id/insight_prompt"
-                    android:visibility="visible"
+                    android:id="@+id/rendering_prompt"
+                    android:visibility="invisible"
                     android:textSize="21sp"
                     android:text="@string/rendering_data"
                     android:lines="1"
@@ -84,7 +84,7 @@
                     android:layout_height="1dp"/>
 
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="invisible"
                     android:id="@+id/insight_label_title"
                     android:letterSpacing="0.13"
                     android:layout_marginTop="9dp"
@@ -104,7 +104,7 @@
 
 
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="invisible"
                     android:id="@+id/insight_dm_title"
                     android:letterSpacing="0.13"
                     android:layout_marginTop="6dp"
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="invisible"
                     android:id="@+id/insight_dm_title_text"
                     android:letterSpacing="0.33"
                     android:layout_marginTop="3dp"
@@ -135,7 +135,7 @@
 
 
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="invisible"
                     android:id="@+id/ep_text"
                     android:letterSpacing="0.33"
                     android:layout_marginTop="3dp"
@@ -163,7 +163,7 @@
 
 
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="invisible"
                     android:id="@+id/vt_title"
                     android:letterSpacing="0.13"
                     android:layout_marginTop="13dp"
@@ -179,8 +179,8 @@
 
 
                 <TextView
-                    android:visibility="visible"
-                    android:id="@+id/pt_text"
+                    android:visibility="invisible"
+                    android:id="@+id/vt_text"
                     android:letterSpacing="0.33"
                     android:layout_marginTop="3dp"
                     android:layout_marginBottom="3dp"
@@ -205,7 +205,7 @@
 
 
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/range_insights_title"
                     android:letterSpacing="0.13"
                     android:layout_marginTop="11dp"
@@ -220,24 +220,24 @@
                     android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/insight_range_text"
                     android:letterSpacing="0.06"
                     android:layout_marginTop="3dp"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
-                    android:text="@string/day_month_year_insight"
+                    android:layout_marginStart="44dp"
+                    android:layout_marginEnd="0dp"
+                    android:text="@string/_13_november_2021_13_november_2021"
                     android:textAllCaps="false"
                     android:fontFamily="@font/montserratlight"
                     android:textSize="13sp"
                     android:textStyle="normal"
-                    android:textColor="@color/chiron_blue"
+                    android:textColor="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
 
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/pi_insight_threshold_title"
                     android:letterSpacing="0.13"
                     android:layout_marginTop="3dp"
@@ -252,7 +252,7 @@
                     android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/pi_insight_param_text"
                     android:letterSpacing="0.33"
                     android:layout_marginTop="6dp"
@@ -270,7 +270,7 @@
                     android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/omega_insight_param_title"
                     android:letterSpacing="0.13"
                     android:layout_marginTop="3dp"
@@ -285,7 +285,7 @@
                     android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/omega_insight_param_text"
                     android:letterSpacing="0.33"
                     android:layout_marginTop="6dp"
@@ -303,95 +303,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/time_stream_title"
-                    android:letterSpacing="0.13"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginStart="44dp"
-                    android:text="@string/time_stream"
-                    android:textAllCaps="true"
-                    android:fontFamily="@font/montserratlight"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/chiron_blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/time_stream_text"
-                    android:letterSpacing="0.33"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginStart="44dp"
-                    android:textSize="14sp"
-                    android:text="@string/between"
-                    android:fontFamily="@font/montserratlight"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/chi_param_title"
-                    android:letterSpacing="0.13"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginStart="44dp"
-                    android:text="@string/chi_symbol"
-                    android:textAllCaps="true"
-                    android:fontFamily="@font/montserratlight"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/chiron_blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/chi_param_text"
-                    android:letterSpacing="0.23"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginStart="44dp"
-                    android:textSize="14sp"
-                    android:text="@string/day_month_year"
-                    android:fontFamily="@font/montserratlight"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/psi_param_title"
-                    android:letterSpacing="0.13"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginStart="44dp"
-                    android:text="@string/psi_symbol"
-                    android:textAllCaps="true"
-                    android:fontFamily="@font/montserratlight"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/chiron_blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/psi_param_text"
-                    android:letterSpacing="0.23"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="6dp"
-                    android:layout_marginStart="44dp"
-                    android:textSize="14sp"
-                    android:text="@string/day_month_year"
-                    android:fontFamily="@font/montserratlight"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
 
                 <View
                     android:elevation="3dp"
@@ -406,7 +318,7 @@
 
                 <ProgressBar
                     android:id="@+id/insight_progress"
-                    android:visibility="visible"
+                    android:visibility="invisible"
                     android:elevation="69dp"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
@@ -425,10 +337,10 @@
         </com.google.android.material.card.MaterialCardView>
 
         <ImageView
-            android:id="@+id/triage_bot"
+            android:id="@+id/insight_triage_bot"
             android:layout_marginTop="-39dp"
             android:layout_marginBottom="69dp"
-            android:visibility="visible"
+            android:visibility="invisible"
             android:elevation="69dp"
             android:src="@drawable/triage_insight_bot"
             android:layout_width="255dp"

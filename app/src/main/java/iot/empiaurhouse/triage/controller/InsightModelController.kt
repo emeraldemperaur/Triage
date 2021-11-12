@@ -7,10 +7,7 @@ import android.text.InputType
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -20,7 +17,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import iot.empiaurhouse.triage.R
+import iot.empiaurhouse.triage.model.InsightModel
 import iot.empiaurhouse.triage.utils.RecordEditValidator
+import iot.empiaurhouse.triage.utils.TypeWriterTextView
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -52,6 +51,14 @@ class InsightModelController {
     private lateinit var searchBtn: FloatingActionButton
     private lateinit var toolbar: CollapsingToolbarLayout
     private var endPointList: ArrayList<String> = arrayListOf()
+    private lateinit var slideRightAnimation : Animation
+    private lateinit var fadeInLabelAnimation : Animation
+    private lateinit var fadeInModelTitleAnimation : Animation
+    private lateinit var fadeInModelTextAnimation : Animation
+    private lateinit var fadeInEndPointTitleAnimation : Animation
+    private lateinit var fadeInEndPointTextAnimation : Animation
+    private lateinit var fadeInVistaTypeTitleAnimation : Animation
+
 
 
     fun initInsightModelEditor(context: Context, insightEditorView: View,
@@ -451,6 +458,25 @@ class InsightModelController {
         return title
     }
 
+    fun fetchInsightTypeTitle(vistaCode: Int): String{
+        var vistaType= ""
+        when(vistaCode){
+            1 ->{
+                vistaType = "Histogram"
+            }
+            2 ->{
+                vistaType = "Pie Chart"
+            }
+            3 ->{
+                vistaType = "Line Chart"
+            }
+            4 ->{
+                vistaType = "Scatter Plot"
+            }
+        }
+        return vistaType
+    }
+
     fun fetchInsightIcon(vistaCode: Int): Int{
         var icon = R.drawable.histogram_chart
         when(vistaCode){
@@ -487,6 +513,173 @@ class InsightModelController {
                 selectedOption.isChecked = true
             }
         }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun initInsightDialog(context: Context,
+                        insightModel: InsightModel,
+                        triageBot: ImageView, insightDialogView: MaterialCardView,
+                        renderingText: TypeWriterTextView, insightLabel: TextView,
+                        dataModelTitle: TextView, dataModelText: TextView,
+                        endPointTitle: TextView, endPointText: TextView,
+                        insightTypeTitle: TextView, insightTypeText: TextView,
+                        insightRangeTitle: TextView, insightRangeText: TextView,
+                          piThresholdParamText: TextView,
+                        piThresholdParamTitle: TextView, omegaThresholdParamText: TextView,
+                          omegaThresholdParamTitle: TextView,
+                        renderProgress: ProgressBar
+    ): Boolean{
+
+        var isFinished = false
+        triageBot.visibility = View.GONE
+        slideRightAnimation = AnimationUtils.loadAnimation(context, R.anim.pull_in_left)
+        fadeInLabelAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+        fadeInModelTitleAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+        fadeInModelTextAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+        fadeInEndPointTitleAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+        fadeInEndPointTextAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+        fadeInVistaTypeTitleAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+
+
+        triageBot.startAnimation(slideRightAnimation)
+        triageBot.visibility = View.VISIBLE
+        slideRightAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+
+                insightLabel.startAnimation(fadeInLabelAnimation)
+                insightLabel.text = insightModel.alias.capitalize(Locale.ROOT)
+                insightLabel.visibility = View.VISIBLE
+                triageBot.clearAnimation()
+
+
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+                insightDialogView.visibility = View.VISIBLE
+                renderingText.visibility = View.VISIBLE
+                renderingText.setCharacterDelay(96)
+                renderingText.displayTextWithAnimation("Rendering Data...")
+
+            }
+        })
+
+        fadeInLabelAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+
+                dataModelTitle.startAnimation(fadeInModelTitleAnimation)
+                dataModelTitle.visibility = View.VISIBLE
+                dataModelText.text = fetchInsightEntityTitle(insightModel.entityCode!!)
+                dataModelText.startAnimation(fadeInModelTextAnimation)
+                dataModelText.visibility = View.VISIBLE
+                endPointTitle.startAnimation(fadeInEndPointTitleAnimation)
+                endPointTitle.visibility = View.VISIBLE
+                endPointText.text = insightModel.pointOfInterest
+                endPointText.startAnimation(fadeInEndPointTextAnimation)
+                endPointText.visibility = View.VISIBLE
+
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+
+            }
+        })
+
+        fadeInModelTitleAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+
+                dataModelText.clearAnimation()
+                endPointTitle.clearAnimation()
+                endPointText.clearAnimation()
+                insightTypeTitle.startAnimation(fadeInVistaTypeTitleAnimation)
+                insightTypeText.text = fetchInsightTypeTitle(insightModel.vistaCode!!)
+                insightTypeText.startAnimation(fadeInEndPointTitleAnimation)
+                insightTypeTitle.visibility = View.VISIBLE
+                insightTypeText.visibility = View.VISIBLE
+
+
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+
+            }
+        })
+
+        fadeInVistaTypeTitleAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onAnimationEnd(animation: Animation?) {
+
+                if (insightModel.vistaCode == 1 || insightModel.vistaCode == 2){
+                    insightRangeTitle.visibility = View.VISIBLE
+                    val insightDateRange = "${insightObjectDateFormat(insightModel.rangeStartDate)}  -\n${insightObjectDateFormat(insightModel.rangeEndDate)}"
+                    insightRangeText.text = insightDateRange
+                    insightRangeText.visibility = View.VISIBLE
+                    piThresholdParamText.text = insightModel.piThresholdValue
+                    piThresholdParamTitle.visibility = View.VISIBLE
+                    piThresholdParamText.visibility = View.VISIBLE
+                    renderProgress.visibility = View.VISIBLE
+                    renderProgress.isFocusable = true
+                    renderProgress.requestFocus()
+                    renderProgress.isFocusable = false
+                }else if (insightModel.vistaCode == 3 || insightModel.vistaCode == 4){
+                    insightRangeTitle.visibility = View.VISIBLE
+                    val insightDateRange = "${insightObjectDateFormat(insightModel.rangeStartDate)}  -\n${insightObjectDateFormat(insightModel.rangeEndDate)}"
+                    insightRangeText.text = insightDateRange
+                    insightRangeText.visibility = View.VISIBLE
+                    piThresholdParamText.text = insightModel.piThresholdValue
+                    piThresholdParamTitle.visibility = View.VISIBLE
+                    piThresholdParamText.visibility = View.VISIBLE
+                    omegaThresholdParamText.text = insightModel.omegaThresholdValue
+                    omegaThresholdParamTitle.visibility = View.VISIBLE
+                    omegaThresholdParamText.visibility = View.VISIBLE
+                    renderProgress.visibility = View.VISIBLE
+                    renderProgress.isFocusable = true
+                    renderProgress.requestFocus()
+                    renderProgress.isFocusable = false
+                }
+
+                triageBot.clearAnimation()
+                insightDialogView.clearAnimation()
+                renderingText.clearAnimation()
+                insightLabel.clearAnimation()
+                dataModelTitle.clearAnimation()
+                dataModelText.clearAnimation()
+                endPointTitle.clearAnimation()
+                endPointText.clearAnimation()
+                insightTypeTitle.clearAnimation()
+                insightTypeText.clearAnimation()
+                insightRangeText.clearAnimation()
+                insightRangeTitle.clearAnimation()
+                piThresholdParamTitle.clearAnimation()
+                piThresholdParamText.clearAnimation()
+                omegaThresholdParamTitle.clearAnimation()
+                omegaThresholdParamText.clearAnimation()
+                renderProgress.clearAnimation()
+                isFinished = true
+
+
+
+
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+
+            }
+        })
+
+        return isFinished
     }
 
 
