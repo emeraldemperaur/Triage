@@ -15,9 +15,11 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.snackbar.Snackbar
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.InsightModelController
 import iot.empiaurhouse.triage.model.InsightModel
+import iot.empiaurhouse.triage.utils.subscribeOnBackground
 import iot.empiaurhouse.triage.viewmodel.InsightModelViewModel
 import java.util.*
 
@@ -85,6 +87,39 @@ class InsightModelsAdapter(private val insightModelList: ArrayList<InsightModel>
 
     override fun getItemCount(): Int {
         return insightModelList.size
+    }
+
+
+    fun deleteInsightModel(position: Int){
+        val focusInsight = insightModelList[position]
+        subscribeOnBackground {
+            insightViewModel.deleteInsightModel(focusInsight)
+            println("Deleted Insight Model from DB:\n $focusInsight")
+        }
+        insightModelList.removeAt(position)
+        notifyItemRemoved(position)
+        val deletedPrompt = Snackbar.make(insightViewObject,"Deleted Insight Model | ${focusInsight.alias.capitalize(
+            Locale.ROOT
+        )
+        }", Snackbar.LENGTH_LONG)
+        deletedPrompt.setAction("UNDO", View.OnClickListener {
+
+            restoreInsightModel(focusInsight, position)
+
+        })
+        deletedPrompt.anchorView = insightViewObject.rootView.findViewById(R.id.hub_foot_nav)
+        deletedPrompt.show()
+
+    }
+
+
+    private fun restoreInsightModel(insightModel: InsightModel, position: Int){
+        insightModelList.add(position, insightModel)
+        subscribeOnBackground {
+            insightViewModel.insertInsightModel(insightModel)
+            println("Resorted Insight Model to DB:\n $insightModel")
+        }
+        notifyItemInserted(position)
     }
 
 }

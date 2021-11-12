@@ -54,6 +54,7 @@ class RecordEditValidator {
             inputFieldLayout.error = "Required"
             inputFieldLayout.boxStrokeColor = Color.parseColor("#800020")
             inputFieldLayout.isFocusable = true
+            inputFieldLayout.requestFocus()
             inputFieldLayout.isFocusable = false
             val missingFieldPrompt = Snackbar.make(viewContext,"Please provide required metadata | ${inputLabel.capitalize(
                 Locale.ROOT

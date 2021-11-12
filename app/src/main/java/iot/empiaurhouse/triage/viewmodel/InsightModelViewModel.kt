@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
+import iot.empiaurhouse.triage.model.DataPivot
 import iot.empiaurhouse.triage.model.InsightModel
 import iot.empiaurhouse.triage.network.ChironAPIService
 import iot.empiaurhouse.triage.persistence.TriageRepository
@@ -76,6 +77,23 @@ class InsightModelViewModel: ViewModel() {
 
                 } )
         )
+    }
+
+
+    fun updateInsightsDB(dataPivot: DataPivot){
+        triageRepository.editDataPivot(dataPivot)
+    }
+
+    fun insertInsightModel(insightModel: InsightModel){
+        triageRepository.insertInsightModel(insightModel)
+    }
+
+    fun deleteInsightModel(insightModel: InsightModel){
+        triageRepository.deleteInsightModel(insightModel)
+    }
+
+    fun killInsightModelsDB(){
+        triageRepository.deleteInsightModels()
     }
 
 

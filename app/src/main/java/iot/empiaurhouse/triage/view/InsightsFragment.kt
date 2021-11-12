@@ -122,7 +122,7 @@ class InsightFragment : Fragment() {
         val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = insightModelRVA
-                //adapter!!.deletePivot(viewHolder.adapterPosition)
+                adapter!!.deleteInsightModel(viewHolder.adapterPosition)
                 noResultsView(insightModelsFound.size)
             }
         }
@@ -201,6 +201,7 @@ class InsightFragment : Fragment() {
         insightsRecyclerView?.adapter = null
         insightModelRVA = null
         insightsRecyclerView = null
+        noResultsText.visibility = View.INVISIBLE
         Handler(Looper.getMainLooper()).postDelayed({
             insightModelsFound = fetchInsightsDB()
             insightsRecyclerView = binding.insightModelsViewRecyclerview
