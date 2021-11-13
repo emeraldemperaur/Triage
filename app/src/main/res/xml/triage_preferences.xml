@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        android:title="TRIAGE SETTINGS" >
+
+
+        <SwitchPreferenceCompat
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:key="pushNotificationsMode"
+            app:icon="@drawable/ic_baseline_message_24"
+            app:title="Enable API Notifications"
+            android:summary="Receive push message on Chiron DB record update"/>
+
+        <SwitchPreferenceCompat
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:key="apBChannelMode"
+            app:icon="@drawable/ic_baseline_record_voice_over_24"
+            app:title="Practitioner APB Channel"
+            android:summary="All Points Bulletin SMS broadcast"/>
+
+        <SwitchPreferenceCompat
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:key="cleanServerInsightMode"
+            app:icon="@drawable/ic_baseline_insights_24"
+            app:title="Extant Database Insights"
+            android:summary="Fetch Insight Models in Triage DB for current API server only"/>
+
+        <SwitchPreferenceCompat
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:key="cleanServerPivotMode"
+            app:title="Extant Database Pivots"
+            app:icon="@drawable/ic_baseline_pivot_circle_theme"
+            android:summary="Fetch Data Pivots in Triage DB for current API server only"/>
+
+        <Preference
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            android:title="Bulk Delete Insights DB"
+            android:key="bulkDeleteInsights"
+            app:icon="@drawable/ic_baseline_delete_sweep_24"
+            android:summary="Clear all Insight Models from Triage Database"
+            />
+
+        <Preference
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            android:title="Bulk Delete Pivots DB"
+            android:key="bulkDeletePivots"
+            app:icon="@drawable/ic_baseline_delete_sweep_24"
+            android:summary="Clear all Data Pivots from Triage Database"
+            />
+
+        <Preference
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            android:title="Logout"
+            android:key="bulkDeletePivots"
+            app:icon="@drawable/ic_baseline_exit_to_app_24"
+            android:summary="Disconnect extant Chiron API"
+            />
+
+
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
