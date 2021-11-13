@@ -9,7 +9,6 @@ import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
-import iot.empiaurhouse.triage.databinding.FragmentSettingsBinding
 
 
 private const val ARG_PARAM1 = ""
@@ -19,7 +18,6 @@ private const val ARG_PARAM2 = ""
 class SettingsFragment : PreferenceFragmentCompat() {
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var binding: FragmentSettingsBinding
     private lateinit var hubUserName: TextView
     private lateinit var searchButton: FloatingActionButton
     private lateinit var toolbarView: CollapsingToolbarLayout
@@ -47,16 +45,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     }
 
-    /*override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_settings, container, false)
-        container!!.context.setTheme(R.style.PreferencesTheme);
-
-        return null
-    }*/
 
     override fun onResume() {
         super.onResume()
@@ -68,8 +56,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onAttach(context: Context) {
         super.onAttach(context).also {
             themedContext = ContextThemeWrapper(context, R.style.PreferencesTheme)
-            // if you want to apply a theme overlay:
-            // themedContext.theme.applyStyle(R.style.MyThemeOverlay, true)
+
         }
     }
 
