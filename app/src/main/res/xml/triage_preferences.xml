@@ -11,7 +11,7 @@
             app:key="pushNotificationsMode"
             app:icon="@drawable/ic_baseline_message_24"
             app:title="Enable API Notifications"
-            android:summary="Receive push message on Chiron DB record update"/>
+            android:summary="Receive push message for Chiron DB record updates"/>
 
         <SwitchPreferenceCompat
             app:allowDividerAbove="true"
