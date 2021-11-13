@@ -18,8 +18,8 @@
             app:allowDividerBelow="true"
             app:key="apBChannelMode"
             app:icon="@drawable/ic_baseline_record_voice_over_24"
-            app:title="Practitioner APB Channel"
-            android:summary="All Points Bulletin SMS broadcast"/>
+            app:title="Allow Practitioners APB"
+            android:summary="All Points Bulletin SMS broadcasts"/>
 
         <SwitchPreferenceCompat
             app:allowDividerAbove="true"
@@ -43,7 +43,7 @@
             android:title="Bulk Delete Insights DB"
             android:key="bulkDeleteInsights"
             app:icon="@drawable/ic_baseline_delete_sweep_24"
-            android:summary="Clear all Insight Models from Triage Database"
+            android:summary="Clear all Insight Models from local Triage Database"
             />
 
         <Preference
@@ -52,14 +52,14 @@
             android:title="Bulk Delete Pivots DB"
             android:key="bulkDeletePivots"
             app:icon="@drawable/ic_baseline_delete_sweep_24"
-            android:summary="Clear all Data Pivots from Triage Database"
+            android:summary="Clear all Data Pivots from local Triage Database"
             />
 
         <Preference
             app:allowDividerAbove="true"
             app:allowDividerBelow="true"
             android:title="Logout"
-            android:key="bulkDeletePivots"
+            android:key="logoutTriage"
             app:icon="@drawable/ic_baseline_exit_to_app_24"
             android:summary="Disconnect extant Chiron API"
             />

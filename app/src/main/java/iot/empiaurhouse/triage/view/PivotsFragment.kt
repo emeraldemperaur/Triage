@@ -1,6 +1,7 @@
 package iot.empiaurhouse.triage.view
 
 import android.app.Application
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,6 +57,7 @@ class PivotsFragment : Fragment() {
     private lateinit var hubUserName: TextView
     private lateinit var searchButton: FloatingActionButton
     private lateinit var toolbarView: CollapsingToolbarLayout
+    private lateinit var dbPreferences: SharedPreferences
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,6 +72,8 @@ class PivotsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        dbPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        cleanDBEnabled = dbPreferences.getBoolean("cleanServerPivotMode", false)
         return inflater.inflate(R.layout.fragment_pivots, container, false)
     }
 

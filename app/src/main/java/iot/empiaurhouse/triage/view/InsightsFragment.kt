@@ -1,6 +1,7 @@
 package iot.empiaurhouse.triage.view
 
 import android.app.Application
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -52,10 +54,7 @@ class InsightFragment : Fragment() {
     private lateinit var noResultsText: TextView
     private lateinit var loadingText: TextView
     private lateinit var insightViewModel: InsightModelViewModel
-
-
-
-
+    private lateinit var dbPreferences: SharedPreferences
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +70,8 @@ class InsightFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        dbPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        cleanDBEnabled = dbPreferences.getBoolean("cleanServerInsightMode", false)
         return inflater.inflate(R.layout.fragment_insight, container, false)
     }
 
