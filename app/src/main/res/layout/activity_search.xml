@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/silver"
+    tools:context=".view.SearchActivity">
+
+
+
+
+    <iot.empiaurhouse.triage.utils.TypeWriterTextView
+        android:visibility="invisible"
+        android:id="@+id/search_patient_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="69dp"
+        android:layout_marginRight="3dp"
+        android:letterSpacing="0.44"
+        android:text="@string/search"
+        android:textAllCaps="true"
+        android:textColor="@color/chiron_blue"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/montserratbold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <TextView
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_patient_title"
+        android:layout_marginTop="-6dp"
+        android:layout_marginStart="13dp"
+        android:text="@string/patients"
+        android:textSize="19sp"
+        android:letterSpacing="0.21"
+        android:textAllCaps="true"
+        android:id="@+id/search_patient_subtitle"
+        android:textColor="@color/chiron_deep_grey"
+        android:fontFamily="@font/montserratregular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:visibility="invisible"
+        android:gravity="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_patient_subtitle"
+        android:layout_marginTop="23dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="13dp"
+        android:text="@string/chiron_server_url"
+        android:textSize="16sp"
+        android:letterSpacing="0.21"
+        android:textAllCaps="false"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:id="@+id/search_patient_server_title"
+        android:textColor="@color/chiron_blue"
+        android:fontFamily="@font/montserratregular"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:paddingStart="21dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="21dp"
+        android:id="@+id/chiron_search_close"
+        android:contentDescription="@string/close"
+        android:src="@drawable/ic_baseline_close_33"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="21dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:id="@+id/search_patient_title_bottom_line"
+        app:layout_constraintTop_toBottomOf="@id/search_patient_server_title"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="9dp"
+        android:background="@color/chiron_grey"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="visible" />
+
+    <androidx.core.widget.NestedScrollView
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_patient_title_bottom_line"
+        app:layout_constraintBottom_toTopOf="@id/search_patient_footer_bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/search_fragment_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <View
+        android:id="@+id/search_patient_footer_bottom_line"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="96dp"
+        android:background="@color/chiron_grey"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="visible" />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

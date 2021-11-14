@@ -67,7 +67,6 @@ class HubActivity : AppCompatActivity() {
         initSideOptionsMenu()
         initView()
         offSetFX()
-        //ListStore.cacheRecordsList(recordsFound)
         hideOption(0)
         hideOption(1)
         hubNavHostFragment = supportFragmentManager.findFragmentById(R.id.hub_nav_host_fragment) as NavHostFragment
@@ -85,6 +84,8 @@ class HubActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        hideOption(0)
+        hideOption(1)
     }
 
 
@@ -159,12 +160,20 @@ class HubActivity : AppCompatActivity() {
             setHomeAsUpIndicator(null)
         }
 
+        searchButton.setOnClickListener {
+            startActivity(
+                Intent(this@HubActivity, SearchActivity::class.java),
+                ActivityOptions.makeSceneTransitionAnimation(this@HubActivity).toBundle())
+        }
+
 
 
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.hub_toolmenu, menu)
+        hideOption(0)
+        hideOption(1)
         return true
     }
 
@@ -182,6 +191,11 @@ class HubActivity : AppCompatActivity() {
                 val optionIntent = Intent(Intent.ACTION_VIEW)
                 optionIntent.data = Uri.parse(url)
                 startActivity(optionIntent)
+            }
+            R.id.app_bar_search ->{
+                startActivity(
+                    Intent(this@HubActivity, SearchActivity::class.java),
+                    ActivityOptions.makeSceneTransitionAnimation(this@HubActivity).toBundle())
             }
         }
         return super.onOptionsItemSelected(item)
@@ -232,22 +246,6 @@ class HubActivity : AppCompatActivity() {
         }
     }
 
-
-//    private fun fetchRecordsData(): ArrayList<ChironRecords>{
-//        var result: Boolean
-//        val fetchedRecords = arrayListOf<ChironRecords>()
-//        recordsViewModel.serverStatus.observe(this, androidx.lifecycle.Observer{reply ->
-//            reply?.let{
-//                result = reply.isNotEmpty()
-//                fetchedRecords.addAll(reply)
-//                println("Records response object is not empty: $result")
-//                println("See Chiron Records response result: $reply")
-//
-//            }
-//        })
-//
-//        return fetchedRecords
-//    }
 
 
 

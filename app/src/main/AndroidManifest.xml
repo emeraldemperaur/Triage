@@ -13,13 +13,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Triage"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".view.SearchActivity"
+            android:screenOrientation="portrait"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".view.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
+            </intent-filter>
         </activity>
         <activity
             android:name=".view.MEActivity"
@@ -85,7 +94,6 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
     </application>
