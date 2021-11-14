@@ -103,7 +103,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun errorNoteSnackBar(view: View, title: String){
-        val connectErrorNote = Snackbar.make(view,"Bulk Deleted $title database successfully!", Snackbar.LENGTH_SHORT)
+        val connectErrorNote = Snackbar.make(view,"Bulk deleted $title database successfully!", Snackbar.LENGTH_SHORT)
         val errorNoteView = connectErrorNote.view
         errorNoteView.layoutParams
         val errorNoteText = errorNoteView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
