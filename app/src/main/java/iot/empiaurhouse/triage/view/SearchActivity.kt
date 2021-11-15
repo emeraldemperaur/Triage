@@ -65,7 +65,7 @@ class SearchActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             searchSubTitle.visibility = View.VISIBLE
             serverTitle.visibility = View.VISIBLE
-        }, 333)
+        }, 1000)
 
     }
 
@@ -79,7 +79,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onBackPressed()
     {
-        //
+        finish()
     }
 
 
