@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
@@ -13,10 +14,13 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.model.Patient
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
@@ -59,10 +63,11 @@ class SearchRecyclerAdapter(private val searchList: ArrayList<Patient>, private 
         return ViewHolder(v)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val focusItem = resultsFilterList[position]
         holder.resultFullName.text = focusItem.fullName
-        holder.resultDoB.text = ""
+        holder.resultDoB.text = insightObjectDateFormat(focusItem.birthDate)
         holder.resultBloodGroup.text = focusItem.bloodGroup
         holder.resultInsurer.text = focusItem.insuranceVendor
         val holderText = "Not Provided"
@@ -207,5 +212,14 @@ class SearchRecyclerAdapter(private val searchList: ArrayList<Patient>, private 
 
         }
     }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun insightObjectDateFormat(stringDate: String?): String {
+        val dateObject = LocalDate.parse(stringDate)
+        val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
+        return dateObject.format(formatter)
+    }
+
 
     }
