@@ -13,10 +13,15 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import iot.empiaurhouse.triage.R
+import iot.empiaurhouse.triage.adapter.SearchRecyclerAdapter
 import iot.empiaurhouse.triage.databinding.FragmentSearchBinding
+import iot.empiaurhouse.triage.model.Patient
+import iot.empiaurhouse.triage.viewmodel.ChironRecordsViewModel
 import java.util.*
 
 private const val ARG_PARAM1 = "param1"
@@ -30,8 +35,11 @@ class SearchFragment : Fragment() {
     private lateinit var searchFieldText: AutoCompleteTextView
     private lateinit var searchField: TextInputLayout
     private lateinit var searchView: SearchView
-    private lateinit var resultsRV: RecyclerView
+    private var resultsRV: RecyclerView? = null
+    private var resultsRVA: SearchRecyclerAdapter? = null
     private lateinit var noResults: TextView
+    private lateinit var patientRecords: ArrayList<Patient>
+    private lateinit var patientVM: ChironRecordsViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,12 +63,15 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchBinding.bind(view)
+        patientVM = ViewModelProvider(this)[ChironRecordsViewModel::class.java]
+        patientVM.pullChironRecords(1)
         searchFieldText = binding.searchEndpointFieldText
         searchField = binding.searchEndpointField
         searchFieldText = binding.searchEndpointFieldText
         searchView = binding.searchPatientsField
         resultsRV = binding.searchPatientsResultsRecycler
         noResults = binding.searchPatientNoResults
+        fetchPatientsRecords()
         initSearchUI()
 
     }
@@ -77,46 +88,127 @@ class SearchFragment : Fragment() {
             var noResultsText = ""
             when(endPointSelected.toString()){
                 "First Name" ->{
-                    resultsRV.visibility = View.GONE
+                    resultsRV = null
+                    resultsRVA = null
+                    resultsRV = binding.searchPatientsResultsRecycler
+                    resultsRV!!.visibility = View.GONE
+                    fetchPatientsRecords()
+                    resultsRVA = SearchRecyclerAdapter(patientRecords, noResults, 1)
+                    resultsRV!!.adapter = resultsRVA
+                    resultsRV!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
                     resetInputField(searchView)
-                    //reset Adapter with endpoint code here
+                    initQueryListener(searchView, resultsRVA!!)
                     noResultsText = "First Name '${searchView.query}'\n not found\n in Patient records"
-                    resultsRV.visibility = View.VISIBLE
+                    resultsRV!!.visibility = View.VISIBLE
                 }
                 "Last Name" ->{
-                    resultsRV.visibility = View.GONE
+                    resultsRV = null
+                    resultsRVA = null
+                    //resultsRV!!.adapter = null
+                    resultsRV = binding.searchPatientsResultsRecycler
+                    resultsRV!!.visibility = View.GONE
+                    fetchPatientsRecords()
+                    resultsRVA = SearchRecyclerAdapter(patientRecords, noResults, 2)
+                    resultsRV!!.adapter = resultsRVA
+                    resultsRV!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
                     resetInputField(searchView)
+                    initQueryListener(searchView, resultsRVA!!)
                     noResultsText = "Last Name '${searchView.query}'\n not found\n in Patient records"
-                    resultsRV.visibility = View.VISIBLE
+                    resultsRV!!.visibility = View.VISIBLE
                 }
                 "Insurer" ->{
-                    resultsRV.visibility = View.GONE
+                    resultsRV = null
+                    resultsRVA = null
+                    //resultsRV!!.adapter = null
+                    resultsRV = binding.searchPatientsResultsRecycler
+                    resultsRV!!.visibility = View.GONE
+                    fetchPatientsRecords()
+                    resultsRVA = SearchRecyclerAdapter(patientRecords, noResults, 3)
+                    resultsRV!!.adapter = resultsRVA
+                    resultsRV!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
                     resetInputField(searchView)
+                    initQueryListener(searchView, resultsRVA!!)
                     noResultsText = "Insurer '${searchView.query}'\n not found\n in Patient records"
-                    resultsRV.visibility = View.VISIBLE
+                    resultsRV!!.visibility = View.VISIBLE
                 }
                 "Insurer ID" ->{
-                    resultsRV.visibility = View.GONE
+                    resultsRV = null
+                    resultsRVA = null
+                    //resultsRV!!.adapter = null
+                    resultsRV = binding.searchPatientsResultsRecycler
+                    resultsRV!!.visibility = View.GONE
+                    fetchPatientsRecords()
+                    resultsRVA = SearchRecyclerAdapter(patientRecords, noResults, 4)
+                    resultsRV!!.adapter = resultsRVA
+                    resultsRV!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
                     resetInputField(searchView)
+                    initQueryListener(searchView, resultsRVA!!)
                     noResultsText = "Insurer ID '${searchView.query}'\n not found\n in Patient records"
-                    resultsRV.visibility = View.VISIBLE
+                    resultsRV!!.visibility = View.VISIBLE
                 }
                 "Blood Group" ->{
-                    resultsRV.visibility = View.GONE
+                    resultsRV = null
+                    resultsRVA = null
+                    //resultsRV!!.adapter = null
+                    resultsRV = binding.searchPatientsResultsRecycler
+                    resultsRV!!.visibility = View.GONE
+                    fetchPatientsRecords()
+                    resultsRVA = SearchRecyclerAdapter(patientRecords, noResults, 5)
+                    resultsRV!!.adapter = resultsRVA
+                    resultsRV!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
                     resetInputField(searchView)
+                    initQueryListener(searchView, resultsRVA!!)
                     noResultsText = "Blood Group '${searchView.query}'\n not found\n in Patient records"
-                    resultsRV.visibility = View.VISIBLE
+                    resultsRV!!.visibility = View.VISIBLE
 
                 }
                 "Birth Date" ->{
-                    resultsRV.visibility = View.GONE
+                    resultsRV = null
+                    resultsRVA = null
+                    //resultsRV!!.adapter = null
+                    resultsRV = binding.searchPatientsResultsRecycler
+                    resultsRV!!.visibility = View.GONE
+                    fetchPatientsRecords()
+                    resultsRVA = SearchRecyclerAdapter(patientRecords, noResults, 6)
+                    resultsRV!!.adapter = resultsRVA
+                    resultsRV!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+                    resetInputField(searchView)
+                    initQueryListener(searchView, resultsRVA!!)
                     noResultsText = "Birth Date '${searchView.query}'\n not found\n in Patient records"
                     initDoBSelection(searchView)
-                    resultsRV.visibility = View.VISIBLE
+                    resultsRV!!.visibility = View.VISIBLE
                 }
             }
             noResults.text = noResultsText
         }
+
+    }
+
+    private fun initQueryListener(inputField: SearchView, sRA: SearchRecyclerAdapter){
+        inputField.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                sRA.filter.filter(newText)
+                return false
+            }
+
+        })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        initSearchUI()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        resultsRV?.adapter = null
+        resultsRVA = null
+        resultsRV = null
 
     }
 
@@ -163,6 +255,29 @@ class SearchFragment : Fragment() {
 
 
     }
+
+    private fun fetchPatientsRecords(): ArrayList<Patient>{
+        var result: Boolean
+        val fetchedPatients = arrayListOf<Patient>()
+        if (view != null) {
+            patientVM.patientRecords.observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer { reply ->
+                    reply?.let {
+                        result = reply.isNotEmpty()
+                        if (fetchedPatients.isEmpty()) {
+                            fetchedPatients.addAll(reply)
+                            patientRecords = fetchedPatients
+                            println("Patient Records response object is not empty: $result")
+                            println("See Chiron Records (Patient) response result: $reply")
+                        }
+                    }
+                })
+        }
+        return fetchedPatients
+    }
+
+
 
     companion object {
         @JvmStatic

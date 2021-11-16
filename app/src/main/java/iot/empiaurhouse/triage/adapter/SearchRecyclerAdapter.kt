@@ -1,4 +1,211 @@
 package iot.empiaurhouse.triage.adapter
 
-class SearchRecyclerAdapter {
-}
+import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
+import android.os.Handler
+import android.os.Looper
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView
+import iot.empiaurhouse.triage.R
+import iot.empiaurhouse.triage.model.Patient
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.properties.Delegates
+
+class SearchRecyclerAdapter(private val searchList: ArrayList<Patient>, private val finderViewObject: View, private val endPointCode: Int): RecyclerView.Adapter<SearchRecyclerAdapter.ViewHolder>(),
+    Filterable {
+
+    private lateinit var finderContext: Context
+    private lateinit var finderView: View
+    private var endPointCodex by Delegates.notNull<Int>()
+    var resultsFilterList = ArrayList<Patient>()
+
+    init {
+        resultsFilterList = searchList
+    }
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        val resultPrescriptionIcon: ImageView = itemView.findViewById(R.id.patients_found_list_prescription_icon)
+        val resultVisitIcon: ImageView = itemView.findViewById(R.id.patients_found_list_visits_icon)
+        val resultFullName: TextView = itemView.findViewById(R.id.patients_found_list_name_text)
+        val resultDoB: TextView = itemView.findViewById(R.id.patients_found_list_dob_text)
+        val resultBloodGroup: TextView = itemView.findViewById(R.id.patients_found_list_blood_group)
+        val resultInsurer: TextView = itemView.findViewById(R.id.patients_found_list_insurer_text)
+        val resultInsurerID: TextView = itemView.findViewById(R.id.patients_found_list_insurer_subtext)
+        val resultDiagnosesCount: TextView = itemView.findViewById(R.id.patients_found_list_diagnoses_count_text)
+        val resultPrescriptionCount: TextView = itemView.findViewById(R.id.patients_found_list_prescription_count_text)
+        val resultVisitCount: TextView = itemView.findViewById(R.id.patients_found_list_visit_count_text)
+        val resultItem: CardView = itemView.findViewById(R.id.patients_found_list_view)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val v = LayoutInflater.from(parent.context)
+            .inflate(R.layout.patient_search_item_view, parent, false)
+        finderContext = parent.context
+        finderView = finderViewObject
+        endPointCodex = endPointCode
+        val holder = ViewHolder(v)
+        holder.resultItem.setOnClickListener {  }
+        return ViewHolder(v)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val focusItem = resultsFilterList[position]
+        holder.resultFullName.text = focusItem.fullName
+        holder.resultDoB.text = ""
+        holder.resultBloodGroup.text = focusItem.bloodGroup
+        holder.resultInsurer.text = focusItem.insuranceVendor
+        val holderText = "Not Provided"
+        if (focusItem.insuranceVendor.isNullOrBlank()){
+            holder.resultInsurer.text = holderText
+        }
+        holder.resultInsurerID.text = focusItem.insuranceVendorID
+        if (focusItem.insuranceVendorID.isNullOrBlank()){
+            holder.resultInsurerID.text = holderText
+        }
+        if (focusItem.diagnoses != null && focusItem.diagnoses.size > 0){
+            val diagnosesCount = focusItem.diagnoses.size
+            val diagnosesCountText = "(${diagnosesCount})"
+            holder.resultDiagnosesCount.text = diagnosesCountText
+        }
+        val focusDiagnoses = focusItem.diagnoses
+        if (!focusDiagnoses.isNullOrEmpty()) {
+            var resultRxCounter = 0
+            var resultVisitCounter = 0
+            for (diagnosis in focusDiagnoses) {
+                if (!diagnosis.prescriptions.isNullOrEmpty()) {
+                    resultRxCounter += diagnosis.prescriptions.size
+                }
+                if (!diagnosis.visits.isNullOrEmpty()){
+                    resultVisitCounter += diagnosis.visits.size
+                }
+            }
+            holder.resultPrescriptionCount.text = resultRxCounter.toString()
+            holder.resultVisitCount.text = resultVisitCounter.toString()
+            if (resultRxCounter < 1){
+                holder.resultPrescriptionCount.setTextColor(Color.parseColor("#A9A9A9"))
+                holder.resultPrescriptionIcon.setColorFilter(Color.parseColor("#A9A9A9"))
+            }
+            if (resultVisitCounter < 1){
+                holder.resultVisitCount.setTextColor(Color.parseColor("#A9A9A9"))
+                holder.resultVisitIcon.setColorFilter(Color.parseColor("#A9A9A9"))
+            }
+
+        }
+        holder.resultItem.setOnClickListener {
+            if (!focusItem.phoneNumber.isNullOrBlank()){
+                val dialIntent = Intent(Intent.ACTION_DIAL)
+                dialIntent.data = Uri.parse("tel:" + focusItem.phoneNumber)
+                finderContext.startActivity(dialIntent)
+            }else if (!focusItem.address.isNullOrBlank()){
+                //
+            }
+
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return resultsFilterList.size
+    }
+
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                if (charSearch.isEmpty()) {
+                    resultsFilterList = searchList
+                } else {
+                    val resultList = ArrayList<Patient>()
+                    for (row in searchList) {
+                        when(endPointCodex) {
+                            1 ->{
+                            if (row.firstName!!.contains(charSearch.lowercase(Locale.ROOT)) ||
+                                row.firstName.contains(charSearch.uppercase(Locale.ROOT))) {
+                                finderView.visibility = View.GONE
+                                resultList.add(row)
+                            }else{
+                                finderView.visibility = View.VISIBLE
+                            }
+                            }
+                            2 ->{
+                                if (row.lastName!!.contains(charSearch.lowercase(Locale.ROOT)) ||
+                                    row.lastName.contains(charSearch.uppercase(Locale.ROOT))) {
+                                    finderView.visibility = View.GONE
+                                    resultList.add(row)
+                                }else{
+                                    finderView.visibility = View.VISIBLE
+                                }
+                            }
+                            3 ->{
+                                if (row.insuranceVendor!!.contains(charSearch.lowercase(Locale.ROOT)) ||
+                                    row.insuranceVendor.contains(charSearch.uppercase(Locale.ROOT))) {
+                                    finderView.visibility = View.GONE
+                                    resultList.add(row)
+                                }else{
+                                    finderView.visibility = View.VISIBLE
+                                }
+                            }
+                            4 ->{
+                                if (row.insuranceVendorID!!.contains(charSearch.lowercase(Locale.ROOT)) ||
+                                    row.insuranceVendorID.contains(charSearch.uppercase(Locale.ROOT))) {
+                                    finderView.visibility = View.GONE
+                                    resultList.add(row)
+                                }else{
+                                    finderView.visibility = View.VISIBLE
+                                }
+                            }
+                            5 ->{
+                                if (row.bloodGroup!!.contains(charSearch.lowercase(Locale.ROOT)) ||
+                                    row.bloodGroup.contains(charSearch.uppercase(Locale.ROOT))) {
+                                    finderView.visibility = View.GONE
+                                    resultList.add(row)
+                                }else{
+                                    finderView.visibility = View.VISIBLE
+                                }
+                            }
+                            6 ->{
+                                if (row.birthDate!!.contains(charSearch.lowercase(Locale.ROOT)) ||
+                                    row.birthDate.contains(charSearch.uppercase(Locale.ROOT))) {
+                                        finderView.visibility = View.GONE
+                                    resultList.add(row)
+                                }else{
+                                    finderView.visibility = View.VISIBLE
+                                }
+                            }
+
+
+                        }
+
+                    }
+                    resultsFilterList = resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = resultsFilterList
+                return filterResults
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                Handler(Looper.getMainLooper()).postDelayed({
+                    resultsFilterList = results?.values as ArrayList<Patient>
+                    notifyDataSetChanged()
+                }, 1000)
+
+            }
+
+
+        }
+    }
+
+    }

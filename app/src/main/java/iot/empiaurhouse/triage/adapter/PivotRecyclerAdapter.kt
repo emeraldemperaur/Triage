@@ -17,6 +17,7 @@ import iot.empiaurhouse.triage.view.DashboardFragmentDirections
 
 class PivotRecyclerAdapter(private val pivotList: ArrayList<Pivot>, private val hubViewObject: View): RecyclerView.Adapter<PivotRecyclerAdapter.ViewHolder>() {
 
+
     private lateinit var pivotContext: Context
     private lateinit var hubView: View
 

@@ -328,8 +328,10 @@
     <string name="pie_chart_info">Summarize a set of nominal data or display different values of a given variable</string>
     <string name="line_chart_info">A visual comparison of how two variables shown on the X and Y axis are related or vary</string>
     <string name="scatter_plot_info">A scatter plot shows the axial direction of a relationship between the data variables in focus</string>
-    <string name="_13_november_2021_13_november_2021">13 November, 2021 - 13 November, 2021</string>
+    <string name="_13_november_2021_13_november_2021">13 November, 2021 – 13 November, 2021</string>
     <string name="metadata">Metadata</string>
     <string name="search_by">Search By</string>
     <string name="first_name_user_not_found_in_patient_records">First Name \'User\' not found in Patient records</string>
+    <string name="_10_">(10)</string>
+    <string name="_11_feb_2021">11 FEB 2021</string>
 </resources>
