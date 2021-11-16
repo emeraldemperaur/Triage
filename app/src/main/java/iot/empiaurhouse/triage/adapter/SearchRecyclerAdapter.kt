@@ -5,8 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +55,6 @@ class SearchRecyclerAdapter(private val searchList: ArrayList<Patient>, private 
             .inflate(R.layout.patient_search_item_view, parent, false)
         finderContext = parent.context
         finderView = finderViewObject
-        endPointCodex = endPointCode
         val holder = ViewHolder(v)
         holder.resultItem.setOnClickListener {  }
         return ViewHolder(v)
@@ -133,59 +130,61 @@ class SearchRecyclerAdapter(private val searchList: ArrayList<Patient>, private 
                 } else {
                     val resultList = ArrayList<Patient>()
                     for (row in searchList) {
-                        when(endPointCodex) {
+                        when(endPointCode) {
                             1 ->{
-                            if (row.firstName!!.contains(charSearch.lowercase(Locale.ROOT)) ||
-                                row.firstName.contains(charSearch.uppercase(Locale.ROOT))) {
+                            if (row.firstName!!.lowercase().contains(charSearch.lowercase(Locale.ROOT))) {
                                 finderView.visibility = View.GONE
                                 resultList.add(row)
                             }else{
-                                finderView.visibility = View.VISIBLE
+                                //finderView.visibility = View.VISIBLE
+                                resultsFilterList = resultList
                             }
                             }
                             2 ->{
-                                if (row.lastName!!.contains(charSearch.lowercase(Locale.ROOT)) ||
-                                    row.lastName.contains(charSearch.uppercase(Locale.ROOT))) {
+                                if (row.lastName!!.lowercase().contains(charSearch.lowercase(Locale.ROOT))) {
                                     finderView.visibility = View.GONE
                                     resultList.add(row)
                                 }else{
-                                    finderView.visibility = View.VISIBLE
+                                    //finderView.visibility = View.VISIBLE
+                                    resultsFilterList = resultList
                                 }
                             }
                             3 ->{
-                                if (row.insuranceVendor!!.contains(charSearch.lowercase(Locale.ROOT)) ||
-                                    row.insuranceVendor.contains(charSearch.uppercase(Locale.ROOT))) {
+                                if (row.insuranceVendor!!.lowercase().contains(charSearch.lowercase(Locale.ROOT))) {
                                     finderView.visibility = View.GONE
                                     resultList.add(row)
                                 }else{
-                                    finderView.visibility = View.VISIBLE
+                                    //finderView.visibility = View.VISIBLE
+                                    resultsFilterList = resultList
                                 }
                             }
                             4 ->{
-                                if (row.insuranceVendorID!!.contains(charSearch.lowercase(Locale.ROOT)) ||
-                                    row.insuranceVendorID.contains(charSearch.uppercase(Locale.ROOT))) {
+                                if (row.insuranceVendorID!!.lowercase().contains(charSearch.lowercase(Locale.ROOT))) {
                                     finderView.visibility = View.GONE
                                     resultList.add(row)
                                 }else{
-                                    finderView.visibility = View.VISIBLE
+                                    //finderView.visibility = View.VISIBLE
+                                    resultsFilterList = resultList
                                 }
                             }
                             5 ->{
-                                if (row.bloodGroup!!.contains(charSearch.lowercase(Locale.ROOT)) ||
-                                    row.bloodGroup.contains(charSearch.uppercase(Locale.ROOT))) {
+                                if (row.bloodGroup!!.lowercase().contains(charSearch.lowercase(Locale.ROOT))) {
                                     finderView.visibility = View.GONE
                                     resultList.add(row)
                                 }else{
-                                    finderView.visibility = View.VISIBLE
+                                    //finderView.visibility = View.VISIBLE
+                                    resultsFilterList = resultList
+
                                 }
                             }
                             6 ->{
-                                if (row.birthDate!!.contains(charSearch.lowercase(Locale.ROOT)) ||
-                                    row.birthDate.contains(charSearch.uppercase(Locale.ROOT))) {
+                                if (row.birthDate!!.lowercase().contains(charSearch.lowercase(Locale.ROOT))) {
                                         finderView.visibility = View.GONE
                                     resultList.add(row)
                                 }else{
-                                    finderView.visibility = View.VISIBLE
+                                    //finderView.visibility = View.VISIBLE
+                                    resultsFilterList = resultList
+
                                 }
                             }
 
@@ -193,7 +192,6 @@ class SearchRecyclerAdapter(private val searchList: ArrayList<Patient>, private 
                         }
 
                     }
-                    resultsFilterList = resultList
                 }
                 val filterResults = FilterResults()
                 filterResults.values = resultsFilterList
@@ -201,11 +199,18 @@ class SearchRecyclerAdapter(private val searchList: ArrayList<Patient>, private 
             }
 
             @Suppress("UNCHECKED_CAST")
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                Handler(Looper.getMainLooper()).postDelayed({
-                    resultsFilterList = results?.values as ArrayList<Patient>
+            override fun publishResults(constraint: CharSequence?, filterResults: FilterResults?) {
+                if (filterResults?.values != null){
+                    resultsFilterList = filterResults.values as ArrayList<Patient>?: arrayListOf()
+                    //filterResults.values = resultsFilterList
                     notifyDataSetChanged()
-                }, 1000)
+                }else if (filterResults?.values == null){
+                    filterResults!!.values = resultsFilterList
+                    notifyDataSetChanged()
+                    if (resultsFilterList.size > 0){
+                        finderView.visibility = View.GONE
+                    }
+                }
 
             }
 

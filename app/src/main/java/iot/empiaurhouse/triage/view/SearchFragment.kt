@@ -98,13 +98,12 @@ class SearchFragment : Fragment() {
                     resultsRV!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
                     resetInputField(searchView)
                     initQueryListener(searchView, resultsRVA!!)
-                    noResultsText = "First Name '${searchView.query}'\n not found\n in Patient records"
+                    noResultsText = "First Name \n not found\n in Patient records"
                     resultsRV!!.visibility = View.VISIBLE
                 }
                 "Last Name" ->{
                     resultsRV = null
                     resultsRVA = null
-                    //resultsRV!!.adapter = null
                     resultsRV = binding.searchPatientsResultsRecycler
                     resultsRV!!.visibility = View.GONE
                     fetchPatientsRecords()
@@ -113,13 +112,12 @@ class SearchFragment : Fragment() {
                     resultsRV!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
                     resetInputField(searchView)
                     initQueryListener(searchView, resultsRVA!!)
-                    noResultsText = "Last Name '${searchView.query}'\n not found\n in Patient records"
+                    noResultsText = "Last Name \n not found\n in Patient records"
                     resultsRV!!.visibility = View.VISIBLE
                 }
                 "Insurer" ->{
                     resultsRV = null
                     resultsRVA = null
-                    //resultsRV!!.adapter = null
                     resultsRV = binding.searchPatientsResultsRecycler
                     resultsRV!!.visibility = View.GONE
                     fetchPatientsRecords()
@@ -128,13 +126,12 @@ class SearchFragment : Fragment() {
                     resultsRV!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
                     resetInputField(searchView)
                     initQueryListener(searchView, resultsRVA!!)
-                    noResultsText = "Insurer '${searchView.query}'\n not found\n in Patient records"
+                    noResultsText = "Insurer \n not found\n in Patient records"
                     resultsRV!!.visibility = View.VISIBLE
                 }
                 "Insurer ID" ->{
                     resultsRV = null
                     resultsRVA = null
-                    //resultsRV!!.adapter = null
                     resultsRV = binding.searchPatientsResultsRecycler
                     resultsRV!!.visibility = View.GONE
                     fetchPatientsRecords()
@@ -143,13 +140,12 @@ class SearchFragment : Fragment() {
                     resultsRV!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
                     resetInputField(searchView)
                     initQueryListener(searchView, resultsRVA!!)
-                    noResultsText = "Insurer ID '${searchView.query}'\n not found\n in Patient records"
+                    noResultsText = "Insurer ID \n not found\n in Patient records"
                     resultsRV!!.visibility = View.VISIBLE
                 }
                 "Blood Group" ->{
                     resultsRV = null
                     resultsRVA = null
-                    //resultsRV!!.adapter = null
                     resultsRV = binding.searchPatientsResultsRecycler
                     resultsRV!!.visibility = View.GONE
                     fetchPatientsRecords()
@@ -158,14 +154,13 @@ class SearchFragment : Fragment() {
                     resultsRV!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
                     resetInputField(searchView)
                     initQueryListener(searchView, resultsRVA!!)
-                    noResultsText = "Blood Group '${searchView.query}'\n not found\n in Patient records"
+                    noResultsText = "Blood Group \n not found\n in Patient records"
                     resultsRV!!.visibility = View.VISIBLE
 
                 }
                 "Birth Date" ->{
                     resultsRV = null
                     resultsRVA = null
-                    //resultsRV!!.adapter = null
                     resultsRV = binding.searchPatientsResultsRecycler
                     resultsRV!!.visibility = View.GONE
                     fetchPatientsRecords()
@@ -174,7 +169,7 @@ class SearchFragment : Fragment() {
                     resultsRV!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
                     resetInputField(searchView)
                     initQueryListener(searchView, resultsRVA!!)
-                    noResultsText = "Birth Date '${searchView.query}'\n not found\n in Patient records"
+                    noResultsText = "Birth Date \n not found\n in Patient records"
                     initDoBSelection(searchView)
                     resultsRV!!.visibility = View.VISIBLE
                 }
@@ -185,8 +180,11 @@ class SearchFragment : Fragment() {
     }
 
     private fun initQueryListener(inputField: SearchView, sRA: SearchRecyclerAdapter){
+        inputField.setQuery("", false)
+        inputField.isIconified = true
         inputField.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
+                sRA.filter.filter(query)
                 return false
             }
 
