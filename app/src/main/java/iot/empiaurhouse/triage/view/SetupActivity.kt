@@ -114,8 +114,7 @@ class SetupActivity : AppCompatActivity() {
         if (chironVerify.verifyID(binding.setupUsername, binding.chironIDNote)
             && (chironVerify.verifyURL(binding.setupServerUrl, binding.chironURLNote)
                     || chironVerify.verifyIP(binding.setupServerUrl, binding.chironURLNote))){
-                        // TODO ping Chiron URL before intent
-
+                        //ping Chiron URL before intent
             if(chironVerify.chironConnect(this, serverPing())){
                 userManager.storeUserData(binding.setupUsername.text.toString(), binding.setupServerUrl.text.toString(),
                 "","${binding.setupUsername.text}::${binding.setupServerUrl.text}")
