@@ -1,17 +1,27 @@
 package iot.empiaurhouse.triage.view
 
+import android.Manifest
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.ContentValues.TAG
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.telephony.SmsManager
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,9 +30,12 @@ import com.google.android.material.textfield.TextInputLayout
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.adapter.SearchRecyclerAdapter
 import iot.empiaurhouse.triage.databinding.FragmentSearchBinding
+import iot.empiaurhouse.triage.model.Doctor
 import iot.empiaurhouse.triage.model.Patient
+import iot.empiaurhouse.triage.utils.UserPreferenceManager
 import iot.empiaurhouse.triage.viewmodel.ChironRecordsViewModel
 import java.util.*
+
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -40,6 +53,12 @@ class SearchFragment : Fragment() {
     private lateinit var noResults: TextView
     private lateinit var patientRecords: ArrayList<Patient>
     private lateinit var patientVM: ChironRecordsViewModel
+    private lateinit var serverTitle: TextView
+    private lateinit var doctorRecords: ArrayList<Doctor>
+    private lateinit var userManager: UserPreferenceManager
+    private val requestSMSCode = 1
+    private lateinit var numberList: ArrayList<String>
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +74,7 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        userManager = UserPreferenceManager(requireContext())
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
@@ -71,8 +91,10 @@ class SearchFragment : Fragment() {
         searchView = binding.searchPatientsField
         resultsRV = binding.searchPatientsResultsRecycler
         noResults = binding.searchPatientNoResults
+        serverTitle = requireActivity().findViewById(R.id.search_patient_server_title)
         fetchPatientsRecords()
         initSearchUI()
+        initAPBPush()
 
     }
 
@@ -276,6 +298,118 @@ class SearchFragment : Fragment() {
     }
 
 
+    private fun initAPBPush(){
+        serverTitle.setOnLongClickListener {
+            patientVM.pullChironRecords(6)
+            var docResult: Boolean
+            val fetchedDoctors = arrayListOf<Doctor>()
+            if (view != null) {
+                patientVM.doctorRecords.observe(
+                    viewLifecycleOwner,
+                    androidx.lifecycle.Observer { reply ->
+                        reply?.let {
+                            docResult = reply.isNotEmpty()
+                            if (fetchedDoctors.isEmpty()) {
+                                fetchedDoctors.addAll(reply)
+                                doctorRecords = fetchedDoctors
+                                println("Doctor Records response object is not empty: $docResult")
+                                println("See Chiron Records (Doctor) response result: $reply")
+                            }
+                        }
+                    })
+                val numbersList = arrayListOf<String>()
+                Handler(Looper.getMainLooper()).postDelayed({
+                for (doctor in fetchedDoctors){
+                    if (!doctor.contactInfo.isNullOrEmpty()){
+                        numbersList.add(doctor.contactInfo)
+                    }
+                }
+                    checkForSmsPermission(numbersList)
+                }, 666)
+
+            }
+            true
+
+
+        }
+    }
+
+    private fun confirmAPBPush(numbersList: ArrayList<String>){
+        if (numbersList.isNotEmpty()) {
+            numberList = numbersList
+            val smsManager = SmsManager.getDefault()
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Sending All Points Bulletin...")
+            builder.setIcon(iot.empiaurhouse.triage.R.drawable.ic_baseline_record_voice_over_24)
+            builder.setMessage("${numbersList.size} recipient(s) found\n\nAre you sure you'd like " +
+                    "to proceed with this push broadcast?\n\n SMS charges may apply")
+            builder.setPositiveButton("YES") { _, _ ->
+                for (number in numbersList){
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        println("Sending APB to $number...")
+                        smsManager.sendTextMessage(number, null, "APB -\n\t" +
+                                "This is an All Points Bulletin push broadcast from ${userManager.getChironID()}", null, null)
+                    }, 1000)
+                }
+
+            }
+
+            builder.setNegativeButton("NO") { dialog, _ ->
+                dialog.dismiss()
+            }
+            builder.show()
+
+        }
+    }
+
+
+    private fun checkForSmsPermission(numbersList: ArrayList<String>) {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.SEND_SMS
+            ) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d(TAG, "not_granted")
+            // Permission not yet granted. Use requestPermissions().
+            // MY_PERMISSIONS_REQUEST_SEND_SMS is an
+            // app-defined int constant. The callback method gets the
+            // result of the request.
+            ActivityCompat.requestPermissions(
+                requireActivity(), arrayOf(Manifest.permission.SEND_SMS),
+                requestSMSCode
+            )
+        } else {
+            // Permission already granted. Enable the SMS button.
+            confirmAPBPush(numbersList)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
+        // For each permission, checks if it is granted or not.
+        when (requestCode) {
+            requestSMSCode -> {
+                if (permissions[0].equals(
+                        Manifest.permission.SEND_SMS,
+                        ignoreCase = true
+                    )
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
+                    // Permission was granted. Enable the button.
+                    confirmAPBPush(numberList)
+                } else {
+                    Log.d(TAG, "SMS SEND Permission Denied")
+                    Toast.makeText(
+                        requireContext(), "APB disabled. SMS Permission denied",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
 
     companion object {
         @JvmStatic

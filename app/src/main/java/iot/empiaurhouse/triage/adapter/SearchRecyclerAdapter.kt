@@ -21,14 +21,12 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.properties.Delegates
 
 class SearchRecyclerAdapter(private val searchList: ArrayList<Patient>, private val finderViewObject: View, private val endPointCode: Int): RecyclerView.Adapter<SearchRecyclerAdapter.ViewHolder>(),
     Filterable {
 
     private lateinit var finderContext: Context
     private lateinit var finderView: View
-    private var endPointCodex by Delegates.notNull<Int>()
     var resultsFilterList = ArrayList<Patient>()
 
     init {
@@ -122,12 +120,11 @@ class SearchRecyclerAdapter(private val searchList: ArrayList<Patient>, private 
                 dialIntent.data = Uri.parse("tel:" + focusItem.phoneNumber)
                 finderContext.startActivity(dialIntent)
             }
-
         }
         holder.resultItem.setOnLongClickListener {
             if (!focusItem.address.isNullOrBlank()){
             val residence = "${focusItem.address}, ${focusItem.city}"
-            val residenceIntent =  Intent(android.content.Intent.ACTION_VIEW,
+            val residenceIntent =  Intent(Intent.ACTION_VIEW,
                 Uri.parse("google.navigation:q=$residence"))
             residenceIntent.setPackage("com.google.android.apps.maps");
             finderContext.startActivity(residenceIntent)
