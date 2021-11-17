@@ -77,13 +77,25 @@ class SearchRecyclerAdapter(private val searchList: ArrayList<Patient>, private 
         }
         if (focusItem.diagnoses != null && focusItem.diagnoses.size > 0){
             val diagnosesCount = focusItem.diagnoses.size
-            val diagnosesCountText = "(${diagnosesCount})"
+            val diagnosesCountText = "$diagnosesCount"
             holder.resultDiagnosesCount.text = diagnosesCountText
         }
         val focusDiagnoses = focusItem.diagnoses
+        if (focusDiagnoses.isNullOrEmpty()){
+            holder.resultPrescriptionCount.setTextColor(Color.parseColor("#A9A9A9"))
+            holder.resultPrescriptionIcon.setColorFilter(Color.parseColor("#A9A9A9"))
+            holder.resultVisitCount.setTextColor(Color.parseColor("#A9A9A9"))
+            holder.resultVisitIcon.setColorFilter(Color.parseColor("#A9A9A9"))
+            holder.resultPrescriptionCount.text = 0.toString()
+            holder.resultVisitCount.text = 0.toString()
+            holder.resultDiagnosesCount.text = 0.toString()
+            holder.resultDiagnosesCount.setTextColor(Color.parseColor("#A9A9A9"))
+        }
         if (!focusDiagnoses.isNullOrEmpty()) {
             var resultRxCounter = 0
             var resultVisitCounter = 0
+            holder.resultPrescriptionCount.text = resultRxCounter.toString()
+            holder.resultVisitCount.text = resultVisitCounter.toString()
             for (diagnosis in focusDiagnoses) {
                 if (!diagnosis.prescriptions.isNullOrEmpty()) {
                     resultRxCounter += diagnosis.prescriptions.size
@@ -109,10 +121,18 @@ class SearchRecyclerAdapter(private val searchList: ArrayList<Patient>, private 
                 val dialIntent = Intent(Intent.ACTION_DIAL)
                 dialIntent.data = Uri.parse("tel:" + focusItem.phoneNumber)
                 finderContext.startActivity(dialIntent)
-            }else if (!focusItem.address.isNullOrBlank()){
-                //
             }
 
+        }
+        holder.resultItem.setOnLongClickListener {
+            if (!focusItem.address.isNullOrBlank()){
+            val residence = "${focusItem.address}, ${focusItem.city}"
+            val residenceIntent =  Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse("google.navigation:q=$residence"))
+            residenceIntent.setPackage("com.google.android.apps.maps");
+            finderContext.startActivity(residenceIntent)
+        }
+            true
         }
     }
 
