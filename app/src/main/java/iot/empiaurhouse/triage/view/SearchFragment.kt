@@ -359,7 +359,7 @@ class SearchFragment : Fragment() {
                         println("Sending APB to $number...")
                         smsManager.sendTextMessage(number, null, "APB -\n\t" +
                                 "This is an All Points Bulletin push broadcast from ${userManager.getChironID()} on ${LocalDateTime.now()}", null, null)
-                        sendingSMSSnackBar(requireView(), number)
+                        sendingSMSSnackBar(requireView())
                     }, 1000)
                 }
             }
@@ -419,8 +419,8 @@ class SearchFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun sendingSMSSnackBar(view: View, title: String){
-        val sendingNote = Snackbar.make(view,"Sending APB to $title!", Snackbar.LENGTH_SHORT)
+    private fun sendingSMSSnackBar(view: View){
+        val sendingNote = Snackbar.make(view,"Sending Doctors APB...", Snackbar.LENGTH_SHORT)
         val sendingNoteView = sendingNote.view
         sendingNoteView.layoutParams
         val sendingNoteText = sendingNoteView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView

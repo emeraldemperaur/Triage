@@ -39,7 +39,7 @@ class SetupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySetupBinding.inflate(layoutInflater)
-        setupActivityViewModel = ViewModelProvider(this).get(SetupActivityViewModel::class.java)
+        setupActivityViewModel = ViewModelProvider(this)[SetupActivityViewModel::class.java]
         userManager = UserPreferenceManager(this)
         setupActivityViewModel.pingServer()
         val viewSetup = binding.root
