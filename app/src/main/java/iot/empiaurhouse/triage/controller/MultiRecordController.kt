@@ -84,6 +84,10 @@ class MultiRecordController {
         lastName.text = patientRecord.lastName
         birthDate.text = formatTool.pivotObjectDateFormat(patientRecord.birthDate)
         insurer.text = patientRecord.insuranceVendor
+        if (patientRecord.insuranceVendorID.isNullOrBlank()){
+            val holderText = "Not Provided"
+            insurer.text = holderText
+        }
         insurerID.text = patientRecord.insuranceVendorID
         if (patientRecord.insuranceVendorID.isNullOrBlank()){
             val holderID = "UNKNOWN ID"

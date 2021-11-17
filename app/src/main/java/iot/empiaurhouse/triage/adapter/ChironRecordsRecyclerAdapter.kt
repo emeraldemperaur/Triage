@@ -97,6 +97,13 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 holder.patientShortName!!.text = focusPatient.delimitedFullName
                 holder.patientInsurer!!.text = focusPatient.insuranceVendor
                 holder.patientInsurerID!!.text = focusPatient.insuranceVendorID
+                val holderText = "Not Provided"
+                if (focusPatient.insuranceVendor.isNullOrBlank()){
+                    holder.patientInsurer.text = holderText
+                }
+                if (focusPatient.insuranceVendorID.isNullOrBlank()){
+                    holder.patientInsurerID.text = holderText
+                }
                 holder.patientBloodGroup!!.text = focusPatient.bloodGroup
                 iconController(holder.patientDiagnosesCountIcon!!, holder.patientDiagnosesCount!!, focusPatient.diagnoses!!.size)
                 holder.patientDiagnosesCount.text = focusPatient.diagnoses.size.toString()
