@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.ContentValues.TAG
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -24,8 +25,10 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.adapter.SearchRecyclerAdapter
@@ -34,6 +37,7 @@ import iot.empiaurhouse.triage.model.Doctor
 import iot.empiaurhouse.triage.model.Patient
 import iot.empiaurhouse.triage.utils.UserPreferenceManager
 import iot.empiaurhouse.triage.viewmodel.ChironRecordsViewModel
+import java.time.LocalDateTime
 import java.util.*
 
 
@@ -58,6 +62,9 @@ class SearchFragment : Fragment() {
     private lateinit var userManager: UserPreferenceManager
     private val requestSMSCode = 1
     private lateinit var numberList: ArrayList<String>
+    private var enabledAPB: Boolean = false
+    private lateinit var dbPreferences: SharedPreferences
+
 
 
 
@@ -75,6 +82,8 @@ class SearchFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         userManager = UserPreferenceManager(requireContext())
+        dbPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        enabledAPB = dbPreferences.getBoolean("apBChannelMode", false)
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
@@ -272,8 +281,6 @@ class SearchFragment : Fragment() {
 
             datePickerDialog.show()
         }
-
-
     }
 
     private fun fetchPatientsRecords(): ArrayList<Patient>{
@@ -298,49 +305,52 @@ class SearchFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initAPBPush(){
-        serverTitle.setOnLongClickListener {
-            patientVM.pullChironRecords(6)
-            var docResult: Boolean
-            val fetchedDoctors = arrayListOf<Doctor>()
-            if (view != null) {
-                patientVM.doctorRecords.observe(
-                    viewLifecycleOwner,
-                    androidx.lifecycle.Observer { reply ->
-                        reply?.let {
-                            docResult = reply.isNotEmpty()
-                            if (fetchedDoctors.isEmpty()) {
-                                fetchedDoctors.addAll(reply)
-                                doctorRecords = fetchedDoctors
-                                println("Doctor Records response object is not empty: $docResult")
-                                println("See Chiron Records (Doctor) response result: $reply")
+        if (enabledAPB) {
+            serverTitle.setOnLongClickListener {
+                patientVM.pullChironRecords(6)
+                var docResult: Boolean
+                val fetchedDoctors = arrayListOf<Doctor>()
+                if (view != null) {
+                    patientVM.doctorRecords.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                docResult = reply.isNotEmpty()
+                                if (fetchedDoctors.isEmpty()) {
+                                    fetchedDoctors.addAll(reply)
+                                    doctorRecords = fetchedDoctors
+                                    println("Doctor Records response object is not empty: $docResult")
+                                    println("See Chiron Records (Doctor) response result: $reply")
+                                }
+                            }
+                        })
+                    val numbersList = arrayListOf<String>()
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        for (doctor in fetchedDoctors) {
+                            if (!doctor.contactInfo.isNullOrEmpty()) {
+                                numbersList.add(doctor.contactInfo)
                             }
                         }
-                    })
-                val numbersList = arrayListOf<String>()
-                Handler(Looper.getMainLooper()).postDelayed({
-                for (doctor in fetchedDoctors){
-                    if (!doctor.contactInfo.isNullOrEmpty()){
-                        numbersList.add(doctor.contactInfo)
-                    }
+                        if (view != null){
+                            checkForSmsPermission(numbersList)
+                        }
+                    }, 666)
                 }
-                    checkForSmsPermission(numbersList)
-                }, 666)
-
+                true
             }
-            true
-
-
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun confirmAPBPush(numbersList: ArrayList<String>){
         if (numbersList.isNotEmpty()) {
             numberList = numbersList
             val smsManager = SmsManager.getDefault()
             val builder = AlertDialog.Builder(requireContext())
             builder.setTitle("Sending All Points Bulletin...")
-            builder.setIcon(iot.empiaurhouse.triage.R.drawable.ic_baseline_record_voice_over_24)
+            builder.setIcon(R.drawable.ic_baseline_record_voice_over_24)
             builder.setMessage("${numbersList.size} recipient(s) found\n\nAre you sure you'd like " +
                     "to proceed with this push broadcast?\n\n SMS charges may apply")
             builder.setPositiveButton("YES") { _, _ ->
@@ -348,12 +358,11 @@ class SearchFragment : Fragment() {
                     Handler(Looper.getMainLooper()).postDelayed({
                         println("Sending APB to $number...")
                         smsManager.sendTextMessage(number, null, "APB -\n\t" +
-                                "This is an All Points Bulletin push broadcast from ${userManager.getChironID()}", null, null)
+                                "This is an All Points Bulletin push broadcast from ${userManager.getChironID()} on ${LocalDateTime.now()}", null, null)
+                        sendingSMSSnackBar(requireView(), number)
                     }, 1000)
                 }
-
             }
-
             builder.setNegativeButton("NO") { dialog, _ ->
                 dialog.dismiss()
             }
@@ -363,6 +372,7 @@ class SearchFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun checkForSmsPermission(numbersList: ArrayList<String>) {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -371,25 +381,22 @@ class SearchFragment : Fragment() {
             PackageManager.PERMISSION_GRANTED
         ) {
             Log.d(TAG, "not_granted")
-            // Permission not yet granted. Use requestPermissions().
-            // MY_PERMISSIONS_REQUEST_SEND_SMS is an
-            // app-defined int constant. The callback method gets the
-            // result of the request.
+            // Permission not yet granted. requestPermissions()
             ActivityCompat.requestPermissions(
                 requireActivity(), arrayOf(Manifest.permission.SEND_SMS),
                 requestSMSCode
             )
         } else {
-            // Permission already granted. Enable the SMS button.
+            // Permission already granted.
             confirmAPBPush(numbersList)
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>, grantResults: IntArray
     ) {
-        // For each permission, checks if it is granted or not.
         when (requestCode) {
             requestSMSCode -> {
                 if (permissions[0].equals(
@@ -398,7 +405,7 @@ class SearchFragment : Fragment() {
                     )
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED
                 ) {
-                    // Permission was granted. Enable the button.
+                    // Permission was granted event.
                     confirmAPBPush(numberList)
                 } else {
                     Log.d(TAG, "SMS SEND Permission Denied")
@@ -409,6 +416,22 @@ class SearchFragment : Fragment() {
                 }
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun sendingSMSSnackBar(view: View, title: String){
+        val sendingNote = Snackbar.make(view,"Sending APB to $title!", Snackbar.LENGTH_SHORT)
+        val sendingNoteView = sendingNote.view
+        sendingNoteView.layoutParams
+        val sendingNoteText = sendingNoteView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
+        sendingNoteView.setBackgroundColor(requireActivity().getColor(R.color.chiron_blue))
+        sendingNoteText.setTextColor(requireActivity().getColor(R.color.white))
+        val fontFace = resources.getFont(R.font.montserratlight)
+        sendingNoteText.typeface = fontFace
+        sendingNoteText.maxLines = 2
+        sendingNote.anchorView = view.rootView.findViewById(R.id.hub_foot_nav)
+        sendingNote.show()
+
     }
 
     companion object {
