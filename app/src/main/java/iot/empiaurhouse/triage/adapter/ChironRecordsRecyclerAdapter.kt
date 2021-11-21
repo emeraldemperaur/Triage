@@ -20,9 +20,13 @@ import com.google.android.material.snackbar.Snackbar
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.PivotController
 import iot.empiaurhouse.triage.model.*
+import iot.empiaurhouse.triage.network.ChironAPIService
 import iot.empiaurhouse.triage.utils.subscribeOnBackground
 import iot.empiaurhouse.triage.view.AllRecordsFragmentDirections
 import iot.empiaurhouse.triage.viewmodel.ChironRecordsViewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -40,6 +44,8 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
     private lateinit var recordsView: View
     private var recordsItemLayout by Delegates.notNull<Int>()
     private lateinit var recordsViewModel: ChironRecordsViewModel
+    private lateinit var recordsService: ChironAPIService
+
 
 
     override fun onCreateViewHolder(
@@ -48,6 +54,7 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
     ): ChironRecordsRecyclerAdapter.ViewHolder {
         recordsContext = parent.context
         recordsView = recordsViewObject
+        recordsService = ChironAPIService()
         recordsViewModel = ViewModelProvider(activity).get(ChironRecordsViewModel::class.java)
         recordsInitID = recordID
         recordsItemLayout = R.layout.patient_list_view
@@ -543,8 +550,17 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
             1 ->{
                 val stagedPatient = patientsList!![position]
                 subscribeOnBackground {
-                    //pivotViewModel.deleteDataPivot(focusPivot)
-                    println("Deleted Patient Record from Chiron DB:\n $stagedPatient")
+                    val deleteRequest = recordsService.deletePatient(stagedPatient)
+                    deleteRequest.enqueue(object: Callback<Patient> {
+                        override fun onResponse(call: Call<Patient>, response: Response<Patient>) {
+                            println("Deleted Patient Record from Chiron DB:\n $stagedPatient")
+                        }
+                        override fun onFailure(call: Call<Patient>, t: Throwable) {
+                            println("Encountered error deleting Patient Record from Chiron DB:\n $stagedPatient")
+                            notifyItemChanged(position)
+                        }
+
+                    } )
                 }
                 patientsList.removeAt(position)
                 notifyItemRemoved(position)
@@ -553,19 +569,24 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 )
                 }", Snackbar.LENGTH_LONG)
                 deletedPrompt.setAction("UNDO", View.OnClickListener {
-
                     restoreRecord(recordID = recordID, position, patient = stagedPatient)
-
                 })
                 deletedPrompt.anchorView = recordsView.rootView.findViewById(R.id.hub_foot_nav)
                 deletedPrompt.show()
-
             }
             2 ->{
                 val stagedDiagnosis = diagnosesList!![position]
                 subscribeOnBackground {
-                    //pivotViewModel.deleteDataPivot(focusPivot)
-                    println("Deleted Diagnosis Record from Chiron DB:\n $stagedDiagnosis")
+                    val deleteRequest = recordsService.deleteDiagnosis(stagedDiagnosis)
+                    deleteRequest.enqueue(object: Callback<Diagnosis> {
+                        override fun onResponse(call: Call<Diagnosis>, response: Response<Diagnosis>) {
+                            println("Deleted Diagnosis Record from Chiron DB:\n $stagedDiagnosis")
+                        }
+                        override fun onFailure(call: Call<Diagnosis>, t: Throwable) {
+                            println("Encountered error deleting Diagnosis Record from Chiron DB:\n $stagedDiagnosis")
+                            notifyItemChanged(position)
+                        }
+                    } )
                 }
                 diagnosesList.removeAt(position)
                 notifyItemRemoved(position)
@@ -573,18 +594,17 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                     Locale.ROOT
                 )
                 }", Snackbar.LENGTH_LONG)
-                deletedPrompt.setAction("UNDO", View.OnClickListener {
+                /*deletedPrompt.setAction("UNDO", View.OnClickListener {
 
                     restoreRecord(recordID = recordID, position, diagnosis = stagedDiagnosis)
 
-                })
+                })*/
                 deletedPrompt.anchorView = recordsView.rootView.findViewById(R.id.hub_foot_nav)
                 deletedPrompt.show()
             }
             3 ->{
                 val stagedPrescription = prescriptionsList!![position]
                 subscribeOnBackground {
-                    //pivotViewModel.deleteDataPivot(focusPivot)
                     println("Deleted Prescription Record from Chiron DB:\n $stagedPrescription")
                 }
                 prescriptionsList.removeAt(position)
@@ -605,7 +625,6 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
             4 ->{
                 val stagedVisit = visitsList!![position]
                 subscribeOnBackground {
-                    //pivotViewModel.deleteDataPivot(focusPivot)
                     println("Deleted Visit Record from Chiron DB:\n $stagedVisit")
                 }
                 visitsList.removeAt(position)
@@ -626,8 +645,16 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
             5 ->{
                 val stagedPractitioner = practitionersList!![position]
                 subscribeOnBackground {
-                    //pivotViewModel.deleteDataPivot(focusPivot)
-                    println("Deleted Practitioner Record from Chiron DB:\n $stagedPractitioner")
+                    val deleteRequest = recordsService.deletePractitioner(stagedPractitioner)
+                    deleteRequest.enqueue(object: Callback<Practitioner> {
+                        override fun onResponse(call: Call<Practitioner>, response: Response<Practitioner>) {
+                            println("Deleted Practitioner Record from Chiron DB:\n $stagedPractitioner")
+                        }
+                        override fun onFailure(call: Call<Practitioner>, t: Throwable) {
+                            println("Encountered error deleting Practitioner Record from Chiron DB:\n $stagedPractitioner")
+                            notifyItemChanged(position)
+                        }
+                    } )
                 }
                 practitionersList.removeAt(position)
                 notifyItemRemoved(position)
@@ -646,8 +673,16 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
             6 ->{
                 val stagedDoctor = doctorsList!![position]
                 subscribeOnBackground {
-                    //pivotViewModel.deleteDataPivot(focusPivot)
-                    println("Deleted Doctor Record from Chiron DB:\n $stagedDoctor")
+                    val deleteRequest = recordsService.deleteDoctor(stagedDoctor)
+                    deleteRequest.enqueue(object: Callback<Doctor> {
+                        override fun onResponse(call: Call<Doctor>, response: Response<Doctor>) {
+                            println("Deleted Doctor Record from Chiron DB:\n $stagedDoctor")
+                        }
+                        override fun onFailure(call: Call<Doctor>, t: Throwable) {
+                            println("Encountered error deleting Doctor Record from Chiron DB:\n $stagedDoctor")
+                            notifyItemChanged(position)
+                        }
+                    } )
                 }
                 doctorsList.removeAt(position)
                 notifyItemRemoved(position)
@@ -666,8 +701,16 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
             7 ->{
                 val stagedRegisteredNurse = registeredNursesList!![position]
                 subscribeOnBackground {
-                    //pivotViewModel.deleteDataPivot(focusPivot)
-                    println("Deleted Registered Nurse Record from Chiron DB:\n $stagedRegisteredNurse")
+                    val deleteRequest = recordsService.deleteRegisteredNurse(stagedRegisteredNurse)
+                    deleteRequest.enqueue(object: Callback<RegisteredNurse> {
+                        override fun onResponse(call: Call<RegisteredNurse>, response: Response<RegisteredNurse>) {
+                            println("Deleted Registered Nurse Record from Chiron DB:\n $stagedRegisteredNurse")
+                        }
+                        override fun onFailure(call: Call<RegisteredNurse>, t: Throwable) {
+                            println("Encountered error deleting Registered Nurse Record from Chiron DB:\n $stagedRegisteredNurse")
+                            notifyItemChanged(position)
+                        }
+                    } )
                 }
                 registeredNursesList.removeAt(position)
                 notifyItemRemoved(position)
@@ -687,8 +730,16 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
             8 ->{
                 val stagedNursePractitioner = nursePractitionersList!![position]
                 subscribeOnBackground {
-                    //pivotViewModel.deleteDataPivot(focusPivot)
-                    println("Deleted Nurse Practitioner Record from Chiron DB:\n $stagedNursePractitioner")
+                    val deleteRequest = recordsService.deleteNursePractitioner(stagedNursePractitioner)
+                    deleteRequest.enqueue(object: Callback<NursePractitioner> {
+                        override fun onResponse(call: Call<NursePractitioner>, response: Response<NursePractitioner>) {
+                            println("Deleted Nurse Practitioner Record from Chiron DB:\n $stagedNursePractitioner")
+                        }
+                        override fun onFailure(call: Call<NursePractitioner>, t: Throwable) {
+                            println("Encountered error deleting Nurse Practitioner Record from Chiron DB:\n $stagedNursePractitioner")
+                            notifyItemChanged(position)
+                        }
+                    } )
                 }
                 nursePractitionersList.removeAt(position)
                 notifyItemRemoved(position)
@@ -708,8 +759,16 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
             9 ->{
                 val stagedPharmaceuticals = pharmaceuticalsList!![position]
                 subscribeOnBackground {
-                    //pivotViewModel.deleteDataPivot(focusPivot)
-                    println("Deleted Pharmaceutical Record from Chiron DB:\n $stagedPharmaceuticals")
+                    val deleteRequest = recordsService.deletePharmaceuticals(stagedPharmaceuticals)
+                    deleteRequest.enqueue(object: Callback<Pharmaceuticals> {
+                        override fun onResponse(call: Call<Pharmaceuticals>, response: Response<Pharmaceuticals>) {
+                            println("Deleted Pharmaceutical Record from Chiron DB:\n $stagedPharmaceuticals")
+                        }
+                        override fun onFailure(call: Call<Pharmaceuticals>, t: Throwable) {
+                            println("Encountered error deleting Pharmaceutical Record from Chiron DB:\n $stagedPharmaceuticals")
+                            notifyItemChanged(position)
+                        }
+                    } )
                 }
                 pharmaceuticalsList.removeAt(position)
                 notifyItemRemoved(position)
@@ -739,16 +798,24 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
         when(recordID){
             1 ->{
                 patientsList!!.add(position, patient!!)
+                val restoreRequest = recordsService.postPatient(patient)
+                println("Restoring Patient Record to Chiron DB:\n $patient")
                 subscribeOnBackground {
-                    //pivotViewModel.insertDataPivot(dataPivot)
-                    println("Restoring Patient Record to Chiron DB:\n $patient")
+                    restoreRequest.enqueue(object: Callback<Patient> {
+                        override fun onResponse(call: Call<Patient>, response: Response<Patient>) {
+                            println("Restored Patient Record to Chiron DB:\n $patient")
+                        }
+                        override fun onFailure(call: Call<Patient>, t: Throwable) {
+                            println("Encountered error restoring Patient Record to Chiron DB:\n $patient")
+                            notifyItemChanged(position)
+                        }
+                    } )
                 }
                 notifyItemInserted(position)
             }
             2 ->{
                 diagnosesList!!.add(position, diagnosis!!)
                 subscribeOnBackground {
-                    //pivotViewModel.insertDataPivot(dataPivot)
                     println("Restoring Diagnosis Record to Chiron DB:\n $diagnosis")
                 }
                 notifyItemInserted(position)
@@ -756,7 +823,6 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
             3 ->{
                 prescriptionsList!!.add(position, prescription!!)
                 subscribeOnBackground {
-                    //pivotViewModel.insertDataPivot(dataPivot)
                     println("Restoring Prescription Record to Chiron DB:\n $prescription")
                 }
                 notifyItemInserted(position)
@@ -764,54 +830,96 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
             4 ->{
                 visitsList!!.add(position, visit!!)
                 subscribeOnBackground {
-                    //pivotViewModel.insertDataPivot(dataPivot)
                     println("Restoring Visit Record to Chiron DB:\n $visit")
                 }
                 notifyItemInserted(position)
             }
             5 ->{
                 practitionersList!!.add(position, practitioner!!)
+                val restoreRequest = recordsService.postPractitioner(practitioner)
+                println("Restoring Practitioner Record to Chiron DB:\n $practitioner")
                 subscribeOnBackground {
-                    //pivotViewModel.insertDataPivot(dataPivot)
-                    println("Restoring Practitioner Record to Chiron DB:\n $practitioner")
+                    restoreRequest.enqueue(object: Callback<Practitioner> {
+                        override fun onResponse(call: Call<Practitioner>, response: Response<Practitioner>) {
+                            println("Restored Practitioner Record to Chiron DB:\n $practitioner")
+                        }
+                        override fun onFailure(call: Call<Practitioner>, t: Throwable) {
+                            println("Encountered error restoring Practitioner Record to Chiron DB:\n $practitioner")
+                            notifyItemChanged(position)
+                        }
+                    } )
                 }
                 notifyItemInserted(position)
             }
             6 ->{
                 doctorsList!!.add(position, doctor!!)
+                val restoreRequest = recordsService.postDoctor(doctor)
+                println("Restoring Doctor Record to Chiron DB:\n $doctor")
                 subscribeOnBackground {
-                    //pivotViewModel.insertDataPivot(dataPivot)
-                    println("Restoring Doctor Record to Chiron DB:\n $doctor")
+                    restoreRequest.enqueue(object: Callback<Doctor> {
+                        override fun onResponse(call: Call<Doctor>, response: Response<Doctor>) {
+                            println("Restored Doctor Record to Chiron DB:\n $practitioner")
+                        }
+                        override fun onFailure(call: Call<Doctor>, t: Throwable) {
+                            println("Encountered error restoring Doctor Record to Chiron DB:\n $doctor")
+                            notifyItemChanged(position)
+                        }
+                    } )
                 }
                 notifyItemInserted(position)
             }
             7 ->{
                 registeredNursesList!!.add(position, registeredNurse!!)
+                val restoreRequest = recordsService.postRegisteredNurse(registeredNurse)
+                println("Restoring Registered Nurse Record to Chiron DB:\n $registeredNurse")
                 subscribeOnBackground {
-                    //pivotViewModel.insertDataPivot(dataPivot)
-                    println("Restoring Registered Nurse Record to Chiron DB:\n $registeredNurse")
+                    restoreRequest.enqueue(object: Callback<RegisteredNurse> {
+                        override fun onResponse(call: Call<RegisteredNurse>, response: Response<RegisteredNurse>) {
+                            println("Restored Registered Nurse Record to Chiron DB:\n $registeredNurse")
+                        }
+                        override fun onFailure(call: Call<RegisteredNurse>, t: Throwable) {
+                            println("Encountered error restoring Registered Nurse Record to Chiron DB:\n $registeredNurse")
+                            notifyItemChanged(position)
+                        }
+                    } )
                 }
                 notifyItemInserted(position)
             }
             8 ->{
                 nursePractitionersList!!.add(position, nursePractitioner!!)
+                val restoreRequest = recordsService.postNursePractitioner(nursePractitioner)
+                println("Restoring Nurse Practitioner Record to Chiron DB:\n $nursePractitioner")
                 subscribeOnBackground {
-                    //pivotViewModel.insertDataPivot(dataPivot)
-                    println("Restoring Nurse Practitioner Record to Chiron DB:\n $nursePractitioner")
+                    restoreRequest.enqueue(object: Callback<NursePractitioner> {
+                        override fun onResponse(call: Call<NursePractitioner>, response: Response<NursePractitioner>) {
+                            println("Restored Nurse Practitioner Record to Chiron DB:\n $nursePractitioner")
+                        }
+                        override fun onFailure(call: Call<NursePractitioner>, t: Throwable) {
+                            println("Encountered error restoring Nurse Practitioner Record to Chiron DB:\n $nursePractitioner")
+                            notifyItemChanged(position)
+                        }
+                    } )
                 }
                 notifyItemInserted(position)
-
             }
             9 ->{
                 pharmaceuticalsList!!.add(position, pharmaceuticals!!)
+                val restoreRequest = recordsService.postPharmaceuticals(pharmaceuticals)
+                println("Restoring Pharmaceutical Record to Chiron DB:\n $pharmaceuticals")
                 subscribeOnBackground {
-                    //pivotViewModel.insertDataPivot(dataPivot)
-                    println("Restoring Pharmaceutical Record to Chiron DB:\n $pharmaceuticals")
+                    restoreRequest.enqueue(object: Callback<Pharmaceuticals> {
+                        override fun onResponse(call: Call<Pharmaceuticals>, response: Response<Pharmaceuticals>) {
+                            println("Restored Pharmaceutical Record to Chiron DB:\n $pharmaceuticals")
+                        }
+                        override fun onFailure(call: Call<Pharmaceuticals>, t: Throwable) {
+                            println("Encountered error restoring Pharmaceutical Record to Chiron DB:\n $pharmaceuticals")
+                            notifyItemChanged(position)
+                        }
+                    } )
                 }
                 notifyItemInserted(position)
             }
         }
-
     }
 
     private fun iconRxController(rxType: String?): Int {

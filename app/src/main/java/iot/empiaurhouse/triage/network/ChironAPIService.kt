@@ -8,6 +8,7 @@ import iot.empiaurhouse.triage.model.*
 import iot.empiaurhouse.triage.utils.JSONHeaderInterceptor
 import iot.empiaurhouse.triage.utils.UserPreferenceManager
 import okhttp3.OkHttpClient
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
@@ -121,9 +122,57 @@ class ChironAPIService {
         return chironAPI.getChironPharmaceuticals()
     }
 
+    fun postPatient(focusPatient: Patient): Call<Patient>{
+        return chironAPI.postPatient(focusPatient)
+    }
 
+    fun deletePatient(focusPatient: Patient): Call<Patient>{
+        return chironAPI.deletePatient(focusPatient)
+    }
 
+    fun deleteDiagnosis(focusDiagnosis: Diagnosis): Call<Diagnosis>{
+        return chironAPI.deleteDiagnosis(focusDiagnosis)
+    }
 
+    fun postPractitioner(focusPractitioner: Practitioner): Call<Practitioner>{
+        return chironAPI.postPractitioner(focusPractitioner)
+    }
+
+    fun deletePractitioner(focusPractitioner: Practitioner): Call<Practitioner>{
+        return chironAPI.deletePractitioner(focusPractitioner)
+    }
+
+    fun postDoctor(focusDoctor: Doctor): Call<Doctor>{
+        return chironAPI.postDoctor(focusDoctor)
+    }
+
+    fun deleteDoctor(focusDoctor: Doctor): Call<Doctor>{
+        return chironAPI.deleteDoctor(focusDoctor)
+    }
+
+    fun postRegisteredNurse(focusRegisteredNurse: RegisteredNurse): Call<RegisteredNurse>{
+        return chironAPI.postRegisteredNurse(focusRegisteredNurse)
+    }
+
+    fun deleteRegisteredNurse(focusRegisteredNurse: RegisteredNurse): Call<RegisteredNurse>{
+        return chironAPI.deleteRegisteredNurse(focusRegisteredNurse)
+    }
+
+    fun postNursePractitioner(focusNursePractitioner: NursePractitioner): Call<NursePractitioner>{
+        return chironAPI.postNursePractitioner(focusNursePractitioner)
+    }
+
+    fun deleteNursePractitioner(focusNursePractitioner: NursePractitioner): Call<NursePractitioner>{
+        return chironAPI.deleteNursePractitioner(focusNursePractitioner)
+    }
+
+    fun postPharmaceuticals(focusPharmaceuticals: Pharmaceuticals): Call<Pharmaceuticals>{
+        return chironAPI.postPharmaceutical(focusPharmaceuticals)
+    }
+
+    fun deletePharmaceuticals(focusPharmaceuticals: Pharmaceuticals): Call<Pharmaceuticals>{
+        return chironAPI.deletePharmaceutical(focusPharmaceuticals)
+    }
 
 
     fun initServerUrl(context: Context){

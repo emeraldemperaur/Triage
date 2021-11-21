@@ -21,7 +21,11 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.FragmentRecordEditorDialogBinding
 import iot.empiaurhouse.triage.model.*
+import iot.empiaurhouse.triage.network.ChironAPIService
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 private const val ARG_PARAM1 = "param1"
@@ -47,6 +51,7 @@ class RecordEditorDialogFragment : Fragment() {
     private lateinit var recordEditLabel: TextView
     private lateinit var toolbarView: CollapsingToolbarLayout
     private lateinit var navController: NavController
+    private lateinit var recordsService: ChironAPIService
     private var metaDataID: Int? = null
     private var recordID: Int? = null
     private val args: RecordEditorDialogFragmentArgs by navArgs()
@@ -76,6 +81,7 @@ class RecordEditorDialogFragment : Fragment() {
         recordEditLabel = binding.triageEditDialogEntityLabel
         toolbarView = requireActivity().findViewById(R.id.hub_collapsing_toolbar)
         toolbarView.visibility = View.GONE
+        recordsService = ChironAPIService()
         rotateAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate)
         navController = findNavController()
         recordID = args.recordID
@@ -118,13 +124,11 @@ class RecordEditorDialogFragment : Fragment() {
         initRecordEditDialog(recordID!!)
         onBackPressed()
 
-        //test edited view - pre service response controller
-        recordEditStatusIcon.setOnClickListener {
-            Handler(Looper.getMainLooper()).postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
                 initViewProcessor(recordID!!)
-            }, 10000)
+            }, 5000)
 
-        }
+
 
     }
 
@@ -199,49 +203,144 @@ class RecordEditorDialogFragment : Fragment() {
     private fun initViewProcessor(recordID: Int){
         when(recordID){
             1 ->{
-                val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, patient,
-                    null, null, null, null, null,
-                    null, null, null)
-                navController.navigate(input)
-
+                val postRequest = recordsService.postPatient(patient)
+                postRequest.enqueue(object: Callback<Patient> {
+                    override fun onResponse(call: Call<Patient>, response: Response<Patient>) {
+                        serverSuccessView()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, patient,
+                                null, null, null, null, null,
+                                null, null, null)
+                            navController.navigate(input)
+                        }, 2269)
+                    }
+                    override fun onFailure(call: Call<Patient>, t: Throwable) {
+                        serverErrorView()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            navController.navigateUp()
+                        }, 2269)
+                    }
+                } )
             }
-
             5 ->{
-                val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, null,
-                    practitioner, null, null, null, null,
-                    null, null, null)
-                navController.navigate(input)
+                val postRequest = recordsService.postPractitioner(practitioner)
+                postRequest.enqueue(object: Callback<Practitioner> {
+                    override fun onResponse(call: Call<Practitioner>, response: Response<Practitioner>) {
+                        serverSuccessView()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, null,
+                                practitioner, null, null, null, null,
+                                null, null, null)
+                            navController.navigate(input)
 
+                        }, 2269)
+                    }
+                    override fun onFailure(call: Call<Practitioner>, t: Throwable) {
+                        serverErrorView()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            navController.navigateUp()
+
+                        }, 2269)
+                    }
+                } )
             }
             6 ->{
-                val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, null,
-                    null, doctor, null, null, null,
-                    null, null, null)
-                navController.navigate(input)
+                val postRequest = recordsService.postDoctor(doctor)
+                postRequest.enqueue(object: Callback<Doctor> {
+                    override fun onResponse(call: Call<Doctor>, response: Response<Doctor>) {
+                        serverSuccessView()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, null,
+                                null, doctor, null, null, null,
+                                null, null, null)
+                            navController.navigate(input)
 
+                        }, 2269)
+                    }
+                    override fun onFailure(call: Call<Doctor>, t: Throwable) {
+                        serverErrorView()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            navController.navigateUp()
+
+                        }, 2269)
+                    }
+                } )
             }
             7 ->{
-                val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, null,
-                    null, null, registeredNurse, null, null,
-                    null, null, null)
-                navController.navigate(input)
+                val postRequest = recordsService.postRegisteredNurse(registeredNurse)
+                postRequest.enqueue(object: Callback<RegisteredNurse> {
+                    override fun onResponse(call: Call<RegisteredNurse>, response: Response<RegisteredNurse>) {
+                        serverSuccessView()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, null,
+                                null, null, registeredNurse, null, null,
+                                null, null, null)
+                            navController.navigate(input)
+                        }, 2269)
+                    }
+                    override fun onFailure(call: Call<RegisteredNurse>, t: Throwable) {
+                        serverErrorView()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            navController.navigateUp()
+
+                        }, 2269)
+                    }
+                } )
             }
             8 ->{
-                val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, null,
-                    null, null, null, nursePractitioner, null,
-                    null, null, null)
-                navController.navigate(input)
+                val postRequest = recordsService.postNursePractitioner(nursePractitioner)
+                postRequest.enqueue(object: Callback<NursePractitioner> {
+                    override fun onResponse(call: Call<NursePractitioner>, response: Response<NursePractitioner>) {
+                        serverSuccessView()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, null,
+                                null, null, null, nursePractitioner, null,
+                                null, null, null)
+                            navController.navigate(input)
+                        }, 2269)
+                    }
+                    override fun onFailure(call: Call<NursePractitioner>, t: Throwable) {
+                        serverErrorView()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            navController.navigateUp()
 
+                        }, 2269)
+                    }
+                } )
             }
             9 ->{
-                val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, null,
-                    null, null, null, null, pharmaceutical,
-                    null, null, null)
-                navController.navigate(input)
-
-
+                val postRequest = recordsService.postPharmaceuticals(pharmaceutical)
+                postRequest.enqueue(object: Callback<Pharmaceuticals> {
+                    override fun onResponse(call: Call<Pharmaceuticals>, response: Response<Pharmaceuticals>) {
+                        serverSuccessView()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val input = RecordEditorDialogFragmentDirections.viewEditorRecordDetails(recordID, null,
+                                null, null, null, null, pharmaceutical,
+                                null, null, null)
+                            navController.navigate(input)
+                        }, 2269)
+                    }
+                    override fun onFailure(call: Call<Pharmaceuticals>, t: Throwable) {
+                        serverErrorView()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            navController.navigateUp()
+                        }, 2269)
+                    }
+                } )
             }
         }
+    }
+
+    fun serverSuccessView(){
+        recordEditStatusIcon.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_check_circle_24))
+        recordEditStatusIcon.setColorFilter(Color.parseColor("#006400"))
+        recordEditStatusIcon.clearAnimation()
+    }
+
+    fun serverErrorView(){
+        recordEditStatusIcon.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_error_24))
+        recordEditStatusIcon.setColorFilter(Color.parseColor("#800020"))
+        recordEditStatusIcon.clearAnimation()
     }
 
     fun onBackPressed(){

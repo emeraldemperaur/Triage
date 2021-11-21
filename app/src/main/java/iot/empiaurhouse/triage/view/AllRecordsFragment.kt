@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -149,7 +150,6 @@ class AllRecordsFragment : Fragment() {
                     recordsRV!!.adapter = cRRA
                     recordCount.text = prescriptionsFound.size.toString()
                     createNewRecord.visibility = View.GONE
-                    initSwipeDeleteGesture(prescriptionsFound.size)
                     noResultsView(prescriptionsFound.size)
                 }
                 4 -> {
@@ -160,7 +160,6 @@ class AllRecordsFragment : Fragment() {
                     recordsRV!!.adapter = cRRA
                     recordCount.text = visitsFound.size.toString()
                     createNewRecord.visibility = View.GONE
-                    initSwipeDeleteGesture(visitsFound.size)
                     noResultsView(visitsFound.size)
                 }
                 5 -> {
@@ -242,7 +241,6 @@ class AllRecordsFragment : Fragment() {
             if (view != null && size > 0) {
                 val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
                         val adapter = cRRA
                         adapter!!.deleteChironRecord(viewHolder.absoluteAdapterPosition, recordsID)
                     }
@@ -259,7 +257,6 @@ class AllRecordsFragment : Fragment() {
                 val swipeHandler = object : SwipeToEditCallback(requireContext()) {
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                         val adapter = cRRA
-                       // adapter!!.deleteChironRecord(viewHolder.absoluteAdapterPosition, recordsID)
                         adapter!!.editChironRecord(viewHolder.absoluteAdapterPosition, recordsID)
                     }
                 }
@@ -331,11 +328,11 @@ class AllRecordsFragment : Fragment() {
         Handler(Looper.getMainLooper()).postDelayed({
             loadingText.visibility = View.GONE
             if (recordsFound < 1){
-                if (recordsRV != null) {
+                if (!recordsRV!!.isVisible) {
                    // recordsRV!!.visibility = View.GONE
+                    noRecordsFound.visibility = View.VISIBLE
+                    pullPrompt.visibility = View.VISIBLE
                 }
-                noRecordsFound.visibility = View.VISIBLE
-                pullPrompt.visibility = View.VISIBLE
             }
             else if (recordsFound > 0){
                 noRecordsFound.visibility = View.GONE
@@ -348,14 +345,6 @@ class AllRecordsFragment : Fragment() {
 
     }
 
-    private fun checkRecordsView(){
-        noRecordsFound.visibility = View.VISIBLE
-        if (patientsFound.isNotEmpty() || diagnosesFound.isNotEmpty() || prescriptionsFound.isNotEmpty()
-            || visitsFound.isNotEmpty() || practitionersFound.isNotEmpty() || doctorsFound.isNotEmpty() || nursePractitionersFound.isNotEmpty()
-            || registeredNursesFound.isNotEmpty() || pharmaceuticalsFound.isNotEmpty()){
-            noRecordsFound.visibility = View.GONE
-        }
-    }
 
     private fun recordsCarousel(recordID: Int) {
         //setup list RV and adapter based on recordID
