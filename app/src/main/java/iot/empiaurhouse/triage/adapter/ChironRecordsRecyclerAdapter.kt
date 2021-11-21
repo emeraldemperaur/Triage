@@ -471,7 +471,7 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
         val currentDate = LocalDate.now()
 
 
-        if(dateObject.monthValue - currentDate.monthValue < 4){
+        if(dateObject.month.compareTo(currentDate.month) < 3 && dateObject > currentDate){
             expireResult = "EXPIRING"
             expiryDateText!!.text = expireResult
             expiryDateText.setTextColor(Color.parseColor("#964B00"))
@@ -484,11 +484,12 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
             expiryDateText.setTypeface(expiryDateText.typeface, Typeface.BOLD)
 
         }
-        if (dateObject.monthValue - currentDate.monthValue > 3){
+        else{
             val formatter = DateTimeFormatter.ofPattern("dd, MMMM yyyy")
             expireResult = dateObject.format(formatter)
             expiryDateText!!.setTextColor(Color.parseColor("#0c204f"))
             expiryDateText.setTypeface(expiryDateText.typeface, Typeface.NORMAL)
+            expiryDateText.text = expireResult
 
         }
         return expireResult
