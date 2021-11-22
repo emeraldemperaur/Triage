@@ -227,55 +227,55 @@ interface ChironAPIEndpoints {
     fun getChironPharmaceuticalsByExpiryDateBetween(@Path("expiryDate") expiryDate: String?,
                                                     @Path("expiryDate2") expiryDate2: String?): Single<List<Pharmaceuticals>>
 
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("http://chiron-cloudapp.herokuapp.com/api/patient")
     fun postPatient(@Body requestPatient: Patient): Call<Patient>
 
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("http://chiron-cloudapp.herokuapp.com/api/deletepatient")
     fun deletePatient(@Body deletePatient: Patient): Call<Patient>
 
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("http://chiron-cloudapp.herokuapp.com/api/practitioner")
     fun postPractitioner(@Body updatePractitioner: Practitioner): Call<Practitioner>
 
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("http://chiron-cloudapp.herokuapp.com/api/deletepractitioner")
     fun deletePractitioner(@Body deletePractitioner: Practitioner): Call<Practitioner>
 
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("http://chiron-cloudapp.herokuapp.com/api/doctor")
     fun postDoctor(@Body updateDoctor: Doctor): Call<Doctor>
 
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("http://chiron-cloudapp.herokuapp.com/api/deletedoctor")
     fun deleteDoctor(@Body deleteDoctor: Doctor): Call<Doctor>
 
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("http://chiron-cloudapp.herokuapp.com/api/registerednurse")
     fun postRegisteredNurse(@Body updateRegisteredNurse: RegisteredNurse): Call<RegisteredNurse>
 
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("http://chiron-cloudapp.herokuapp.com/api/deleteregisterednurse")
     fun deleteRegisteredNurse(@Body deleteRegisteredNurse: RegisteredNurse): Call<RegisteredNurse>
 
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("http://chiron-cloudapp.herokuapp.com/api/nursepractitioner")
     fun postNursePractitioner(@Body updateNursePractitioner: NursePractitioner): Call<NursePractitioner>
 
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("http://chiron-cloudapp.herokuapp.com/api/deletenursepractitioner")
     fun deleteNursePractitioner(@Body deleteNursePractitioner: NursePractitioner): Call<NursePractitioner>
 
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("http://chiron-cloudapp.herokuapp.com/api/deletediagnosis")
     fun deleteDiagnosis(@Body deleteDiagnosis: Diagnosis): Call<Diagnosis>
 
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("http://chiron-cloudapp.herokuapp.com/api/pharmaceutical")
     fun postPharmaceutical(@Body updatePharmaceutical: Pharmaceuticals): Call<Pharmaceuticals>
 
-    @Headers("Content-Type: application/json")
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @POST("http://chiron-cloudapp.herokuapp.com/api/deletepharmaceutical")
     fun deletePharmaceutical(@Body deletePharmaceutical: Pharmaceuticals): Call<Pharmaceuticals>
 

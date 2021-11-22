@@ -217,8 +217,9 @@ class RecordEditorDialogFragment : Fragment() {
                     override fun onFailure(call: Call<Patient>, t: Throwable) {
                         serverErrorView()
                         Handler(Looper.getMainLooper()).postDelayed({
-                            navController.navigateUp()
-                        }, 2269)
+                            navController.popBackStack(R.id.allRecords, false)
+                            println("Post Error Encountered: $t")
+                        }, 1111)
                     }
                 } )
             }
@@ -238,9 +239,9 @@ class RecordEditorDialogFragment : Fragment() {
                     override fun onFailure(call: Call<Practitioner>, t: Throwable) {
                         serverErrorView()
                         Handler(Looper.getMainLooper()).postDelayed({
-                            navController.navigateUp()
-
-                        }, 2269)
+                            navController.popBackStack(R.id.allRecords, false)
+                            println("Post Error Encountered: $t")
+                        }, 1111)
                     }
                 } )
             }
@@ -254,15 +255,14 @@ class RecordEditorDialogFragment : Fragment() {
                                 null, doctor, null, null, null,
                                 null, null, null)
                             navController.navigate(input)
-
                         }, 2269)
                     }
                     override fun onFailure(call: Call<Doctor>, t: Throwable) {
                         serverErrorView()
                         Handler(Looper.getMainLooper()).postDelayed({
-                            navController.navigateUp()
-
-                        }, 2269)
+                            navController.popBackStack(R.id.allRecords, false)
+                            println("Post Error Encountered: $t")
+                        }, 1111)
                     }
                 } )
             }
@@ -281,9 +281,9 @@ class RecordEditorDialogFragment : Fragment() {
                     override fun onFailure(call: Call<RegisteredNurse>, t: Throwable) {
                         serverErrorView()
                         Handler(Looper.getMainLooper()).postDelayed({
-                            navController.navigateUp()
-
-                        }, 2269)
+                            navController.popBackStack(R.id.allRecords, false)
+                            println("Post Error Encountered: $t")
+                        }, 1111)
                     }
                 } )
             }
@@ -302,9 +302,9 @@ class RecordEditorDialogFragment : Fragment() {
                     override fun onFailure(call: Call<NursePractitioner>, t: Throwable) {
                         serverErrorView()
                         Handler(Looper.getMainLooper()).postDelayed({
-                            navController.navigateUp()
-
-                        }, 2269)
+                            navController.popBackStack(R.id.allRecords, false)
+                            println("Post Error Encountered: $t")
+                        }, 1111)
                     }
                 } )
             }
@@ -323,8 +323,9 @@ class RecordEditorDialogFragment : Fragment() {
                     override fun onFailure(call: Call<Pharmaceuticals>, t: Throwable) {
                         serverErrorView()
                         Handler(Looper.getMainLooper()).postDelayed({
-                            navController.navigateUp()
-                        }, 2269)
+                            navController.popBackStack(R.id.allRecords, false)
+                            println("Post Error Encountered: $t")
+                        }, 1111)
                     }
                 } )
             }
@@ -339,7 +340,7 @@ class RecordEditorDialogFragment : Fragment() {
 
     fun serverErrorView(){
         recordEditStatusIcon.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_error_24))
-        recordEditStatusIcon.setColorFilter(Color.parseColor("#800020"))
+        recordEditStatusIcon.setColorFilter(Color.parseColor("#0c204f"))
         recordEditStatusIcon.clearAnimation()
     }
 

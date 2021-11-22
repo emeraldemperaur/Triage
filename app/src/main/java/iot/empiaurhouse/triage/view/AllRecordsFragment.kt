@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.adapter.ChironRecordsRecyclerAdapter
@@ -59,6 +60,7 @@ class AllRecordsFragment : Fragment() {
     private lateinit var loadingText: TextView
     private lateinit var searchButton: FloatingActionButton
     private lateinit var createNewRecord: FloatingActionButton
+    private lateinit var toolbarView: CollapsingToolbarLayout
 
 
 
@@ -89,6 +91,8 @@ class AllRecordsFragment : Fragment() {
         binding = FragmentAllRecordsBinding.bind(view)
         recordsViewModel = ViewModelProvider(this).get(ChironRecordsViewModel::class.java)
         searchButton = requireActivity().findViewById(R.id.hub_search_button)
+        toolbarView = requireActivity().findViewById(R.id.hub_collapsing_toolbar)
+        toolbarView.visibility = View.VISIBLE
         searchButton.visibility = View.GONE
         recordsController = MultiRecordController()
         recordsID = args.recordID

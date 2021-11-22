@@ -29,6 +29,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -469,9 +470,16 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
         var expireResult = ""
         val dateObject = LocalDate.parse(expiryDateString)
         val currentDate = LocalDate.now()
+        val daysElapsed = ChronoUnit.DAYS.between( currentDate , dateObject )
 
-
-        if(dateObject.month.compareTo(currentDate.month) < 3 && dateObject > currentDate){
+        if (dateObject > currentDate && daysElapsed > 180){
+            val formatter = DateTimeFormatter.ofPattern("dd, MMMM yyyy")
+            expireResult = dateObject.format(formatter)
+            expiryDateText!!.setTextColor(Color.parseColor("#0c204f"))
+            expiryDateText.setTypeface(expiryDateText.typeface, Typeface.NORMAL)
+            expiryDateText.text = expireResult
+        }
+        if(dateObject > currentDate && daysElapsed < 180){
             expireResult = "EXPIRING"
             expiryDateText!!.text = expireResult
             expiryDateText.setTextColor(Color.parseColor("#964B00"))
@@ -482,14 +490,6 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
             expiryDateText!!.text = expireResult
             expiryDateText.setTextColor(Color.parseColor("#800020"))
             expiryDateText.setTypeface(expiryDateText.typeface, Typeface.BOLD)
-
-        }
-        else{
-            val formatter = DateTimeFormatter.ofPattern("dd, MMMM yyyy")
-            expireResult = dateObject.format(formatter)
-            expiryDateText!!.setTextColor(Color.parseColor("#0c204f"))
-            expiryDateText.setTypeface(expiryDateText.typeface, Typeface.NORMAL)
-            expiryDateText.text = expireResult
 
         }
         return expireResult
@@ -503,7 +503,6 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 val focusPatient = patientsList!![position]
                 val input = AllRecordsFragmentDirections.editRecordDetails(recordID, focusPatient, null, null, null, null, null)
                 viewControls.navigate(input)
-
             }
             2 ->{
 
@@ -518,7 +517,6 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 val focusPractitioner = practitionersList!![position]
                 val input = AllRecordsFragmentDirections.editRecordDetails(recordID, null, focusPractitioner, null, null, null, null)
                 viewControls.navigate(input)
-
             }
             6 ->{
                 val focusDoctor = doctorsList!![position]

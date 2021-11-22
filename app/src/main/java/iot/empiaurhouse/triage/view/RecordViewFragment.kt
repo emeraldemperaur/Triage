@@ -383,7 +383,6 @@ class RecordViewFragment : Fragment() {
 
     private fun initViewExit(){
         exitRecordViewButton.setOnClickListener {
-            //navController.navigateUp()
             navController.popBackStack(R.id.allRecords, false)
             searchButton.visibility = View.VISIBLE
             userName.visibility = View.VISIBLE
