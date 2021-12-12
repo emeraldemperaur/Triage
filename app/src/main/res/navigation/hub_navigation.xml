@@ -570,6 +570,53 @@
             android:name="dataPivot"
             app:argType="iot.empiaurhouse.triage.model.DataPivot"/>
 
+        <argument
+            app:nullable="true"
+            android:name="Patient"
+            app:argType="iot.empiaurhouse.triage.model.Patients"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Diagnosis"
+            app:argType="iot.empiaurhouse.triage.model.Diagnoses"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Prescription"
+            app:argType="iot.empiaurhouse.triage.model.Prescriptions"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Visit"
+            app:argType="iot.empiaurhouse.triage.model.Visits"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Practitioner"
+            app:argType="iot.empiaurhouse.triage.model.Practitioners"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Doctor"
+            app:argType="iot.empiaurhouse.triage.model.Doctors"/>
+
+        <argument
+            app:nullable="true"
+            android:name="RegisteredNurse"
+            app:argType="iot.empiaurhouse.triage.model.RegisteredNurses"/>
+
+
+        <argument
+            app:nullable="true"
+            android:name="NursePractitioner"
+            app:argType="iot.empiaurhouse.triage.model.NursePractitioners"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Pharmaceutical"
+            app:argType="iot.empiaurhouse.triage.model.Pharmaceutical"/>
+
+
         <action
             android:id="@+id/exit_pivot_detail"
             app:destination="@id/hub_pivots">

@@ -20,7 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.PivotController
 import iot.empiaurhouse.triage.databinding.FragmentPivotDialogBinding
-import iot.empiaurhouse.triage.model.DataPivot
+import iot.empiaurhouse.triage.model.*
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
 
 private const val ARG_PARAM1 = "param1"
@@ -65,6 +65,15 @@ class PivotDialogFragment : DialogFragment() {
     private var renderComplete: Boolean = false
     private lateinit var navigationControl: NavController
     private val args: PivotDialogFragmentArgs by navArgs()
+    private var patientsFound = arrayListOf<Patient>()
+    private var diagnosesFound = arrayListOf<Diagnosis>()
+    private var prescriptionsFound = arrayListOf<Prescription>()
+    private var visitsFound = arrayListOf<Visit>()
+    private var practitionersFound = arrayListOf<Practitioner>()
+    private var doctorsFound = arrayListOf<Doctor>()
+    private var nursePractitionersFound = arrayListOf<NursePractitioner>()
+    private var registeredNursesFound = arrayListOf<RegisteredNurse>()
+    private var pharmaceuticalsFound = arrayListOf<Pharmaceuticals>()
 
 
 
@@ -135,7 +144,35 @@ class PivotDialogFragment : DialogFragment() {
         if (renderComplete || !renderComplete){
             Handler(Looper.getMainLooper()).postDelayed({
                 if (navigationControl.currentDestination == navigationControl.graph.findNode(R.id.pivot_dialog)) {
-                    val input = PivotDialogFragmentDirections.viewPivotAction(stagedDataPivot)
+                    val patientPivots = Patients()
+                    patientPivots.addAll(patientsFound)
+                    val diagnosesPivots = Diagnoses()
+                    diagnosesPivots.addAll(diagnosesFound)
+                    val prescriptionPivots = Prescriptions()
+                    prescriptionPivots.addAll(prescriptionsFound)
+                    val visitPivots = Visits()
+                    visitPivots.addAll(visitsFound)
+                    val practitionerPivots = Practitioners()
+                    practitionerPivots.addAll(practitionersFound)
+                    val doctorPivots = Doctors()
+                    doctorPivots.addAll(doctorsFound)
+                    val nursePractitionerPivots = NursePractitioners()
+                    nursePractitionerPivots.addAll(nursePractitionersFound)
+                    val registeredNursePivots = RegisteredNurses()
+                    registeredNursePivots.addAll(registeredNursesFound)
+                    val pharmaceuticalsPivots = Pharmaceutical()
+                    pharmaceuticalsPivots.addAll(pharmaceuticalsFound)
+                    val input = PivotDialogFragmentDirections.viewPivotAction(stagedDataPivot,
+                        patientPivots,
+                        diagnosesPivots,
+                        prescriptionPivots,
+                        visitPivots,
+                        practitionerPivots,
+                        doctorPivots,
+                        registeredNursePivots,
+                        nursePractitionerPivots,
+                        pharmaceuticalsPivots
+                    )
                     navigationControl.navigate(input)
                 }
             }, 10000)

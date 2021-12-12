@@ -404,7 +404,7 @@
                 android:layout_height="match_parent">
 
 
-                <ExpandableListView
+                <androidx.recyclerview.widget.RecyclerView
                     android:visibility="visible"
                     android:id="@+id/pivot_detail_pivot_list"
                     android:layout_marginBottom="111dp"
