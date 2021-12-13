@@ -20,37 +20,37 @@ interface ChironAPIEndpoints {
     fun getChironPatients(): Single<List<Patient>>
 
     @Headers("Accept: application/json")
-    @GET("api/patients/l/{lastName}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/patients/l/{lastName}")
     fun getChironPatientsByLastName(@Path("lastName") lastName: String?): Single<List<Patient>>
 
     @Headers("Accept: application/json")
-    @GET("api/patients/l/{firstName}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/patients/f/{firstName}")
     fun getChironPatientsByFirstName(@Path("firstName") firstName: String?): Single<List<Patient>>
 
     @Headers("Accept: application/json")
-    @GET("api/patients/blood/{bloodGroup}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/patients/blood/{bloodGroup}")
     fun getChironPatientsByBloodGroup(@Path("bloodGroup") bloodGroup: String?): Single<List<Patient>>
 
     @Headers("Accept: application/json")
-    @GET("api/patients/insurancevendor/{insuranceVendor}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/patients/insurancevendor/{insuranceVendor}")
     fun getChironPatientsByInsuranceVendor(@Path("insuranceVendor") insuranceVendor: String?): Single<List<Patient>>
 
     @Headers("Accept: application/json")
-    @GET("api/patients/insurancevendorid/{insuranceVendorID}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/patients/insurancevendorid/{insuranceVendorID}")
     fun getChironPatientsByInsuranceVendorID(@Path("insuranceVendorID") insuranceVendorID: String?): Single<List<Patient>>
 
     @Headers("Accept: application/json")
-    @GET("api/patients/birthdate/on/{birthDate}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/patients/birthdate/on/{birthDate}")
     fun getChironPatientsByBirthDate(@Path("birthDate") birthDate: String?): Single<List<Patient>>
 
     @Headers("Accept: application/json")
-    @GET("api/patients/birthdate/before/{birthDate}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/patients/birthdate/before/{birthDate}")
     fun getChironPatientsByBirthDateBefore(@Path("birthDate") birthDate: String?): Single<List<Patient>>
 
-    @GET("api/patients/birthdate/after/{birthDate}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/patients/birthdate/after/{birthDate}")
     fun getChironPatientsByBirthDateAfter(@Path("birthDate") birthDate: String?): Single<List<Patient>>
 
-    @GET("api/patients/birthdate/between/{birthDate}/{birthDate2}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/patients/birthdate/between/{birthDate}/{birthDate2}")
     fun getChironPatientsByBirthDateBetween(@Path("birthDate") birthDate: String?,
                                             @Path("birthDate2") birthDate2: String?): Single<List<Patient>>
 

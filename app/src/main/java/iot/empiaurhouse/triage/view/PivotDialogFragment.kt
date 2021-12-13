@@ -1,5 +1,6 @@
 package iot.empiaurhouse.triage.view
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,6 +11,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -21,6 +23,7 @@ import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.PivotController
 import iot.empiaurhouse.triage.databinding.FragmentPivotDialogBinding
 import iot.empiaurhouse.triage.model.*
+import iot.empiaurhouse.triage.utils.PivotAPIManager
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
 
 private const val ARG_PARAM1 = "param1"
@@ -66,6 +69,8 @@ class PivotDialogFragment : DialogFragment() {
     private lateinit var navigationControl: NavController
     private val args: PivotDialogFragmentArgs by navArgs()
     private var patientsFound = arrayListOf<Patient>()
+    private var patientsFoundII = arrayListOf<Patient>()
+    private var patientsFoundIII = arrayListOf<Patient>()
     private var diagnosesFound = arrayListOf<Diagnosis>()
     private var prescriptionsFound = arrayListOf<Prescription>()
     private var visitsFound = arrayListOf<Visit>()
@@ -74,6 +79,7 @@ class PivotDialogFragment : DialogFragment() {
     private var nursePractitionersFound = arrayListOf<NursePractitioner>()
     private var registeredNursesFound = arrayListOf<RegisteredNurse>()
     private var pharmaceuticalsFound = arrayListOf<Pharmaceuticals>()
+    private lateinit var pivotAPIManager: PivotAPIManager
 
 
 
@@ -94,6 +100,7 @@ class PivotDialogFragment : DialogFragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPivotDialogBinding.bind(view)
@@ -131,12 +138,15 @@ class PivotDialogFragment : DialogFragment() {
         navigationControl = view.findNavController()
         pivotController = PivotController()
         stagedDataPivot = args.dataPivot
+        pivotAPIManager = PivotAPIManager(stagedDataPivot, requireContext())
+        collateData(stagedDataPivot)
         renderComplete = pivotController.initPivotDialog(requireContext(), stagedDataPivot, navigationControl,
             triageBot, pivotDialogView, pivotingText,
         pivotLabel,dataModelTitle, dataModelText, endPointTitle, endPointText, pivotTypeTitle,pivotTypeText, parameterTitle,
         alphaParamTitle, alphaParamText, betaParamTitle, betaParamText, epsilonParamTitle, epsilonParamText, timeStreamTitle,
         timeStreamText, chiParamTitle, chiParamText, psiParamTitle, psiParamText, pivotProgress)
         onBackPressed()
+
 
     }
 
@@ -146,6 +156,9 @@ class PivotDialogFragment : DialogFragment() {
                 if (navigationControl.currentDestination == navigationControl.graph.findNode(R.id.pivot_dialog)) {
                     val patientPivots = Patients()
                     patientPivots.addAll(patientsFound)
+                    patientPivots.addAll(patientsFoundII)
+                    patientPivots.addAll(patientsFoundIII)
+                    println("\n\nMerged Pivots Found: $patientPivots\n\n")
                     val diagnosesPivots = Diagnoses()
                     diagnosesPivots.addAll(diagnosesFound)
                     val prescriptionPivots = Prescriptions()
@@ -178,6 +191,93 @@ class PivotDialogFragment : DialogFragment() {
             }, 10000)
 
         }
+    }
+
+    private fun collateData(dataPivot: DataPivot){
+        when(dataPivot.entityCode){
+            1 ->{
+                var result: Boolean
+                val fetchedPatients = arrayListOf<Patient>()
+                if (view != null) {
+                    pivotAPIManager.patientRecords.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                result = reply.isNotEmpty()
+                                if (fetchedPatients.isEmpty()) {
+                                    fetchedPatients.addAll(reply)
+                                    patientsFound = fetchedPatients
+                                    println("Patient Pivot Records output is not empty: $result")
+                                    println("See Chiron Pivot (Patient) output result: $reply")
+                                }
+                            }
+                        })
+                }
+                var resultII: Boolean
+                val fetchedPatientsII = arrayListOf<Patient>()
+                if (view != null) {
+                    pivotAPIManager.patientRecordsII.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                resultII = reply.isNotEmpty()
+                                if (fetchedPatientsII.isEmpty()) {
+                                    fetchedPatientsII.addAll(reply)
+                                    patientsFoundII = fetchedPatientsII
+                                    println("Patient Pivot Records II response output is not empty: $resultII")
+                                    println("See Chiron Pivot (Patient) output II result: $reply")
+                                }
+                            }
+                        })
+                }
+                var resultIII: Boolean
+                val fetchedPatientsIII = arrayListOf<Patient>()
+                if (view != null) {
+                    pivotAPIManager.patientRecordsIII.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                resultIII = reply.isNotEmpty()
+                                if (fetchedPatientsIII.isEmpty()) {
+                                    fetchedPatientsIII.addAll(reply)
+                                    patientsFoundIII = fetchedPatientsIII
+                                    println("Patient Pivot Records III response object is not empty: $resultIII")
+                                    println("See Chiron Pivot (Patient) response III result: $reply")
+                                }
+                            }
+                        })
+                }
+            }
+            2 ->{
+
+            }
+            3 ->{
+
+            }
+            4 ->{
+
+            }
+            5 ->{
+
+            }
+            6 ->{
+                when(dataPivot.practitionerCode){
+                    10 ->{
+
+                    }
+                    20 ->{
+
+                    }
+                    30 ->{
+
+                    }
+                    40 ->{
+
+                    }
+                }
+            }
+        }
+
     }
 
 

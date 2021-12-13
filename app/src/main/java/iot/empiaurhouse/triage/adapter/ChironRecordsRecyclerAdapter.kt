@@ -116,11 +116,15 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 iconController(holder.patientDiagnosesCountIcon!!, holder.patientDiagnosesCount!!, focusPatient.diagnoses!!.size)
                 holder.patientDiagnosesCount.text = focusPatient.diagnoses.size.toString()
                 holder.patientItem!!.setOnClickListener {
-                    // go to detail view with navigation + focusPatientObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, focusPatient,
-                        null, null, null, null, null,
-                        null, null, null)
-                    navControls.navigate(input)
+                    if (navControls.currentDestination == navControls.graph.findNode(R.id.allRecords)) {
+                        // go to detail view with navigation + focusPatientObject
+                        val input = AllRecordsFragmentDirections.viewRecordDetails(
+                            recordID, focusPatient,
+                            null, null, null, null, null,
+                            null, null, null
+                        )
+                        navControls.navigate(input)
+                    }
                 }
 
             }
@@ -136,12 +140,15 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 holder.diagnosisLevel!!.text = focusDiagnosis.diagnosisLevel.diagnosisLevelName
                 holder.diagnosisLevel.setTextColor(Color.parseColor(focusDiagnosis.diagnosisLevel.diagnosisLevelHexCode))
                 holder.diagnosisItem!!.setOnClickListener {
-                    // go to detail view with navigation + focusDiagnosisObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        focusDiagnosis, null, null, null, null,
-                        null, null, null)
-                    navControls.navigate(input)
-
+                    if (navControls.currentDestination == navControls.graph.findNode(R.id.allRecords)) {
+                        // go to detail view with navigation + focusDiagnosisObject
+                        val input = AllRecordsFragmentDirections.viewRecordDetails(
+                            recordID, null,
+                            focusDiagnosis, null, null, null, null,
+                            null, null, null
+                        )
+                        navControls.navigate(input)
+                    }
                 }
             }
             3 -> {
@@ -155,12 +162,15 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 holder.prescriptionPatientName!!.text = focusPrescription.patientFullName
                 holder.prescriptionTypeIcon!!.setImageDrawable(ContextCompat.getDrawable(recordsContext,iconRxController(focusPrescription.prescribedDosageType)))
                 holder.prescriptionItem!!.setOnClickListener {
-                    // go to detail view with navigation + focusPrescriptionObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        null, focusPrescription, null, null, null,
-                        null, null, null)
-                    navControls.navigate(input)
-
+                    if (navControls.currentDestination == navControls.graph.findNode(R.id.allRecords)) {
+                        // go to detail view with navigation + focusPrescriptionObject
+                        val input = AllRecordsFragmentDirections.viewRecordDetails(
+                            recordID, null,
+                            null, focusPrescription, null, null, null,
+                            null, null, null
+                        )
+                        navControls.navigate(input)
+                    }
                 }
 
             }
@@ -175,12 +185,15 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 holder.visitingPatient!!.text = focusVisit.patientFullName
                 holder.visitDate!!.text = formatTools.pivotObjectDateFormat(focusVisit.visitDate)
                 holder.visitItem!!.setOnClickListener {
-                    // go to detail view with navigation + focusVisitObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        null, null, focusVisit, null, null,
-                        null, null, null)
-                    navControls.navigate(input)
-
+                    if (navControls.currentDestination == navControls.graph.findNode(R.id.allRecords)) {
+                        // go to detail view with navigation + focusVisitObject
+                        val input = AllRecordsFragmentDirections.viewRecordDetails(
+                            recordID, null,
+                            null, null, focusVisit, null, null,
+                            null, null, null
+                        )
+                        navControls.navigate(input)
+                    }
                 }
 
             }
@@ -195,12 +208,15 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                     holder.practitionersID.text = idHolder
                 }
                 holder.practitionerItem!!.setOnClickListener {
-                    // go to detail view with navigation + focusPractitionerObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        null, null, null, focusPractitioner, null,
-                        null, null, null)
-                    navControls.navigate(input)
-
+                    if (navControls.currentDestination == navControls.graph.findNode(R.id.allRecords)) {
+                        // go to detail view with navigation + focusPractitionerObject
+                        val input = AllRecordsFragmentDirections.viewRecordDetails(
+                            recordID, null,
+                            null, null, null, focusPractitioner, null,
+                            null, null, null
+                        )
+                        navControls.navigate(input)
+                    }
                 }
             }
             6 -> {
@@ -222,12 +238,15 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                     holder.doctorSpeciality!!.text = holderSpeciality
                 }
                 holder.doctorItem!!.setOnClickListener {
-                    // go to detail view with navigation + focusDoctorObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        null, null, null, null, focusDoctor,
-                        null, null, null)
-                    navControls.navigate(input)
-
+                    if (navControls.currentDestination == navControls.graph.findNode(R.id.allRecords)) {
+                        // go to detail view with navigation + focusDoctorObject
+                        val input = AllRecordsFragmentDirections.viewRecordDetails(
+                            recordID, null,
+                            null, null, null, null, focusDoctor,
+                            null, null, null
+                        )
+                        navControls.navigate(input)
+                    }
                 }
 
             }
@@ -242,11 +261,15 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                     holder.registeredNursePractitionersID.text = idHolder
                 }
                 holder.registeredNurseItem!!.setOnClickListener {
-                    // go to detail view with navigation + focusRegisteredNurseObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        null, null, null, null,
-                        null, focusRegisteredNurse, null, null)
-                    navControls.navigate(input)
+                    if (navControls.currentDestination == navControls.graph.findNode(R.id.allRecords)) {
+                        // go to detail view with navigation + focusRegisteredNurseObject
+                        val input = AllRecordsFragmentDirections.viewRecordDetails(
+                            recordID, null,
+                            null, null, null, null,
+                            null, focusRegisteredNurse, null, null
+                        )
+                        navControls.navigate(input)
+                    }
                 }
 
             }
@@ -261,12 +284,15 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                     holder.nursePractitionerPractitionersID.text = idHolder
                 }
                 holder.nursePractitionerItem!!.setOnClickListener {
-                    // go to detail view with navigation + focusNursePractitionerObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        null, null, null, null,
-                        null, null, focusNursePractitioner, null)
-                    navControls.navigate(input)
-
+                    if (navControls.currentDestination == navControls.graph.findNode(R.id.allRecords)) {
+                        // go to detail view with navigation + focusNursePractitionerObject
+                        val input = AllRecordsFragmentDirections.viewRecordDetails(
+                            recordID, null,
+                            null, null, null, null,
+                            null, null, focusNursePractitioner, null
+                        )
+                        navControls.navigate(input)
+                    }
                 }
             }
             9 -> {
@@ -288,10 +314,14 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
                 expiryController(focusPharmaceuticals.expiryDate, holder.pharmaceuticalExpiryDate)
                 holder.pharmaceuticalItem!!.setOnClickListener {
                     // go to detail view with navigation + focusPharmaceuticalsObject
-                    val input = AllRecordsFragmentDirections.viewRecordDetails(recordID, null,
-                        null, null, null, null,
-                        null, null, null, focusPharmaceuticals)
-                    navControls.navigate(input)
+                    if (navControls.currentDestination == navControls.graph.findNode(R.id.allRecords)) {
+                        val input = AllRecordsFragmentDirections.viewRecordDetails(
+                            recordID, null,
+                            null, null, null, null,
+                            null, null, null, focusPharmaceuticals
+                        )
+                        navControls.navigate(input)
+                    }
                 }
             }
 
