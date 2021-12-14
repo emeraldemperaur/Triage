@@ -94,6 +94,38 @@ class ChironAPIService {
         return chironAPI.getChironDiagnoses()
     }
 
+    fun getChironDiagnosesByDetails(diagnosisDetails: String): Single<List<Diagnosis>>{
+        return chironAPI.getChironDiagnosesByDiagnosisDetail(diagnosisDetails)
+    }
+
+    fun getChironDiagnosesBySynopsis(diagnosisSynopsis: String): Single<List<Diagnosis>>{
+        return chironAPI.getChironDiagnosesByDiagnosisSynopsis(diagnosisSynopsis)
+    }
+
+    fun getChironDiagnosesByLevel(diagnosisLevel: String): Single<List<Diagnosis>>{
+        return chironAPI.getChironDiagnosesByDiagnosisLevelName(diagnosisLevel)
+    }
+
+    fun getChironDiagnosesByInsurerID(insurerID: String): Single<List<Diagnosis>>{
+        return chironAPI.getChironDiagnosesByInsuranceVendorID(insurerID)
+    }
+
+    fun getChironDiagnosesByVisitOn(visitDate: String): Single<List<Diagnosis>>{
+        return chironAPI.getChironDiagnosesByVisitDate(visitDate)
+    }
+
+    fun getChironDiagnosesByVisitBefore(visitDate: String): Single<List<Diagnosis>>{
+        return chironAPI.getChironDiagnosesByVisitDateBefore(visitDate)
+    }
+
+    fun getChironDiagnosesByVisitAfter(visitDate: String): Single<List<Diagnosis>>{
+        return chironAPI.getChironDiagnosesByVisitDateAfter(visitDate)
+    }
+
+    fun getChironDiagnosesByVisitBetween(visitDateA: String, visitDateB: String): Single<List<Diagnosis>>{
+        return chironAPI.getChironDiagnosesByVisitDateBetween(visitDateA, visitDateB)
+    }
+
     fun getChironPrescriptions(): Single<List<Prescription>>{
         return chironAPI.getChironPrescriptions()
     }

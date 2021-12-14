@@ -78,6 +78,9 @@ interface ChironAPIEndpoints {
     @GET("api/diagnoses/synopsis/{diagnosisSynopsis}")
     fun getChironDiagnosesByDiagnosisSynopsis(@Path("diagnosisSynopsis") diagnosisSynopsis: String?): Single<List<Diagnosis>>
 
+    @GET("api/diagnoses/detail/{diagnosisDetail}")
+    fun getChironDiagnosesByDiagnosisDetail(@Path("diagnosisDetail") diagnosisDetail: String?): Single<List<Diagnosis>>
+
     @GET("http://chiron-cloudapp.herokuapp.com/api/prescriptions")
     fun getChironPrescriptions(): Single<List<Prescription>>
 
@@ -228,7 +231,7 @@ interface ChironAPIEndpoints {
                                                     @Path("expiryDate2") expiryDate2: String?): Single<List<Pharmaceuticals>>
 
     @Headers("Content-Type: application/json", "Accept: application/json")
-    @POST("http://chiron-cloudapp.herokuapp.com/api/patient")
+    @PUT("http://chiron-cloudapp.herokuapp.com/api/patient")
     fun postPatient(@Body requestPatient: Patient): Call<Patient>
 
     @Headers("Content-Type: application/json", "Accept: application/json")
