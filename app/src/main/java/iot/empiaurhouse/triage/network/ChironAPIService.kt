@@ -130,8 +130,76 @@ class ChironAPIService {
         return chironAPI.getChironPrescriptions()
     }
 
+    fun getChironPrescriptionsByRxName(prescriptionName: String): Single<List<Prescription>>{
+        return chironAPI.getChironPrescriptionsByPrescriptionName(prescriptionName)
+    }
+
+    fun getChironPrescriptionsByPrescriber(prescriberName: String): Single<List<Prescription>>{
+        return chironAPI.getChironPrescriptionsByPrescriber(prescriberName)
+    }
+
+    fun getChironPrescriptionsByPrescriberID(prescriberID: String): Single<List<Prescription>>{
+        return chironAPI.getChironPrescriptionsByPrescriberID(prescriberID)
+    }
+
+    fun getChironPrescriptionsByInsurerID(insurerID: String): Single<List<Prescription>>{
+        return chironAPI.getChironPrescriptionsByInsuranceVendorID(insurerID)
+    }
+
+    fun getChironPrescriptionsByRxDateOn(visitDate: String): Single<List<Prescription>>{
+        return chironAPI.getChironPrescriptionsByPrescriptionDate(visitDate)
+    }
+
+    fun getChironPrescriptionsByRxDateBefore(visitDate: String): Single<List<Prescription>>{
+        return chironAPI.getChironPrescriptionsByPrescriptionDateBefore(visitDate)
+    }
+
+    fun getChironPrescriptionsByRxDateAfter(visitDate: String): Single<List<Prescription>>{
+        return chironAPI.getChironPrescriptionsByPrescriptionDateAfter(visitDate)
+    }
+
+    fun getChironPrescriptionsByRxDateBetween(visitDateA: String, visitDateB: String): Single<List<Prescription>>{
+        return chironAPI.getChironPrescriptionsByPrescriptionDateBetween(visitDateA, visitDateB)
+    }
+
     fun getChironVisits(): Single<List<Visit>>{
         return chironAPI.getChironVisits()
+    }
+
+    fun getChironVisitsByHost(hostPractitioner: String): Single<List<Visit>>{
+        return chironAPI.getChironVisitsByHostPractitioner(hostPractitioner)
+    }
+
+    fun getChironVisitsByHostID(hostPractitionerID: String): Single<List<Visit>>{
+        return chironAPI.getChironVisitsByHostPractitionerID(hostPractitionerID)
+    }
+
+    fun getChironVisitsByInsurerID(insurerID: String): Single<List<Visit>>{
+        return chironAPI.getChironVisitsByInsuranceVendorID(insurerID)
+    }
+
+    fun getChironVisitsByVisitTime(visitTime: String): Single<List<Visit>>{
+        return chironAPI.getChironVisitsByVisitTime(visitTime)
+    }
+
+    fun getChironVisitsByVisitDescription(visitDescription: String): Single<List<Visit>>{
+        return chironAPI.getChironVisitsByVisitDescription(visitDescription)
+    }
+
+    fun getChironVisitsByVisitDateOn(visitDate: String): Single<List<Visit>>{
+        return chironAPI.getChironVisitsByVisitDate(visitDate)
+    }
+
+    fun getChironVisitsByVisitDateBefore(visitDate: String): Single<List<Visit>>{
+        return chironAPI.getChironVisitsByVisitDateBefore(visitDate)
+    }
+
+    fun getChironVisitsByVisitDateAfter(visitDate: String): Single<List<Visit>>{
+        return chironAPI.getChironVisitsByVisitDateAfter(visitDate)
+    }
+
+    fun getChironVisitsByVisitDateBetween(visitDateA: String, visitDateB: String): Single<List<Visit>>{
+        return chironAPI.getChironVisitsByVisitDateBetween(visitDateA, visitDateB)
     }
 
     fun getChironPractitioners(): Single<List<Practitioner>>{
