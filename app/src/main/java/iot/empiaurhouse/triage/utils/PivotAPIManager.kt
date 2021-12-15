@@ -28,8 +28,14 @@ class PivotAPIManager(private val dataPivot: DataPivot, private val context: Con
     private val patientDisposableII = CompositeDisposable()
     private val patientDisposableIII = CompositeDisposable()
     private val diagnosisDisposable = CompositeDisposable()
+    private val diagnosisDisposableII = CompositeDisposable()
+    private val diagnosisDisposableIII = CompositeDisposable()
     private val prescriptionDisposable = CompositeDisposable()
+    private val prescriptionDisposableII = CompositeDisposable()
+    private val prescriptionDisposableIII = CompositeDisposable()
     private val visitDisposable = CompositeDisposable()
+    private val visitDisposableII = CompositeDisposable()
+    private val visitDisposableIII = CompositeDisposable()
     private val practitionerDisposable = CompositeDisposable()
     private val doctorDisposable = CompositeDisposable()
     private val nursePractitionerDisposable = CompositeDisposable()
@@ -40,8 +46,14 @@ class PivotAPIManager(private val dataPivot: DataPivot, private val context: Con
     val patientRecordsII = MutableLiveData<List<Patient>>()
     val patientRecordsIII = MutableLiveData<List<Patient>>()
     val diagnosisRecords = MutableLiveData<List<Diagnosis>>()
+    val diagnosisRecordsII = MutableLiveData<List<Diagnosis>>()
+    val diagnosisRecordsIII = MutableLiveData<List<Diagnosis>>()
     val prescriptionRecords = MutableLiveData<List<Prescription>>()
+    val prescriptionRecordsII = MutableLiveData<List<Prescription>>()
+    val prescriptionRecordsIII = MutableLiveData<List<Prescription>>()
     val visitRecords = MutableLiveData<List<Visit>>()
+    val visitRecordsII = MutableLiveData<List<Visit>>()
+    val visitRecordsIII = MutableLiveData<List<Visit>>()
     val practitionerRecords = MutableLiveData<List<Practitioner>>()
     val doctorRecords = MutableLiveData<List<Doctor>>()
     val nursePractitionerRecords = MutableLiveData<List<NursePractitioner>>()
@@ -52,6 +64,8 @@ class PivotAPIManager(private val dataPivot: DataPivot, private val context: Con
     val patientErrorII = MutableLiveData<Boolean>()
     val patientErrorIII = MutableLiveData<Boolean>()
     val diagnosisError = MutableLiveData<Boolean>()
+    val diagnosisErrorII = MutableLiveData<Boolean>()
+    val diagnosisErrorIII = MutableLiveData<Boolean>()
     val prescriptionError = MutableLiveData<Boolean>()
     val visitError = MutableLiveData<Boolean>()
     val practitionerError = MutableLiveData<Boolean>()
@@ -106,7 +120,31 @@ class PivotAPIManager(private val dataPivot: DataPivot, private val context: Con
                 }
             }
             2 ->{
-
+                when(dataPivot.endPointCode){
+                    10 ->{
+                        valueParams.add(dataPivot.valueParameterA!!)
+                        valueParams.add(dataPivot.valueParameterB!!)
+                        valueParams.add(dataPivot.valueParameterC!!)
+                        fetchDiagnosesRecordsBySynopsis(valueParams)
+                    }
+                    11 ->{
+                        valueParams.add(dataPivot.dateParameterA!!)
+                        valueParams.add(dataPivot.dateParameterB!!)
+                        fetchDiagnosisRecordsByVisitDate(valueParams)
+                    }
+                    12 ->{
+                        valueParams.add(dataPivot.valueParameterA!!)
+                        valueParams.add(dataPivot.valueParameterB!!)
+                        valueParams.add(dataPivot.valueParameterC!!)
+                        fetchDiagnosesRecordsByInsurerID(valueParams)
+                    }
+                    13 ->{
+                        valueParams.add(dataPivot.valueParameterA!!)
+                        valueParams.add(dataPivot.valueParameterB!!)
+                        valueParams.add(dataPivot.valueParameterC!!)
+                        fetchDiagnosesRecordsByLevel(valueParams)
+                    }
+                }
             }
             3 ->{
 
@@ -686,6 +724,372 @@ class PivotAPIManager(private val dataPivot: DataPivot, private val context: Con
             }
         }
     }
+
+    private fun fetchDiagnosesRecordsBySynopsis(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            diagnosisDisposable.add(
+                chironAPIService.getChironDiagnosesBySynopsis(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                        override fun onSuccess(reply: List<Diagnosis>) {
+                            diagnosisRecords.value = reply
+                            diagnosisError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            diagnosisError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            diagnosisDisposable.add(
+                chironAPIService.getChironDiagnosesBySynopsis(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                        override fun onSuccess(reply: List<Diagnosis>) {
+                            diagnosisRecords.value = reply
+                            diagnosisError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            diagnosisError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                diagnosisDisposableII.add(
+                    chironAPIService.getChironDiagnosesBySynopsis(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                            override fun onSuccess(reply: List<Diagnosis>) {
+                                diagnosisRecordsII.value = reply
+                                diagnosisErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                diagnosisErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                diagnosisDisposableIII.add(
+                    chironAPIService.getChironDiagnosesBySynopsis(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                            override fun onSuccess(reply: List<Diagnosis>) {
+                                diagnosisRecordsIII.value = reply
+                                diagnosisErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                diagnosisErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchDiagnosesRecordsByLevel(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            diagnosisDisposable.add(
+                chironAPIService.getChironDiagnosesByLevel(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                        override fun onSuccess(reply: List<Diagnosis>) {
+                            diagnosisRecords.value = reply
+                            diagnosisError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            diagnosisError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            diagnosisDisposable.add(
+                chironAPIService.getChironDiagnosesByLevel(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                        override fun onSuccess(reply: List<Diagnosis>) {
+                            diagnosisRecords.value = reply
+                            diagnosisError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            diagnosisError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                diagnosisDisposableII.add(
+                    chironAPIService.getChironDiagnosesByLevel(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                            override fun onSuccess(reply: List<Diagnosis>) {
+                                diagnosisRecordsII.value = reply
+                                diagnosisErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                diagnosisErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                diagnosisDisposableIII.add(
+                    chironAPIService.getChironDiagnosesByLevel(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                            override fun onSuccess(reply: List<Diagnosis>) {
+                                diagnosisRecordsIII.value = reply
+                                diagnosisErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                diagnosisErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchDiagnosesRecordsByInsurerID(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            diagnosisDisposable.add(
+                chironAPIService.getChironDiagnosesByInsurerID(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                        override fun onSuccess(reply: List<Diagnosis>) {
+                            diagnosisRecords.value = reply
+                            diagnosisError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            diagnosisError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            diagnosisDisposable.add(
+                chironAPIService.getChironDiagnosesByInsurerID(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                        override fun onSuccess(reply: List<Diagnosis>) {
+                            diagnosisRecords.value = reply
+                            diagnosisError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            diagnosisError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                diagnosisDisposableII.add(
+                    chironAPIService.getChironDiagnosesByInsurerID(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                            override fun onSuccess(reply: List<Diagnosis>) {
+                                diagnosisRecordsII.value = reply
+                                diagnosisErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                diagnosisErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                diagnosisDisposableIII.add(
+                    chironAPIService.getChironDiagnosesByInsurerID(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                            override fun onSuccess(reply: List<Diagnosis>) {
+                                diagnosisRecordsIII.value = reply
+                                diagnosisErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                diagnosisErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun fetchDiagnosisRecordsByVisitDate(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.timeStreamCode != null && dataPivot.timeStreamCode == 1) {
+            diagnosisDisposable.add(
+                chironAPIService.getChironDiagnosesByVisitOn(reformatDateString(dataPivot.dateParameterA!!))
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                        override fun onSuccess(reply: List<Diagnosis>) {
+                            diagnosisRecords.value = reply
+                            diagnosisError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            diagnosisError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        if (dataPivot.timeStreamCode != null && dataPivot.timeStreamCode == 2) {
+            diagnosisDisposable.add(
+                chironAPIService.getChironDiagnosesByVisitBefore(reformatDateString(dataPivot.dateParameterA!!))
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                        override fun onSuccess(reply: List<Diagnosis>) {
+                            diagnosisRecords.value = reply
+                            diagnosisError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            diagnosisError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+        }
+        if (dataPivot.timeStreamCode != null && dataPivot.timeStreamCode == 3) {
+            diagnosisDisposable.add(
+                chironAPIService.getChironDiagnosesByVisitAfter(reformatDateString(dataPivot.dateParameterA!!))
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                        override fun onSuccess(reply: List<Diagnosis>) {
+                            diagnosisRecords.value = reply
+                            diagnosisError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            diagnosisError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+        }
+        if (dataPivot.timeStreamCode != null && dataPivot.timeStreamCode == 4) {
+            diagnosisDisposable.add(
+                chironAPIService.getChironDiagnosesByVisitBetween(reformatDateString(dataPivot.dateParameterA!!), reformatDateString(dataPivot.dateParameterB!!))
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Diagnosis>>() {
+                        override fun onSuccess(reply: List<Diagnosis>) {
+                            diagnosisRecords.value = reply
+                            diagnosisError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            diagnosisError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+        }
+
+    }
+
+
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)

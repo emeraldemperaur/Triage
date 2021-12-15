@@ -72,8 +72,14 @@ class PivotDialogFragment : DialogFragment() {
     private var patientsFoundII = arrayListOf<Patient>()
     private var patientsFoundIII = arrayListOf<Patient>()
     private var diagnosesFound = arrayListOf<Diagnosis>()
+    private var diagnosesFoundII = arrayListOf<Diagnosis>()
+    private var diagnosesFoundIII = arrayListOf<Diagnosis>()
     private var prescriptionsFound = arrayListOf<Prescription>()
+    private var prescriptionsFoundII = arrayListOf<Prescription>()
+    private var prescriptionsFoundIII = arrayListOf<Prescription>()
     private var visitsFound = arrayListOf<Visit>()
+    private var visitsFoundII = arrayListOf<Visit>()
+    private var visitsFoundIII = arrayListOf<Visit>()
     private var practitionersFound = arrayListOf<Practitioner>()
     private var doctorsFound = arrayListOf<Doctor>()
     private var nursePractitionersFound = arrayListOf<NursePractitioner>()
@@ -158,11 +164,23 @@ class PivotDialogFragment : DialogFragment() {
                     patientPivots.addAll(patientsFound)
                     patientPivots.addAll(patientsFoundII)
                     patientPivots.addAll(patientsFoundIII)
-                    println("\n\nMerged Pivots Found: $patientPivots\n\n")
+                    if (patientPivots.isNotEmpty()) {
+                        println("\n\nMerged Patient Pivots Found: $patientPivots\n\n")
+                    }
                     val diagnosesPivots = Diagnoses()
                     diagnosesPivots.addAll(diagnosesFound)
+                    diagnosesPivots.addAll(diagnosesFoundII)
+                    diagnosesPivots.addAll(diagnosesFoundIII)
+                    if (diagnosesPivots.isNotEmpty()) {
+                        println("\n\nMerged Diagnoses Pivots Found: $diagnosesPivots\n\n")
+                    }
                     val prescriptionPivots = Prescriptions()
                     prescriptionPivots.addAll(prescriptionsFound)
+                    prescriptionPivots.addAll(prescriptionsFoundII)
+                    prescriptionPivots.addAll(prescriptionsFoundIII)
+                    if (prescriptionPivots.isNotEmpty()) {
+                        println("\n\nMerged Prescription Pivots Found: $prescriptionPivots\n\n")
+                    }
                     val visitPivots = Visits()
                     visitPivots.addAll(visitsFound)
                     val practitionerPivots = Practitioners()
@@ -188,7 +206,7 @@ class PivotDialogFragment : DialogFragment() {
                     )
                     navigationControl.navigate(input)
                 }
-            }, 10000)
+            }, 10369)
 
         }
     }
@@ -249,9 +267,110 @@ class PivotDialogFragment : DialogFragment() {
                 }
             }
             2 ->{
-
+                var result: Boolean
+                val fetchedDiagnoses = arrayListOf<Diagnosis>()
+                if (view != null) {
+                    pivotAPIManager.diagnosisRecords.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                result = reply.isNotEmpty()
+                                if (fetchedDiagnoses.isEmpty()) {
+                                    fetchedDiagnoses.addAll(reply)
+                                    diagnosesFound = fetchedDiagnoses
+                                    println("Diagnosis Pivot Records output is not empty: $result")
+                                    println("See Chiron Pivot (Diagnosis) output result: $reply")
+                                }
+                            }
+                        })
+                }
+                var resultII: Boolean
+                val fetchedDiagnosesII = arrayListOf<Diagnosis>()
+                if (view != null) {
+                    pivotAPIManager.diagnosisRecordsII.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                resultII = reply.isNotEmpty()
+                                if (fetchedDiagnosesII.isEmpty()) {
+                                    fetchedDiagnosesII.addAll(reply)
+                                    diagnosesFoundII = fetchedDiagnosesII
+                                    println("Diagnosis Pivot Records II response output is not empty: $resultII")
+                                    println("See Chiron Pivot (Diagnosis) output II result: $reply")
+                                }
+                            }
+                        })
+                }
+                var resultIII: Boolean
+                val fetchedDiagnosesIII = arrayListOf<Diagnosis>()
+                if (view != null) {
+                    pivotAPIManager.diagnosisRecordsIII.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                resultIII = reply.isNotEmpty()
+                                if (fetchedDiagnosesIII.isEmpty()) {
+                                    fetchedDiagnosesIII.addAll(reply)
+                                    diagnosesFoundIII = fetchedDiagnosesIII
+                                    println("Diagnosis Pivot Records III response object is not empty: $resultIII")
+                                    println("See Chiron Pivot (Diagnosis) response III result: $reply")
+                                }
+                            }
+                        })
+                }
             }
             3 ->{
+                var result: Boolean
+                val fetchedPrescriptions = arrayListOf<Prescription>()
+                if (view != null) {
+                    pivotAPIManager.prescriptionRecords.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                result = reply.isNotEmpty()
+                                if (fetchedPrescriptions.isEmpty()) {
+                                    fetchedPrescriptions.addAll(reply)
+                                    prescriptionsFound = fetchedPrescriptions
+                                    println("Prescription Pivot Records output is not empty: $result")
+                                    println("See Chiron Pivot (Prescription) output result: $reply")
+                                }
+                            }
+                        })
+                }
+                var resultII: Boolean
+                val fetchedPrescriptionsII = arrayListOf<Prescription>()
+                if (view != null) {
+                    pivotAPIManager.prescriptionRecordsII.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                resultII = reply.isNotEmpty()
+                                if (fetchedPrescriptionsII.isEmpty()) {
+                                    fetchedPrescriptionsII.addAll(reply)
+                                    prescriptionsFoundII = fetchedPrescriptionsII
+                                    println("Prescription Pivot Records II response output is not empty: $resultII")
+                                    println("See Chiron Pivot (Prescription) output II result: $reply")
+                                }
+                            }
+                        })
+                }
+                var resultIII: Boolean
+                val fetchedPrescriptionsIII = arrayListOf<Prescription>()
+                if (view != null) {
+                    pivotAPIManager.prescriptionRecordsIII.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                resultIII = reply.isNotEmpty()
+                                if (fetchedPrescriptionsIII.isEmpty()) {
+                                    fetchedPrescriptionsIII.addAll(reply)
+                                    prescriptionsFoundIII = fetchedPrescriptionsIII
+                                    println("Prescription Pivot Records III response object is not empty: $resultIII")
+                                    println("See Chiron Pivot (Prescription) response III result: $reply")
+                                }
+                            }
+                        })
+                }
 
             }
             4 ->{

@@ -57,28 +57,28 @@ interface ChironAPIEndpoints {
     @GET("http://chiron-cloudapp.herokuapp.com/api/diagnoses")
     fun getChironDiagnoses(): Single<List<Diagnosis>>
 
-    @GET("api/diagnoses/on/{visitDate}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/diagnoses/on/{visitDate}")
     fun getChironDiagnosesByVisitDate(@Path("visitDate") visitDate: String?): Single<List<Diagnosis>>
 
-    @GET("api/diagnoses/before/{visitDate}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/diagnoses/before/{visitDate}")
     fun getChironDiagnosesByVisitDateBefore(@Path("visitDate") visitDate: String?): Single<List<Diagnosis>>
 
-    @GET("api/diagnoses/after/{visitDate}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/diagnoses/after/{visitDate}")
     fun getChironDiagnosesByVisitDateAfter(@Path("visitDate") visitDate: String?): Single<List<Diagnosis>>
 
-    @GET("api/diagnoses/between/{visitDate}/{visitDate2}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/diagnoses/between/{visitDate}/{visitDate2}")
     fun getChironDiagnosesByVisitDateBetween(@Path("visitDate") visitDate: String?, @Path("visitDate2") visitDate2: String?): Single<List<Diagnosis>>
 
-    @GET("api/diagnoses/insurancevendorid/{insuranceVendorID}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/diagnoses/insurancevendorid/{insuranceVendorID}")
     fun getChironDiagnosesByInsuranceVendorID(@Path("insuranceVendorID") insuranceVendorID: String?): Single<List<Diagnosis>>
 
-    @GET("api/diagnoses/diagnosislevel/{diagnosisLevelName}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/diagnoses/diagnosislevel/{diagnosisLevelName}")
     fun getChironDiagnosesByDiagnosisLevelName(@Path("diagnosisLevelName") diagnosisLevelName: String?): Single<List<Diagnosis>>
 
-    @GET("api/diagnoses/synopsis/{diagnosisSynopsis}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/diagnoses/synopsis/{diagnosisSynopsis}")
     fun getChironDiagnosesByDiagnosisSynopsis(@Path("diagnosisSynopsis") diagnosisSynopsis: String?): Single<List<Diagnosis>>
 
-    @GET("api/diagnoses/detail/{diagnosisDetail}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/diagnoses/detail/{diagnosisDetail}")
     fun getChironDiagnosesByDiagnosisDetail(@Path("diagnosisDetail") diagnosisDetail: String?): Single<List<Diagnosis>>
 
     @GET("http://chiron-cloudapp.herokuapp.com/api/prescriptions")
