@@ -200,12 +200,32 @@ class PivotDialogFragment : DialogFragment() {
                     }
                     val practitionerPivots = Practitioners()
                     practitionerPivots.addAll(practitionersFound)
+                    practitionerPivots.addAll(practitionersFoundII)
+                    practitionerPivots.addAll(practitionersFoundIII)
+                    if (practitionerPivots.isNotEmpty()) {
+                        println("\n\nMerged Practitioner Pivots Found: $practitionerPivots\n\n")
+                    }
                     val doctorPivots = Doctors()
                     doctorPivots.addAll(doctorsFound)
+                    doctorPivots.addAll(doctorsFoundII)
+                    doctorPivots.addAll(doctorsFoundIII)
+                    if (doctorPivots.isNotEmpty()) {
+                        println("\n\nMerged Doctor Pivots Found: $doctorPivots\n\n")
+                    }
                     val nursePractitionerPivots = NursePractitioners()
                     nursePractitionerPivots.addAll(nursePractitionersFound)
+                    nursePractitionerPivots.addAll(nursePractitionersFoundII)
+                    nursePractitionerPivots.addAll(nursePractitionersFoundIII)
+                    if (nursePractitionerPivots.isNotEmpty()) {
+                        println("\n\nMerged Nurse Practitioner Pivots Found: $nursePractitionerPivots\n\n")
+                    }
                     val registeredNursePivots = RegisteredNurses()
                     registeredNursePivots.addAll(registeredNursesFound)
+                    registeredNursePivots.addAll(registeredNursesFoundII)
+                    registeredNursePivots.addAll(registeredNursesFoundIII)
+                    if (registeredNursePivots.isNotEmpty()) {
+                        println("\n\nMerged Registered Nurse Pivots Found: $registeredNursePivots\n\n")
+                    }
                     val pharmaceuticalsPivots = Pharmaceutical()
                     pharmaceuticalsPivots.addAll(pharmaceuticalsFound)
                     pharmaceuticalsPivots.addAll(pharmaceuticalsFoundII)

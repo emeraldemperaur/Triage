@@ -143,90 +143,90 @@ interface ChironAPIEndpoints {
     @GET("http://chiron-cloudapp.herokuapp.com/api/practitioners")
     fun getChironPractitioners(): Single<List<Practitioner>>
 
-    @GET("api/practitioners/l/{lastName}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/practitioners/l/{lastName}")
     fun getChironPractitionersByLastName(@Path("lastName") lastName: String?): Single<List<Practitioner>>
 
-    @GET("api/practitioners/f/{firstName}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/practitioners/f/{firstName}")
     fun getChironPractitionersByFirstName(@Path("firstName") firstName: String?): Single<List<Practitioner>>
 
-    @GET("api/practitioners/id/{practitionerId}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/practitioners/id/{practitionerId}")
     fun getChironPractitionersByPractitionerID(@Path("practitionerId") practitionerId: String?): Single<List<Practitioner>>
 
     @GET("http://chiron-cloudapp.herokuapp.com/api/doctors")
     fun getChironDoctors(): Single<List<Doctor>>
 
-    @GET("api/doctors/l/{lastName}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/doctors/l/{lastName}")
     fun getChironDoctorsByLastName(@Path("lastName") lastName: String?): Single<List<Doctor>>
 
-    @GET("api/doctors/f/{firstName}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/doctors/f/{firstName}")
     fun getChironDoctorsByFirstName(@Path("firstName") firstName: String?): Single<List<Doctor>>
 
-    @GET("api/doctors/id/{practitionerId}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/doctors/id/{practitionerId}")
     fun getChironDoctorsByPractitionerID(@Path("practitionerId") practitionerId: String?): Single<List<Doctor>>
 
     @GET("http://chiron-cloudapp.herokuapp.com/api/nursepractitioners")
     fun getChironNursePractitioners(): Single<List<NursePractitioner>>
 
-    @GET("api/nursepractitioners/l/{lastName}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/nursepractitioners/l/{lastName}")
     fun getChironNursePractitionersByLastName(@Path("lastName") lastName: String?): Single<List<NursePractitioner>>
 
-    @GET("api/nursepractitioners/f/{firstName}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/nursepractitioners/f/{firstName}")
     fun getChironNursePractitionersByFirstName(@Path("firstName") firstName: String?): Single<List<NursePractitioner>>
 
-    @GET("api/nursepractitioners/id/{practitionerId}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/nursepractitioners/id/{practitionerId}")
     fun getChironNursePractitionersByPractitionerID(@Path("practitionerId") practitionerId: String?): Single<List<NursePractitioner>>
 
 
     @GET("http://chiron-cloudapp.herokuapp.com/api/registerednurses")
     fun getChironRegisteredNurses(): Single<List<RegisteredNurse>>
 
-    @GET("api/registerednurses/l/{lastName}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/registerednurses/l/{lastName}")
     fun getChironRegisteredNursesByLastName(@Path("lastName") lastName: String?): Single<List<RegisteredNurse>>
 
-    @GET("api/registerednurses/f/{firstName}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/registerednurses/f/{firstName}")
     fun getChironRegisteredNursesByFirstName(@Path("firstName") firstName: String?): Single<List<RegisteredNurse>>
 
-    @GET("api/registerednurses/id/{practitionerId}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/registerednurses/id/{practitionerId}")
     fun getChironRegisteredNursesByPractitionerID(@Path("practitionerId") practitionerId: String?): Single<List<RegisteredNurse>>
 
     @GET("http://chiron-cloudapp.herokuapp.com/api/pharmaceuticals")
     fun getChironPharmaceuticals(): Single<List<Pharmaceuticals>>
 
-    @GET("api/pharmaceuticals/brand/{brandName}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/pharmaceuticals/brand/{brandName}")
     fun getChironPharmaceuticalsByBrandName(@Path("brandName") brandName: String?): Single<List<Pharmaceuticals>>
 
-    @GET("api/pharmaceuticals/generic/{genericName}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/pharmaceuticals/generic/{genericName}")
     fun getChironPharmaceuticalsByGenericName(@Path("genericName") genericName: String?): Single<List<Pharmaceuticals>>
 
-    @GET("api/pharmaceuticals/chemical/{chemicalName}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/pharmaceuticals/chemical/{chemicalName}")
     fun getChironPharmaceuticalsByChemicalName(@Path("chemicalName") chemicalName: String?): Single<List<Pharmaceuticals>>
 
-    @GET("api/pharmaceuticals/manufacturer/{manufacturerName}")
-    fun getChironPharmaceuticalsByManufactureNme(@Path("manufacturerName") manufacturerName: String?): Single<List<Pharmaceuticals>>
+    @GET("http://chiron-cloudapp.herokuapp.com/api/pharmaceuticals/manufacturer/{manufacturerName}")
+    fun getChironPharmaceuticalsByManufactureName(@Path("manufacturerName") manufacturerName: String?): Single<List<Pharmaceuticals>>
 
-    @GET("api/pharmaceuticals/manufacturedate/{manufactureDate}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/pharmaceuticals/manufacturedate/{manufactureDate}")
     fun getChironPharmaceuticalsByManufactureDate(@Path("manufactureDate") manufactureDate: String?): Single<List<Pharmaceuticals>>
 
-    @GET("api/pharmaceuticals/manufacturedbefore/{manufactureDate}")
-    fun getChironPharmaceuticalsManufactureDateBefore(@Path("manufactureDate") manufactureDate: String?): Single<List<Pharmaceuticals>>
+    @GET("http://chiron-cloudapp.herokuapp.com/api/pharmaceuticals/manufacturedbefore/{manufactureDate}")
+    fun getChironPharmaceuticalsByManufactureDateBefore(@Path("manufactureDate") manufactureDate: String?): Single<List<Pharmaceuticals>>
 
-    @GET("api/pharmaceuticals/manufacturedafter/{manufactureDate}")
-    fun getChironPharmaceuticalsManufactureDateAfter(@Path("manufactureDate") manufactureDate: String?): Single<List<Pharmaceuticals>>
+    @GET("http://chiron-cloudapp.herokuapp.com/api/pharmaceuticals/manufacturedafter/{manufactureDate}")
+    fun getChironPharmaceuticalsByManufactureDateAfter(@Path("manufactureDate") manufactureDate: String?): Single<List<Pharmaceuticals>>
 
-    @GET("api/pharmaceuticals/manufacturedbetween/{manufactureDate}/{manufactureDate2}")
-    fun getChironPharmaceuticalsManufactureDateBetween(@Path("manufactureDate") manufactureDate: String?,
+    @GET("http://chiron-cloudapp.herokuapp.com/api/pharmaceuticals/manufacturedbetween/{manufactureDate}/{manufactureDate2}")
+    fun getChironPharmaceuticalsByManufactureDateBetween(@Path("manufactureDate") manufactureDate: String?,
                                                        @Path("manufactureDate2") manufactureDate2: String?): Single<List<Pharmaceuticals>>
 
-    @GET("api/pharmaceuticals/expirydate/{expiryDate}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/pharmaceuticals/expirydate/{expiryDate}")
     fun getChironPharmaceuticalsByExpiryDate(@Path("expiryDate") expiryDate: String?): Single<List<Pharmaceuticals>>
 
-    @GET("api/pharmaceuticals/expiredbefore/{expiryDate}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/pharmaceuticals/expiredbefore/{expiryDate}")
     fun getChironPharmaceuticalsByExpiryDateBefore(@Path("expiryDate") expiryDate: String?): Single<List<Pharmaceuticals>>
 
-    @GET("api/pharmaceuticals/expiredafter/{expiryDate}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/pharmaceuticals/expiredafter/{expiryDate}")
     fun getChironPharmaceuticalsByExpiryDateAfter(@Path("expiryDate") expiryDate: String?): Single<List<Pharmaceuticals>>
 
-    @GET("api/pharmaceuticals/expiredbetween/{expiryDate}/{expiryDate2}")
+    @GET("http://chiron-cloudapp.herokuapp.com/api/pharmaceuticals/expiredbetween/{expiryDate}/{expiryDate2}")
     fun getChironPharmaceuticalsByExpiryDateBetween(@Path("expiryDate") expiryDate: String?,
                                                     @Path("expiryDate2") expiryDate2: String?): Single<List<Pharmaceuticals>>
 

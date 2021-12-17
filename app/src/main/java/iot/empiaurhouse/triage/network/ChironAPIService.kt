@@ -206,20 +206,112 @@ class ChironAPIService {
         return chironAPI.getChironPractitioners()
     }
 
+    fun getChironPractitionersByFirstName(firstName: String): Single<List<Practitioner>>{
+        return chironAPI.getChironPractitionersByFirstName(firstName)
+    }
+
+    fun getChironPractitionersByLastName(lastName: String): Single<List<Practitioner>>{
+        return chironAPI.getChironPractitionersByLastName(lastName)
+    }
+
+    fun getChironPractitionersByPID(practitionerID: String): Single<List<Practitioner>>{
+        return chironAPI.getChironPractitionersByPractitionerID(practitionerID)
+    }
+
     fun getChironDoctors(): Single<List<Doctor>>{
         return chironAPI.getChironDoctors()
+    }
+
+    fun getChironDoctorsByFirstName(firstName: String): Single<List<Doctor>>{
+        return chironAPI.getChironDoctorsByFirstName(firstName)
+    }
+
+    fun getChironDoctorsByLastName(lastName: String): Single<List<Doctor>>{
+        return chironAPI.getChironDoctorsByLastName(lastName)
+    }
+
+    fun getChironDoctorsByPID(practitionerID: String): Single<List<Doctor>>{
+        return chironAPI.getChironDoctorsByPractitionerID(practitionerID)
     }
 
     fun getChironNursePractitioners(): Single<List<NursePractitioner>>{
         return chironAPI.getChironNursePractitioners()
     }
 
+    fun getChironNursePractitionersByFirstName(firstName: String): Single<List<NursePractitioner>>{
+        return chironAPI.getChironNursePractitionersByFirstName(firstName)
+    }
+
+    fun getChironNursePractitionersByLastName(lastName: String): Single<List<NursePractitioner>>{
+        return chironAPI.getChironNursePractitionersByLastName(lastName)
+    }
+
+    fun getChironNursePractitionersByPID(practitionerID: String): Single<List<NursePractitioner>>{
+        return chironAPI.getChironNursePractitionersByPractitionerID(practitionerID)
+    }
+
     fun getChironRegisteredNurses(): Single<List<RegisteredNurse>>{
         return chironAPI.getChironRegisteredNurses()
     }
 
+    fun getChironRegisteredNursesByFirstName(firstName: String): Single<List<RegisteredNurse>>{
+        return chironAPI.getChironRegisteredNursesByFirstName(firstName)
+    }
+
+    fun getChironRegisteredNursesByLastName(lastName: String): Single<List<RegisteredNurse>>{
+        return chironAPI.getChironRegisteredNursesByLastName(lastName)
+    }
+
+    fun getChironRegisteredNursesByPID(practitionerID: String): Single<List<RegisteredNurse>>{
+        return chironAPI.getChironRegisteredNursesByPractitionerID(practitionerID)
+    }
+
     fun getChironPharmaceuticals(): Single<List<Pharmaceuticals>>{
         return chironAPI.getChironPharmaceuticals()
+    }
+
+    fun getChironPharmaceuticalsByBrandName(brandName: String): Single<List<Pharmaceuticals>>{
+        return chironAPI.getChironPharmaceuticalsByBrandName(brandName)
+    }
+
+    fun getChironPharmaceuticalsByGenericName(genericName: String): Single<List<Pharmaceuticals>>{
+        return chironAPI.getChironPharmaceuticalsByGenericName(genericName)
+    }
+
+    fun getChironPharmaceuticalsByChemicalName(chemicalName: String): Single<List<Pharmaceuticals>>{
+        return chironAPI.getChironPharmaceuticalsByChemicalName(chemicalName)
+    }
+
+    fun getChironPharmaceuticalsByManufactureName(manufactureName: String): Single<List<Pharmaceuticals>>{
+        return chironAPI.getChironPharmaceuticalsByManufactureName(manufactureName)
+    }
+
+    fun getChironPharmaceuticalsByManufactureDate(manufactureDate: String): Single<List<Pharmaceuticals>>{
+        return chironAPI.getChironPharmaceuticalsByManufactureDate(manufactureDate)
+    }
+
+    fun getChironPharmaceuticalsByManufactureDateBefore(manufactureDate: String): Single<List<Pharmaceuticals>>{
+        return chironAPI.getChironPharmaceuticalsByManufactureDateBefore(manufactureDate)
+    }
+
+    fun getChironPharmaceuticalsByManufactureDateAfter(manufactureDate: String): Single<List<Pharmaceuticals>>{
+        return chironAPI.getChironPharmaceuticalsByManufactureDateAfter(manufactureDate)
+    }
+
+    fun getChironPharmaceuticalsByManufactureDateBetween(manufactureDateA: String, manufactureDateB: String): Single<List<Pharmaceuticals>>{
+        return chironAPI.getChironPharmaceuticalsByManufactureDateBetween(manufactureDateA, manufactureDateB)
+    }
+
+    fun getChironPharmaceuticalsByExpiryDateBefore(expiryDate: String): Single<List<Pharmaceuticals>>{
+        return chironAPI.getChironPharmaceuticalsByExpiryDateBefore(expiryDate)
+    }
+
+    fun getChironPharmaceuticalsByExpiryDateAfter(expiryDate: String): Single<List<Pharmaceuticals>>{
+        return chironAPI.getChironPharmaceuticalsByExpiryDateAfter(expiryDate)
+    }
+
+    fun getChironPharmaceuticalsByExpiryDateBetween(expiryDateA: String, expiryDateB: String): Single<List<Pharmaceuticals>>{
+        return chironAPI.getChironPharmaceuticalsByExpiryDateBetween(expiryDateA, expiryDateB)
     }
 
     fun postPatient(focusPatient: Patient): Call<Patient>{

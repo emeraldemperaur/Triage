@@ -252,24 +252,96 @@ class PivotAPIManager(private val dataPivot: DataPivot, private val context: Con
             6 ->{
                 when(dataPivot.practitionerCode){
                     10 ->{
-
+                        when(dataPivot.endPointCode){
+                            7 ->{
+                                valueParams.add(dataPivot.valueParameterA!!)
+                                valueParams.add(dataPivot.valueParameterB!!)
+                                valueParams.add(dataPivot.valueParameterC!!)
+                                fetchPractitionerRecordsByFirstName(valueParams)
+                            }
+                            8 ->{
+                                valueParams.add(dataPivot.valueParameterA!!)
+                                valueParams.add(dataPivot.valueParameterB!!)
+                                valueParams.add(dataPivot.valueParameterC!!)
+                                fetchPractitionerRecordsByLastName(valueParams)
+                            }
+                            9 ->{
+                                valueParams.add(dataPivot.valueParameterA!!)
+                                valueParams.add(dataPivot.valueParameterB!!)
+                                valueParams.add(dataPivot.valueParameterC!!)
+                                fetchPractitionerRecordsByPID(valueParams)
+                            }
+                        }
                     }
                     20 ->{
-
+                        when(dataPivot.endPointCode){
+                            7 ->{
+                                valueParams.add(dataPivot.valueParameterA!!)
+                                valueParams.add(dataPivot.valueParameterB!!)
+                                valueParams.add(dataPivot.valueParameterC!!)
+                                fetchDoctorRecordsByFirstName(valueParams)
+                            }
+                            8 ->{
+                                valueParams.add(dataPivot.valueParameterA!!)
+                                valueParams.add(dataPivot.valueParameterB!!)
+                                valueParams.add(dataPivot.valueParameterC!!)
+                                fetchDoctorRecordsByLastName(valueParams)
+                            }
+                            9 ->{
+                                valueParams.add(dataPivot.valueParameterA!!)
+                                valueParams.add(dataPivot.valueParameterB!!)
+                                valueParams.add(dataPivot.valueParameterC!!)
+                                fetchDoctorRecordsByPID(valueParams)
+                            }
+                        }
                     }
                     30 ->{
-
+                        when(dataPivot.endPointCode){
+                            7 ->{
+                                valueParams.add(dataPivot.valueParameterA!!)
+                                valueParams.add(dataPivot.valueParameterB!!)
+                                valueParams.add(dataPivot.valueParameterC!!)
+                                fetchNursePractitionerRecordsByFirstName(valueParams)
+                            }
+                            8 ->{
+                                valueParams.add(dataPivot.valueParameterA!!)
+                                valueParams.add(dataPivot.valueParameterB!!)
+                                valueParams.add(dataPivot.valueParameterC!!)
+                                fetchNursePractitionerRecordsByLastName(valueParams)
+                            }
+                            9 ->{
+                                valueParams.add(dataPivot.valueParameterA!!)
+                                valueParams.add(dataPivot.valueParameterB!!)
+                                valueParams.add(dataPivot.valueParameterC!!)
+                                fetchNursePractitionerRecordsByPID(valueParams)
+                            }
+                        }
                     }
                     40 ->{
-
+                        when(dataPivot.endPointCode){
+                            7 ->{
+                                valueParams.add(dataPivot.valueParameterA!!)
+                                valueParams.add(dataPivot.valueParameterB!!)
+                                valueParams.add(dataPivot.valueParameterC!!)
+                                fetchRegisteredNurseRecordsByFirstName(valueParams)
+                            }
+                            8 ->{
+                                valueParams.add(dataPivot.valueParameterA!!)
+                                valueParams.add(dataPivot.valueParameterB!!)
+                                valueParams.add(dataPivot.valueParameterC!!)
+                                fetchRegisteredNurseRecordsByLastName(valueParams)
+                            }
+                            9 ->{
+                                valueParams.add(dataPivot.valueParameterA!!)
+                                valueParams.add(dataPivot.valueParameterB!!)
+                                valueParams.add(dataPivot.valueParameterC!!)
+                                fetchRegisteredNurseRecordsByPID(valueParams)
+                            }
+                        }
                     }
                 }
-
             }
-
-
         }
-
     }
 
 
@@ -2180,6 +2252,1098 @@ class PivotAPIManager(private val dataPivot: DataPivot, private val context: Con
             )
         }
 
+    }
+
+    private fun fetchPractitionerRecordsByFirstName(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            practitionerDisposable.add(
+                chironAPIService.getChironPractitionersByFirstName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Practitioner>>() {
+                        override fun onSuccess(reply: List<Practitioner>) {
+                            practitionerRecords.value = reply
+                            practitionerError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            practitionerError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            practitionerDisposable.add(
+                chironAPIService.getChironPractitionersByFirstName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Practitioner>>() {
+                        override fun onSuccess(reply: List<Practitioner>) {
+                            practitionerRecords.value = reply
+                            practitionerError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            practitionerError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                practitionerDisposableII.add(
+                    chironAPIService.getChironPractitionersByFirstName(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Practitioner>>() {
+                            override fun onSuccess(reply: List<Practitioner>) {
+                                practitionerRecordsII.value = reply
+                                practitionerErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                practitionerErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                practitionerDisposableIII.add(
+                    chironAPIService.getChironPractitionersByFirstName(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Practitioner>>() {
+                            override fun onSuccess(reply: List<Practitioner>) {
+                                practitionerRecordsIII.value = reply
+                                practitionerErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                practitionerErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchPractitionerRecordsByLastName(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            practitionerDisposable.add(
+                chironAPIService.getChironPractitionersByLastName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Practitioner>>() {
+                        override fun onSuccess(reply: List<Practitioner>) {
+                            practitionerRecords.value = reply
+                            practitionerError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            practitionerError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            practitionerDisposable.add(
+                chironAPIService.getChironPractitionersByLastName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Practitioner>>() {
+                        override fun onSuccess(reply: List<Practitioner>) {
+                            practitionerRecords.value = reply
+                            practitionerError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            practitionerError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                practitionerDisposableII.add(
+                    chironAPIService.getChironPractitionersByLastName(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Practitioner>>() {
+                            override fun onSuccess(reply: List<Practitioner>) {
+                                practitionerRecordsII.value = reply
+                                practitionerErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                practitionerErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                practitionerDisposableIII.add(
+                    chironAPIService.getChironPractitionersByLastName(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Practitioner>>() {
+                            override fun onSuccess(reply: List<Practitioner>) {
+                                practitionerRecordsIII.value = reply
+                                practitionerErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                practitionerErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchPractitionerRecordsByPID(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            practitionerDisposable.add(
+                chironAPIService.getChironPractitionersByPID(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Practitioner>>() {
+                        override fun onSuccess(reply: List<Practitioner>) {
+                            practitionerRecords.value = reply
+                            practitionerError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            practitionerError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            practitionerDisposable.add(
+                chironAPIService.getChironPractitionersByPID(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Practitioner>>() {
+                        override fun onSuccess(reply: List<Practitioner>) {
+                            practitionerRecords.value = reply
+                            practitionerError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            practitionerError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                practitionerDisposableII.add(
+                    chironAPIService.getChironPractitionersByPID(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Practitioner>>() {
+                            override fun onSuccess(reply: List<Practitioner>) {
+                                practitionerRecordsII.value = reply
+                                practitionerErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                practitionerErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                practitionerDisposableIII.add(
+                    chironAPIService.getChironPractitionersByPID(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Practitioner>>() {
+                            override fun onSuccess(reply: List<Practitioner>) {
+                                practitionerRecordsIII.value = reply
+                                practitionerErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                practitionerErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchDoctorRecordsByFirstName(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            doctorDisposable.add(
+                chironAPIService.getChironDoctorsByFirstName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Doctor>>() {
+                        override fun onSuccess(reply: List<Doctor>) {
+                            doctorRecords.value = reply
+                            doctorError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            doctorError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            doctorDisposable.add(
+                chironAPIService.getChironDoctorsByFirstName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Doctor>>() {
+                        override fun onSuccess(reply: List<Doctor>) {
+                            doctorRecords.value = reply
+                            doctorError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            doctorError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                doctorDisposableII.add(
+                    chironAPIService.getChironDoctorsByFirstName(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Doctor>>() {
+                            override fun onSuccess(reply: List<Doctor>) {
+                                doctorRecordsII.value = reply
+                                doctorErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                doctorErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                doctorDisposableIII.add(
+                    chironAPIService.getChironDoctorsByFirstName(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Doctor>>() {
+                            override fun onSuccess(reply: List<Doctor>) {
+                                doctorRecordsIII.value = reply
+                                doctorErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                doctorErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchDoctorRecordsByLastName(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            doctorDisposable.add(
+                chironAPIService.getChironDoctorsByLastName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Doctor>>() {
+                        override fun onSuccess(reply: List<Doctor>) {
+                            doctorRecords.value = reply
+                            doctorError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            doctorError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            doctorDisposable.add(
+                chironAPIService.getChironDoctorsByLastName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Doctor>>() {
+                        override fun onSuccess(reply: List<Doctor>) {
+                            doctorRecords.value = reply
+                            doctorError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            doctorError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                doctorDisposableII.add(
+                    chironAPIService.getChironDoctorsByLastName(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Doctor>>() {
+                            override fun onSuccess(reply: List<Doctor>) {
+                                doctorRecordsII.value = reply
+                                doctorErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                doctorErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                doctorDisposableIII.add(
+                    chironAPIService.getChironDoctorsByLastName(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Doctor>>() {
+                            override fun onSuccess(reply: List<Doctor>) {
+                                doctorRecordsIII.value = reply
+                                doctorErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                doctorErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchDoctorRecordsByPID(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            doctorDisposable.add(
+                chironAPIService.getChironDoctorsByPID(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Doctor>>() {
+                        override fun onSuccess(reply: List<Doctor>) {
+                            doctorRecords.value = reply
+                            doctorError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            doctorError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            doctorDisposable.add(
+                chironAPIService.getChironDoctorsByPID(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Doctor>>() {
+                        override fun onSuccess(reply: List<Doctor>) {
+                            doctorRecords.value = reply
+                            doctorError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            doctorError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                doctorDisposableII.add(
+                    chironAPIService.getChironDoctorsByPID(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Doctor>>() {
+                            override fun onSuccess(reply: List<Doctor>) {
+                                doctorRecordsII.value = reply
+                                doctorErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                doctorErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                doctorDisposableIII.add(
+                    chironAPIService.getChironDoctorsByPID(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Doctor>>() {
+                            override fun onSuccess(reply: List<Doctor>) {
+                                doctorRecordsIII.value = reply
+                                doctorErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                doctorErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchNursePractitionerRecordsByFirstName(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            nursePractitionerDisposable.add(
+                chironAPIService.getChironNursePractitionersByFirstName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<NursePractitioner>>() {
+                        override fun onSuccess(reply: List<NursePractitioner>) {
+                            nursePractitionerRecords.value = reply
+                            nursePractitionerError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            nursePractitionerError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            nursePractitionerDisposable.add(
+                chironAPIService.getChironNursePractitionersByFirstName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<NursePractitioner>>() {
+                        override fun onSuccess(reply: List<NursePractitioner>) {
+                            nursePractitionerRecords.value = reply
+                            nursePractitionerError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            nursePractitionerError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                nursePractitionerDisposableII.add(
+                    chironAPIService.getChironNursePractitionersByFirstName(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<NursePractitioner>>() {
+                            override fun onSuccess(reply: List<NursePractitioner>) {
+                                nursePractitionerRecordsII.value = reply
+                                nursePractitionerErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                nursePractitionerErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                nursePractitionerDisposableIII.add(
+                    chironAPIService.getChironNursePractitionersByFirstName(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<NursePractitioner>>() {
+                            override fun onSuccess(reply: List<NursePractitioner>) {
+                                nursePractitionerRecordsIII.value = reply
+                                nursePractitionerErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                nursePractitionerErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchNursePractitionerRecordsByLastName(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            nursePractitionerDisposable.add(
+                chironAPIService.getChironNursePractitionersByLastName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<NursePractitioner>>() {
+                        override fun onSuccess(reply: List<NursePractitioner>) {
+                            nursePractitionerRecords.value = reply
+                            nursePractitionerError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            nursePractitionerError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            nursePractitionerDisposable.add(
+                chironAPIService.getChironNursePractitionersByLastName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<NursePractitioner>>() {
+                        override fun onSuccess(reply: List<NursePractitioner>) {
+                            nursePractitionerRecords.value = reply
+                            nursePractitionerError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            nursePractitionerError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                nursePractitionerDisposableII.add(
+                    chironAPIService.getChironNursePractitionersByLastName(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<NursePractitioner>>() {
+                            override fun onSuccess(reply: List<NursePractitioner>) {
+                                nursePractitionerRecordsII.value = reply
+                                nursePractitionerErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                nursePractitionerErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                nursePractitionerDisposableIII.add(
+                    chironAPIService.getChironNursePractitionersByLastName(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<NursePractitioner>>() {
+                            override fun onSuccess(reply: List<NursePractitioner>) {
+                                nursePractitionerRecordsIII.value = reply
+                                nursePractitionerErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                nursePractitionerErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchNursePractitionerRecordsByPID(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            nursePractitionerDisposable.add(
+                chironAPIService.getChironNursePractitionersByPID(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<NursePractitioner>>() {
+                        override fun onSuccess(reply: List<NursePractitioner>) {
+                            nursePractitionerRecords.value = reply
+                            nursePractitionerError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            nursePractitionerError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            nursePractitionerDisposable.add(
+                chironAPIService.getChironNursePractitionersByPID(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<NursePractitioner>>() {
+                        override fun onSuccess(reply: List<NursePractitioner>) {
+                            nursePractitionerRecords.value = reply
+                            nursePractitionerError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            nursePractitionerError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                nursePractitionerDisposableII.add(
+                    chironAPIService.getChironNursePractitionersByPID(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<NursePractitioner>>() {
+                            override fun onSuccess(reply: List<NursePractitioner>) {
+                                nursePractitionerRecordsII.value = reply
+                                nursePractitionerErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                nursePractitionerErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                nursePractitionerDisposableIII.add(
+                    chironAPIService.getChironNursePractitionersByPID(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<NursePractitioner>>() {
+                            override fun onSuccess(reply: List<NursePractitioner>) {
+                                nursePractitionerRecordsIII.value = reply
+                                nursePractitionerErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                nursePractitionerErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchRegisteredNurseRecordsByFirstName(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            registeredNurseDisposable.add(
+                chironAPIService.getChironRegisteredNursesByFirstName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<RegisteredNurse>>() {
+                        override fun onSuccess(reply: List<RegisteredNurse>) {
+                            registeredNurseRecords.value = reply
+                            registeredNurseError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            registeredNurseError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            registeredNurseDisposable.add(
+                chironAPIService.getChironRegisteredNursesByFirstName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<RegisteredNurse>>() {
+                        override fun onSuccess(reply: List<RegisteredNurse>) {
+                            registeredNurseRecords.value = reply
+                            registeredNurseError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            registeredNurseError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                registeredNurseDisposableII.add(
+                    chironAPIService.getChironRegisteredNursesByFirstName(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<RegisteredNurse>>() {
+                            override fun onSuccess(reply: List<RegisteredNurse>) {
+                                registeredNurseRecordsII.value = reply
+                                registeredNurseErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                registeredNurseErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                registeredNurseDisposableIII.add(
+                    chironAPIService.getChironRegisteredNursesByFirstName(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<RegisteredNurse>>() {
+                            override fun onSuccess(reply: List<RegisteredNurse>) {
+                                registeredNurseRecordsIII.value = reply
+                                registeredNurseErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                registeredNurseErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchRegisteredNurseRecordsByLastName(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            registeredNurseDisposable.add(
+                chironAPIService.getChironRegisteredNursesByLastName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<RegisteredNurse>>() {
+                        override fun onSuccess(reply: List<RegisteredNurse>) {
+                            registeredNurseRecords.value = reply
+                            registeredNurseError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            registeredNurseError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            registeredNurseDisposable.add(
+                chironAPIService.getChironRegisteredNursesByLastName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<RegisteredNurse>>() {
+                        override fun onSuccess(reply: List<RegisteredNurse>) {
+                            registeredNurseRecords.value = reply
+                            registeredNurseError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            registeredNurseError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                registeredNurseDisposableII.add(
+                    chironAPIService.getChironRegisteredNursesByLastName(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<RegisteredNurse>>() {
+                            override fun onSuccess(reply: List<RegisteredNurse>) {
+                                registeredNurseRecordsII.value = reply
+                                registeredNurseErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                registeredNurseErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                registeredNurseDisposableIII.add(
+                    chironAPIService.getChironRegisteredNursesByLastName(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<RegisteredNurse>>() {
+                            override fun onSuccess(reply: List<RegisteredNurse>) {
+                                registeredNurseRecordsIII.value = reply
+                                registeredNurseErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                registeredNurseErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchRegisteredNurseRecordsByPID(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            registeredNurseDisposable.add(
+                chironAPIService.getChironRegisteredNursesByPID(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<RegisteredNurse>>() {
+                        override fun onSuccess(reply: List<RegisteredNurse>) {
+                            registeredNurseRecords.value = reply
+                            registeredNurseError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            registeredNurseError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            registeredNurseDisposable.add(
+                chironAPIService.getChironRegisteredNursesByPID(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<RegisteredNurse>>() {
+                        override fun onSuccess(reply: List<RegisteredNurse>) {
+                            registeredNurseRecords.value = reply
+                            registeredNurseError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            registeredNurseError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                registeredNurseDisposableII.add(
+                    chironAPIService.getChironRegisteredNursesByPID(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<RegisteredNurse>>() {
+                            override fun onSuccess(reply: List<RegisteredNurse>) {
+                                registeredNurseRecordsII.value = reply
+                                registeredNurseErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                registeredNurseErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                registeredNurseDisposableIII.add(
+                    chironAPIService.getChironRegisteredNursesByPID(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<RegisteredNurse>>() {
+                            override fun onSuccess(reply: List<RegisteredNurse>) {
+                                registeredNurseRecordsIII.value = reply
+                                registeredNurseErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                registeredNurseErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
     }
 
 
