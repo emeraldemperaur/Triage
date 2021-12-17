@@ -16,7 +16,7 @@ import java.util.*
 class PivotAPIManager(private val dataPivot: DataPivot, private val context: Context) {
 
 
-    private lateinit var valueParams: ArrayList<String>
+    private var valueParams: ArrayList<String>
     private val chironAPIService = ChironAPIService()
     private val patientDisposable = CompositeDisposable()
     private val patientDisposableII = CompositeDisposable()
@@ -247,7 +247,42 @@ class PivotAPIManager(private val dataPivot: DataPivot, private val context: Con
                 }
             }
             5 ->{
-
+                when(dataPivot.endPointCode){
+                    25 ->{
+                        valueParams.add(dataPivot.valueParameterA!!)
+                        valueParams.add(dataPivot.valueParameterB!!)
+                        valueParams.add(dataPivot.valueParameterC!!)
+                        fetchPharmaceuticalRecordsByBrandName(valueParams)
+                    }
+                    26 ->{
+                        valueParams.add(dataPivot.valueParameterA!!)
+                        valueParams.add(dataPivot.valueParameterB!!)
+                        valueParams.add(dataPivot.valueParameterC!!)
+                        fetchPharmaceuticalRecordsByGenericName(valueParams)
+                    }
+                    27 ->{
+                        valueParams.add(dataPivot.valueParameterA!!)
+                        valueParams.add(dataPivot.valueParameterB!!)
+                        valueParams.add(dataPivot.valueParameterC!!)
+                        fetchPharmaceuticalRecordsByChemicalName(valueParams)
+                    }
+                    28 ->{
+                        valueParams.add(dataPivot.valueParameterA!!)
+                        valueParams.add(dataPivot.valueParameterB!!)
+                        valueParams.add(dataPivot.valueParameterC!!)
+                        fetchPharmaceuticalRecordsByManufacturerName(valueParams)
+                    }
+                    29 ->{
+                        valueParams.add(dataPivot.dateParameterA!!)
+                        valueParams.add(dataPivot.dateParameterB!!)
+                        fetchPharmaceuticalRecordsByManufactureDate(valueParams)
+                    }
+                    30 ->{
+                        valueParams.add(dataPivot.dateParameterA!!)
+                        valueParams.add(dataPivot.dateParameterB!!)
+                        fetchPharmaceuticalRecordsByExpiryDate(valueParams)
+                    }
+                }
             }
             6 ->{
                 when(dataPivot.practitionerCode){
@@ -3346,6 +3381,549 @@ class PivotAPIManager(private val dataPivot: DataPivot, private val context: Con
         }
     }
 
+    private fun fetchPharmaceuticalRecordsByBrandName(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByBrandName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByBrandName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                pharmaceuticalDisposableII.add(
+                    chironAPIService.getChironPharmaceuticalsByBrandName(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                            override fun onSuccess(reply: List<Pharmaceuticals>) {
+                                pharmaceuticalRecordsII.value = reply
+                                pharmaceuticalErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                pharmaceuticalErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                pharmaceuticalDisposableIII.add(
+                    chironAPIService.getChironPharmaceuticalsByBrandName(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                            override fun onSuccess(reply: List<Pharmaceuticals>) {
+                                pharmaceuticalRecordsIII.value = reply
+                                pharmaceuticalErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                pharmaceuticalErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchPharmaceuticalRecordsByGenericName(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByGenericName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByGenericName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                pharmaceuticalDisposableII.add(
+                    chironAPIService.getChironPharmaceuticalsByGenericName(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                            override fun onSuccess(reply: List<Pharmaceuticals>) {
+                                pharmaceuticalRecordsII.value = reply
+                                pharmaceuticalErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                pharmaceuticalErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                pharmaceuticalDisposableIII.add(
+                    chironAPIService.getChironPharmaceuticalsByGenericName(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                            override fun onSuccess(reply: List<Pharmaceuticals>) {
+                                pharmaceuticalRecordsIII.value = reply
+                                pharmaceuticalErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                pharmaceuticalErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchPharmaceuticalRecordsByChemicalName(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByChemicalName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByChemicalName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                pharmaceuticalDisposableII.add(
+                    chironAPIService.getChironPharmaceuticalsByChemicalName(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                            override fun onSuccess(reply: List<Pharmaceuticals>) {
+                                pharmaceuticalRecordsII.value = reply
+                                pharmaceuticalErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                pharmaceuticalErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                pharmaceuticalDisposableIII.add(
+                    chironAPIService.getChironPharmaceuticalsByChemicalName(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                            override fun onSuccess(reply: List<Pharmaceuticals>) {
+                                pharmaceuticalRecordsIII.value = reply
+                                pharmaceuticalErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                pharmaceuticalErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    private fun fetchPharmaceuticalRecordsByManufacturerName(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.valueParamCode != null && dataPivot.valueParamCode == 1) {
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByManufactureName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        else if (dataPivot.valueParamCode != null && dataPivot.valueParamCode > 1) {
+
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByManufactureName(valueParams.first())
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+
+            if (valueParameters[1].isNotBlank()){
+                pharmaceuticalDisposableII.add(
+                    chironAPIService.getChironPharmaceuticalsByManufactureName(valueParams[1])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                            override fun onSuccess(reply: List<Pharmaceuticals>) {
+                                pharmaceuticalRecordsII.value = reply
+                                pharmaceuticalErrorII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                pharmaceuticalErrorII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+
+            if (valueParameters[2].isNotBlank()){
+                pharmaceuticalDisposableIII.add(
+                    chironAPIService.getChironPharmaceuticalsByManufactureName(valueParams[2])
+                        .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                        .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                        .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                            override fun onSuccess(reply: List<Pharmaceuticals>) {
+                                pharmaceuticalRecordsIII.value = reply
+                                pharmaceuticalErrorIII.value = false
+                                connecting.value = false
+                                println(reply.toString())
+                            }
+                            override fun onError(e: Throwable) {
+                                pharmaceuticalErrorIII.value = true
+                                connecting.value = false
+                                e.printStackTrace()
+                            }
+                        })
+                )
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun fetchPharmaceuticalRecordsByManufactureDate(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.timeStreamCode != null && dataPivot.timeStreamCode == 1) {
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByManufactureDate(reformatDateString(dataPivot.dateParameterA!!))
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        if (dataPivot.timeStreamCode != null && dataPivot.timeStreamCode == 2) {
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByManufactureDateBefore(reformatDateString(dataPivot.dateParameterA!!))
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+        }
+        if (dataPivot.timeStreamCode != null && dataPivot.timeStreamCode == 3) {
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByManufactureDateAfter(reformatDateString(dataPivot.dateParameterA!!))
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+        }
+        if (dataPivot.timeStreamCode != null && dataPivot.timeStreamCode == 4) {
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByManufactureDateBetween(reformatDateString(dataPivot.dateParameterA!!), reformatDateString(dataPivot.dateParameterB!!))
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+        }
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun fetchPharmaceuticalRecordsByExpiryDate(valueParameters: ArrayList<String>) {
+        connecting.value = true
+        valueParams = valueParameters
+        if (dataPivot.timeStreamCode != null && dataPivot.timeStreamCode == 1) {
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByExpiryDateOn(reformatDateString(dataPivot.dateParameterA!!))
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+
+                        }
+
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+
+                    })
+            )
+        }
+        if (dataPivot.timeStreamCode != null && dataPivot.timeStreamCode == 2) {
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByExpiryDateBefore(reformatDateString(dataPivot.dateParameterA!!))
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+        }
+        if (dataPivot.timeStreamCode != null && dataPivot.timeStreamCode == 3) {
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByExpiryDateAfter(reformatDateString(dataPivot.dateParameterA!!))
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+        }
+        if (dataPivot.timeStreamCode != null && dataPivot.timeStreamCode == 4) {
+            pharmaceuticalDisposable.add(
+                chironAPIService.getChironPharmaceuticalsByExpiryDateBetween(reformatDateString(dataPivot.dateParameterA!!), reformatDateString(dataPivot.dateParameterB!!))
+                    .subscribeOn(io.reactivex.schedulers.Schedulers.newThread())
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribeWith(object : DisposableSingleObserver<List<Pharmaceuticals>>() {
+                        override fun onSuccess(reply: List<Pharmaceuticals>) {
+                            pharmaceuticalRecords.value = reply
+                            pharmaceuticalError.value = false
+                            connecting.value = false
+                            println(reply.toString())
+                        }
+                        override fun onError(e: Throwable) {
+                            pharmaceuticalError.value = true
+                            connecting.value = false
+                            e.printStackTrace()
+                        }
+                    })
+            )
+        }
+
+    }
 
 
     @RequiresApi(Build.VERSION_CODES.O)

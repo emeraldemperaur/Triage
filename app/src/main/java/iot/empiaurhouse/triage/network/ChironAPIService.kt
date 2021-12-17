@@ -302,6 +302,10 @@ class ChironAPIService {
         return chironAPI.getChironPharmaceuticalsByManufactureDateBetween(manufactureDateA, manufactureDateB)
     }
 
+    fun getChironPharmaceuticalsByExpiryDateOn(expiryDate: String): Single<List<Pharmaceuticals>>{
+        return chironAPI.getChironPharmaceuticalsByExpiryDate(expiryDate)
+    }
+
     fun getChironPharmaceuticalsByExpiryDateBefore(expiryDate: String): Single<List<Pharmaceuticals>>{
         return chironAPI.getChironPharmaceuticalsByExpiryDateBefore(expiryDate)
     }
