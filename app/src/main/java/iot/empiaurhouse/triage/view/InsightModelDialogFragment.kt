@@ -22,7 +22,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.InsightModelController
 import iot.empiaurhouse.triage.databinding.FragmentInsightModelDialogBinding
-import iot.empiaurhouse.triage.model.InsightModel
+import iot.empiaurhouse.triage.model.*
+import iot.empiaurhouse.triage.utils.InsightAPIManager
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
 
 
@@ -57,7 +58,15 @@ class InsightModelDialogFragment : Fragment() {
     private lateinit var omegaThresholdParamTitle: TextView
     private lateinit var renderProgress: ProgressBar
     private var renderComplete: Boolean = false
+    private var patientsFound = arrayListOf<Patient>()
+    private var diagnosesFound = arrayListOf<Diagnosis>()
+    private var prescriptionsFound = arrayListOf<Prescription>()
+    private var visitsFound = arrayListOf<Visit>()
+    private var pharmaceuticalsFound = arrayListOf<Pharmaceuticals>()
+    private var pharmaceuticalsFoundII = arrayListOf<Pharmaceuticals>()
     private val args: InsightModelDialogFragmentArgs by navArgs()
+    private lateinit var insightAPIManager: InsightAPIManager
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,6 +112,8 @@ class InsightModelDialogFragment : Fragment() {
         omegaThresholdParamText = binding.omegaInsightParamText
         renderProgress = binding.insightProgress
         val insightController = InsightModelController()
+        insightAPIManager = InsightAPIManager(insightModel, requireContext())
+        collateData(insightModel)
         renderComplete = insightController.initInsightDialog(requireContext(), insightModel, triageBot,
             insightDialogView, renderingText,insightLabel,dataModelTitle, dataModelText,endPointTitle,
             endPointText, insightTypeTitle, insightTypeText, insightRangeTitle, insightRangeText,
@@ -111,7 +122,6 @@ class InsightModelDialogFragment : Fragment() {
         initInsightDialogView()
         onBackPressed()
     }
-
 
     private fun initInsightDialogView(){
         toolbarView.visibility = View.GONE
@@ -133,13 +143,159 @@ class InsightModelDialogFragment : Fragment() {
         if (renderComplete || !renderComplete){
             Handler(Looper.getMainLooper()).postDelayed({
                 if (navigationControl.currentDestination == navigationControl.graph.findNode(R.id.insight_model_dialog)) {
-                    val input = InsightModelDialogFragmentDirections.viewInsightAction(insightModel)
+                    val patientInsights = Patients()
+                    patientInsights.addAll(patientsFound)
+                    if (patientInsights.isNotEmpty()) {
+                        println("\n\nInsight Patient Data Found: $patientInsights\n\n")
+                    }
+                    val diagnosesInsights = Diagnoses()
+                    diagnosesInsights.addAll(diagnosesFound)
+                    if (diagnosesInsights.isNotEmpty()) {
+                        println("\n\nInsight Diagnoses Data Found: $diagnosesInsights\n\n")
+                    }
+                    val prescriptionInsights = Prescriptions()
+                    prescriptionInsights.addAll(prescriptionsFound)
+                    if (prescriptionInsights.isNotEmpty()) {
+                        println("\n\nInsight Prescription Data Found: $prescriptionInsights\n\n")
+                    }
+                    val visitInsights = Visits()
+                    visitInsights.addAll(visitsFound)
+                    if (visitInsights.isNotEmpty()) {
+                        println("\n\nInsight Visit Data Found: $visitInsights\n\n")
+                    }
+                    val pharmaceuticalsInsights = Pharmaceutical()
+                    pharmaceuticalsInsights.addAll(pharmaceuticalsFound)
+                    pharmaceuticalsInsights.addAll(pharmaceuticalsFoundII)
+                    if (pharmaceuticalsInsights.isNotEmpty()) {
+                        println("\n\nInsight Pharmaceutical Data Found: $pharmaceuticalsInsights\n\n")
+                    }
+                    val input = InsightModelDialogFragmentDirections.viewInsightAction(insightModel, patientInsights
+                        , diagnosesInsights, prescriptionInsights, visitInsights, pharmaceuticalsInsights)
                    navigationControl.navigate(input)
                 }
-            }, 10000)
-
+            }, 10369)
         }
     }
+
+    private fun collateData(insightModel: InsightModel){
+        when(insightModel.entityCode){
+            1 ->{
+                var result: Boolean
+                val fetchedPatients = arrayListOf<Patient>()
+                if (view != null) {
+                    insightAPIManager.patientRecords.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                result = reply.isNotEmpty()
+                                if (fetchedPatients.isEmpty()) {
+                                    fetchedPatients.addAll(reply)
+                                    patientsFound = fetchedPatients
+                                    println("Patient Insight Records output is not empty: $result")
+                                    println("See Chiron Insight (Patient) output result: $reply")
+                                }
+                            }
+                        })
+                }
+            }
+            2 ->{
+                var result: Boolean
+                val fetchedDiagnoses = arrayListOf<Diagnosis>()
+                if (view != null) {
+                    insightAPIManager.diagnosisRecords.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                result = reply.isNotEmpty()
+                                if (fetchedDiagnoses.isEmpty()) {
+                                    fetchedDiagnoses.addAll(reply)
+                                    diagnosesFound = fetchedDiagnoses
+                                    println("Diagnosis Insight Records output is not empty: $result")
+                                    println("See Chiron Insight (Diagnosis) output result: $reply")
+                                }
+                            }
+                        })
+                }
+            }
+            3 ->{
+                var result: Boolean
+                val fetchedPrescriptions = arrayListOf<Prescription>()
+                if (view != null) {
+                    insightAPIManager.prescriptionRecords.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                result = reply.isNotEmpty()
+                                if (fetchedPrescriptions.isEmpty()) {
+                                    fetchedPrescriptions.addAll(reply)
+                                    prescriptionsFound = fetchedPrescriptions
+                                    println("Prescription Insight Records output is not empty: $result")
+                                    println("See Chiron Insight (Prescription) output result: $reply")
+                                }
+                            }
+                        })
+                }
+            }
+            4 ->{
+                var result: Boolean
+                val fetchedVisits = arrayListOf<Visit>()
+                if (view != null) {
+                    insightAPIManager.visitRecords.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                result = reply.isNotEmpty()
+                                if (fetchedVisits.isEmpty()) {
+                                    fetchedVisits.addAll(reply)
+                                    visitsFound = fetchedVisits
+                                    println("Visit Insight Records output is not empty: $result")
+                                    println("See Chiron Insight (Visit) output result: $reply")
+                                }
+                            }
+                        })
+                }
+            }
+            5 ->{
+                var result: Boolean
+                val fetchedPharmaceuticals = arrayListOf<Pharmaceuticals>()
+                if (view != null) {
+                    insightAPIManager.pharmaceuticalRecords.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                result = reply.isNotEmpty()
+                                if (fetchedPharmaceuticals.isEmpty()) {
+                                    fetchedPharmaceuticals.addAll(reply)
+                                    pharmaceuticalsFound = fetchedPharmaceuticals
+                                    println("Pharmaceutical Expiry Date Insight Records output is not empty: $result")
+                                    println("See Chiron Insight (Pharmaceutical) output result: $reply")
+                                }
+                            }
+                        })
+                }
+                var resultII: Boolean
+                val fetchPharmaceuticalsII = arrayListOf<Pharmaceuticals>()
+                if (view != null) {
+                    insightAPIManager.pharmaceuticalRecordsII.observe(
+                        viewLifecycleOwner,
+                        androidx.lifecycle.Observer { reply ->
+                            reply?.let {
+                                resultII = reply.isNotEmpty()
+                                if (fetchPharmaceuticalsII.isEmpty()) {
+                                    fetchPharmaceuticalsII.addAll(reply)
+                                    pharmaceuticalsFoundII = fetchPharmaceuticalsII
+                                    println("Pharmaceutical Make Date Insight Records response output is not empty: $resultII")
+                                    println("See Chiron Insight (Pharmaceutical) output II result: $reply")
+                                }
+                            }
+                        })
+                }
+
+
+            }
+        }
+    }
+
 
     fun onBackPressed(){
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){

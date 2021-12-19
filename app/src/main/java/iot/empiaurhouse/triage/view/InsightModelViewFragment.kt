@@ -104,6 +104,23 @@ class InsightModelViewFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun initInsightModelView(insightModelObject: InsightModel){
+        when(insightModelObject.entityCode){
+            1 ->{
+                renderResultsView(args.patient!!.size)
+            }
+            2 ->{
+                renderResultsView(args.diagnosis!!.size)
+            }
+            3 ->{
+                renderResultsView(args.prescription!!.size)
+            }
+            4 ->{
+                renderResultsView(args.visit!!.size)
+            }
+            5 ->{
+                renderResultsView(args.pharmaceutical!!.size)
+            }
+        }
         toolBar.visibility = View.VISIBLE
         toolbarView.visibility = View.VISIBLE
         hubUserName.visibility = View.GONE
@@ -112,7 +129,6 @@ class InsightModelViewFragment : Fragment() {
         insightLabel.text = insightModelObject.alias
         insightModel.text = insightModelController.fetchInsightEntityTitle(insightModelObject.entityCode!!)
         insightEndPoint.text = insightModelObject.pointOfInterest
-        insightResultCount.text = "0"
         insightResultCountIcon.setImageDrawable(
             ContextCompat.getDrawable(requireContext(),
             insightModelController.fetchInsightIcon(insightModelObject.vistaCode!!)))
@@ -134,12 +150,10 @@ class InsightModelViewFragment : Fragment() {
             hubUserName.visibility = View.VISIBLE
             searchButton.visibility = View.VISIBLE
             toolbarView.visibility = View.VISIBLE
-
             val input = InsightModelViewFragmentDirections.exitInsightDetail()
             navigationControls.navigate(input)
         }
 
-        renderResultsView(null)
 
     }
 
@@ -152,6 +166,7 @@ class InsightModelViewFragment : Fragment() {
         }
         else if (recordsFound > 0){
             noResultsText.visibility = View.GONE
+            insightResultCount.text = recordsFound.toString()
             //insightView.visibility = View.VISIBLE
         }
     }

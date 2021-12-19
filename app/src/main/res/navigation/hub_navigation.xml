@@ -520,6 +520,31 @@
         android:name="iot.empiaurhouse.triage.view.InsightModelViewFragment">
 
         <argument
+            app:nullable="true"
+            android:name="Patient"
+            app:argType="iot.empiaurhouse.triage.model.Patients"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Diagnosis"
+            app:argType="iot.empiaurhouse.triage.model.Diagnoses"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Prescription"
+            app:argType="iot.empiaurhouse.triage.model.Prescriptions"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Visit"
+            app:argType="iot.empiaurhouse.triage.model.Visits"/>
+
+        <argument
+            app:nullable="true"
+            android:name="Pharmaceutical"
+            app:argType="iot.empiaurhouse.triage.model.Pharmaceutical"/>
+
+        <argument
             android:name="insightModel"
             app:argType="iot.empiaurhouse.triage.model.InsightModel"/>
 
