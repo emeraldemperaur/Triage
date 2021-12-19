@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:background="@drawable/silver"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/juxtaposition_render_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:visibility="visible"
+            android:elevation="13dp"
+            android:layout_marginBottom="9dp"
+            android:background="@color/chiron_grey"
+            android:layout_width="match_parent"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:id="@+id/make_date_text"
+            android:text="@string/make_date"
+            android:textSize="19sp"
+            android:letterSpacing="0.21"
+            android:layout_gravity="center"
+            android:layout_marginTop="6dp"
+            android:textAllCaps="true"
+            android:fontFamily="@font/montserratlight"
+            android:textStyle="bold"
+            android:textColor="@color/chiron_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/juxtaposition_text_title"
+            android:text="@string/juxtaposition"
+            android:textSize="13sp"
+            android:letterSpacing="0.21"
+            android:layout_gravity="center"
+            android:layout_marginTop="3dp"
+            android:textAllCaps="true"
+            android:fontFamily="@font/montserratbold"
+            android:textStyle="bold"
+            android:textColor="@color/chiron_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:visibility="visible"
+            android:elevation="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="0dp"
+            android:background="@color/chiron_grey"
+            android:layout_width="match_parent"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:layout_height="1dp"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/juxtaposition_render_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:paddingTop="33dp"
+        android:paddingBottom="33dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/juxtaposition_bar_chart"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/juxtaposition_pie_chart"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/juxtaposition_line_chart"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.github.mikephil.charting.charts.ScatterChart
+            android:id="@+id/juxtaposition_plot_chart"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

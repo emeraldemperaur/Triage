@@ -326,10 +326,8 @@
                 android:layout_height="match_parent">
 
 
-
-
                 <TextView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_gravity="center"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -344,6 +342,29 @@
                     android:id="@+id/insight_detail_no_results"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+
+                <include
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="169dp"
+                    android:id="@+id/insight_vista_render"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    layout="@layout/insight_vista_view"/>
+
+                <include
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="169dp"
+                    android:id="@+id/insight_juxtaposition_render"
+                    app:layout_constraintTop_toBottomOf="@id/insight_vista_render"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    layout="@layout/juxtaposition_vista_view"/>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
