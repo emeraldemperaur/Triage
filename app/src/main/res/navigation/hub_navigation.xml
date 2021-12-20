@@ -545,8 +545,14 @@
             app:argType="iot.empiaurhouse.triage.model.Pharmaceutical"/>
 
         <argument
+            app:nullable="true"
+            android:name="PharmaceuticalII"
+            app:argType="iot.empiaurhouse.triage.model.Pharmaceutical"/>
+
+        <argument
             android:name="insightModel"
             app:argType="iot.empiaurhouse.triage.model.InsightModel"/>
+
 
         <action
             android:id="@+id/exit_insight_detail"

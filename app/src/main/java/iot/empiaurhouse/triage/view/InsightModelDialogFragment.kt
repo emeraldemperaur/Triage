@@ -165,12 +165,16 @@ class InsightModelDialogFragment : Fragment() {
                     }
                     val pharmaceuticalsInsights = Pharmaceutical()
                     pharmaceuticalsInsights.addAll(pharmaceuticalsFound)
-                    pharmaceuticalsInsights.addAll(pharmaceuticalsFoundII)
                     if (pharmaceuticalsInsights.isNotEmpty()) {
                         println("\n\nInsight Pharmaceutical Data Found: $pharmaceuticalsInsights\n\n")
                     }
+                    val pharmaceuticalsJuxtaposition = Pharmaceutical()
+                    pharmaceuticalsJuxtaposition.addAll(pharmaceuticalsFoundII)
+                    if (pharmaceuticalsJuxtaposition.isNotEmpty()) {
+                        println("\n\nJuxtaposition Pharmaceutical Data Found: $pharmaceuticalsJuxtaposition\n\n")
+                    }
                     val input = InsightModelDialogFragmentDirections.viewInsightAction(insightModel, patientInsights
-                        , diagnosesInsights, prescriptionInsights, visitInsights, pharmaceuticalsInsights)
+                        , diagnosesInsights, prescriptionInsights, visitInsights, pharmaceuticalsInsights, pharmaceuticalsJuxtaposition)
                    navigationControl.navigate(input)
                 }
             }, 10369)
