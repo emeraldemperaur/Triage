@@ -333,6 +333,7 @@
 
 
       <com.google.android.material.textfield.TextInputLayout
+          android:visibility="gone"
           app:layout_constraintLeft_toLeftOf="parent"
           app:layout_constraintRight_toRightOf="parent"
           app:layout_constraintTop_toBottomOf="@id/piThresholdField"
@@ -351,13 +352,12 @@
           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:visibility="gone"
             android:id="@+id/omegaThresholdFieldText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserratregular"
             android:textSize="21sp"
-            android:focusable="true"
-            android:enabled="true"
             android:inputType="textNoSuggestions"
             android:textColor="@color/chiron_blue"
             android:maxLength="24"

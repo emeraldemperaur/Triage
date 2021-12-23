@@ -307,21 +307,24 @@ class InsightModelController {
                     omegaThresholdFieldText.inputType = InputType.TYPE_NULL
                     omegaThresholdFieldText.setTextIsSelectable(false)
                     omegaThresholdFieldText.isFocusable = false
-                    omegaThresholdFieldText.visibility = View.INVISIBLE
-                    omegaThresholdField.visibility = View.INVISIBLE
+                    omegaThresholdFieldText.isEnabled = false
+                    omegaThresholdFieldText.visibility = View.GONE
+                    omegaThresholdField.visibility = View.GONE
                 }
                 2 -> {
                     omegaThresholdFieldText.inputType = InputType.TYPE_NULL
                     omegaThresholdFieldText.setTextIsSelectable(false)
                     omegaThresholdFieldText.isFocusable = false
-                    omegaThresholdFieldText.visibility = View.INVISIBLE
-                    omegaThresholdField.visibility = View.INVISIBLE
+                    omegaThresholdFieldText.isEnabled = false
+                    omegaThresholdFieldText.visibility = View.GONE
+                    omegaThresholdField.visibility = View.GONE
 
                 }
                 3 -> {
                     omegaThresholdFieldText.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
                     omegaThresholdFieldText.setTextIsSelectable(true)
                     omegaThresholdFieldText.isFocusable = true
+                    omegaThresholdFieldText.isEnabled = true
                     omegaThresholdFieldText.visibility = View.VISIBLE
                     omegaThresholdField.visibility = View.VISIBLE
 
@@ -330,6 +333,7 @@ class InsightModelController {
                     omegaThresholdFieldText.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
                     omegaThresholdFieldText.setTextIsSelectable(true)
                     omegaThresholdFieldText.isFocusable = true
+                    omegaThresholdFieldText.isEnabled = true
                     omegaThresholdFieldText.visibility = View.VISIBLE
                     omegaThresholdField.visibility = View.VISIBLE
 

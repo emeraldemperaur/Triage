@@ -10,17 +10,23 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.charts.ScatterChart
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.controller.InsightModelController
 import iot.empiaurhouse.triage.databinding.FragmentInsightModelViewBinding
 import iot.empiaurhouse.triage.model.InsightModel
+import iot.empiaurhouse.triage.utils.InsightEngine
 
 
 private const val ARG_PARAM1 = "param1"
@@ -52,6 +58,18 @@ class InsightModelViewFragment : Fragment() {
     private lateinit var navigationControls: NavController
     private lateinit var stagedInsightModel: InsightModel
     private lateinit var insightModelController: InsightModelController
+    private lateinit var insightEngine: InsightEngine
+    private lateinit var insightRenderView: ConstraintLayout
+    private lateinit var juxtapositionVistaView: ConstraintLayout
+    private lateinit var histogramVista: BarChart
+    private lateinit var pieChartVista: PieChart
+    private lateinit var lineChartVista: LineChart
+    private lateinit var scatterPlotVista: ScatterChart
+    private lateinit var histogramJuxVista: BarChart
+    private lateinit var pieChartJuxVista: PieChart
+    private lateinit var lineChartJuxVista: LineChart
+    private lateinit var scatterPlotJuxVista: ScatterChart
+    private lateinit var viewDivider: View
     private val args: InsightModelViewFragmentArgs by navArgs()
 
 
@@ -98,6 +116,19 @@ class InsightModelViewFragment : Fragment() {
         rangeBaseTitle = binding.insightDetailRangeBaseTitle
         exitInsight = binding.exitInsightModel
         stagedInsightModel = args.insightModel
+        insightRenderView = binding.insightVistaRender.insightChartRender
+        histogramVista = binding.insightVistaRender.renderInsightBarChart
+        pieChartVista = binding.insightVistaRender.renderInsightPieChart
+        lineChartVista = binding.insightVistaRender.renderInsightLineChart
+        scatterPlotVista = binding.insightVistaRender.renderInsightPlotChart
+        viewDivider = binding.insightVistaRender.renderBlockDivider
+        juxtapositionVistaView = binding.insightJuxtapositionRender.juxtapositionRender
+        histogramJuxVista = binding.insightJuxtapositionRender.juxtapositionBarChart
+        pieChartJuxVista = binding.insightJuxtapositionRender.juxtapositionPieChart
+        lineChartJuxVista = binding.insightJuxtapositionRender.juxtapositionLineChart
+        scatterPlotJuxVista = binding.insightJuxtapositionRender.juxtapositionPlotChart
+
+        insightEngine = InsightEngine()
         onBackPressed()
         initInsightModelView(stagedInsightModel)
     }
@@ -121,6 +152,9 @@ class InsightModelViewFragment : Fragment() {
                 renderResultsView(args.pharmaceutical!!.size)
             }
         }
+        insightEngine.initInsightRender(insightModelObject, insightRenderView, juxtapositionVistaView,
+            histogramVista, pieChartVista, lineChartVista, scatterPlotVista, histogramJuxVista,
+            pieChartJuxVista, lineChartJuxVista, scatterPlotJuxVista, viewDivider)
         toolBar.visibility = View.VISIBLE
         toolbarView.visibility = View.VISIBLE
         hubUserName.visibility = View.GONE
