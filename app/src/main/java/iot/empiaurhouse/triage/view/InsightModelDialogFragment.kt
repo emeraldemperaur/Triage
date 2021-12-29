@@ -148,30 +148,48 @@ class InsightModelDialogFragment : Fragment() {
                     if (patientInsights.isNotEmpty()) {
                         println("\n\nInsight Patient Data Found: $patientInsights\n\n")
                     }
+                    else if (patientInsights.isEmpty()) {
+                        println("\n\nNo Insight Patient Data Found!")
+                    }
                     val diagnosesInsights = Diagnoses()
                     diagnosesInsights.addAll(diagnosesFound)
                     if (diagnosesInsights.isNotEmpty()) {
                         println("\n\nInsight Diagnoses Data Found: $diagnosesInsights\n\n")
+                    }
+                    else if (diagnosesInsights.isEmpty()){
+                        println("\n\nNo Insight Diagnoses Data Found!")
                     }
                     val prescriptionInsights = Prescriptions()
                     prescriptionInsights.addAll(prescriptionsFound)
                     if (prescriptionInsights.isNotEmpty()) {
                         println("\n\nInsight Prescription Data Found: $prescriptionInsights\n\n")
                     }
+                    else if (prescriptionInsights.isEmpty()){
+                        println("\n\nNo Insight Prescription Data Found!")
+                    }
                     val visitInsights = Visits()
                     visitInsights.addAll(visitsFound)
                     if (visitInsights.isNotEmpty()) {
                         println("\n\nInsight Visit Data Found: $visitInsights\n\n")
+                    }
+                    else if (visitInsights.isEmpty()){
+                        println("\n\nInsight Visit Data Found!")
                     }
                     val pharmaceuticalsInsights = Pharmaceutical()
                     pharmaceuticalsInsights.addAll(pharmaceuticalsFound)
                     if (pharmaceuticalsInsights.isNotEmpty()) {
                         println("\n\nInsight Pharmaceutical Data Found: $pharmaceuticalsInsights\n\n")
                     }
+                    else if (pharmaceuticalsInsights.isEmpty()){
+                        println("\n\nNo Insight Pharmaceutical Data Found!")
+                    }
                     val pharmaceuticalsJuxtaposition = Pharmaceutical()
                     pharmaceuticalsJuxtaposition.addAll(pharmaceuticalsFoundII)
                     if (pharmaceuticalsJuxtaposition.isNotEmpty()) {
                         println("\n\nJuxtaposition Pharmaceutical Data Found: $pharmaceuticalsJuxtaposition\n\n")
+                    }
+                    else if (pharmaceuticalsJuxtaposition.isEmpty()) {
+                        println("\n\nNo Juxtaposition Pharmaceutical Data Found!")
                     }
                     val input = InsightModelDialogFragmentDirections.viewInsightAction(insightModel, patientInsights
                         , diagnosesInsights, prescriptionInsights, visitInsights, pharmaceuticalsInsights, pharmaceuticalsJuxtaposition)

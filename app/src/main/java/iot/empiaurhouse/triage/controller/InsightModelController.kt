@@ -181,7 +181,7 @@ class InsightModelController {
                         entityTitle.text = controlContext.getString(R.string.diagnosis_uc)
                         insightRangeType.text = controlContext.getString(R.string.diagnosis_date)
                         initOmegaInput(vistaCode!!, omegaThresholdFieldText, omegaThresholdField)
-                        endPointList.addAll(listOf("Synopsis", "Insurer ID", "Level"))
+                        endPointList.addAll(listOf("Synopsis", "Diagnosis Details", "Level"))
                         thresholdLine.requestFocus()
 
                     }
@@ -191,7 +191,7 @@ class InsightModelController {
                         entityTitle.text = controlContext.getString(R.string.prescription)
                         insightRangeType.text = controlContext.getString(R.string.prescription_date_sc)
                         initOmegaInput(vistaCode!!, omegaThresholdFieldText, omegaThresholdField)
-                        endPointList.addAll(listOf("Rx Name", "Prescriber", "Prescriber ID", "Insurer ID"))
+                        endPointList.addAll(listOf("Rx Name", "Prescriber", "Prescriber ID", "Patient Name"))
                         thresholdLine.requestFocus()
 
                     }
@@ -201,7 +201,7 @@ class InsightModelController {
                         entityTitle.text = controlContext.getString(R.string.visit)
                         insightRangeType.text = controlContext.getString(R.string.visit_date)
                         initOmegaInput(vistaCode!!, omegaThresholdFieldText, omegaThresholdField)
-                        endPointList.addAll(listOf("Host", "Host ID", "Visit Time", "Description", "Insurer ID"))
+                        endPointList.addAll(listOf("Host", "Host ID", "Visit Time", "Description", "Patient Name"))
                         thresholdLine.requestFocus()
 
                     }

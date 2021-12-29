@@ -16,12 +16,14 @@ import kotlin.properties.Delegates
 
 class InsightEngine {
 
-    private lateinit var patientsRecord: ArrayList<Patient>
-    private lateinit var diagnosesRecord: ArrayList<Diagnosis>
-    private lateinit var prescriptionsRecord: ArrayList<Prescription>
-    private lateinit var visitsRecord: ArrayList<Visit>
-    private lateinit var pharmaceuticalRecord: ArrayList<Pharmaceuticals>
+    private var patientsRecord: ArrayList<Patient> = arrayListOf()
+    private var diagnosesRecord: ArrayList<Diagnosis> = arrayListOf()
+    private var prescriptionsRecord: ArrayList<Prescription> = arrayListOf()
+    private var visitsRecord: ArrayList<Visit> = arrayListOf()
+    private var pharmaceuticalRecord: ArrayList<Pharmaceuticals> = arrayListOf()
+    private var pharmaceuticalJuxRecord: ArrayList<Pharmaceuticals> = arrayListOf()
     private lateinit var scopeUID: String
+    private lateinit var insightPeriod: Period
     private var scopeID by Delegates.notNull<Int>()
 
 
@@ -33,29 +35,230 @@ class InsightEngine {
                           scatterPlotJuxVista: ScatterChart, viewDivider: View,
                           patientRecords: ArrayList<Patient>? = null, diagnosisRecords: ArrayList<Diagnosis>? = null,
                           prescriptionRecords: ArrayList<Prescription>? = null, visitRecords: ArrayList<Visit>? = null,
-                          pharmaceuticalsRecords: ArrayList<Pharmaceuticals>? = null){
+                          pharmaceuticalsRecords: ArrayList<Pharmaceuticals>? = null, pharmaceuticalsJuxRecords: ArrayList<Pharmaceuticals>? = null){
 
 
         val startDate = insightModel.rangeStartDate
         val endDate = insightModel.rangeEndDate
         val daysBetween = ChronoUnit.DAYS.between(dateObjectFormat(startDate), dateObjectFormat(endDate))
-        val insightPeriod = Period.between(dateObjectFormat(startDate), dateObjectFormat(endDate))
+        insightPeriod = Period.between(dateObjectFormat(startDate), dateObjectFormat(endDate))
 
         insightRenderView.visibility = View.VISIBLE
         if (!patientRecords.isNullOrEmpty()){
-            patientsRecord = patientRecords
+            when(insightModel.pointOfInterest) {
+                "First Name" -> {
+                    patientsRecord.addAll(patientRecords.filter { it.firstName == insightModel.piThresholdValue })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()){
+                        patientsRecord.addAll(patientRecords.filter { it.firstName == insightModel.omegaThresholdValue })
+                    }
+                    println("\t\t Filtered patient Insight records based on firstName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$patientsRecord")
+                }
+                "Last Name" -> {
+                    patientsRecord.addAll(patientRecords.filter { it.lastName == insightModel.piThresholdValue })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()){
+                        patientsRecord.addAll(patientRecords.filter { it.lastName == insightModel.omegaThresholdValue })
+                    }
+                    println("\t\t Filtered patient Insight records based on lastName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$patientsRecord")
+                }
+                "Blood Group" -> {
+                    patientsRecord.addAll(patientRecords.filter { it.bloodGroup == insightModel.piThresholdValue })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()){
+                        patientsRecord.addAll(patientRecords.filter { it.bloodGroup == insightModel.omegaThresholdValue })
+                    }
+                    println("\t\t Filtered patient Insight records based on bloodGroup predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$patientsRecord")
+                }
+                "Insurer" -> {
+                    patientsRecord.addAll(patientRecords.filter { it.insuranceVendor == insightModel.piThresholdValue })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()){
+                        patientsRecord.addAll(patientRecords.filter { it.insuranceVendor == insightModel.omegaThresholdValue })
+                    }
+                    println("\t\t Filtered patient Insight records based on insuranceVendor predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$patientsRecord")
+                }
+            }
         }
         if (!diagnosisRecords.isNullOrEmpty()){
-            diagnosesRecord = diagnosisRecords
+
+            when(insightModel.pointOfInterest) {
+                "Synopsis" -> {
+                    diagnosesRecord.addAll(diagnosisRecords.filter { it.diagnosisSynopsis == insightModel.piThresholdValue })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        diagnosesRecord.addAll(diagnosisRecords.filter { it.diagnosisSynopsis == insightModel.omegaThresholdValue })
+                    }
+                    println("\t\t Filtered diagnosis Insight records based on diagnosisSynopsis predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$diagnosesRecord")
+                }
+                "Diagnosis Details" -> {
+                    diagnosesRecord.addAll(diagnosisRecords.filter { it.diagnosisDetails!!.contains(insightModel.piThresholdValue) })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        diagnosesRecord.addAll(diagnosisRecords.filter { it.diagnosisDetails!!.contains(insightModel.omegaThresholdValue) })
+                    }
+                    println("\t\t Filtered diagnosis Insight records based on diagnosisDetails predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$diagnosesRecord")
+                }
+                "Level" -> {
+                    diagnosesRecord.addAll(diagnosisRecords.filter { it.diagnosisLevel.diagnosisLevelName == insightModel.piThresholdValue })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        diagnosesRecord.addAll(diagnosisRecords.filter { it.diagnosisLevel.diagnosisLevelName == insightModel.omegaThresholdValue })
+                    }
+                    println("\t\t Filtered diagnosis Insight records based on diagnosisLevelName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$diagnosesRecord")
+                }
+            }
         }
         if (!prescriptionRecords.isNullOrEmpty()){
-            prescriptionsRecord = prescriptionRecords
+            when(insightModel.pointOfInterest) {
+                "Rx Name" -> {
+                    prescriptionsRecord.addAll(prescriptionRecords.filter { it.prescriptionName == insightModel.piThresholdValue })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        prescriptionsRecord.addAll(prescriptionRecords.filter { it.prescriptionName == insightModel.omegaThresholdValue })
+                    }
+                    println("\t\t Filtered prescription Insight records based on prescriptionName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$prescriptionsRecord")
+                }
+                "Prescriber" -> {
+                    prescriptionsRecord.addAll(prescriptionRecords.filter { it.prescribedBy!!.contains( insightModel.piThresholdValue) })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        prescriptionsRecord.addAll(prescriptionRecords.filter { it.prescribedBy!!.contains( insightModel.omegaThresholdValue) })
+                    }
+                    println("\t\t Filtered prescription Insight records based on prescribedBy predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$prescriptionsRecord")
+                }
+                "Prescriber ID" -> {
+                    prescriptionsRecord.addAll(prescriptionRecords.filter { it.prescriptionPractitionerID == insightModel.piThresholdValue })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        prescriptionsRecord.addAll(prescriptionRecords.filter { it.prescriptionPractitionerID == insightModel.omegaThresholdValue })
+                    }
+                    println("\t\t Filtered prescription Insight records based on prescriptionPractitionerID predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$prescriptionsRecord")
+                }
+                "Patient Name" -> {
+                    prescriptionsRecord.addAll(prescriptionRecords.filter { it.patientFullName!!.contains(insightModel.piThresholdValue) })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        prescriptionsRecord.addAll(prescriptionRecords.filter { it.patientFullName!!.contains(insightModel.omegaThresholdValue) })
+                    }
+                    println("\t\t Filtered prescription Insight records based on patientFullName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$prescriptionsRecord")
+                }
+            }
         }
         if (!visitRecords.isNullOrEmpty()){
-            visitsRecord = visitRecords
+            when(insightModel.pointOfInterest) {
+                "Host" -> {
+                    visitsRecord.addAll(visitRecords.filter { it.hostPractitioner == insightModel.piThresholdValue })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        visitsRecord.addAll(visitRecords.filter { it.hostPractitioner == insightModel.omegaThresholdValue })
+                    }
+                    println("\t\t Filtered visit Insight records based on hostPractitioner predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$visitsRecord")
+                }
+                "Host ID" -> {
+                    visitsRecord.addAll(visitRecords.filter { it.hostPractitionerID == insightModel.piThresholdValue })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        visitsRecord.addAll(visitRecords.filter { it.hostPractitionerID == insightModel.omegaThresholdValue })
+                    }
+                    println("\t\t Filtered visit Insight records based on hostPractitionerID predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$visitsRecord")
+                }
+                "Visit Time" -> {
+                    visitsRecord.addAll(visitRecords.filter { it.visitTime == insightModel.piThresholdValue })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        visitsRecord.addAll(visitRecords.filter { it.visitTime == insightModel.omegaThresholdValue })
+                    }
+                    println("\t\t Filtered visit Insight records based on visitTime predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$visitsRecord")
+                }
+                "Description" -> {
+                    visitsRecord.addAll(visitRecords.filter { it.visitDescription!!.contains(insightModel.piThresholdValue) })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        visitsRecord.addAll(visitRecords.filter { it.visitDescription!!.contains(insightModel.omegaThresholdValue)  })
+                    }
+                    println("\n\t\t Filtered visit Insight records based on visitDescription predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$visitsRecord")
+                }
+                "Patient Name" -> {
+                    visitsRecord.addAll(visitRecords.filter { it.patientFullName!!.contains(insightModel.piThresholdValue) })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        visitsRecord.addAll(visitRecords.filter { it.patientFullName!!.contains(insightModel.omegaThresholdValue) })
+                    }
+                    println("\t\t Filtered visit Insight records based on patientFullName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$visitsRecord")
+                }
+            }
         }
         if (!pharmaceuticalsRecords.isNullOrEmpty()){
-            pharmaceuticalRecord = pharmaceuticalsRecords
+            when(insightModel.pointOfInterest) {
+                "Brand Name" -> {
+                    pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.brandName == insightModel.piThresholdValue })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.brandName == insightModel.omegaThresholdValue })
+                    }
+                    println("\t\t Filtered pharmaceutical Insight records based on brandName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$pharmaceuticalRecord")
+
+                    if(!pharmaceuticalsJuxRecords.isNullOrEmpty()) {
+                        pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.brandName == insightModel.piThresholdValue })
+                        if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                            pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.brandName == insightModel.omegaThresholdValue })
+                        }
+                        println("\t\t Filtered pharmaceutical Juxtaposition records based on brandName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                        println("$pharmaceuticalJuxRecord")
+                    }
+                }
+                "Generic Name" -> {
+                    pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.genericName == insightModel.piThresholdValue })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.genericName == insightModel.omegaThresholdValue })
+                    }
+                    println("\t\t Filtered visit pharmaceutical records based on genericName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$pharmaceuticalRecord")
+                    if(!pharmaceuticalsJuxRecords.isNullOrEmpty()) {
+
+                        pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.genericName == insightModel.piThresholdValue })
+                        if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                            pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.genericName == insightModel.omegaThresholdValue })
+                        }
+                        println("\t\t Filtered pharmaceutical Juxtaposition records based on genericName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                        println("$pharmaceuticalJuxRecord")
+                    }
+                }
+                "Chemical Name" -> {
+                    pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.chemicalName == insightModel.piThresholdValue })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.chemicalName == insightModel.omegaThresholdValue })
+                    }
+                    println("\t\t Filtered visit Insight records based on chemicalName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$pharmaceuticalRecord")
+                    if(!pharmaceuticalsJuxRecords.isNullOrEmpty()) {
+                        pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.chemicalName == insightModel.piThresholdValue })
+                        if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                            pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.chemicalName == insightModel.omegaThresholdValue })
+                        }
+                        println("\t\t Filtered pharmaceutical Juxtaposition records based on chemicalName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                        println("$pharmaceuticalJuxRecord")
+                    }
+                }
+                "Manufacturer" -> {
+                    pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.manufacturerName == insightModel.piThresholdValue })
+                    if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                        pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.manufacturerName == insightModel.omegaThresholdValue })
+                    }
+                    println("\t\t Filtered pharmaceutical Insight records based on manufacturerName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                    println("$pharmaceuticalRecord")
+                    if(!pharmaceuticalsJuxRecords.isNullOrEmpty()) {
+                        pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.manufacturerName == insightModel.piThresholdValue })
+                        if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
+                            pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.manufacturerName == insightModel.omegaThresholdValue })
+                        }
+                        println("\t\t Filtered pharmaceutical Juxtaposition records based on manufacturerName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
+                        println("$pharmaceuticalJuxRecord")
+                    }
+
+                }
+            }
         }
 
         // > 2 Yrs
@@ -145,6 +348,27 @@ class InsightEngine {
                     }
                 }
             }
+        }
+
+
+    }
+
+
+    fun renderVisualizer(insightModel: InsightModel, scopeID: Int, histogramVista: BarChart,
+                         pieChartVista: PieChart, lineChartVista: LineChart, scatterPlotVista: ScatterChart,
+                         histogramJuxVista: BarChart, pieChartJuxVista: PieChart, lineChartJuxVista: LineChart,
+                         scatterPlotJuxVista: ScatterChart, viewDivider: View,
+                         patientRecords: ArrayList<Patient>? = null, diagnosisRecords: ArrayList<Diagnosis>? = null,
+                         prescriptionRecords: ArrayList<Prescription>? = null, visitRecords: ArrayList<Visit>? = null,
+                         pharmaceuticalsRecords: ArrayList<Pharmaceuticals>? = null){
+
+        when(insightModel.entityCode){
+            1 ->{
+                //patientRecords
+                // process & init data inputs to be used per Vista Code
+
+            }
+
         }
 
 

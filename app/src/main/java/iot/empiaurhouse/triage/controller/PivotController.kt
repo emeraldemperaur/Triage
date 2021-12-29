@@ -434,7 +434,6 @@ class PivotController {
                 valueString = ""
             }
         }
-
         return valueString!!.capitalize(Locale.ROOT)
     }
 

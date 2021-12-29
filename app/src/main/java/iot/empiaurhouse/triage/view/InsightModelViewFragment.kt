@@ -154,7 +154,9 @@ class InsightModelViewFragment : Fragment() {
         }
         insightEngine.initInsightRender(insightModelObject, insightRenderView, juxtapositionVistaView,
             histogramVista, pieChartVista, lineChartVista, scatterPlotVista, histogramJuxVista,
-            pieChartJuxVista, lineChartJuxVista, scatterPlotJuxVista, viewDivider)
+            pieChartJuxVista, lineChartJuxVista, scatterPlotJuxVista, viewDivider, patientRecords = args.patient,
+            diagnosisRecords = args.diagnosis, prescriptionRecords = args.prescription, visitRecords = args.visit,
+            pharmaceuticalsRecords = args.pharmaceutical, pharmaceuticalsJuxRecords = args.pharmaceuticalII)
         toolBar.visibility = View.VISIBLE
         toolbarView.visibility = View.VISIBLE
         hubUserName.visibility = View.GONE
