@@ -185,7 +185,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="13dp"
-        android:text="@string/_2021_meka_egwim"
+        android:text="@string/_2022_meka_egwim"
         android:onClick="copyrightLink"
         android:textColor="@color/chiron_blue"
         android:textSize="16sp"

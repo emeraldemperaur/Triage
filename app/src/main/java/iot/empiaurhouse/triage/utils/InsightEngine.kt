@@ -1,18 +1,32 @@
 package iot.empiaurhouse.triage.utils
 
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.view.View
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.charts.ScatterChart
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import com.github.mikephil.charting.utils.MPPointF
 import iot.empiaurhouse.triage.model.*
 import java.time.LocalDate
 import java.time.Period
 import java.time.temporal.ChronoUnit
 import kotlin.properties.Delegates
+
 
 class InsightEngine {
 
@@ -370,6 +384,79 @@ class InsightEngine {
             }
 
         }
+
+
+    }
+
+
+    fun renderHubVisualizer(chironRecords: ArrayList<ChironRecords>, pieChartVista: PieChart,
+                            context: OnChartValueSelectedListener, typeface: Typeface, insightTitle: TextView,
+                            insightTimeStamp: TextView){
+       val recordsCache = arrayListOf<PieEntry>()
+        if (!chironRecords.isNullOrEmpty()){
+            insightTitle.visibility = View.VISIBLE
+            pieChartVista.visibility = View.VISIBLE
+            insightTimeStamp.visibility = View.VISIBLE
+        }
+        else if (chironRecords.isNullOrEmpty()){
+            insightTimeStamp.visibility = View.VISIBLE
+        }
+        for (record in chironRecords){
+           val recordName = record.recordName
+           val recordCount = record.recordCount
+           val  recordEntry = PieEntry(recordCount!!.toFloat(), recordName)
+            recordsCache.add(recordEntry)
+        }
+        val recordsDataSet = PieDataSet(recordsCache, "DB Records")
+        recordsDataSet.setDrawIcons(false)
+
+        recordsDataSet.sliceSpace = 3f
+        recordsDataSet.iconsOffset = MPPointF(0F, 40F)
+        recordsDataSet.selectionShift = 5f
+        val recordColors: ArrayList<Int> = ArrayList()
+        recordColors.add(Color.parseColor("#0c204f"))
+        recordColors.add(Color.parseColor("#0c204f"))
+        recordColors.add(Color.parseColor("#0c204f"))
+        recordColors.add(Color.parseColor("#0c204f"))
+        recordColors.add(Color.parseColor("#0c204f"))
+        recordColors.add(Color.parseColor("#0c204f"))
+        recordColors.add(Color.parseColor("#0c204f"))
+        recordColors.add(Color.parseColor("#0c204f"))
+        recordColors.add(Color.parseColor("#0c204f"))
+        recordsDataSet.colors = recordColors
+        val data = PieData(recordsDataSet)
+        data.setValueFormatter(PercentFormatter())
+        data.setValueTextSize(16f)
+        data.setValueTextColor(Color.WHITE)
+        data.setValueTypeface(typeface)
+        pieChartVista.setUsePercentValues(true)
+        pieChartVista.description.isEnabled = false
+        pieChartVista.setExtraOffsets(5F, 10F, 5F, 5F)
+        pieChartVista.dragDecelerationFrictionCoef = 0.95f
+        pieChartVista.isDrawHoleEnabled = true
+        pieChartVista.setHoleColor(Color.TRANSPARENT)
+        pieChartVista.setTransparentCircleColor(Color.TRANSPARENT)
+        pieChartVista.setTransparentCircleAlpha(110)
+        pieChartVista.holeRadius = 58f
+        pieChartVista.transparentCircleRadius = 61f
+        pieChartVista.rotationAngle = 0F
+        pieChartVista.isRotationEnabled = true
+        pieChartVista.isHighlightPerTapEnabled = true
+        pieChartVista.setOnChartValueSelectedListener(context)
+        pieChartVista.animateY(1400, Easing.EaseInOutQuad)
+        val l: Legend = pieChartVista.legend
+        l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        l.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+        l.orientation = Legend.LegendOrientation.VERTICAL
+        l.isEnabled = false
+        pieChartVista.setEntryLabelColor(Color.LTGRAY)
+        pieChartVista.setEntryLabelTypeface(typeface)
+        pieChartVista.setEntryLabelTextSize(9f)
+        pieChartVista.data = data
+        pieChartVista.highlightValues(null)
+        Handler(Looper.getMainLooper()).postDelayed({
+            pieChartVista.invalidate()
+        }, 1111)
 
 
     }

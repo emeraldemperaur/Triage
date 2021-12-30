@@ -1,5 +1,6 @@
 package iot.empiaurhouse.triage.view
 
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -30,7 +31,7 @@ import iot.empiaurhouse.triage.adapter.RecordRecyclerAdapter
 import iot.empiaurhouse.triage.databinding.FragmentDashboardBinding
 import iot.empiaurhouse.triage.model.ChironRecords
 import iot.empiaurhouse.triage.model.Pivot
-import iot.empiaurhouse.triage.utils.InsightChart
+import iot.empiaurhouse.triage.utils.InsightEngine
 import iot.empiaurhouse.triage.viewmodel.SetupActivityViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -52,18 +53,20 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     private lateinit var dashboardSwipeRefresh: SwipeRefreshLayout
     private lateinit var pivotsRVA: PivotRecyclerAdapter
     private var recordsRVA: RecordRecyclerAdapter? = null
-    private lateinit var hubInsightChart: InsightChart
     private var recordsFound = arrayListOf<ChironRecords>()
     private var recordsCache = arrayListOf<ChironRecords>()
     private lateinit var dashboardViewModel: SetupActivityViewModel
     private lateinit var hubView: LinearLayout
     private lateinit var navController: NavController
     private lateinit var loadingRecords: TextView
+    private lateinit var insightTitle: TextView
     private lateinit var noResultsText: TextView
     private lateinit var hubUserName: TextView
     private lateinit var searchButton: FloatingActionButton
     private lateinit var toolbarView: CollapsingToolbarLayout
     private lateinit var pullToRefreshTextView: TextView
+    private lateinit var insightEngine: InsightEngine
+    private lateinit var fontFace: Typeface
 
 
 
@@ -75,10 +78,6 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
-
-
-
-
         }
     }
 
@@ -95,6 +94,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDashboardBinding.bind(view)
+        insightEngine = InsightEngine()
         dashboardSwipeRefresh = binding.dashboardSwipeRefresh
         hubView = binding.hubLayoutView
         dashboardSwipeRefresh.setColorSchemeColors(ResourcesCompat.getColor(resources, R.color.chiron_blue, null))
@@ -103,25 +103,20 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         recordRecyclerView = binding.hubRecordsRecyclerView
         pullToRefreshTextView = binding.dashboardPullToRefreshText
         loadingRecords = binding.dashboardLoadingRecords
+        insightTitle = binding.insightsTitle
         recordRecyclerView!!.setItemViewCacheSize(30)
         pivotRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         recordRecyclerView!!.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         insightChart = binding.insightChart
         chironNote = binding.chironNote
         noResultsText = binding.dashboardRecordsFoundText
-        dashboardViewModel = ViewModelProvider(this).get(SetupActivityViewModel::class.java)
+        dashboardViewModel = ViewModelProvider(this)[SetupActivityViewModel::class.java]
         dashboardViewModel.pingServer()
-        val fontFace = resources.getFont(R.font.montserratlight)
+        fontFace = resources.getFont(R.font.montserratmedium)
         pivotsRVA = PivotRecyclerAdapter(fetchPivotsList(), hubView)
         recordsFound = fetchRecordsData()
-        InsightChart().renderRecordsPieChart(requireContext(),fontFace,insightChart,recordsFound,this)
         pivotRecyclerView.adapter = pivotsRVA
         initRefresh()
-
-
-
-
-
 
     }
 
@@ -131,15 +126,10 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     }
 
 
-
-
     override fun onStart() {
         super.onStart()
 
-
     }
-
-
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -151,9 +141,10 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
                 recordsRVA = RecordRecyclerAdapter(recordsFound, hubView, requireActivity())
                 recordRecyclerView!!.adapter = recordsRVA
                 noResultsView(recordsFound.size)
+                insightEngine.renderHubVisualizer(recordsFound, insightChart, this, fontFace,
+                    insightTitle, binding.insightRequestTime)
             }
         }, 1000)
-
     }
 
     override fun onDestroyView() {
@@ -193,15 +184,6 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
 
     }
 
-    private fun  fetchRecords(): ArrayList<ChironRecords>{
-        var result: Boolean
-        var fetchedRecords = arrayListOf<ChironRecords>()
-        fetchedRecords = dashboardViewModel.fetchRecords()!!
-        println("Dashboard Records Results: $fetchedRecords")
-
-        return fetchedRecords
-    }
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun fetchRecordsData(): ArrayList<ChironRecords>{
@@ -223,10 +205,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
                         }
                     }
                 })
-
         }
-
-
         return fetchedRecords
     }
 
@@ -247,70 +226,6 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     }
 
 
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    fun renderInsightChart(recordsData: List<ChironRecords>){
-//        insightChart.setUsePercentValues(true)
-//        insightChart.description.isEnabled = false
-//        insightChart.setExtraOffsets(5F, 10F, 5F, 5F)
-//        insightChart.dragDecelerationFrictionCoef = 0.95f
-//        insightChart.isDrawHoleEnabled = true
-//        insightChart.setHoleColor(Color.WHITE)
-//
-//        insightChart.setTransparentCircleColor(Color.WHITE)
-//        insightChart.setTransparentCircleAlpha(110)
-//
-//        insightChart.holeRadius = 58f
-//        insightChart.transparentCircleRadius = 61f
-//
-//        insightChart.setDrawCenterText(false)
-//
-//        insightChart.rotationAngle = 0F
-//        // enable rotation of the chart by touch
-//        insightChart.isRotationEnabled = true
-//        insightChart.isHighlightPerTapEnabled = true
-//        insightChart.setOnChartValueSelectedListener(this)
-//
-//        insightChart.animateY(1400, Easing.EaseInOutQuad)
-//
-//
-//        val dataEntries = arrayListOf<PieEntry>()
-//        val entryColors = arrayListOf<Int>()
-//        var count = 0
-//        var recordsTitle = ""
-//        for (record in recordsData) {
-//            count = record.recordCount?.toInt()!!
-//            recordsTitle = record.recordName.toString()
-//            dataEntries.add(PieEntry(count.toFloat(), recordsTitle ))
-//        }
-//        val recordsDataSet = PieDataSet(dataEntries,"Records")
-//        recordsDataSet.sliceSpace = 3F
-//        recordsDataSet.selectionShift = 5F
-//        entryColors.add(R.color.recordColor1)
-//        entryColors.add(R.color.recordColor2)
-//        entryColors.add(R.color.recordColor3)
-//        entryColors.add(R.color.recordColor4)
-//        entryColors.add(R.color.recordColor5)
-//        entryColors.add(R.color.recordColor6)
-//        entryColors.add(R.color.recordColor7)
-//        entryColors.add(R.color.recordColor8)
-//        entryColors.add(R.color.recordColor9)
-//        recordsDataSet.colors = entryColors
-//        recordsDataSet.valueLinePart1Length = 0.2F
-//        recordsDataSet.valueLinePart2Length = 0.4F
-//        recordsDataSet.yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
-//        val recordsChartData = PieData(recordsDataSet)
-//        recordsChartData.setValueFormatter(PercentFormatter())
-//        recordsChartData.setValueTextSize(11F)
-//        recordsChartData.setValueTextColor(R.color.chiron_grey)
-//        val fontFace = resources.getFont(R.font.montserratlight)
-//        recordsChartData.setValueTypeface(fontFace)
-//        insightChart.data = recordsChartData
-//        insightChart.highlightValues(null)
-//        insightChart.invalidate()
-//
-//
-//    }
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun viewRefresh(){
         recordRecyclerView?.adapter = null
@@ -322,6 +237,8 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
             recordsRVA = RecordRecyclerAdapter(recordsFound, hubView, requireActivity())
             recordRecyclerView!!.adapter = recordsRVA
             noResultsView(recordsFound.size)
+            insightEngine.renderHubVisualizer(recordsFound, insightChart, this, fontFace,
+                insightTitle, binding.insightRequestTime)
         }, 1000)
 
     }
