@@ -15,7 +15,7 @@ import iot.empiaurhouse.triage.model.ChironRecords
 import iot.empiaurhouse.triage.view.HubActivity
 import kotlin.properties.Delegates
 
-class TriageNotificationsAgent(val context: Context, val chironRecords: ArrayList<ChironRecords>) {
+class TriageNotificationsAgent(val context: Context, val chironRecords: ArrayList<ChironRecords>, private val notificationsEnabled: Boolean) {
 
     private var totalRecordsResult by Delegates.notNull<Int>()
     private var refreshRecordsResult by Delegates.notNull<Int>()
@@ -34,7 +34,6 @@ class TriageNotificationsAgent(val context: Context, val chironRecords: ArrayLis
     private lateinit var serverUrl: String
     private val channelID = "TriageAlert"
     private val notificationID = 69
-
 
 
     fun inspectRecords(){
@@ -120,7 +119,9 @@ class TriageNotificationsAgent(val context: Context, val chironRecords: ArrayLis
         + practitionersCount + doctorsCount + nursePractitionersCount + registeredNursesCount + pharmaceuticalsCount)
         println("\n\n\t Records cache refresh successful\t")
         println("\t\t - Updated Total Records: $refreshRecordsResult")
-        createTN()
+        if (notificationsEnabled) {
+            createTN()
+        }
     }
 
     private fun extantHeadCount(): Int {
@@ -151,7 +152,7 @@ class TriageNotificationsAgent(val context: Context, val chironRecords: ArrayLis
         val iconLg = BitmapFactory.decodeResource(context.resources, R.drawable.triage_tinted_background)
 
         val notification = NotificationCompat.Builder(context, channelID)
-            .setSmallIcon(R.drawable.ic_chiron_logo)
+            .setSmallIcon(R.drawable.ic_chiron_logo_blue)
             .setLargeIcon(icon)
             .setContentTitle("Chiron API connected")
             .setContentText(notificationContext)

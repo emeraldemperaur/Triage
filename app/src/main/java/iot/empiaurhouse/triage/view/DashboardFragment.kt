@@ -1,5 +1,6 @@
 package iot.empiaurhouse.triage.view
 
+import android.content.SharedPreferences
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +17,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -69,6 +71,10 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     private lateinit var insightEngine: InsightEngine
     private lateinit var fontFace: Typeface
     private lateinit var notificationsAgent: TriageNotificationsAgent
+    private lateinit var notifyPreferences: SharedPreferences
+    private var notifyEnabled = false
+
+
 
 
 
@@ -88,7 +94,8 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        notifyPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        notifyEnabled = notifyPreferences.getBoolean("pushNotificationsMode", false)
         return inflater.inflate(R.layout.fragment_dashboard, container, false)
     }
 
@@ -132,7 +139,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     override fun onStart() {
         super.onStart()
         Handler(Looper.getMainLooper()).postDelayed({
-            notificationsAgent = TriageNotificationsAgent(requireContext(), recordsFound)
+            notificationsAgent = TriageNotificationsAgent(requireContext(), recordsFound, notifyEnabled)
             notificationsAgent.inspectRecords()
         }, 1111)
     }
