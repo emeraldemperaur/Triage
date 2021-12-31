@@ -42,9 +42,9 @@ class InitActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityInitBinding.inflate(layoutInflater)
         //ChironAPIService().initServerUrl(this)
-        initViewModel = ViewModelProvider(this).get(InitViewModel::class.java)
+        initViewModel = ViewModelProvider(this)[InitViewModel::class.java]
         initViewModel.pingServer(this)
-        pivotViewModel = ViewModelProvider(this).get(DataPivotViewModel::class.java)
+        pivotViewModel = ViewModelProvider(this)[DataPivotViewModel::class.java]
         val app = this.application
         pivotViewModel.processPivot(app)
         val viewInit = binding.root

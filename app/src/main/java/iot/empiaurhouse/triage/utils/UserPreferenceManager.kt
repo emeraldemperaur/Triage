@@ -27,11 +27,64 @@ class UserPreferenceManager(context: Context) {
         preferencesEditor.commit()
     }
 
+    fun storeChironRecordsCount(patientRecordCount: Int, diagnosesRecordCount: Int,
+                                prescriptionsRecordCount: Int, visitsRecordCount: Int,
+                                practitionerRecordCount: Int, doctorRecordCount: Int,
+                                nPRecordCount: Int, rNCount: Int, pharmaceuticalRecordCount: Int){
+        preferencesEditor.putInt("CHIRON_PATIENTS_COUNT", patientRecordCount)
+        preferencesEditor.putInt("CHIRON_DIAGNOSES_COUNT", diagnosesRecordCount)
+        preferencesEditor.putInt("CHIRON_PRESCRIPTIONS_COUNT", prescriptionsRecordCount)
+        preferencesEditor.putInt("CHIRON_VISITS_COUNT", visitsRecordCount)
+        preferencesEditor.putInt("CHIRON_PRACTITIONERS_COUNT", practitionerRecordCount)
+        preferencesEditor.putInt("CHIRON_DOCTORS_COUNT", doctorRecordCount)
+        preferencesEditor.putInt("CHIRON_NURSE_PRACTITIONERS_COUNT", nPRecordCount)
+        preferencesEditor.putInt("CHIRON_REGISTERED_NURSES_COUNT", rNCount)
+        preferencesEditor.putInt("CHIRON_PHARMACEUTICALS_COUNT", pharmaceuticalRecordCount)
+        preferencesEditor.apply()
+        preferencesEditor.commit()
+    }
 
     fun clearUserData(){
         preferencesEditor.clear()
         preferencesEditor.apply()
         preferencesEditor.commit()
+    }
+
+
+    fun getPatientsCount(): Int {
+        return userPreferences.getInt("CHIRON_PATIENTS_COUNT", 0)
+    }
+
+    fun getDiagnosesCount(): Int {
+        return userPreferences.getInt("CHIRON_DIAGNOSES_COUNT", 0)
+    }
+
+    fun getPrescriptionsCount(): Int {
+        return userPreferences.getInt("CHIRON_PRESCRIPTIONS_COUNT", 0)
+    }
+
+    fun getVisitsCount(): Int {
+        return userPreferences.getInt("CHIRON_VISITS_COUNT", 0)
+    }
+
+    fun getPractitionersCount(): Int {
+        return userPreferences.getInt("CHIRON_PRACTITIONERS_COUNT", 0)
+    }
+
+    fun getDoctorsCount(): Int {
+        return userPreferences.getInt("CHIRON_DOCTORS_COUNT", 0)
+    }
+
+    fun getNursePractitionersCount(): Int {
+        return userPreferences.getInt("CHIRON_NURSE_PRACTITIONERS_COUNT", 0)
+    }
+
+    fun getRegisteredNursesCount(): Int {
+        return userPreferences.getInt("CHIRON_REGISTERED_NURSES_COUNT", 0)
+    }
+
+    fun getPharmaceuticalsCount(): Int {
+        return userPreferences.getInt("CHIRON_PHARMACEUTICALS_COUNT", 0)
     }
 
     fun getUserID(): String? {

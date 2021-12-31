@@ -374,7 +374,7 @@ class InsightEngine {
                          scatterPlotJuxVista: ScatterChart, viewDivider: View,
                          patientRecords: ArrayList<Patient>? = null, diagnosisRecords: ArrayList<Diagnosis>? = null,
                          prescriptionRecords: ArrayList<Prescription>? = null, visitRecords: ArrayList<Visit>? = null,
-                         pharmaceuticalsRecords: ArrayList<Pharmaceuticals>? = null){
+                         pharmaceuticalsRecords: ArrayList<Pharmaceuticals>? = null, pharmaceuticalsJuxRecords: ArrayList<Pharmaceuticals>? = null){
 
         when(insightModel.entityCode){
             1 ->{

@@ -32,6 +32,7 @@ import iot.empiaurhouse.triage.databinding.FragmentDashboardBinding
 import iot.empiaurhouse.triage.model.ChironRecords
 import iot.empiaurhouse.triage.model.Pivot
 import iot.empiaurhouse.triage.utils.InsightEngine
+import iot.empiaurhouse.triage.utils.TriageNotificationsAgent
 import iot.empiaurhouse.triage.viewmodel.SetupActivityViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -67,6 +68,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
     private lateinit var pullToRefreshTextView: TextView
     private lateinit var insightEngine: InsightEngine
     private lateinit var fontFace: Typeface
+    private lateinit var notificationsAgent: TriageNotificationsAgent
 
 
 
@@ -118,6 +120,7 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
         pivotRecyclerView.adapter = pivotsRVA
         initRefresh()
 
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -128,7 +131,10 @@ class DashboardFragment : Fragment(), OnChartValueSelectedListener {
 
     override fun onStart() {
         super.onStart()
-
+        Handler(Looper.getMainLooper()).postDelayed({
+            notificationsAgent = TriageNotificationsAgent(requireContext(), recordsFound)
+            notificationsAgent.inspectRecords()
+        }, 1111)
     }
 
 
