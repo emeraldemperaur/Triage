@@ -1,8 +1,18 @@
 package iot.empiaurhouse.triage.utils
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Build
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.model.ChironRecords
+import iot.empiaurhouse.triage.view.HubActivity
 import kotlin.properties.Delegates
 
 class TriageNotificationsAgent(val context: Context, val chironRecords: ArrayList<ChironRecords>) {
@@ -39,23 +49,26 @@ class TriageNotificationsAgent(val context: Context, val chironRecords: ArrayLis
         if (freshRecordCount > extantRecordCount){
             // new records
             focusRecordCount = freshRecordCount - extantRecordCount
-            notificationContext = "\n$focusRecordCount records were added to the $serverUrl API database.\n"
+            notificationContext = "\n$focusRecordCount records were added to the database.\n"
             if (focusRecordCount == 1){
-                notificationContext = "\n$focusRecordCount record was added to the $serverUrl API database.\n"
+                notificationContext = "\n$focusRecordCount record was added to the database.\n"
             }
             println(notificationContext)
         }
         if (freshRecordCount == extantRecordCount){
             // no new or deleted records
-            notificationContext = "\n$freshRecordCount records/files successfully found on $serverUrl API database.\n"
+            notificationContext = "\n$freshRecordCount records successfully found on database.\n"
+            if (freshRecordCount == 1){
+                notificationContext = "\n$freshRecordCount record successfully found on database.\n"
+            }
             println(notificationContext)
         }
         else if (freshRecordCount < extantRecordCount){
             // deleted records
             focusRecordCount = extantRecordCount - freshRecordCount
-            notificationContext = "\n$focusRecordCount records were deleted from the $serverUrl API database.\n"
+            notificationContext = "\n$focusRecordCount records were deleted from the database.\n"
             if (focusRecordCount == 1){
-                notificationContext = "\n$focusRecordCount record has been deleted from the $serverUrl API database.\n"
+                notificationContext = "\n$focusRecordCount record has been deleted from the database.\n"
             }
             println(notificationContext)
         }
@@ -107,7 +120,7 @@ class TriageNotificationsAgent(val context: Context, val chironRecords: ArrayLis
         + practitionersCount + doctorsCount + nursePractitionersCount + registeredNursesCount + pharmaceuticalsCount)
         println("\n\n\t Records cache refresh successful\t")
         println("\t\t - Updated Total Records: $refreshRecordsResult")
-
+        createTN()
     }
 
     private fun extantHeadCount(): Int {
@@ -128,11 +141,45 @@ class TriageNotificationsAgent(val context: Context, val chironRecords: ArrayLis
         return totalRecordsResult
     }
 
+    private fun createTN(){
+        createTNChannel()
+        val intent = Intent(context, HubActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+        val icon = BitmapFactory.decodeResource(context.resources, R.drawable.chironlogo500)
+        val iconLg = BitmapFactory.decodeResource(context.resources, R.drawable.triage_tinted_background)
+
+        val notification = NotificationCompat.Builder(context, channelID)
+            .setSmallIcon(R.drawable.ic_chiron_logo)
+            .setLargeIcon(icon)
+            .setContentTitle("Chiron API connected")
+            .setContentText(notificationContext)
+            .setSubText(serverUrl)
+            .setStyle(NotificationCompat.BigPictureStyle()
+                .bigPicture(iconLg)
+                .bigLargeIcon(null)
+            )
+            .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+        NotificationManagerCompat.from(context).notify(notificationID, notification)
+
+    }
 
     private fun createTNChannel(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             val name = channelID
-
+            val description = channelID
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val vibrationEffect = longArrayOf(50, 100, 50, 100)
+            val channel = NotificationChannel(channelID, name, importance).apply {
+                setDescription(description)
+                vibrationPattern = vibrationEffect
+                lightColor = Color.parseColor("#0c204f")
+            }
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
         }
     }
 
