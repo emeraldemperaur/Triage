@@ -151,7 +151,7 @@
                     app:layout_constraintRight_toLeftOf="@id/insight_detail_result_icon"
                     android:textSize="19sp"
                     android:letterSpacing="0.04"
-                    android:text="@string/_10000"
+                    android:text=""
                     android:maxLength="7"
                     android:singleLine="true"
                     android:ellipsize="start"

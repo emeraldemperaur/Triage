@@ -25,7 +25,6 @@ import iot.empiaurhouse.triage.model.*
 import java.time.LocalDate
 import java.time.Period
 import java.time.temporal.ChronoUnit
-import kotlin.properties.Delegates
 
 
 class InsightEngine {
@@ -37,13 +36,14 @@ class InsightEngine {
     private var pharmaceuticalRecord: ArrayList<Pharmaceuticals> = arrayListOf()
     private var pharmaceuticalJuxRecord: ArrayList<Pharmaceuticals> = arrayListOf()
     private lateinit var scopeUID: String
+    private lateinit var viewDivide: View
     private lateinit var insightPeriod: Period
-    private var scopeID by Delegates.notNull<Int>()
+    private var scopeID: Int = 0
     private lateinit var insightEntity: String
-    private var originListCount by Delegates.notNull<Int>()
-    private var predicateListCount by Delegates.notNull<Int>()
-    private var originJuxListCount by Delegates.notNull<Int>()
-    private var predicateJuxListCount by Delegates.notNull<Int>()
+    private var originListCount : Int = 0
+    private var predicateListCount : Int = 0
+    private var originJuxListCount : Int = 0
+    private var predicateJuxListCount : Int = 0
 
 
 
@@ -55,9 +55,11 @@ class InsightEngine {
                           scatterPlotJuxVista: ScatterChart, viewDivider: View,
                           patientRecords: ArrayList<Patient>? = null, diagnosisRecords: ArrayList<Diagnosis>? = null,
                           prescriptionRecords: ArrayList<Prescription>? = null, visitRecords: ArrayList<Visit>? = null,
-                          pharmaceuticalsRecords: ArrayList<Pharmaceuticals>? = null, pharmaceuticalsJuxRecords: ArrayList<Pharmaceuticals>? = null){
+                          pharmaceuticalsRecords: ArrayList<Pharmaceuticals>? = null, pharmaceuticalsJuxRecords: ArrayList<Pharmaceuticals>? = null,
+                          context: OnChartValueSelectedListener, typeface: Typeface, insightResultCount: TextView){
 
 
+        viewDivide = viewDivider
         val startDate = insightModel.rangeStartDate
         val endDate = insightModel.rangeEndDate
         val daysBetween = ChronoUnit.DAYS.between(dateObjectFormat(startDate), dateObjectFormat(endDate))
@@ -66,12 +68,63 @@ class InsightEngine {
         insightPeriod = Period.between(dateObjectFormat(startDate), dateObjectFormat(endDate))
 
         insightRenderView.visibility = View.VISIBLE
+        // > 2 Yrs
+        if (yearsBetween > 1){
+            println("\n\t The Insight Range found for ${insightModel.alias} is greater than 2 Years")
+            println("\n\t\t Days Between: $daysBetween")
+            println("\n\t\t\t Years: ${insightPeriod.years} | Months: ${insightPeriod.months} | Days: ${insightPeriod.days}")
+            scopeUID = "Years"
+            scopeID = 1
+            println("\n\t ScopeID: $scopeID | Scope UID: $scopeUID")
+        }
+
+        // < 2 Yrs && > 1 Yr
+        if (daysBetween > 365 && yearsBetween < 2){
+            println("\n\t The Insight Range found for ${insightModel.alias} is less than 2 Years")
+            println("\n\t\t Days Between: $daysBetween")
+            println("\n\t\t\t Years: ${insightPeriod.years} | Months: ${insightPeriod.months} | Days: ${insightPeriod.days}")
+            scopeUID = "24 Months"
+            scopeID = 2
+            println("\n\t ScopeID: $scopeID | Scope UID: $scopeUID")
+        }
+
+        // 1 Yr
+        if (daysBetween < 366 && (monthsBetween in 12..12)){
+            println("\n\t The Insight Range found for ${insightModel.alias} is 1 Year")
+            println("\n\t\t Days Between: $daysBetween")
+            println("\n\t\t\t Years: ${insightPeriod.years} | Months: ${insightPeriod.months} | Days: ${insightPeriod.days}")
+            scopeUID = "12 Months"
+            scopeID = 3
+            println("\n\t ScopeID: $scopeID | Scope UID: $scopeUID")
+        }
+
+        // > 1 Week & < 2 Months
+        if (daysBetween > 7 && (daysBetween < 30.4368 || monthsBetween < 3)){
+            println("\n\t The Insight Range found for ${insightModel.alias} is greater than 1 Week, less than 2 months")
+            println("\n\t\t Days Between: $daysBetween")
+            println("\n\t\t\t Years: ${insightPeriod.years} | Months: ${insightPeriod.months} | Days: ${insightPeriod.days}")
+            scopeUID = "8 Weeks"
+            scopeID = 4
+            println("\n\t ScopeID: $scopeID | Scope UID: $scopeUID")
+        }
+
+        // =< 1 Week
+        if (daysBetween in 0..7){
+            println("\n\t The Insight Range found for ${insightModel.alias} is less than 1 Week")
+            println("\n\t\t Days Between: $daysBetween")
+            println("\n\t\t\t Years: ${insightPeriod.years} | Months: ${insightPeriod.months} | Days: ${insightPeriod.days}")
+            scopeUID = "Weeks"
+            scopeID = 5
+            println("\n\t ScopeID: $scopeID | Scope UID: $scopeUID")
+        }
+
         if (!patientRecords.isNullOrEmpty()){
             originListCount = patientRecords.size
             insightEntity = "Patients"
             when(insightModel.pointOfInterest) {
                 "First Name" -> {
                     patientsRecord.addAll(patientRecords.filter { it.firstName == insightModel.piThresholdValue })
+                    predicateListCount = patientsRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()){
                         patientsRecord.addAll(patientRecords.filter { it.firstName == insightModel.omegaThresholdValue })
                         predicateListCount = patientsRecord.size
@@ -81,6 +134,7 @@ class InsightEngine {
                 }
                 "Last Name" -> {
                     patientsRecord.addAll(patientRecords.filter { it.lastName == insightModel.piThresholdValue })
+                    predicateListCount = patientsRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()){
                         patientsRecord.addAll(patientRecords.filter { it.lastName == insightModel.omegaThresholdValue })
                         predicateListCount = patientsRecord.size
@@ -90,6 +144,7 @@ class InsightEngine {
                 }
                 "Blood Group" -> {
                     patientsRecord.addAll(patientRecords.filter { it.bloodGroup == insightModel.piThresholdValue })
+                    predicateListCount = patientsRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()){
                         patientsRecord.addAll(patientRecords.filter { it.bloodGroup == insightModel.omegaThresholdValue })
                         predicateListCount = patientsRecord.size
@@ -99,6 +154,7 @@ class InsightEngine {
                 }
                 "Insurer" -> {
                     patientsRecord.addAll(patientRecords.filter { it.insuranceVendor == insightModel.piThresholdValue })
+                    predicateListCount = patientsRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()){
                         patientsRecord.addAll(patientRecords.filter { it.insuranceVendor == insightModel.omegaThresholdValue })
                         predicateListCount = patientsRecord.size
@@ -114,6 +170,7 @@ class InsightEngine {
             when(insightModel.pointOfInterest) {
                 "Synopsis" -> {
                     diagnosesRecord.addAll(diagnosisRecords.filter { it.diagnosisSynopsis == insightModel.piThresholdValue })
+                    predicateListCount = diagnosesRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         diagnosesRecord.addAll(diagnosisRecords.filter { it.diagnosisSynopsis == insightModel.omegaThresholdValue })
                         predicateListCount = diagnosesRecord.size
@@ -123,6 +180,7 @@ class InsightEngine {
                 }
                 "Diagnosis Details" -> {
                     diagnosesRecord.addAll(diagnosisRecords.filter { it.diagnosisDetails!!.contains(insightModel.piThresholdValue) })
+                    predicateListCount = diagnosesRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         diagnosesRecord.addAll(diagnosisRecords.filter { it.diagnosisDetails!!.contains(insightModel.omegaThresholdValue) })
                         predicateListCount = diagnosesRecord.size
@@ -132,6 +190,7 @@ class InsightEngine {
                 }
                 "Level" -> {
                     diagnosesRecord.addAll(diagnosisRecords.filter { it.diagnosisLevel.diagnosisLevelName == insightModel.piThresholdValue })
+                    predicateListCount = diagnosesRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         diagnosesRecord.addAll(diagnosisRecords.filter { it.diagnosisLevel.diagnosisLevelName == insightModel.omegaThresholdValue })
                         predicateListCount = diagnosesRecord.size
@@ -147,6 +206,7 @@ class InsightEngine {
             when(insightModel.pointOfInterest) {
                 "Rx Name" -> {
                     prescriptionsRecord.addAll(prescriptionRecords.filter { it.prescriptionName == insightModel.piThresholdValue })
+                    predicateListCount = prescriptionsRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         prescriptionsRecord.addAll(prescriptionRecords.filter { it.prescriptionName == insightModel.omegaThresholdValue })
                         predicateListCount = prescriptionsRecord.size
@@ -156,6 +216,7 @@ class InsightEngine {
                 }
                 "Prescriber" -> {
                     prescriptionsRecord.addAll(prescriptionRecords.filter { it.prescribedBy!!.contains( insightModel.piThresholdValue) })
+                    predicateListCount = prescriptionsRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         prescriptionsRecord.addAll(prescriptionRecords.filter { it.prescribedBy!!.contains( insightModel.omegaThresholdValue) })
                         predicateListCount = prescriptionsRecord.size
@@ -165,6 +226,7 @@ class InsightEngine {
                 }
                 "Prescriber ID" -> {
                     prescriptionsRecord.addAll(prescriptionRecords.filter { it.prescriptionPractitionerID == insightModel.piThresholdValue })
+                    predicateListCount = prescriptionsRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         prescriptionsRecord.addAll(prescriptionRecords.filter { it.prescriptionPractitionerID == insightModel.omegaThresholdValue })
                         predicateListCount = prescriptionsRecord.size
@@ -174,6 +236,7 @@ class InsightEngine {
                 }
                 "Patient Name" -> {
                     prescriptionsRecord.addAll(prescriptionRecords.filter { it.patientFullName!!.contains(insightModel.piThresholdValue) })
+                    predicateListCount = prescriptionsRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         prescriptionsRecord.addAll(prescriptionRecords.filter { it.patientFullName!!.contains(insightModel.omegaThresholdValue) })
                         predicateListCount = prescriptionsRecord.size
@@ -189,6 +252,7 @@ class InsightEngine {
             when(insightModel.pointOfInterest) {
                 "Host" -> {
                     visitsRecord.addAll(visitRecords.filter { it.hostPractitioner == insightModel.piThresholdValue })
+                    predicateListCount = visitsRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         visitsRecord.addAll(visitRecords.filter { it.hostPractitioner == insightModel.omegaThresholdValue })
                         predicateListCount = visitsRecord.size
@@ -198,6 +262,7 @@ class InsightEngine {
                 }
                 "Host ID" -> {
                     visitsRecord.addAll(visitRecords.filter { it.hostPractitionerID == insightModel.piThresholdValue })
+                    predicateListCount = visitsRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         visitsRecord.addAll(visitRecords.filter { it.hostPractitionerID == insightModel.omegaThresholdValue })
                         predicateListCount = visitsRecord.size
@@ -207,6 +272,7 @@ class InsightEngine {
                 }
                 "Visit Time" -> {
                     visitsRecord.addAll(visitRecords.filter { it.visitTime == insightModel.piThresholdValue })
+                    predicateListCount = visitsRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         visitsRecord.addAll(visitRecords.filter { it.visitTime == insightModel.omegaThresholdValue })
                         predicateListCount = visitsRecord.size
@@ -216,6 +282,7 @@ class InsightEngine {
                 }
                 "Description" -> {
                     visitsRecord.addAll(visitRecords.filter { it.visitDescription!!.contains(insightModel.piThresholdValue) })
+                    predicateListCount = visitsRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         visitsRecord.addAll(visitRecords.filter { it.visitDescription!!.contains(insightModel.omegaThresholdValue)  })
                         predicateListCount = visitsRecord.size
@@ -225,6 +292,7 @@ class InsightEngine {
                 }
                 "Patient Name" -> {
                     visitsRecord.addAll(visitRecords.filter { it.patientFullName!!.contains(insightModel.piThresholdValue) })
+                    predicateListCount = visitsRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         visitsRecord.addAll(visitRecords.filter { it.patientFullName!!.contains(insightModel.omegaThresholdValue) })
                         predicateListCount = visitsRecord.size
@@ -240,16 +308,17 @@ class InsightEngine {
             when(insightModel.pointOfInterest) {
                 "Brand Name" -> {
                     pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.brandName == insightModel.piThresholdValue })
+                    predicateListCount = pharmaceuticalRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.brandName == insightModel.omegaThresholdValue })
-                        predicateListCount = pharmaceuticalRecord.size
                     }
                     println("\t\t Filtered pharmaceutical Insight records based on brandName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
                     println("$pharmaceuticalRecord")
 
                     if(!pharmaceuticalsJuxRecords.isNullOrEmpty()) {
-                        originJuxListCount = pharmaceuticalsJuxRecords.size
                         pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.brandName == insightModel.piThresholdValue })
+                        predicateJuxListCount = pharmaceuticalJuxRecord.size
+                        originJuxListCount = pharmaceuticalsJuxRecords.size
                         if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                             pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.brandName == insightModel.omegaThresholdValue })
                             predicateJuxListCount = pharmaceuticalJuxRecord.size
@@ -260,6 +329,7 @@ class InsightEngine {
                 }
                 "Generic Name" -> {
                     pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.genericName == insightModel.piThresholdValue })
+                    predicateListCount = pharmaceuticalRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.genericName == insightModel.omegaThresholdValue })
                         predicateListCount = pharmaceuticalRecord.size
@@ -267,8 +337,9 @@ class InsightEngine {
                     println("\t\t Filtered visit pharmaceutical records based on genericName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
                     println("$pharmaceuticalRecord")
                     if(!pharmaceuticalsJuxRecords.isNullOrEmpty()) {
-                        originJuxListCount = pharmaceuticalsJuxRecords.size
                         pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.genericName == insightModel.piThresholdValue })
+                        predicateJuxListCount = pharmaceuticalJuxRecord.size
+                        originJuxListCount = pharmaceuticalsJuxRecords.size
                         if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                             pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.genericName == insightModel.omegaThresholdValue })
                             predicateJuxListCount = pharmaceuticalJuxRecord.size
@@ -279,6 +350,7 @@ class InsightEngine {
                 }
                 "Chemical Name" -> {
                     pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.chemicalName == insightModel.piThresholdValue })
+                    predicateListCount = pharmaceuticalRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.chemicalName == insightModel.omegaThresholdValue })
                     }
@@ -287,6 +359,7 @@ class InsightEngine {
                     if(!pharmaceuticalsJuxRecords.isNullOrEmpty()) {
                         originJuxListCount = pharmaceuticalsJuxRecords.size
                         pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.chemicalName == insightModel.piThresholdValue })
+                        predicateJuxListCount = pharmaceuticalJuxRecord.size
                         if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                             pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.chemicalName == insightModel.omegaThresholdValue })
                             predicateJuxListCount = pharmaceuticalJuxRecord.size
@@ -297,6 +370,7 @@ class InsightEngine {
                 }
                 "Manufacturer" -> {
                     pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.manufacturerName == insightModel.piThresholdValue })
+                    predicateListCount = pharmaceuticalRecord.size
                     if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                         pharmaceuticalRecord.addAll(pharmaceuticalsRecords.filter { it.manufacturerName == insightModel.omegaThresholdValue })
                     }
@@ -305,9 +379,9 @@ class InsightEngine {
                     if(!pharmaceuticalsJuxRecords.isNullOrEmpty()) {
                         originJuxListCount = pharmaceuticalsJuxRecords.size
                         pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.manufacturerName == insightModel.piThresholdValue })
+                        predicateJuxListCount = pharmaceuticalJuxRecord.size
                         if (!insightModel.omegaThresholdValue.isNullOrBlank()) {
                             pharmaceuticalJuxRecord.addAll(pharmaceuticalsJuxRecords.filter { it.manufacturerName == insightModel.omegaThresholdValue })
-                            predicateJuxListCount = pharmaceuticalJuxRecord.size
                         }
                         println("\t\t Filtered pharmaceutical Juxtaposition records based on manufacturerName predicates: ${insightModel.piThresholdValue} | ${insightModel.omegaThresholdValue}")
                         println("$pharmaceuticalJuxRecord")
@@ -316,111 +390,191 @@ class InsightEngine {
             }
         }
 
-        // > 2 Yrs
-        if (daysBetween > 730 && insightPeriod.years > 1){
-            println("\n\t The Insight Range found for ${insightModel.alias} is greater than 2 Years")
-            println("\n\t\t Days Between: $daysBetween")
-            println("\n\t\t\t Years: ${insightPeriod.years} | Months: ${insightPeriod.months} | Days: ${insightPeriod.days}")
-            scopeUID = "Years"
-            scopeID = 1
-        }
-
-        // < 2 Yrs && > 1 Yr
-        if (daysBetween > 365 && insightPeriod.years < 2){
-            println("\n\t The Insight Range found for ${insightModel.alias} is less than 2 Years")
-            println("\n\t\t Days Between: $daysBetween")
-            println("\n\t\t\t Years: ${insightPeriod.years} | Months: ${insightPeriod.months} | Days: ${insightPeriod.days}")
-            scopeUID = "24 Months"
-            scopeID = 2
-        }
-
-        // 1 Yr
-        if (daysBetween < 366 && insightPeriod.years == 1){
-            println("\n\t The Insight Range found for ${insightModel.alias} is 1 Year")
-            println("\n\t\t Days Between: $daysBetween")
-            println("\n\t\t\t Years: ${insightPeriod.years} | Months: ${insightPeriod.months} | Days: ${insightPeriod.days}")
-            scopeUID = "12 Months"
-            scopeID = 3
-        }
-
-        // > 1 Week & < 2 Months
-        if (daysBetween > 7 && daysBetween < 30.4368){
-            println("\n\t The Insight Range found for ${insightModel.alias} is greater than 1 Week, less than 2 months")
-            println("\n\t\t Days Between: $daysBetween")
-            println("\n\t\t\t Years: ${insightPeriod.years} | Months: ${insightPeriod.months} | Days: ${insightPeriod.days}")
-            scopeUID = "8 Weeks"
-            scopeID = 4
-        }
-
-        // =< 1 Week
-        if (daysBetween in 0..7){
-            println("\n\t The Insight Range found for ${insightModel.alias} is less than 1 Week")
-            println("\n\t\t Days Between: $daysBetween")
-            println("\n\t\t\t Years: ${insightPeriod.years} | Months: ${insightPeriod.months} | Days: ${insightPeriod.days}")
-            scopeUID = "Weeks"
-            scopeID = 5
-        }
-
-
-        when(insightModel.vistaCode){
-            1 ->{
-                histogramVista.visibility = View.VISIBLE
-                when(insightModel.entityCode){
-                    5 ->{
-                        viewDivider.visibility = View.VISIBLE
-                        juxtapositionVistaView.visibility = View.VISIBLE
-                        histogramJuxVista.visibility = View.VISIBLE
+        Handler(Looper.getMainLooper()).postDelayed({
+            insightResultCount.text = predicateListCount.toString()
+            when(insightModel.vistaCode){
+                1 ->{
+                    histogramVista.visibility = View.VISIBLE
+                    when(insightModel.entityCode){
+                        5 ->{
+                            viewDivider.visibility = View.GONE
+                            juxtapositionVistaView.visibility = View.VISIBLE
+                            histogramJuxVista.visibility = View.VISIBLE
+                        }
+                    }
+                }
+                2 ->{
+                    pieChartVista.visibility = View.VISIBLE
+                    renderVisualizer(insightModel, pieChartVista = pieChartVista, scopeID = scopeID,
+                        viewDivider = viewDivide, context = context, typeface = typeface)
+                    when(insightModel.entityCode){
+                        5 ->{
+                            viewDivider.visibility = View.GONE
+                            juxtapositionVistaView.visibility = View.VISIBLE
+                            pieChartJuxVista.visibility = View.VISIBLE
+                            renderVisualizer(insightModel, pieChartJuxVista = pieChartJuxVista, scopeID = scopeID,
+                                viewDivider = viewDivide, context = context, typeface = typeface)
+                        }
+                    }
+                }
+                3 ->{
+                    lineChartVista.visibility = View.VISIBLE
+                    when(insightModel.entityCode){
+                        5 ->{
+                            viewDivider.visibility = View.GONE
+                            juxtapositionVistaView.visibility = View.VISIBLE
+                            lineChartJuxVista.visibility = View.VISIBLE
+                        }
+                    }
+                }
+                4 ->{
+                    scatterPlotVista.visibility = View.VISIBLE
+                    when(insightModel.entityCode){
+                        5 ->{
+                            viewDivider.visibility = View.GONE
+                            juxtapositionVistaView.visibility = View.VISIBLE
+                            scatterPlotJuxVista.visibility = View.VISIBLE
+                        }
                     }
                 }
             }
-            2 ->{
-                pieChartVista.visibility = View.VISIBLE
-                when(insightModel.entityCode){
-                    5 ->{
-                        viewDivider.visibility = View.VISIBLE
-                        juxtapositionVistaView.visibility = View.VISIBLE
-                        pieChartJuxVista.visibility = View.VISIBLE
-                    }
-                }
-            }
-            3 ->{
-                lineChartVista.visibility = View.VISIBLE
-                when(insightModel.entityCode){
-                    5 ->{
-                        viewDivider.visibility = View.VISIBLE
-                        juxtapositionVistaView.visibility = View.VISIBLE
-                        lineChartJuxVista.visibility = View.VISIBLE
-                    }
-                }
-            }
-            4 ->{
-                scatterPlotVista.visibility = View.VISIBLE
-                when(insightModel.entityCode){
-                    5 ->{
-                        viewDivider.visibility = View.VISIBLE
-                        juxtapositionVistaView.visibility = View.VISIBLE
-                        scatterPlotJuxVista.visibility = View.VISIBLE
-                    }
-                }
-            }
-        }
+        }, 669)
 
 
     }
 
 
-    fun renderVisualizer(insightModel: InsightModel, scopeID: Int, histogramVista: BarChart,
-                         pieChartVista: PieChart, lineChartVista: LineChart, scatterPlotVista: ScatterChart,
-                         histogramJuxVista: BarChart, pieChartJuxVista: PieChart, lineChartJuxVista: LineChart,
-                         scatterPlotJuxVista: ScatterChart, viewDivider: View,
-                         patientRecords: ArrayList<Patient>? = null, diagnosisRecords: ArrayList<Diagnosis>? = null,
-                         prescriptionRecords: ArrayList<Prescription>? = null, visitRecords: ArrayList<Visit>? = null,
-                         pharmaceuticalsRecords: ArrayList<Pharmaceuticals>? = null, pharmaceuticalsJuxRecords: ArrayList<Pharmaceuticals>? = null){
+    private fun renderVisualizer(insightModel: InsightModel, scopeID: Int?, histogramVista: BarChart? = null,
+                                 pieChartVista: PieChart? = null, lineChartVista: LineChart?  = null, scatterPlotVista: ScatterChart? = null,
+                                 histogramJuxVista: BarChart?  = null, pieChartJuxVista: PieChart? = null, lineChartJuxVista: LineChart? = null,
+                                 scatterPlotJuxVista: ScatterChart? = null, viewDivider: View,
+                                 context: OnChartValueSelectedListener, typeface: Typeface){
 
-        when(insightModel.entityCode){
+        when(insightModel.vistaCode){
             1 ->{
-                //patientRecords
-                // process & init data inputs to be used per Vista Code
+
+            }
+            2 -> {
+                if (pieChartVista != null){
+                val pieCache = arrayListOf<PieEntry>()
+                val predicateName = insightModel.piThresholdValue
+                val predicateCount = predicateListCount
+                val originName = "Other $insightEntity"
+                val originCount = originListCount
+                val piInsightEntry = PieEntry(predicateCount.toFloat(), predicateName)
+                val originEntry = PieEntry(originCount.toFloat() - predicateCount.toFloat(), originName)
+                pieCache.add(piInsightEntry)
+                pieCache.add(originEntry)
+                val pieDataSet = PieDataSet(
+                    pieCache, "${insightModel.pointOfInterest}:" +
+                            " ${insightModel.piThresholdValue}"
+                )
+                pieDataSet.setDrawIcons(false)
+                pieDataSet.sliceSpace = 3f
+                pieDataSet.iconsOffset = MPPointF(0F, 40F)
+                pieDataSet.selectionShift = 5f
+                val insightColors: ArrayList<Int> = ArrayList()
+                insightColors.add(Color.parseColor("#0c204f"))
+                insightColors.add(Color.parseColor("#000000"))
+                pieDataSet.colors = insightColors
+                val data = PieData(pieDataSet)
+                data.setValueFormatter(PercentFormatter())
+                data.setValueTextSize(16f)
+                data.setValueTextColor(Color.WHITE)
+                data.setValueTypeface(typeface)
+                pieChartVista.setUsePercentValues(true)
+                pieChartVista.description.isEnabled = false
+                pieChartVista.setExtraOffsets(5F, 10F, 5F, 5F)
+                pieChartVista.dragDecelerationFrictionCoef = 0.95f
+                pieChartVista.isDrawHoleEnabled = true
+                pieChartVista.setHoleColor(Color.TRANSPARENT)
+                pieChartVista.setTransparentCircleColor(Color.TRANSPARENT)
+                pieChartVista.setTransparentCircleAlpha(110)
+                pieChartVista.holeRadius = 58f
+                pieChartVista.transparentCircleRadius = 61f
+                pieChartVista.rotationAngle = 0F
+                pieChartVista.isRotationEnabled = true
+                pieChartVista.isHighlightPerTapEnabled = true
+                pieChartVista.setOnChartValueSelectedListener(context)
+                pieChartVista.animateY(1400, Easing.EaseInOutQuad)
+                val l: Legend = pieChartVista.legend
+                l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+                l.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+                l.orientation = Legend.LegendOrientation.VERTICAL
+                l.isEnabled = false
+                pieChartVista.setEntryLabelColor(Color.LTGRAY)
+                pieChartVista.setEntryLabelTypeface(typeface)
+                pieChartVista.setEntryLabelTextSize(10f)
+                pieChartVista.data = data
+                pieChartVista.highlightValues(null)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    pieChartVista.invalidate()
+                }, 333)
+                }
+                if (pieChartJuxVista != null){
+                    val pieJuxCache = arrayListOf<PieEntry>()
+                    val predicateJuxName = insightModel.piThresholdValue
+                    val predicateJuxCount = predicateJuxListCount
+                    val originJuxName = "Other $insightEntity"
+                    val originJuxCount = originJuxListCount
+                    val piInsightEntry = PieEntry(predicateJuxCount.toFloat(), predicateJuxName)
+                    val othersCount = originJuxCount.toFloat() - predicateJuxCount.toFloat()
+                    val originEntry = PieEntry(othersCount
+                        , originJuxName)
+                    pieJuxCache.add(piInsightEntry)
+                    pieJuxCache.add(originEntry)
+                    val pieJuxDataSet = PieDataSet(
+                        pieJuxCache, "${insightModel.pointOfInterest}:" +
+                                " ${insightModel.piThresholdValue}"
+                    )
+                    pieJuxDataSet.setDrawIcons(false)
+                    pieJuxDataSet.sliceSpace = 3f
+                    pieJuxDataSet.iconsOffset = MPPointF(0F, 40F)
+                    pieJuxDataSet.selectionShift = 5f
+                    val insightColors: ArrayList<Int> = ArrayList()
+                    insightColors.add(Color.parseColor("#000000"))
+                    insightColors.add(Color.parseColor("#0c204f"))
+                    pieJuxDataSet.colors = insightColors
+                    val data = PieData(pieJuxDataSet)
+                    data.setValueFormatter(PercentFormatter())
+                    data.setValueTextSize(16f)
+                    data.setValueTextColor(Color.WHITE)
+                    data.setValueTypeface(typeface)
+                    pieChartJuxVista.setUsePercentValues(true)
+                    pieChartJuxVista.description.isEnabled = false
+                    pieChartJuxVista.setExtraOffsets(5F, 10F, 5F, 5F)
+                    pieChartJuxVista.dragDecelerationFrictionCoef = 0.95f
+                    pieChartJuxVista.isDrawHoleEnabled = true
+                    pieChartJuxVista.setHoleColor(Color.TRANSPARENT)
+                    pieChartJuxVista.setTransparentCircleColor(Color.TRANSPARENT)
+                    pieChartJuxVista.setTransparentCircleAlpha(110)
+                    pieChartJuxVista.holeRadius = 58f
+                    pieChartJuxVista.transparentCircleRadius = 61f
+                    pieChartJuxVista.rotationAngle = 0F
+                    pieChartJuxVista.isRotationEnabled = true
+                    pieChartJuxVista.isHighlightPerTapEnabled = true
+                    pieChartJuxVista.setOnChartValueSelectedListener(context)
+                    pieChartJuxVista.animateY(1400, Easing.EaseInOutQuad)
+                    val l: Legend = pieChartJuxVista.legend
+                    l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+                    l.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+                    l.orientation = Legend.LegendOrientation.VERTICAL
+                    l.isEnabled = false
+                    pieChartJuxVista.setEntryLabelColor(Color.LTGRAY)
+                    pieChartJuxVista.setEntryLabelTypeface(typeface)
+                    pieChartJuxVista.setEntryLabelTextSize(10f)
+                    pieChartJuxVista.data = data
+                    pieChartJuxVista.highlightValues(null)
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        pieChartJuxVista.invalidate()
+                    }, 333)
+                }
+
+            }
+            3 ->{
+
+            }
+            4 ->{
 
             }
 

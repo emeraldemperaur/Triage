@@ -1,7 +1,10 @@
 package iot.empiaurhouse.triage.view
 
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +23,9 @@ import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.charts.ScatterChart
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iot.empiaurhouse.triage.R
@@ -33,7 +39,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-class InsightModelViewFragment : Fragment() {
+class InsightModelViewFragment : Fragment(), OnChartValueSelectedListener {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding: FragmentInsightModelViewBinding
@@ -70,6 +76,7 @@ class InsightModelViewFragment : Fragment() {
     private lateinit var lineChartJuxVista: LineChart
     private lateinit var scatterPlotJuxVista: ScatterChart
     private lateinit var viewDivider: View
+    private lateinit var fontFace: Typeface
     private val args: InsightModelViewFragmentArgs by navArgs()
 
 
@@ -116,6 +123,7 @@ class InsightModelViewFragment : Fragment() {
         rangeBaseTitle = binding.insightDetailRangeBaseTitle
         exitInsight = binding.exitInsightModel
         stagedInsightModel = args.insightModel
+        fontFace = resources.getFont(R.font.montserratmedium)
         insightRenderView = binding.insightVistaRender.insightChartRender
         histogramVista = binding.insightVistaRender.renderInsightBarChart
         pieChartVista = binding.insightVistaRender.renderInsightPieChart
@@ -156,7 +164,8 @@ class InsightModelViewFragment : Fragment() {
             histogramVista, pieChartVista, lineChartVista, scatterPlotVista, histogramJuxVista,
             pieChartJuxVista, lineChartJuxVista, scatterPlotJuxVista, viewDivider, patientRecords = args.patient,
             diagnosisRecords = args.diagnosis, prescriptionRecords = args.prescription, visitRecords = args.visit,
-            pharmaceuticalsRecords = args.pharmaceutical, pharmaceuticalsJuxRecords = args.pharmaceuticalII)
+            pharmaceuticalsRecords = args.pharmaceutical, pharmaceuticalsJuxRecords = args.pharmaceuticalII,
+            this, fontFace, insightResultCount)
         toolBar.visibility = View.VISIBLE
         toolbarView.visibility = View.VISIBLE
         hubUserName.visibility = View.GONE
@@ -197,12 +206,22 @@ class InsightModelViewFragment : Fragment() {
         if (recordsFound == null || recordsFound < 1){
             //insightView.visibility = View.GONE
             noResultsText.visibility = View.VISIBLE
+            Handler(Looper.getMainLooper()).postDelayed({
             insightResultCount.text = 0.toString()
-
+            pieChartVista.visibility = View.GONE
+            pieChartJuxVista.visibility = View.GONE
+            histogramVista.visibility = View.GONE
+            histogramJuxVista.visibility = View.GONE
+            lineChartVista.visibility = View.GONE
+            lineChartJuxVista.visibility = View.GONE
+            scatterPlotVista.visibility = View.GONE
+            scatterPlotJuxVista.visibility = View.GONE
+            viewDivider.visibility = View.INVISIBLE
+            }, 673)
         }
         else if (recordsFound > 0){
             noResultsText.visibility = View.GONE
-            insightResultCount.text = recordsFound.toString()
+            //insightResultCount.text = recordsFound.toString()
             //insightView.visibility = View.VISIBLE
         }
     }
@@ -236,5 +255,13 @@ class InsightModelViewFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onValueSelected(e: Entry?, h: Highlight?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onNothingSelected() {
+        TODO("Not yet implemented")
     }
 }

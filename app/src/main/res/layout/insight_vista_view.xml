@@ -22,15 +22,17 @@
             android:layout_marginTop="6dp"
             android:layout_marginBottom="6dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="303dp"
+            />
 
         <com.github.mikephil.charting.charts.PieChart
             android:visibility="gone"
             android:id="@+id/render_insight_pie_chart"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="377dp"
+            />
 
         <com.github.mikephil.charting.charts.LineChart
             android:visibility="gone"
