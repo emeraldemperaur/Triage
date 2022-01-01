@@ -26,35 +26,35 @@
 &nbsp;
 <h4>Login</h4>
 <br>
-![alt text](imgforge/Chiron_Login_Screenshots.png)
+![alt text](imgforge/chiron_login_screenshots.png)
 &nbsp;
 <br>
 <h4>Dashboard</h4>
 <br>
-![alt text](imgforge/Chiron_Dashboard_Screenshots.png)
+![alt text](imgforge/chiron_dashboard_screenshots.png)
 &nbsp;
 <br>
-![alt text](imgforge/Chiron_Records_ScreenshotsI.png)
+![alt text](imgforge/chiron_records_screenshotsI.png)
 &nbsp;
 <br>
-![alt text](imgforge/Chiron_Records_ScreenshotsII.png)
+![alt text](imgforge/chiron_records_screenshotsII.png)
 &nbsp;
 <br>
-![alt text](imgforge/Chiron_Info_Screenshots.png)
+![alt text](imgforge/chiron_info_screenshots.png)
 &nbsp;
 <br>
 <h4>Search</h4>
-![alt text](imgforge/Chiron_Search_Screenshots.png)
+![alt text](imgforge/chiron_search_screenshots.png)
 &nbsp;
 <br>
 <h4>Insight Models</h4>
-![alt text](imgforge/Chiron_DataPivots_ScreenshotsI.png)
+![alt text](imgforge/chiron_datapivots_screenshotsI.png)
 &nbsp;
 <br>
 <h4>Data Pivots</h4>
-![alt text](imgforge/Chiron_DataPivots_ScreenshotsI.png)
+![alt text](imgforge/chiron_datapivots_screenshotsI.png)
 &nbsp;
 <br>
 <h4>Preferences</h4>
-![alt text](imgforge/Chiron_Preferences_Screenshots.png)
+![alt text](imgforge/chiron_preferences_screenshots.png)
 &nbsp;
