@@ -17,6 +17,7 @@
 ```
 > Android 10 Operating System or Higher
 > Internet Connection
+> Hosted Chiron Cloud App 
 
 ```
 
@@ -24,11 +25,31 @@
 ### UI/UX Screenshots
 &nbsp;
 <h4>Login</h4>
+![alt text](imgforge/Chiron_Login_Screenshots.png)
+&nbsp;
 <br>
 <h4>Dashboard</h4>
+![alt text](imgforge/Chiron_Dashboard_Screenshots.png)
+&nbsp;
+![alt text](imgforge/Chiron_Records_ScreenshotsI.png)
+&nbsp;
+![alt text](imgforge/Chiron_Records_ScreenshotsII.png)
+&nbsp;
+![alt text](imgforge/Chiron_Info_Screenshots.png)
+&nbsp;
+<br>
+<h4>Search</h4>
+![alt text](imgforge/Chiron_Search_Screenshots.png)
+&nbsp;
 <br>
 <h4>Insight Models</h4>
+![alt text](imgforge/Chiron_DataPivots_ScreenshotsI.png)
+&nbsp;
 <br>
 <h4>Data Pivots</h4>
+![alt text](imgforge/Chiron_DataPivots_ScreenshotsI.png)
+&nbsp;
 <br>
 <h4>Preferences</h4>
+![alt text](imgforge/Chiron_Preferences_Screenshots.png)
+&nbsp;
