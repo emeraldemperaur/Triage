@@ -25,16 +25,21 @@
 ### UI/UX Screenshots
 &nbsp;
 <h4>Login</h4>
+<br>
 ![alt text](imgforge/Chiron_Login_Screenshots.png)
 &nbsp;
 <br>
 <h4>Dashboard</h4>
+<br>
 ![alt text](imgforge/Chiron_Dashboard_Screenshots.png)
 &nbsp;
+<br>
 ![alt text](imgforge/Chiron_Records_ScreenshotsI.png)
 &nbsp;
+<br>
 ![alt text](imgforge/Chiron_Records_ScreenshotsII.png)
 &nbsp;
+<br>
 ![alt text](imgforge/Chiron_Info_Screenshots.png)
 &nbsp;
 <br>
