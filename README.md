@@ -24,46 +24,33 @@
 <br><br>
 ### UI/UX Screenshots
 &nbsp;
-<h4>Login</h4>
-<br>
+#### Login
 &nbsp;
 ![alt text](imgstore/loginscreenshots.png)
 &nbsp;
-<br>
-<h4>Dashboard</h4>
-<br>
+#### Dashboard
 &nbsp;
 ![alt text](imgstore/dashboardscreenshots.png)
 &nbsp;
-<br>
-&nbsp;
 ![alt text](imgstore/recordsscreenshotsI.png)
-&nbsp;
-<br>
 &nbsp;
 ![alt text](imgstore/recordsscreenshotsII.png)
 &nbsp;
-<br>
-&nbsp;
 ![alt text](imgstore/infoscreenshots.png)
 &nbsp;
-<br>
-<h4>Search</h4>
+#### Search
 &nbsp;
 ![alt text](imgstore/searchscreenshots.png)
 &nbsp;
-<br>
-<h4>Insight Models</h4>
+#### Insight Models
 &nbsp;
 ![alt text](imgstore/datapivotsscreenshotsI.png)
 &nbsp;
-<br>
-<h4>Data Pivots</h4>
+#### Data Pivots
 &nbsp;
 ![image](imgstore/datapivotsscreenshotsI.png)
 &nbsp;
-<br>
-<h4>Preferences</h4>
+#### Preferences
 &nbsp;
 ![image](imgstore/preferencesscreenshots.png)
 &nbsp;
