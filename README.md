@@ -60,10 +60,10 @@
 <br>
 <h4>Data Pivots</h4>
 &nbsp;
-![alt text](chiron_datapivots_screenshotsI.png)
+![image](chiron_datapivots_screenshotsI.png)
 &nbsp;
 <br>
 <h4>Preferences</h4>
 &nbsp;
-![alt text](chiron_preferences_screenshots.png)
+![image](chiron_preferences_screenshots.png)
 &nbsp;
