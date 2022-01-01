@@ -27,43 +27,43 @@
 <h4>Login</h4>
 <br>
 &nbsp;
-![alt text](chiron_login_screenshots.png)
+![alt text](imgstore/loginscreenshots.png)
 &nbsp;
 <br>
 <h4>Dashboard</h4>
 <br>
 &nbsp;
-![alt text](chiron_dashboard_screenshots.png)
+![alt text](imgstore/dashboardscreenshots.png)
 &nbsp;
 <br>
 &nbsp;
-![alt text](chiron_records_screenshotsI.png)
+![alt text](imgstore/recordsscreenshotsI.png)
 &nbsp;
 <br>
 &nbsp;
-![alt text](chiron_records_screenshotsII.png)
+![alt text](imgstore/recordsscreenshotsII.png)
 &nbsp;
 <br>
 &nbsp;
-![alt text](chiron_info_screenshots.png)
+![alt text](imgstore/infoscreenshots.png)
 &nbsp;
 <br>
 <h4>Search</h4>
 &nbsp;
-![alt text](chiron_search_screenshots.png)
+![alt text](imgstore/searchscreenshots.png)
 &nbsp;
 <br>
 <h4>Insight Models</h4>
 &nbsp;
-![alt text](chiron_datapivots_screenshotsI.png)
+![alt text](imgstore/datapivotsscreenshotsI.png)
 &nbsp;
 <br>
 <h4>Data Pivots</h4>
 &nbsp;
-![image](chiron_datapivots_screenshotsI.png)
+![image](imgstore/datapivotsscreenshotsI.png)
 &nbsp;
 <br>
 <h4>Preferences</h4>
 &nbsp;
-![image](chiron_preferences_screenshots.png)
+![image](imgstore/preferencesscreenshots.png)
 &nbsp;
