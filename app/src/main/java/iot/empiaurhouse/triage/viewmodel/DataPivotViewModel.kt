@@ -1,8 +1,8 @@
 package iot.empiaurhouse.triage.viewmodel
 
 import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import iot.empiaurhouse.triage.model.DataPivot
@@ -12,8 +12,8 @@ import iot.empiaurhouse.triage.persistence.TriageRepository
 import iot.empiaurhouse.triage.utils.UserPreferenceManager
 import kotlinx.coroutines.InternalCoroutinesApi
 
-class DataPivotViewModel: ViewModel() {
-    private val chironAPIService = ChironAPIService()
+class DataPivotViewModel(app: Application) : AndroidViewModel(app) {
+    private val chironAPIService = ChironAPIService(app.applicationContext)
     private val triageRepository = TriageRepository()
     private val dataPivotDisposable = CompositeDisposable()
     private val dataPivotCleanDisposable = CompositeDisposable()

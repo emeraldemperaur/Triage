@@ -17,7 +17,7 @@ class PivotAPIManager(private val dataPivot: DataPivot, private val context: Con
 
 
     private var valueParams: ArrayList<String>
-    private val chironAPIService = ChironAPIService()
+    private val chironAPIService = ChironAPIService(context)
     private val patientDisposable = CompositeDisposable()
     private val patientDisposableII = CompositeDisposable()
     private val patientDisposableIII = CompositeDisposable()

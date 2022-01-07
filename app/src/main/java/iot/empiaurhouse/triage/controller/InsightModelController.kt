@@ -58,6 +58,8 @@ class InsightModelController {
     private lateinit var fadeInEndPointTitleAnimation : Animation
     private lateinit var fadeInEndPointTextAnimation : Animation
     private lateinit var fadeInVistaTypeTitleAnimation : Animation
+    private lateinit var pharmaceuticalsButton: MaterialCardView
+
 
 
 
@@ -112,6 +114,7 @@ class InsightModelController {
                     R.id.line_chart_vista ->{
                         vistaCode = 3
                         toggleEntityOptions(vista, vistaOptions)
+                        disableEntities()
                         toggleEntityOptionLayouts(vistaCode!!)
                         initOmegaInput(vistaCode!!, omegaThresholdEditText, omegaThresholdEdit)
 
@@ -120,6 +123,7 @@ class InsightModelController {
                     R.id.scatter_plot_vista ->{
                         vistaCode = 4
                         toggleEntityOptions(vista, vistaOptions)
+                        disableEntities()
                         toggleEntityOptionLayouts(vistaCode!!)
                         initOmegaInput(vistaCode!!, omegaThresholdEditText, omegaThresholdEdit)
 
@@ -143,6 +147,7 @@ class InsightModelController {
                               endDateField: TextInputEditText, renderButton: MaterialButton,
                               insightFocus: TextView, insightRangeType:TextView, thresholdLine: View,
                               omegaThresholdFieldText: TextInputEditText, omegaThresholdField: TextInputLayout): Int?{
+
         omegaThresholdEditText = omegaThresholdFieldText
         omegaThresholdEdit = omegaThresholdField
         modelOptions.add(patientButton)
@@ -150,6 +155,7 @@ class InsightModelController {
         modelOptions.add(prescriptionButton)
         modelOptions.add(visitButton)
         modelOptions.add(pharmaceuticalButton)
+        pharmaceuticalsButton = pharmaceuticalButton
         for (model in modelOptions){
             model.setOnClickListener {
                 pointOfInterestView.visibility = View.GONE
@@ -706,6 +712,18 @@ class InsightModelController {
         })
 
         return isFinished
+    }
+
+
+    fun disableEntities(){
+        val offEntities = arrayListOf<MaterialCardView>()
+        offEntities.add(pharmaceuticalsButton)
+        for (entity in offEntities){
+            entity.isEnabled = false
+            entity.isClickable = false
+            entity.isCheckable = false
+            entity.isChecked = false
+        }
     }
 
 

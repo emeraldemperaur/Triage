@@ -44,7 +44,9 @@
 &nbsp;
 #### Insight Models
 &nbsp;
-![alt text](imgstore/datapivotsscreenshotsI.png)
+![alt text](imgstore/insights_screenshotsI.png)
+&nbsp;
+![alt text](imgstore/insights_screenshotsII.png)
 &nbsp;
 #### Data Pivots
 &nbsp;

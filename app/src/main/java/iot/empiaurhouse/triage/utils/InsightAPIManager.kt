@@ -17,7 +17,7 @@ import java.util.*
 @RequiresApi(Build.VERSION_CODES.O)
 class InsightAPIManager(private val insightModel: InsightModel, private val context: Context) {
     private lateinit var valueParams: ArrayList<String>
-    private val chironAPIService = ChironAPIService()
+    private val chironAPIService = ChironAPIService(context)
     private val patientDisposable = CompositeDisposable()
     private val diagnosisDisposable = CompositeDisposable()
     private val prescriptionDisposable = CompositeDisposable()

@@ -81,7 +81,7 @@ class RecordEditorDialogFragment : Fragment() {
         recordEditLabel = binding.triageEditDialogEntityLabel
         toolbarView = requireActivity().findViewById(R.id.hub_collapsing_toolbar)
         toolbarView.visibility = View.GONE
-        recordsService = ChironAPIService()
+        recordsService = ChironAPIService(requireContext())
         rotateAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate)
         navController = findNavController()
         recordID = args.recordID

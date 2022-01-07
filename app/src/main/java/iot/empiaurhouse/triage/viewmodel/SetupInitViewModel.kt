@@ -11,7 +11,7 @@ import iot.empiaurhouse.triage.network.ChironAPIService
 import iot.empiaurhouse.triage.utils.UserPreferenceManager
 
 
-class InitViewModel(app: Application) : AndroidViewModel(app) {
+class SetupInitViewModel(app: Application) : AndroidViewModel(app) {
 
     private val chironAPIService = ChironAPIService(app.applicationContext)
     private val disposable = CompositeDisposable()

@@ -92,7 +92,7 @@ class UserPreferenceManager(context: Context) {
     }
 
     fun getServerUrl(): String? {
-        return userPreferences.getString("SERVER_URL_KEY", null)
+        return userPreferences.getString("SERVER_URL_KEY", "https://chiron-cloudapp.herokuapp.com/")
     }
 
     fun getUserPhone(): String? {

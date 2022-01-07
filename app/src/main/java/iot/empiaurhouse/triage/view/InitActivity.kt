@@ -41,12 +41,12 @@ class InitActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInitBinding.inflate(layoutInflater)
-        //ChironAPIService().initServerUrl(this)
         initViewModel = ViewModelProvider(this)[InitViewModel::class.java]
         initViewModel.pingServer(this)
         pivotViewModel = ViewModelProvider(this)[DataPivotViewModel::class.java]
         val app = this.application
         pivotViewModel.processPivot(app)
+        urlPrep()
         val viewInit = binding.root
         fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fader)
         with(window) {
@@ -162,6 +162,22 @@ class InitActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
+    }
+
+
+    private fun urlPrep(){
+        userManager = UserPreferenceManager(this)
+        serverUrl = userManager.getServerUrl().toString()
+        println("\t\nThis is the init server Url found: " + serverUrl)
+        if (serverUrl != null) {
+            if (!serverUrl.endsWith("/")) {
+                serverUrl = serverUrl.plus("/")
+            }
+            if (!serverUrl.startsWith("http://") && !serverUrl.startsWith("https://")) {
+                serverUrl = "https://$serverUrl"
+            }
+            println("\t\nThis is the prepped server Url found: " + serverUrl)
+        }
     }
 
     private fun showSystemUI() {

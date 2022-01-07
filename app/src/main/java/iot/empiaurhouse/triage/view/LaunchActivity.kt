@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.ActivityLaunchBinding
+import iot.empiaurhouse.triage.utils.UserPreferenceManager
 import iot.empiaurhouse.triage.viewmodel.InitViewModel
 
 class LaunchActivity : AppCompatActivity() {
@@ -20,7 +21,8 @@ class LaunchActivity : AppCompatActivity() {
     private lateinit var fadeInAnimation : Animation
     private lateinit var rotationAnimation : Animation
     private lateinit var initViewModel: InitViewModel
-
+    private lateinit var userManager: UserPreferenceManager
+    private lateinit var serverUrl: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,7 @@ class LaunchActivity : AppCompatActivity() {
         fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
         rotationAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate)
         setContentView(viewLaunch)
+        urlPrep()
         binding.devIntroLogo.visibility = View.INVISIBLE
         binding.devIntroLogo.startAnimation(fadeInAnimation)
         fadeInAnimation.setAnimationListener(object : Animation.AnimationListener {
@@ -74,6 +77,24 @@ class LaunchActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     }
+
+    private fun urlPrep(){
+        userManager = UserPreferenceManager(this)
+        serverUrl = userManager.getServerUrl().toString()
+        println("\t\nThis is the init server Url found: " + serverUrl)
+        if (serverUrl != null) {
+            if (!serverUrl.endsWith("/")) {
+                //serverUrl = serverUrl.plus("/")
+            }
+            if (!serverUrl.startsWith("http://") && !serverUrl.startsWith("https://")) {
+                serverUrl = "https://$serverUrl"
+            }
+            println("\t\nThis is the prepped server Url found: " + serverUrl)
+        }
+    }
+
+
+
 
     override fun onBackPressed()
     {

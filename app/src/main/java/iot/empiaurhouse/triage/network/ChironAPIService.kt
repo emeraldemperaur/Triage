@@ -13,12 +13,17 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
 
-class ChironAPIService {
+class ChironAPIService(val context: Context) {
 
-    private var serverUrl: String = "https://www.test.com"
+    private lateinit var serverUrl: String
     private lateinit var userManager: UserPreferenceManager
     private val client = OkHttpClient.Builder().build()
     private var online: Boolean = false
+
+    init {
+        serverUrl = "https://chiron-cloudapp.herokuapp.com/"
+        urlPrep()
+    }
 
     var gson: Gson = GsonBuilder()
         .setLenient()
@@ -371,19 +376,23 @@ class ChironAPIService {
     }
 
 
-    fun initServerUrl(context: Context){
+    private fun urlPrep(){
         userManager = UserPreferenceManager(context)
-        serverUrl = userManager.getServerUrl().toString()
-        if (!serverUrl.endsWith("/")){
-            serverUrl = serverUrl.plus("/")
-            println("This is the init server Url found: " + serverUrl)
+        var xServerUrl = userManager.getServerUrl().toString()
+        println("\t\nThis is the init server Url found: " + xServerUrl)
+        if (xServerUrl != null) {
+            if (!xServerUrl.startsWith("http://") && !xServerUrl.startsWith("https://")) {
+                xServerUrl = "https://$xServerUrl"
+            }
+            if (!xServerUrl.endsWith("/")) {
+                xServerUrl = xServerUrl.plus("/")
+            }
+            serverUrl = xServerUrl
+            println("\t\nThis is the prepped server Url found: " + serverUrl)
+            if (serverUrl == null){
+                serverUrl = "https://chiron-cloudapp.herokuapp.com/"
+            }
         }
-        if(!serverUrl.startsWith("http://") || !serverUrl.startsWith("https://")){
-            serverUrl = "https://$serverUrl"
-            println("This is the init server Url found: " + serverUrl)
-        }
-
-
     }
 
 

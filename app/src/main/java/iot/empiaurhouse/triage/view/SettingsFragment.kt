@@ -93,7 +93,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         exitButton = findPreference("logoutTriage")!!
         exitButton.setOnPreferenceClickListener {
             userManager.clearUserData()
-            val signOutIntent = Intent(activity, SetupActivity::class.java)
+            val signOutIntent = Intent(activity, InitActivity::class.java)
             startActivity(signOutIntent)
             true
         }

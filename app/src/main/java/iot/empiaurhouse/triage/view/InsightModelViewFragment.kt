@@ -51,6 +51,7 @@ class InsightModelViewFragment : Fragment(), OnChartValueSelectedListener {
     private lateinit var insightModel: TextView
     private lateinit var insightEndPoint: TextView
     private lateinit var insightResultCount: TextView
+    private lateinit var insightOriginResultCount: TextView
     private lateinit var insightResultCountIcon: ImageView
     private lateinit var vistaType: TextView
     private lateinit var insightRange: TextView
@@ -112,6 +113,7 @@ class InsightModelViewFragment : Fragment(), OnChartValueSelectedListener {
         insightModel = binding.insightDetailModelText
         insightEndPoint = binding.insightDetailEndpointText
         insightResultCount = binding.insightDetailResultsCount
+        insightOriginResultCount = binding.insightDetailResultsOthersCount
         insightResultCountIcon = binding.insightDetailResultIcon
         vistaType = binding.insightDetailInsightVistaTypeText
         insightRange = binding.insightDetailInsightRangeTitle
@@ -165,7 +167,7 @@ class InsightModelViewFragment : Fragment(), OnChartValueSelectedListener {
             pieChartJuxVista, lineChartJuxVista, scatterPlotJuxVista, viewDivider, patientRecords = args.patient,
             diagnosisRecords = args.diagnosis, prescriptionRecords = args.prescription, visitRecords = args.visit,
             pharmaceuticalsRecords = args.pharmaceutical, pharmaceuticalsJuxRecords = args.pharmaceuticalII,
-            this, fontFace, insightResultCount)
+            this, fontFace, insightResultCount, insightOriginResultCount)
         toolBar.visibility = View.VISIBLE
         toolbarView.visibility = View.VISIBLE
         hubUserName.visibility = View.GONE
@@ -204,7 +206,6 @@ class InsightModelViewFragment : Fragment(), OnChartValueSelectedListener {
 
     private fun renderResultsView(recordsFound: Int?){
         if (recordsFound == null || recordsFound < 1){
-            //insightView.visibility = View.GONE
             noResultsText.visibility = View.VISIBLE
             Handler(Looper.getMainLooper()).postDelayed({
             insightResultCount.text = 0.toString()
@@ -221,8 +222,6 @@ class InsightModelViewFragment : Fragment(), OnChartValueSelectedListener {
         }
         else if (recordsFound > 0){
             noResultsText.visibility = View.GONE
-            //insightResultCount.text = recordsFound.toString()
-            //insightView.visibility = View.VISIBLE
         }
     }
 
@@ -258,10 +257,8 @@ class InsightModelViewFragment : Fragment(), OnChartValueSelectedListener {
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
-        TODO("Not yet implemented")
     }
 
     override fun onNothingSelected() {
-        TODO("Not yet implemented")
     }
 }

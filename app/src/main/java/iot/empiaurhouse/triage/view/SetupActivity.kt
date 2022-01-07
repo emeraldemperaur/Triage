@@ -15,13 +15,14 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import iot.empiaurhouse.triage.R
 import iot.empiaurhouse.triage.databinding.ActivitySetupBinding
 import iot.empiaurhouse.triage.utils.SetupVerify
 import iot.empiaurhouse.triage.utils.TypeWriterTextView
 import iot.empiaurhouse.triage.utils.UserPreferenceManager
-import iot.empiaurhouse.triage.viewmodel.SetupActivityViewModel
+import iot.empiaurhouse.triage.viewmodel.SetupInitViewModel
 
 class SetupActivity : AppCompatActivity() {
 
@@ -29,9 +30,10 @@ class SetupActivity : AppCompatActivity() {
     private lateinit var fadeInAnimation : Animation
     private lateinit var typeText : TypeWriterTextView
     private lateinit var chironVerify : SetupVerify
-    private lateinit var setupActivityViewModel: SetupActivityViewModel
+    private lateinit var setupActivityViewModel: SetupInitViewModel
     private lateinit var userManager: UserPreferenceManager
     private var intentValue:String? = ""
+    private lateinit var connectButton: MaterialButton
 
 
 
@@ -39,10 +41,11 @@ class SetupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySetupBinding.inflate(layoutInflater)
-        setupActivityViewModel = ViewModelProvider(this)[SetupActivityViewModel::class.java]
+        setupActivityViewModel = ViewModelProvider(this)[SetupInitViewModel::class.java]
         userManager = UserPreferenceManager(this)
-        setupActivityViewModel.pingServer()
+        //setupActivityViewModel.pingServer()
         val viewSetup = binding.root
+        //urlPrep()
         fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fader)
         with(window) {
             requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
@@ -53,6 +56,7 @@ class SetupActivity : AppCompatActivity() {
         }
         setContentView(viewSetup)
         fetchPUID()
+        connectButton = binding.setupProceedButton
         chironVerify = SetupVerify()
 
     }
@@ -60,6 +64,7 @@ class SetupActivity : AppCompatActivity() {
 
     private fun serverPing(): Boolean{
         var result = false
+
         setupActivityViewModel.serverStatus.observe(this, androidx.lifecycle.Observer{reply ->
             reply?.let{
                 result = reply.isNotEmpty()
@@ -115,15 +120,26 @@ class SetupActivity : AppCompatActivity() {
             && (chironVerify.verifyURL(binding.setupServerUrl, binding.chironURLNote)
                     || chironVerify.verifyIP(binding.setupServerUrl, binding.chironURLNote))){
                         //ping Chiron URL before intent
-            if(chironVerify.chironConnect(this, serverPing())){
-                userManager.storeUserData(binding.setupUsername.text.toString(), binding.setupServerUrl.text.toString(),
+            userManager.storeUserData(binding.setupUsername.text.toString(), binding.setupServerUrl.text.toString(),
                 "","${binding.setupUsername.text}::${binding.setupServerUrl.text}")
-                startActivity(Intent(this@SetupActivity, HubActivity::class.java))
-            }
-            else if(!chironVerify.chironConnect(this, serverPing())){
-                errorNoteSnackBar(view)
-            }
+            connectButton.text = "Connecting..."
+            Handler(Looper.getMainLooper()).postDelayed({
+                setupActivityViewModel.pingServer(this)
+                val serverUrl = userManager.getServerUrl().toString()
+                println("This is the stored URL for the ping: $serverUrl")
+                Handler(Looper.getMainLooper()).postDelayed({
+                    if(chironVerify.chironConnect(this, serverPing())){
+                    userManager.storeUserData(binding.setupUsername.text.toString(), binding.setupServerUrl.text.toString(),
+                "","${binding.setupUsername.text}::${binding.setupServerUrl.text}")
+                    startActivity(Intent(this@SetupActivity, HubActivity::class.java))
+                    }
+                    if(!chironVerify.chironConnect(this, serverPing())){
+                        errorNoteSnackBar(view)
+                        connectButton.text = "RETRY"
+                    }
 
+                }, 1111)
+            }, 2222)
         }
 
     }
@@ -153,6 +169,8 @@ class SetupActivity : AppCompatActivity() {
         connectErrorNote.show()
 
     }
+
+
 
 
     private fun fetchPUID(){

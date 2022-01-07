@@ -1,14 +1,15 @@
 package iot.empiaurhouse.triage.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import iot.empiaurhouse.triage.model.ChironRecords
 import iot.empiaurhouse.triage.network.ChironAPIService
 
-class SetupActivityViewModel: ViewModel() {
-    private val chironAPIService = ChironAPIService()
+class SetupActivityViewModel(app: Application) : AndroidViewModel(app) {
+    private val chironAPIService = ChironAPIService(app.applicationContext)
     private val disposable = CompositeDisposable()
     private var cachedRecords: ArrayList<ChironRecords>? = null
 

@@ -55,7 +55,7 @@ class ChironRecordsRecyclerAdapter(private val recordID: Int, private val activi
     ): ChironRecordsRecyclerAdapter.ViewHolder {
         recordsContext = parent.context
         recordsView = recordsViewObject
-        recordsService = ChironAPIService()
+        recordsService = ChironAPIService(recordsContext)
         recordsViewModel = ViewModelProvider(activity).get(ChironRecordsViewModel::class.java)
         recordsInitID = recordID
         recordsItemLayout = R.layout.patient_list_view
