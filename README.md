@@ -6,9 +6,9 @@
 
 ## Related Links
 
-**Portfolio URL >_** https://www.mekaegwim.ca/portfolio/
+**Portfolio URL >_** [https://www.mekaegwim.ca/portfolio/](https://mekaegwim.ca/portfolio)
 <br>
-**Chiron Demo URL >_** https://chiron-cloudapp.herokuapp.com/
+**Chiron Demo URL >_** [https://chiron--container-9c7be16b7295.herokuapp.com](https://chiron--container-9c7be16b7295.herokuapp.com)
 <br>
 **Chiron Git >_** https://github.com/emeraldemperaur/chiron
 
